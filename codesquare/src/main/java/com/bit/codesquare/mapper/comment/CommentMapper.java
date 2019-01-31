@@ -8,5 +8,8 @@ import com.bit.codesquare.dto.comment.LectureReview;
 public interface CommentMapper {
 	
 	public int insertReview(LectureReview lReview)throws Exception;
-	public int updateLike(LectureReview lReview)throws Exception;
+	public int updateLikePlus(LectureReview lReview)throws Exception;
+	public int updateLikeMinus(LectureReview lReview)throws Exception;
+	public int deleteReview(int id)throws Exception;
+	public int updateReview(LectureReview lReview)throws Exception;
 }

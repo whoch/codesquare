@@ -7,10 +7,23 @@
 		`Comment`(BoardId,BoardKindId,UserId,NickName,Content,`Like`)
 		VALUES(#{boardId},#{boardKindId},#{userId},#{nickName},#{content},#{like})
 	</insert>
-	<update id="updateLike" parameterType="LectureReview" useGeneratedKeys="true" keyProperty="id" >
+	<update id="updateLikePlus" parameterType="LectureReview" useGeneratedKeys="true" keyProperty="id">
 		UPDATE Board
 		SET LikeCount=LikeCount+#{like}
 		WHERE Id=#{boardId};
 	</update>
-	<delete id="delete"></delete>
+	<update id="updateLikeMinus" parameterType="LectureReview" useGeneratedKeys="true" keyProperty="id">
+		UPDATE Board
+		SET LikeCount=LikeCount-#{like}
+		WHERE Id=#{boardId};
+	</update>
+	<delete id="deleteReview" parameterType="int">
+		DELETE FROM `Comment`
+		WHERE Id=#{id}
+	</delete>
+	<update id="updateReview" parameterType="LectureReview" useGeneratedKeys="true" keyProperty="id">
+		UPDATE `Comment`
+		SET Content=#{content}
+		WHERE Id=#{id};
+	</update>
 </mapper>
