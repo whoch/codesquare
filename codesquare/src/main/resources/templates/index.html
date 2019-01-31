@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sd="http://www.thymeleaf.org/spring-data"
+	layout:decorator="layout/mainLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" th:href="@{static/styles/indexCustom.css}">
+
+</head>
+<body>
+	<div class="container" layout:fragment="content">
+		<div class="jumbotron">
+			<h1 class="display-3">Hello, world!</h1>
+			<p class="lead">공부할 준비 되셨나요?</p>
+
+			<form class="form-inline my-2 my-lg-0">
+				<input class="form-control mr-sm-2" type="text" placeholder="Search">
+				<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+			</form>
+		</div>
+		<div class="search_box">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div
+							class="search_box_container d-flex flex-row align-items-center justify-content-start">
+							<div class="search_form_container">
+								<form action="#" id="search_form" class="search_form">
+									<div
+										class="d-flex flex-lg-row flex-column align-items-center justify-content-start">
+										<ul
+											class="search_form_list d-flex flex-row align-items-center justify-content-start flex-wrap">
+											<li
+												class="search_dropdown d-flex flex-row align-items-center justify-content-start">
+												<span>참석 유형</span> <i class="fa fa-chevron-down ml-auto"
+												aria-hidden="true"></i>
+												<ul>
+													<li>스터디</li>
+													<li>세미나</li>
+												</ul>
+											</li>
+											<li
+												class="search_dropdown d-flex flex-row align-items-center justify-content-start">
+												<span>지역</span> <i class="fa fa-chevron-down ml-auto"
+												aria-hidden="true"></i>
+												<ul>
+													<li>Check out item 1</li>
+													<li>Check out item 2</li>
+													<li>Check out item 3</li>
+													<li>Check out item 4</li>
+													<li>Check out item 5</li>
+												</ul>
+											</li>
+											<li
+												class="search_dropdown d-flex flex-row align-items-center justify-content-start">
+												<span>언어</span> <i class="fa fa-chevron-down ml-auto"
+												aria-hidden="true"></i>
+												<ul>
+													<li>1</li>
+													<li>2</li>
+													<li>3</li>
+													<li>4</li>
+													<li>5</li>
+												</ul>
+											</li>
+											<li
+												class="search_dropdown d-flex flex-row align-items-center justify-content-start">
+												<span>시작일</span> <i class="fa fa-chevron-down ml-auto"
+												aria-hidden="true"></i>
+												<ul>
+													<li>1</li>
+													<li>2</li>
+													<li>3</li>
+													<li>4</li>
+													<li>5</li>
+												</ul>
+											</li>
+										</ul>
+										<button class="search_button">search</button>
+
+									</div>
+								</form>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row quickButton">
+			<div class="quickBox col-sm-1 col-md-2">
+				<img class="quick_btn_img" th:src="@{static/images/map_pin.png}"
+					alt="내주변" /><span>내주변</span>
+			</div>
+			<div class="quickBox col-sm-1 col-md-2">
+				<img class="quick_btn_img" th:src="@{static/images/map_pin.png}"
+					alt="리눅스" /><span>리눅스</span>
+			</div>
+			<div class="quickBox col-sm-1 col-md-2">
+				<img class="quick_btn_img" th:src="@{static/images/map_pin.png}"
+					alt="자격증" /><span>자격증</span>
+			</div>
+			<div class="quickBox col-sm-1 col-md-2">
+				<img class="quick_btn_img" th:src="@{static/images/map_pin.png}"
+					alt="웹개발" /><span>웹개발</span>
+			</div>
+		</div>
+		<div class="recommand_item_container">
+			<a class="recommand_item_link" href="#" th:each="item:${riList}"><span
+				class="recommand_item" th:text="${item.title}"></span></a>
+		</div>
+		<div>
+			<br /> <br /> <br /> <br />
+		</div>
+		<div class="container mt-3">
+			<div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+				<!-- Indicators -->
+				<ul class="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					<li data-target="#myCarousel" data-slide-to="1"></li>
+					<li data-target="#myCarousel" data-slide-to="2"></li>
+				</ul>
+
+				<!-- The slideshow -->
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<img th:src="@{static/images/1.jpg}" alt="" width="1100"
+							height="300">
+						<div class="carousel-caption">
+							<h3>강의1</h3>
+							<p>강의1 예제</p>
+						</div>
+					</div>
+					<div class="carousel-item">
+						<img th:src="@{static/images/2.jpg}" alt="noImg" width="1100"
+							height="300">
+						<div class="carousel-caption">
+							<h3>강의2</h3>
+							<p>강의2 예제</p>
+						</div>
+					</div>
+					<div class="carousel-item">
+						<img th:src="@{static/images/3.jpg}" alt="noImg" width="1100"
+							height="300">
+						<div class="carousel-caption">
+							<h3>강의3</h3>
+							<p>강의3 예제</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Left and right controls -->
+				<a class="carousel-control-prev" href="#myCarousel"
+					data-slide="prev"> <span class="carousel-control-prev-icon"></span>
+				</a> <a class="carousel-control-next" href="#myCarousel"
+					data-slide="next"> <span class="carousel-control-next-icon"></span>
+				</a>
+			</div>
+		</div>
+		<div class=" container">
+			<div class="row">
+				<!-- Nav tabs -->
+				<div class="board_table col-sm-6">
+					<h5>QuickBoard</h5>
+					<ul class="nav nav-tabs" role="tablist">
+						<li id="ComFr" class="quickBoard nav-item"><a
+							class="nav-link active" data-toggle="tab" href="#home">자유</a></li>
+						<li id="ComQa" class="quickBoard nav-item"><a
+							class="nav-link" data-toggle="tab" href="#home">질문</a></li>
+						<li id="ComIt" class="quickBoard nav-item"><a
+							class="nav-link" data-toggle="tab" href="#home">IT Forum</a></li>
+						<li id="StdMo" class="quickBoard nav-item"><a
+							class="nav-link" data-toggle="tab" href="#home">스터디모집</a></li>
+						<li id="SmmMo" class="quickBoard nav-item"><a
+							class="nav-link" data-toggle="tab" href="#home">세미나모집</a></li>
+					</ul>
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div id="pane"	class="list-group list-group-flush container tab-pane active">
+						</div>
+					</div>
+				</div>
+				<div class="board_table  col-sm-6">
+					<h5>IT News</h5>
+					<div id="itpane" class="list-group list-group-flush container tab-pane active" style="position: relative;top: 41px;"></div>
+				</div>
+			</div>
+		</div>
+
+		<div>
+			<br /> <br /> <br /> <br />
+		</div>
+		<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+		<script th:src="@{static/js/mainCustom.js}"></script>
+	</div>
+	<!-- end content -->
+
+</body>
+</html>

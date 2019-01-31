@@ -1,0 +1,297 @@
+@charset "UTF-8";
+
+.form-control{
+  all:unset;
+  margin-right:0px;
+}
+.form-inline{
+  border:1px solid #D8D8D8;
+  border-radius:5px;
+}
+.lecture-list img{
+  width:183px;
+  height:150px;
+}
+.leucture-group a{
+  all:unset;
+  color:gray;
+}
+/* .lecture_header_item{
+	position: -webkit-sticky;
+  	position: sticky;
+	background-color:white;
+	top: 77px;
+	z-index:95;
+} */
+.leucture-group li:hover{
+  cursor:pointer;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.lecture-body{
+    margin-left: 10px;
+    margin-right: -10px;
+}
+.lecture-intro{
+  width:550px;
+  height:60px;
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lecture-intro:hover{
+  overflow:visible;
+}
+.lecture-info{
+  position:inline-block;
+  
+  text-align:center;
+}
+.lecture-info-count{
+  position:relative;
+  display:inline-block;
+  text-align:left;
+}
+
+
+/* lecture-view style */
+#lecture-list .recommand-title{
+	font-size: 20px;
+    font-weight: 450;
+}
+.lecture-content{
+  padding:0px;
+}
+/* .navbar {
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0px;
+	z-index: 100;
+	width: 100%;
+} */
+.container-fluid{
+  padding-top:60px;
+}
+.lecture-content .subtitle,:after{
+  contetn:"";
+  border-bottom:1px solid gray  ;
+  width:100%;
+}
+.lecture-overview,.lecture-content{
+  margin-top:20px;
+}
+.lecture-overview>img{
+  width:100%;
+  hight:100%;
+}
+.lecture-overview-body .count,.title,.instruction,.like,:after{
+  position:relative;
+  top:5px;
+  border-bottom:1px solid #D8D8D8;  
+}
+.lecture-overview-body{
+  text-align:center;
+}
+.lecture-overview-footer:before{
+  margin:20px 0 10px 0; 
+  content:"관련 추천 강의";
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
+  color:gray;
+  position:relative;
+  width:100%;
+  border-top:1px solid #D8D8D8;
+}
+.lecture-overview-footer>a{
+  text-align:center;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1a1a1a;
+  border-color: #1a1a1a;
+  height:50px;
+  font-size:25px;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: #070707;
+  border-color: #010000;
+}
+
+.btn-primary:focus, .btn-primary.focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(60, 60, 60, 0.5);
+          box-shadow: 0 0 0 0.2rem rgba(60, 60, 60, 0.5);
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+  color: #fff;
+  background-color: #1a1a1a;
+  border-color: #1a1a1a;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #010000;
+  border-color: black;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(60, 60, 60, 0.5);
+          box-shadow: 0 0 0 0.2rem rgba(60, 60, 60, 0.5);
+}
+.main-header{
+	position:relative;
+}
+
+
+
+
+
+
+/* Lecture Review Style*/
+
+.review-writerInfo, .review-content{
+  height:160px;
+}
+.review-writerInfo img{
+  margin-top:3px;
+  border-radius:3px;
+  width:66px;
+  height:66px;
+  display:inline-block;
+}
+.review-writerInfo{
+	text-align: center;
+}
+.review-writerInfo .name,.review-writerInfo .writeDate{
+  margin-top:10px;
+  display:block;
+}
+.review-heart{
+	margin:auto;
+}
+.review-heart>img{
+  display:block;
+}
+.heart-count:before{
+  content:"X";
+  font-size:15px;
+}
+.heart-count{
+  display:block;
+  width:80px;
+  font-size:25px;
+  font-weight:500;
+  text-align:center;
+}
+
+
+/*review regist style*/
+.review-writerInfo, .review-content{
+  height:150px;
+}
+.review-writerInfo img{
+  margin-top:3px;
+  border-radius:3px;
+  width:66px;
+  height:66px;
+  display:inline-block;
+}
+.review-writerInfo{
+  text-align:center;
+}
+.review-writerInfo .name,.review-writerInfo .writeDate{
+  margin-top:10px;
+  display:block;
+}
+.review-regist>img{
+  width:23%;  
+  cursor:pointer;
+}
+.heart-regist-count:before{
+  content:"X";
+  font-size:15px;
+}
+
+.heart-count{
+  display:block;
+  width:80px;
+  font-size:18px;
+  font-weight:500;
+  text-align:center;
+}
+.review-content>[name=content]{
+  border:1px solid #d8d8d8;
+  min-height:100%;
+  width:100%;
+  overflow:visible;
+}
+.heart-count:before{
+    content:"X";
+}
+
+/* - - - - - RATINGS */
+.rating {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+  padding: 5px 10px;
+  border-radius: 30px;
+  background: #FFF;
+  display: block;
+  overflow: hidden; 
+  box-shadow: 0 1px #CCC,
+              0 5px #DDD,
+              0 9px 6px -3px #999;
+  
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
+.rating:not(:checked) > input {
+  display: none;
+}
+
+/* - - - - - LIKE */
+#like {
+  bottom: -65px;
+}
+#like:not(:checked) > label {
+  cursor:pointer;
+  float: right;
+  width: 30px;
+  height: 30px;
+  display: block;
+  
+  color: rgba(233, 54, 40, .4);
+  line-height: 33px;
+  text-align: center;
+}
+#like:not(:checked) > label:hover,
+#like:not(:checked) > label:hover ~ label {
+  color: rgba(233, 54, 40, .6);
+}
+#like > input:checked + label:hover,
+#like > input:checked + label:hover ~ label,
+#like > input:checked ~ label:hover,
+#like > input:checked ~ label:hover ~ label,
+#like > label:hover ~ input:checked ~ label {
+  color: rgba(233, 54, 40, .8);
+}
+#like > input:checked ~ label {
+  color: rgb(233, 54, 40);
+}
+.btn-regist,.btn-review-control{
+  position:relative;
+  top:10%;
+  width:100%;
+}
+.btn-modify, .btn-delete{
+	width:70px;
+}

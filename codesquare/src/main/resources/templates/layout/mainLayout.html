@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>Welcome to CodeSquare!</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="CodeSquare Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" href="/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css" th:href="@{/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css}">
+<link rel="stylesheet" type="text/css" href="@{/static/styles/hansolCustom.css}" th:href="@{/static/styles/hansolCustom.css}">
+<link rel="stylesheet" type="text/css" href="/static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" th:href="@{/static/plugins/font-awesome-4.7.0/css/font-awesome.min.css}">
+<link rel="stylesheet" type="text/css" href="/static/plugins/OwlCarousel2-2.2.1/owl.carousel.css" th:href="@{/static/plugins/OwlCarousel2-2.2.1/owl.carousel.css}">
+<link rel="stylesheet" type="text/css" href="/static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css" th:href="@{/static/plugins/OwlCarousel2-2.2.1/owl.theme.default.css}">
+<link rel="stylesheet" type="text/css" href="/static/plugins/OwlCarousel2-2.2.1/animate.css" th:href="@{/static/plugins/OwlCarousel2-2.2.1/animate.css}">
+<link rel="stylesheet" type="text/css" href="/static/plugins/colorbox/colorbox.css" th:href="@{/static/plugins/colorbox/colorbox.css}" >
+<link rel="stylesheet" type="text/css" href="/static/styles/main_styles.css" th:href="@{/static/styles/main_styles.css}">
+<link rel="stylesheet" type="text/css" href="/static/styles/responsive.css" th:href="@{/static/styles/responsive.css}">
+</head>
+<body>
+<!-- 페이지의 헤더부분 -->
+<header th:replace="fragments/header :: headerFragment"></header>
+
+<!-- 페이지의 content -->
+<div layout:fragment="content" style="margin-bottom: 100px;"></div>
+
+<!-- 페이지의 푸터부분 -->
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+<script th:src="@{/webjars/popper.js/1.14.6/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.js}"></script>
+<script th:src="@{/webjars/bootstrap-select/1.13.3/js/bootstrap-select.js}"></script>
+<script th:src="@{/webjars/waypoints/4.0.1/lib/jquery.waypoints.js}"></script>
+<script th:src="@{/static/plugins/greensock/TweenMax.min.js}"></script>
+<script th:src="@{/static/plugins/greensock/TimelineMax.min.js}"></script>
+<script th:src="@{/static/plugins/scrollmagic/ScrollMagic.min.js}"></script>
+<script th:src="@{/static/plugins/greensock/animation.gsap.min.js}"></script>
+<script th:src="@{/static/plugins/greensock/ScrollToPlugin.min.js}"></script>
+<script th:src="@{/static/plugins/OwlCarousel2-2.2.1/owl.carousel.js}"></script>
+<script th:src="@{/static/plugins/easing/easing.js}"></script>
+<script th:src="@{/static/plugins/progressbar/progressbar.min.js}"></script>
+<script th:src="@{/static/plugins/colorbox/jquery.colorbox-min.js}"></script>
+<script th:src="@{/static/plugins/parallax-js-master/parallax.min.js}"></script>
+<script th:src="@{/static/js/custom.js}"></script>
+
+
+</body>
+</html>
