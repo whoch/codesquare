@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+
+<title>Insert title here</title>
+
+</head>
+<body>
+
+	나의 모집 내역
+	<input type="hidden" id="userId" th:value="${userId}">
+
+	<div>모집글번호 모집날짜 모집내역 상태</div>
+	<div th:each="list : ${list}">
+		<p class="heading">
+			<span th:text="${list.id}"></span> <span th:text="${list.writeDate}"></span>
+			<span th:text="${list.title}"></span> <span
+				th:if="${list.status} == 1 " th:text="모집중"></span> <span
+				th:unless="${list.status} == 1" th:text="모집완료"></span>
+		</p>
+
+		<span class="detail">확인</span>
+	</div>
+	<br />
+	<br />
+	<br />
+	<br />
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+<script th:src="@{/static/js/member/myPage.js}"></script>

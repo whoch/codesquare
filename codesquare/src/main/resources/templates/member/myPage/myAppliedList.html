@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+<body>
+
+	나의 신청내역
+	<input type="hidden" id="userId" th:value="${userId}">
+
+	<div>신청날짜 신청내역 상태 </div>
+	<div th:each="list : ${list}">
+		<span th:text="${list.applyDate}"></span>
+		<span th:text="${list.title}"></span>
+		<span th:text="${list.status}"></span>
+		
+	</div>
+<br /> <br /> <br /> <br />
