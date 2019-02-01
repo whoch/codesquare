@@ -1,0 +1,125 @@
+@charset "UTF-8";
+
+.csnav-dropdown{
+  all:unset;
+  font-size:12px;
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  
+  z-index: 1;
+}
+
+header:after{
+	content: "";
+	display: block;
+	width: 100%;
+	border-bottom: 1px solid gray;
+
+}
+.nav-item:hover .csnav-dropdown{
+  display:block;
+}
+footer{
+	position:relative;
+	width:100%;
+	bottom:0%;  	
+}
+
+
+.context-dark, .bg-gray-dark, .bg-primary {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-classic a, .footer-classic a:focus, .footer-classic a:active {
+    color: #ffffff;
+}
+.nav-list li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.nav-list li a:hover:before {
+    margin-left: 0;
+    opacity: 1;
+    visibility: visible;
+}
+
+ul, ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.social-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 23px;
+    font: 900 13px/1 "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+}
+.social-container .col {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.nav-list li a:before {
+    content: "\f14f";
+    font: 400 21px/1 "Material Design Icons";
+    color: #4d6de6;
+    display: inline-block;
+    vertical-align: baseline;
+    margin-left: -28px;
+    margin-right: 7px;
+    opacity: 0;
+    visibility: hidden;
+    transition: .22s ease;
+}
+
+.main-header{
+	position: -webkit-sticky;
+  	position: sticky;
+	top: 0px;
+	z-index:100;
+	width:100%;
+	opacity: 1;
+}
+.img_slide_container{
+	position:relative;
+	top:100px;
+}
+.carousel{
+	width:80%;
+	margin:auto;
+}
+  .carousel-inner img {
+    width: 100%;
+    height: 100%;
+  }
+
+
+
+.board_table{
+	margin-top:20px;
+    width: 50%;
+    display: inline-block;
+    border: 1px solid #dee2e6;
+    padding: 0;
+    border-radius: 5px;
+}
+.list_board_title{
+  display: inline-block; 
+  width: 80%; 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}
+.custom-select{
+  width:100px;
+  height:40px;
+  border:none;
+}
+
