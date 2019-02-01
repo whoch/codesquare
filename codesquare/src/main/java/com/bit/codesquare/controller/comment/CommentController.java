@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bit.codesquare.controller.Board.BoardRestController;
+import com.bit.codesquare.controller.board.BoardRestController;
 import com.bit.codesquare.dto.comment.LectureReview;
 import com.bit.codesquare.mapper.comment.CommentMapper;
 

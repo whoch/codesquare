@@ -1,4 +1,4 @@
-package com.bit.codesquare.controller.Board;
+package com.bit.codesquare.controller.board;
 
 import java.util.ArrayList;
 import java.util.List;

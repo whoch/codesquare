@@ -57,7 +57,7 @@
 			</ul>
 			<div sec:authorize="isAuthenticated()">
 				<ul>
-					<li><span sec:authentication="name"></span></li>
+					<li><span sec:authentication="name"></span> 님 안녕하세요!</li>
 					<li><a th:href="@{/member/myPage}">마이페이지</a></li>
 					<li><a th:href="@{/logout}">로그아웃</a></li>
 				</ul>
