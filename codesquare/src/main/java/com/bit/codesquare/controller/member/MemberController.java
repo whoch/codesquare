@@ -41,13 +41,13 @@ public class MemberController {
 		return "member/login/login";
 	}
 
-	@RequestMapping("/signUp")
+	@GetMapping("/signUp")
 	public String signUp() {
 		return "member/login/signUp";
 	}
 
 	@PostMapping("/signUp")
-	public String signUpDone(Model model, @ModelAttribute Member member, @RequestParam String userId,
+	public String signUp(Model model, @ModelAttribute Member member, @RequestParam String userId,
 			@RequestParam String password) {
 		member.setPassword(new BCryptPasswordEncoder().encode(password));
 		mm.signUp(member);
