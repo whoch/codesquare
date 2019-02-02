@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="/static/plugins/colorbox/colorbox.css" th:href="@{/static/plugins/colorbox/colorbox.css}" >
 <link rel="stylesheet" type="text/css" href="/static/styles/main_styles.css" th:href="@{/static/styles/main_styles.css}">
 <link rel="stylesheet" type="text/css" href="/static/styles/responsive.css" th:href="@{/static/styles/responsive.css}">
+
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
 <!-- default header name is X-CSRF-TOKEN -->
 <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -46,6 +47,10 @@
 <script th:src="@{/static/plugins/colorbox/jquery.colorbox-min.js}"></script>
 <script th:src="@{/static/plugins/parallax-js-master/parallax.min.js}"></script>
 <script th:src="@{/static/js/custom.js}"></script>
+<link href="static/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
+<script src="static/dist/js/datepicker.min.js"></script>
+<script src="static/dist/js/i18n/datepicker.en.js"></script>
+
 
 
 </body>

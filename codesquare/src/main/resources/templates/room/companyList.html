@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.typeleaf.org"
+xmlns:sd="http://www.thymeleaf.org/spring-data"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorator="layout/mainLayout">
+<meta charset="utf-8">
+<head>
+  <title>Bootstrap Example</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"> <!-- mainlayout이 안먹는다? 일단 간직하자 -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+
+  <script>
+  $(function() {
+	    $( "#testDatepicker" ).datepicker({
+	    	language: 'en',
+	    	dateFormat: 'yyyy-mm-dd',
+	        minDate: new Date()
+	    });
+	});
+  </script>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+<!-- <input type="text" id="testDatepicker">  -->
+
+<div class="search_box">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="search_box_container d-flex flex-row align-items-center justify-content-start">
+							<div class="search_form_container">
+								<form action="#" id="search_form" class="search_form">
+									<div class="">
+										<ul class="search_form_list d-flex flex-row align-items-center">
+											<li class="search_dropdown d-flex flex-row align-items-center" style="height: 50px">
+												<span>지역</span> <i class="fa fa-chevron-down ml-auto" aria-hidden="true"></i>
+												<ul>
+													<li>전체</li>
+													<li>서울</li>
+													<li>경기</li>
+												</ul>
+											</li>
+												<input type="text" id="testDatepicker" placeholder="날짜선택" style="height: 50px">
+										<button class="btn btn-light" style="height: 50px">search</button>
+										</ul>
+									</div>
+								</form>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+  <div class="dropdown dropright">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">지역선택
+    </button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="companyList">전체</a>
+      <a class="dropdown-item" href="getgangnam">서울</a>
+      <a class="dropdown-item" href="getseocho">경기</a> 
+    </div>
+<br><br><br>
+	<!-- <th:each="Company:${list}">
+		<div th:each="item:${Company}"> -->
+          <div class="row" >
+            <div class="col-md-4" th:each="Company:${list}">
+              <div class="card mb-4 box-shadow">
+                <a th:href="@{'/getid?companyid=' + ${Company.id}}"><img data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"></a>
+                <div class="card-body">
+     			<a th:href="@{'/getid?companyid=' + ${Company.id}}"><p th:text="${Company.companyname}"></p></a>
+                  <p class="card-text"><span th:text="${Company.companyinfo}"></span></p>
+                  						<span th:text="${Company.address}"></span>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#myModal">지도보기</button>
+                    </div>
+                    <!-- <small class="text-muted">9 mins</small> --> 
+                  </div>
+                </div>
+              </div>
+            </div>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.6/holder.min.js"></script>
+		</div>
+		</div>
+<script>
+$(document).ready(function(){
+  $(".modal").click(function(){
+    $(this).children(".modal");
+  });
+});
+</script>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+        <h5>상세정보</h5>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+         <h4 class="modal-title"></h4>
+        </div>
+  		<div th:each="Company:${list}">
+        <div class="modal-body">
+        <span th:text="${Company.companyinfo}"></span>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+</body>
+</html>

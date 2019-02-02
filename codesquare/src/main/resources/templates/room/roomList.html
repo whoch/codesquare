@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.typeleaf.org"
+ xmlns:sd="http://www.thymeleaf.org/spring-data"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorator="layout/mainLayout">
+<head>
+<title>Insert title here</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="container" layout:fragment="content">
+
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+  <div th:each="item:${list}"><br><br>
+  		<img th:src="@{static/}+${item.thumbnailPath}" style="height: 300px"/>
+      		<ul th:text="${item.roomname}"></ul>
+      		<span th:text="${item.roomname}" ></span><br>
+		정원:<span th:text="${item.usepeople}"></span>명<br>
+		정보:<span th:text="${item.optioninfo}" ></span>
+    </div>
+  </div>
+</div>
+
+<!-- <li th:each="item:${list}">
+	<ul th:text="${item.roomname}"></ul>
+	<div class="panel">
+		<span th:text="${item.roomname}" ></span><br>
+		�젙�썝:<span th:text="${item.usepeople}"></span>紐�<br>
+		�샃�뀡�젙蹂�:<span th:text="${item.optioninfo}" ></span>
+	</div>
+</div> -->
+</li>
+</div>
+
+</body>
+</html>
