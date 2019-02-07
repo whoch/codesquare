@@ -26,4 +26,48 @@
 		SET Content=#{content}
 		WHERE Id=#{id};
 	</update>
+		<select id="getLectureReview" parameterType="int" resultType="LectureReview">
+		SELECT *
+		FROM v_LectureReview
+		WHERE BoardId=#{id}
+		ORDER BY Id DESC;
+	</select>
+	<select id="getQNACommentList" parameterType="int" resultType="Comment">
+		SELECT c.*, u.Thumbnail
+		FROM `Comment`c INNER JOIN UserInfo u ON c.UserId=u.UserId
+		WHERE c.BoardId=#{id} AND c.BoardKindId="LrnQa"
+		ORDER BY IF(ISNULL(c.ParentId), c.Id, c.ParentId), c.Id;
+	</select>
+	<insert id="insertQNAComment" parameterType="Comment" useGeneratedKeys="true"	keyProperty="id" >
+		INSERT INTO
+		`Comment`(BoardId,BoardKindId,UserId,NickName,Content,ParentId)
+		VALUES(#{boardId},#{boardKindId},#{userId},#{nickName},#{content},#{parentId})
+	</insert>
+	<delete id="deleteQNAComment" parameterType="int" >
+		DELETE FROM `Comment`
+		WHERE Id=#{id}
+	</delete>
+	<update id="updateQNAComment" parameterType="Comment" useGeneratedKeys="true" keyProperty="id">
+		UPDATE `Comment`
+		<set>
+	      <if test="content != null">Content=#{content},</if>
+	      <if test="deleteStatus != null">deleteStatus=#{deleteStatus}</if>
+    	</set>
+		WHERE Id=#{id};
+	</update>
+	<select id="searchChildComment" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM `Comment`
+		WHERE ParentId=#{id}
+	</select>
+	<select id="searchParentComment" parameterType="int" resultType="int">
+	<![CDATA[  
+		SELECT IF((SELECT COUNT(*)
+				FROM `Comment`
+				WHERE ParentId=(SELECT ParentId FROM `Comment` WHERE Id=#{id}))<2,(SELECT ParentId FROM `Comment` WHERE Id=#{id}), 0);]]>
+				
+	</select>
+	
+	
+	
 </mapper>
