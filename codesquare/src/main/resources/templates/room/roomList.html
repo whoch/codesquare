@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.typeleaf.org"
+ xmlns:sd="http://www.thymeleaf.org/spring-data"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorator="layout/mainLayout">
+<head>
+<title>Insert title here</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"> <!-- mainlayout이 안먹는다? 일단 간직하자 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+  
+  
+</head>
+<body>
+<div class="container" layout:fragment="content">
+asd
+
+
+  <div class="carousel-inner"> <!-- 지우면 사진 크기 줄어듬 -->
+  
+    <div class="carousel-item active"></div>
+  <div th:each="item:${list}"><br><br>
+  		<img th:src="@{static/}+${item.thumbnailPath}" style="height: 280px"/>
+      		<ul th:text="${item.roomname}"></ul>
+		정원:<span th:text="${item.usepeople}"></span>명<br>
+		정보:<span th:text="${item.optioninfo}" ></span><br>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    Open modal
+  </button>
+  
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          Modal body..
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</div>		
+</div>
+	
+
+
+</body>
+</html>
