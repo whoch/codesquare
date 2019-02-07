@@ -5,30 +5,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorator="layout/mainLayout">
 <meta charset="utf-8">
 <head>
-  <title>Bootstrap Example</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"> <!-- mainlayout이 안먹는다? 일단 간직하자 -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-  <script>
-  $(function() {
-	    $( "#testDatepicker" ).datepicker({
-	    	language: 'en',
-	    	dateFormat: 'yyyy-mm-dd',
-	        minDate: new Date()
-	    });
-	});
-  $(document).ready(function () {
-      // 콤보박스가 변경될 때 
-      $('#lstFavorites').change(function () {
-          // 드롭다운리스트에서 선택된 값을 텍스트박스에 출력
-          var selectedText = // $("#lstFavorites option:selected").text();
-              // $("option:selected").text();
-              $(":selected").text();  // 드롭다운리스트가 하나밖에 없다면 이렇게 써도 됨
-          $('#txtFavorite').val(selectedText);
-      });
-  });
-  </script>
+
+<link rel="stylesheet" type="text/css" href="/static/styles/room/datepicker.min.css" th:href="@{/static/styles/room/datepicker.min.css}">
+  
   <style type="text/css">
   input {
   border: 1px solid #542672;
@@ -39,11 +18,11 @@ layout:decorator="layout/mainLayout">
 	border: 1px solid #542672;
 	border-radius: 5px;
 }
-
 </style>
 </head>
 <body>
 <div class="container" layout:fragment="content">
+
 <br>
 
 						<div class="search_box_container d-flex flex-row align-items-center justify-content-start" style="background-color: #542672">
@@ -90,6 +69,13 @@ layout:decorator="layout/mainLayout">
             </div>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.6/holder.min.js"></script>
 		</div>
+		
+
+<th:block layout:fragment="script">
+<script th:src="@{/static/js/room/datepicker.js}"></script>
+<script th:src="@{/static/js/room/picker.js}"></script> 
+<script th:src="@{/static/js/room/i18n/datepicker.en.js}"></script>
+</th:block>
 </div>
 </body>
 </html>
