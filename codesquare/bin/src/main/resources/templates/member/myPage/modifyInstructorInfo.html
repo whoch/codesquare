@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+
+
+<title>Insert title here</title>
+
+</head>
+<body>
+
+	<h2>강사 정보 수정하기</h2>
+
+	<form id="modifyInstructorInfoForm" method="post">
+
+
+		<div>
+
+
+			강사 소개글:<br />
+			<textarea id="introContent" name="introContent" rows="10" cols="30"
+				th:text="${instructorInfo.introContent}">
+		
+		</textarea>
+			<br /> <br /> 강사 이력:<br />
+			<textarea id="history" name="history"
+				th:text="${instructorInfo.history}" rows="10" cols="30">
+		</textarea>
+			<span id="modifyInstructorInfoDone">수정하기</span>
+			<br /> <br /> <br /> <br />
+		</div>
+	</form>
+	<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+	<script th:src="@{/static/js/member/myPage.js}"></script>
+</body>
+</html>

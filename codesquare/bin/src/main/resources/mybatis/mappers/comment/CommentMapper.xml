@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper	namespace="com.bit.codesquare.mapper.comment.CommentMapper">
+	<insert id="insertReview" useGeneratedKeys="true"
+		keyProperty="id" parameterType="LectureReview">
+		INSERT INTO
+		`Comment`(BoardId,BoardKindId,UserId,NickName,Content,`Like`)
+		VALUES(#{boardId},#{boardKindId},#{userId},#{nickName},#{content},#{like})
+	</insert>
+	<update id="updateLikePlus" parameterType="LectureReview" useGeneratedKeys="true" keyProperty="id">
+		UPDATE Board
+		SET LikeCount=LikeCount+#{like}
+		WHERE Id=#{boardId};
+	</update>
+	<update id="updateLikeMinus" parameterType="LectureReview" useGeneratedKeys="true" keyProperty="id">
+		UPDATE Board
+		SET LikeCount=LikeCount-#{like}
+		WHERE Id=#{boardId};
+	</update>
+	<delete id="deleteReview" parameterType="int">
+		DELETE FROM `Comment`
+		WHERE Id=#{id}
+	</delete>
+	<update id="updateReview" parameterType="LectureReview" useGeneratedKeys="true" keyProperty="id">
+		UPDATE `Comment`
+		SET Content=#{content}
+		WHERE Id=#{id};
+	</update>
+</mapper>

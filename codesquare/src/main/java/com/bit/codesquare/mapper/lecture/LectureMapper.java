@@ -16,5 +16,5 @@ public interface LectureMapper {
 	public Lecture getLecture(int id) throws Exception;
 	public List<Board> getRecommandLecture(int id) throws Exception;
 	public List<Board> getLecutreList(int id)throws Exception;
-	public List<LectureReview> getLectureReview(int id)throws Exception;
+	
 }

@@ -59,7 +59,6 @@ public class LectureController {
 				String thumbPath=lectureIntropath;
 				thumbPath+=cUtil.getPath(l.getId(), l.getChangedName(),l.getExtension());
 				l.setThumbnailPath(thumbPath);
-				logger.info(l.toString());
 			}
 		}catch(Exception e) {
 			
@@ -70,7 +69,7 @@ public class LectureController {
 	}
 	
 	@RequestMapping("{id}")
-	public ModelAndView lectureView(@PathVariable("id") int id) {
+	public ModelAndView lectureIntroView(@PathVariable("id") int id) {
 		try {
 			lecture= lectureMapper.getLecture(id);
 			
@@ -88,19 +87,11 @@ public class LectureController {
 		mav.setViewName("lecture/lecture");
 		return mav; 
 	}
-	
-	@GetMapping("/list")
-	@ResponseBody
-	public List<LectureReview> reviewList(@RequestParam int boardId)throws Exception{
-		logger.info("불러오기:"+boardId);
-		lrList=lectureMapper.getLectureReview(boardId);
-		for(LectureReview lr:lrList) {
-			String path= reviewPath;
-			path+=cUtil.getPath(lr.getUserId(),lr.getThumbnail());
-			lr.setThumbnail(path);
-		}
-		logger.info("불러오기도 완료.");
-		return lrList;
+	@RequestMapping("view/{id}")
+	public ModelAndView lectureView(@PathVariable("id") int id) {
+		
+		mav.setViewName("lecture/lectureView");
+		return mav; 
 	}
 	
 	

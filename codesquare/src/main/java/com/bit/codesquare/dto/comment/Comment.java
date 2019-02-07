@@ -14,4 +14,7 @@ public class Comment {
 	String content;
 	int parentId;
 	Date writeDate;
+	String Thumbnail;
+	int deleteStatus;
+	
 }
