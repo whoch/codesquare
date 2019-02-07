@@ -7,7 +7,9 @@ import lombok.EqualsAndHashCode;
 @Data
 public class LectureReview extends Comment{
 
-	String Thumbnail;
+	
 	int like;
+
+
 	
 }

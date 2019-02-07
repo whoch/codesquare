@@ -26,10 +26,5 @@
 		b2.ParentId=#{id} AND b2.BoardKindId='LrnVo'
 		ORDER BY b2.Id;
 	</select>
-	<select id="getLectureReview" parameterType="int" resultType="LectureReview">
-		SELECT *
-		FROM v_LectureReview
-		WHERE BoardId=#{id}
-		ORDER BY Id DESC;
-	</select>
+
 </mapper>

@@ -88,7 +88,7 @@
 	</select>
 	
 	<select id="getWantedList" parameterType="String" resultType="JoiningAndRecruitmentLog"> 
-	select Id, WriteDate, Title, Status from Board where UserId=#{userId} AND BoardKindId='StdMo' or BoardKindId='SmnMo'
+	select Id, UserId, BoardKindId, WriteDate, Title, Status from Board where (BoardKindId='StdMo' or BoardKindId='SmnMo')  and UserId=#{userId}
 	</select>
 	
 	<select id="getInstructorInfo" resultType="instructorInfo">
