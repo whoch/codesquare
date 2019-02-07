@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoT
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -22,13 +21,13 @@ import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
-import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.CompositeFilter;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
+
+import com.bit.codesquare.service.SocialService;
 
 @EnableWebSecurity
 @EnableOAuth2Client
@@ -42,6 +41,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
+	
+	@Autowired
+	SocialService socialService;
 
 	/* Password Encoder 등록 */
 	@Bean
@@ -69,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.authorizeRequests() /* 인증 요청 선언?????? */
 
-				.antMatchers("/", "/member/login", "/signUp", "/member/signUp", "/logout").permitAll()
+				.antMatchers("/", "/member/login", "/member/signUp", "/logout").permitAll()
 
 				.antMatchers("/member/**").authenticated() // 로그인 하면 다 가능
 //				.and()
@@ -86,7 +88,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll() /* 모두 오픈 ( 반대는 denyAll() ) */
 				.defaultSuccessUrl("/").failureUrl("/member/login?error").and().logout().invalidateHttpSession(true)
 				.clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
-				.logoutSuccessUrl("/"); /* 로그아웃 성공시 리다이렉트 url */
+				.logoutSuccessUrl("/") /* 로그아웃 성공시 리다이렉트 url */
+		;
+
 	}
 
 	@Bean
@@ -105,25 +109,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private Filter ssoFilter() {
 		CompositeFilter filter = new CompositeFilter();
 		List<Filter> filters = new ArrayList<>();
-		filters.add(ssoFilter(google(), "/login/google")); // 이전에 등록했던 OAuth 리다이렉트 URL
-		filters.add(ssoFilter(facebook(), "/login/facebook"));
+		filters.add(ssoFilter(google(),  new GoogleFilter(socialService))); // 이전에 등록했던 OAuth 리다이렉트 URL
+		filters.add(ssoFilter(facebook(),  new FacebookFilter(socialService)));
 		filter.setFilters(filters);
 		return filter;
 	}
 
-	private Filter ssoFilter(ClientResources client, String path) {
-		OAuth2ClientAuthenticationProcessingFilter oAuth2ClientAuthenticationFilter = new OAuth2ClientAuthenticationProcessingFilter(
-				path);
-		OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
+	private Filter ssoFilter(ClientResources client, SocialService socialService) {
+		CompositeFilter filter = new CompositeFilter();
+		List<Filter> filters = new ArrayList<>();
+		filters.add(ssoFilter(google(), new GoogleFilter(socialService)));
+		filters.add(ssoFilter(facebook(), new FacebookFilter(socialService)));
+		filter.setFilters(filters);
+		return filter;
+	}
 
-		oAuth2ClientAuthenticationFilter.setRestTemplate(oAuth2RestTemplate);
+	private Filter ssoFilter(ClientResources client, OAuth2ClientAuthenticationProcessingFilter filter) {
+		OAuth2RestTemplate restTemplate = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
+		filter.setRestTemplate(restTemplate);
 		UserInfoTokenServices tokenServices = new UserInfoTokenServices(client.getResource().getUserInfoUri(),
 				client.getClient().getClientId());
-
-		tokenServices.setRestTemplate(oAuth2RestTemplate);
-		oAuth2ClientAuthenticationFilter.setTokenServices(tokenServices);
-		return oAuth2ClientAuthenticationFilter;
-
+		filter.setTokenServices(tokenServices);
+		tokenServices.setRestTemplate(restTemplate);
+		return filter;
 	}
 
 	@Bean

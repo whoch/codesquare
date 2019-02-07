@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -148,6 +149,14 @@ public class MemberController {
 		model.addAttribute("findIdDone", mm.findId(email));
 		return "findId";
 	}
+	
+//	@RequestMapping("/myPage")
+//	public String myPage(Model model, Principal principal, @ModelAttribute Member member) {
+//		String userId = principal.getName();
+//		model.addAttribute("user", mm.getUser(userId));
+//		return "member/myPage/myPage";
+//	}
+	
 	
 	@RequestMapping("/myPage")
 	public String myPage(Model model, Principal principal, @ModelAttribute Member member) {

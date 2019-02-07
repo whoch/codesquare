@@ -9,19 +9,17 @@ import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
 import com.bit.codesquare.dto.member.Member;
 import com.bit.codesquare.dto.member.ReservationInfo;
 
-
-
 @Mapper
 public interface MemberMapper {
 
 	public Member checkUser(String userId);
 	public Member getUser(String userId);
 
-	public int signUp(Member user);
+	public int signUp(Member member);
 	//public int modifyMyInfo(User user);
-	public int changePw(Member user);
-	public int changeNick(Member user);
-	public int changeEmail(Member user);
+	public int changePw(Member member);
+	public int changeNick(Member member);
+	public int changeEmail(Member member);
 	
 	public int idCheck(String userId);
 	public int emailCheck(String email);
