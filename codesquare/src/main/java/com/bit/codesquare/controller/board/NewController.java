@@ -1,4 +1,4 @@
-package com.bit.codesquare.dto.lecture;
+package com.bit.codesquare.controller.board;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,7 +26,7 @@ public class NewController {
 	@Autowired
 	NewService newService;
 	
-	@RequestMapping(value="/noticeBoard", method=RequestMethod.GET)
+	@RequestMapping(value="/home")
 	public String noticeBoard(@ModelAttribute("cri") Criteria cri, Model model) throws Exception {
 		model.addAttribute("list", newService.listCriteria(cri)); // 글리스트
 		PageMaker pageMaker = new PageMaker();
@@ -49,30 +49,30 @@ public class NewController {
 		return "board/noticeWrite";
 	}
 	
-	@RequestMapping("writego")
+	@RequestMapping("/writego")
 	public String writego(Model model, @ModelAttribute Criteria cri, Board board) throws Exception {
 		newMapper.insert(board);
 		model.addAttribute("list", newMapper.listCountCriteria(cri));
-		return "redirect:noticeBoard";
+		return "redirect:home";
 	}
-	@RequestMapping("delete")
+	@RequestMapping("/delete")
 	public String delete(HttpServletRequest request, Model model, Criteria cri) throws Exception {
 		int id = Integer.parseInt(request.getParameter("id"));
 		newMapper.delete(id);
 		model.addAttribute("list", newMapper.listCountCriteria(cri));
-		return "redirect:noticeBoard";
+		return "redirect:home";
 	}
 	
 	@RequestMapping("/modifygo")
 	public String modifygo(HttpServletRequest request, Model model) throws Exception {
 		int id = Integer.parseInt(request.getParameter("id"));
 		model.addAttribute("list", newMapper.getid(id));
-		return "board/noticeModify";
+		return "board/home";
 	}
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request, Model model, @ModelAttribute Board board) throws Exception {
 		int id = Integer.parseInt(request.getParameter("id"));
 		newMapper.update(board);
-		return "redirect:noticeBoard";
+		return "redirect:home";
 	}
 }

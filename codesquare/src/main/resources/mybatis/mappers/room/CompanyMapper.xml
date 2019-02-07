@@ -19,4 +19,18 @@
 		SELECT * FROM codesquare.CompanyInfo WHERE Address LIKE '%금천%'
 	</select>
 	
+	<select id="search" parameterType="Company" resultType="Company">
+		select * from codesquare.CompanyInfo 
+		where
+		<choose>
+			<when test="searchOption == 'all'">
+				address like CONCAT('%',#{keyword},'%')
+				or CompanyInfo like CONCAT('%',#{keyword},'%')
+			</when>
+			<otherwise>
+				${searchOption} like CONCAT('%',#{keyword},'%')
+			</otherwise>
+		</choose>
+	</select>
+	
 </mapper>

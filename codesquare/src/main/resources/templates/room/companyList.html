@@ -10,8 +10,6 @@ layout:decorator="layout/mainLayout">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-
-
   <script>
   $(function() {
 	    $( "#testDatepicker" ).datepicker({
@@ -20,53 +18,59 @@ layout:decorator="layout/mainLayout">
 	        minDate: new Date()
 	    });
 	});
+  $(document).ready(function () {
+      // 콤보박스가 변경될 때 
+      $('#lstFavorites').change(function () {
+          // 드롭다운리스트에서 선택된 값을 텍스트박스에 출력
+          var selectedText = // $("#lstFavorites option:selected").text();
+              // $("option:selected").text();
+              $(":selected").text();  // 드롭다운리스트가 하나밖에 없다면 이렇게 써도 됨
+          $('#txtFavorite').val(selectedText);
+      });
+  });
   </script>
+  <style type="text/css">
+  input {
+  border: 1px solid #542672;
+  border-radius: 5px;
+  color: #542672;
+  }
+  select {
+	border: 1px solid #542672;
+	border-radius: 5px;
+}
+
+</style>
 </head>
 <body>
 <div class="container" layout:fragment="content">
-<!-- <input type="text" id="testDatepicker">  -->
+<br>
 
-<div class="search_box">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<div class="search_box_container d-flex flex-row align-items-center justify-content-start">
+						<div class="search_box_container d-flex flex-row align-items-center justify-content-start" style="background-color: #542672">
 							<div class="search_form_container">
-								<form action="#" id="search_form" class="search_form">
+								<form action="search" id="search_form" class="search_form">
 									<div class="">
 										<ul class="search_form_list d-flex flex-row align-items-center">
-											<li class="search_dropdown d-flex flex-row align-items-center" style="height: 50px">
-												<span>지역</span> <i class="fa fa-chevron-down ml-auto" aria-hidden="true"></i>
-												<ul>
-													<li>전체</li>
-													<li>서울</li>
-													<li>경기</li>
-												</ul>
-											</li>
-												<input type="text" id="testDatepicker" placeholder="날짜선택" style="height: 50px">
-										<button class="btn btn-light" style="height: 50px">search</button>
+											<input type="text" id="testDatepicker" placeholder="날짜선택" style="height: 60px">
+											<select name="searchOption" style="height: 60px" id="lstFavorites">
+												<option value="address">지역</option>
+												<option value="address">강남구</option>
+												<option value="address">서초구</option>
+												<option value="address">금천구</option>
+												<option value="address">종로구</option>
+												<option value="address">수원시</option>
+												<option value="address">안산시</option>
+												<option value="companyname">스터디룸 이름</option>
+											</select>
+												<input type="text" name="keyword" value="" size="50" placeholder="ex) 강남, 수원" style="height: 60px" id="txtFavorite">
+												<input type="submit" value="검색" style="height: 60px">
 										</ul>
 									</div>
 								</form>
-
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-  <div class="dropdown dropright">
-    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">지역선택
-    </button>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="companyList">전체</a>
-      <a class="dropdown-item" href="getgangnam">서울</a>
-      <a class="dropdown-item" href="getseocho">경기</a> 
-    </div>
-<br><br><br>
-	<!-- <th:each="Company:${list}">
-		<div th:each="item:${Company}"> -->
+
+<br><br>
           <div class="row" >
             <div class="col-md-4" th:each="Company:${list}">
               <div class="card mb-4 box-shadow">
@@ -77,7 +81,7 @@ layout:decorator="layout/mainLayout">
                   						<span th:text="${Company.address}"></span>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#myModal">지도보기</button>
+                      <!-- <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#myModal">방 정보</button> -->
                     </div>
                     <!-- <small class="text-muted">9 mins</small> --> 
                   </div>
@@ -86,37 +90,6 @@ layout:decorator="layout/mainLayout">
             </div>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.6/holder.min.js"></script>
 		</div>
-		</div>
-<script>
-$(document).ready(function(){
-  $(".modal").click(function(){
-    $(this).children(".modal");
-  });
-});
-</script>
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-        <h5>상세정보</h5>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-         <h4 class="modal-title"></h4>
-        </div>
-  		<div th:each="Company:${list}">
-        <div class="modal-body">
-        <span th:text="${Company.companyinfo}"></span>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-  
 </div>
-
 </body>
 </html>

@@ -12,4 +12,7 @@ public class Company {
 	String companyinfo;
 	String address;
 	String extension;
+	
+	String searchOption;
+	String keyword;
 }
