@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8" />
 <header class="main-header" th:fragment="headerFragment">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="/"><img
-			th:src="@{/static/images/logo.png}" alt="noimg" /></a>
+		<a class="navbar-brand" href="/"><img src="static/images/logo.png"
+			alt="noimg" /></a>
 
 		<div class="collapse navbar-collapse" id="navbarColor03">
 			<ul class="navbar-nav mr-auto">
 
 				<li class="nav-item"><a class="nav-link" href="#">새소식</a>
 					<ul class="csnav-dropdown">
-						<li><a class="nav-link" href="/home">공지사항</a>
+						<li><a class="nav-link" href="#">공지사항</a>
 						<li><a class="nav-link" href="#">이벤트</a>
 						<li><a class="nav-link" href="#">IT News</a>
 					</ul></li>
@@ -19,22 +19,11 @@
 					<ul class="csnav-dropdown">
 						<li><a class="nav-link" href="#">스터디모집</a>
 						<li><a class="nav-link" href="#">스터디후기</a>
-						<li><a class="nav-link" href="/companyList">스터디룸</a>
-					</ul>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">세미나</a>
 					</ul></li>
 				<li class="nav-item"><a class="nav-link" href="#">세미나</a>
 					<ul class="csnav-dropdown">
 						<li><a class="nav-link" href="#">세미나모집</a>
 						<li><a class="nav-link" href="#">세미나후기</a>
-						<li><a class="nav-link" href="/companyList">세미나룸</a>
-					</ul>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">커뮤니티</a>
-          <ul class="csnav-dropdown">
 					</ul></li>
 				<li class="nav-item"><a class="nav-link" href="#">커뮤니티</a>
 					<ul class="csnav-dropdown">
@@ -53,120 +42,118 @@
 					<ul class="csnav-dropdown">
 						<li><a class="nav-link" href="#">추천커리큘럼</a>
 						<li><a class="nav-link" href="#">유저커리큘럼</a>
+					</ul></li>
+		
 
-					</ul>
-				</li>
-				
-				
-			
-				<!-- 알림 -->
-				<div class="noti-dropdown">
-					<a onclick="myFunction()" id="noti-btn" class="noti-btn"> <img
-						width="25" height="25" class="noti-btn"
-						src="https://previews.123rf.com/images/hanaschwarz/hanaschwarz1211/hanaschwarz121100002/16260237-%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-%EA%B3%A0%EB%A6%BD-%EB%B9%A8%EA%B0%84-%EB%A6%AC%EB%B3%B8%EA%B3%BC-%EC%A2%85.jpg"
-						alt="Course noti">
-					</a>
 
-					<div class="noti-count">3</div>
+			<!-- 알림 -->
+			<div class="noti-dropdown">
+				<a onclick="myFunction()" id="noti-btn" class="noti-btn"> <img
+					width="25" height="25" class="noti-btn"
+					src="https://previews.123rf.com/images/hanaschwarz/hanaschwarz1211/hanaschwarz121100002/16260237-%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-%EA%B3%A0%EB%A6%BD-%EB%B9%A8%EA%B0%84-%EB%A6%AC%EB%B3%B8%EA%B3%BC-%EC%A2%85.jpg"
+					alt="Course noti">
+				</a>
+
+				<div class="noti-count">3</div>
 
 
 
-					<div id="myDropdown" class="dropdown-content">
-						<div class="header">
-							<span> 알림</span>
-							<button id="read-btn">읽은 알림 삭제</button>
-							<button id="all-btn">모두삭제 l</button>
-						</div>
-
-						<ul id="noti-list">
-							<li class="notification"><a href="/"> <img
-									src="https://previews.123rf.com/images/hanaschwarz/hanaschwarz1211/hanaschwarz121100002/16260237-%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-%EA%B3%A0%EB%A6%BD-%EB%B9%A8%EA%B0%84-%EB%A6%AC%EB%B3%B8%EA%B3%BC-%EC%A2%85.jpg"
-									width="30" height="30" class="noti-sender-photo" />
-									<div class="noti-main">
-
-										<div style="clear: both;"></div>
-										<div class="noti-title-only">
-											<span class="remarkable-viewer"></span>
-											<p>
-												<strong>스터디</strong>참여중인 강남스터디 일정 D-3입니다.
-											</p>
-											<div class="noti-date">2019.01.27 17:08</div>
-										</div>
-									</div>
-							</a></li>
-
-							<li class="notification" id="notification-id895558"><a
-								href="/"> <img
-									src="https://previews.123rf.com/images/hanaschwarz/hanaschwarz1211/hanaschwarz121100002/16260237-%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-%EA%B3%A0%EB%A6%BD-%EB%B9%A8%EA%B0%84-%EB%A6%AC%EB%B3%B8%EA%B3%BC-%EC%A2%85.jpg"
-									width="30" height="30" class="noti-sender-photo">
-									<div class="noti-main">
-
-										<div style="clear: both;"></div>
-										<div class="noti-title-only">
-											<span class="remarkable-viewer"></span>
-											<p>
-												<strong>세미나</strong>신청하신 서초세미나 신청이 <strong>수락</strong>되었습니다.
-											</p>
-											<div class="noti-date">2019.01.25 17:08</div>
-										</div>
-									</div>
-							</a></li>
-
-
-							<li class="notification" id="notification-id895558"><a
-								href="/"> <img
-									src="https://previews.123rf.com/images/hanaschwarz/hanaschwarz1211/hanaschwarz121100002/16260237-%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-%EA%B3%A0%EB%A6%BD-%EB%B9%A8%EA%B0%84-%EB%A6%AC%EB%B3%B8%EA%B3%BC-%EC%A2%85.jpg"
-									width="30" height="30" class="noti-sender-photo" />
-									<div class="noti-main">
-										<div style="clear: both;"></div>
-										<div class="noti-title-only">
-											<span class="remarkable-viewer"></span>
-											<p>
-												<strong style="color: skyblue;">스터디</strong>회원님의 게시판에 댓글이
-												달렸습니다.
-											</p>
-											<div class="noti-date">2019.01.23 17:08</div>
-										</div>
-									</div>
-							</a></li>
-
-
-							<li class="notification" id="notification-id895558"><a
-								href="/"> <img
-									src="https://previews.123rf.com/images/hanaschwarz/hanaschwarz1211/hanaschwarz121100002/16260237-%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-%EA%B3%A0%EB%A6%BD-%EB%B9%A8%EA%B0%84-%EB%A6%AC%EB%B3%B8%EA%B3%BC-%EC%A2%85.jpg"
-									width="30" height="30" class="noti-sender-photo" />
-									<div class="noti-main">
-										<div style="clear: both;"></div>
-										<div class="noti-title-only">
-											<span class="remarkable-viewer"></span>
-											<p>
-												<strong style="color: skyblue;">코드스퀘어</strong>회원님께 새로운 소식이
-												도착하였습니다.
-											</p>
-											<div class="noti-date">2019.01.23 17:08</div>
-										</div>
-									</div>
-							</a></li>
-
-							<li class="notification" id="notification-id895558"><a
-								href="/"> <img
-									src="https://previews.123rf.com/images/hanaschwarz/hanaschwarz1211/hanaschwarz121100002/16260237-%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-%EA%B3%A0%EB%A6%BD-%EB%B9%A8%EA%B0%84-%EB%A6%AC%EB%B3%B8%EA%B3%BC-%EC%A2%85.jpg"
-									width="30" height="30" class="noti-sender-photo" />
-									<div class="noti-main">
-										<div style="clear: both;"></div>
-										<div class="noti-title-only">
-											<span class="remarkable-viewer"></span>
-											<p>
-												<strong style="color: skyblue;">코드스퀘어</strong> 강희정님의 가입을
-												축하드립니다.
-											</p>
-											<div class="noti-date">2019.01.23 17:08</div>
-										</div>
-									</div>
-							</a></li>
-						</ul>
+				<div id="myDropdown" class="dropdown-content">
+					<div class="header">
+						<span> 알림</span>
+						<button id="read-btn">읽은 알림 삭제</button>
+						<button id="all-btn">모두삭제 l</button>
 					</div>
+
+					<ul id="noti-list">
+						<li class="notification"><a href="/"> <img
+								src="https://previews.123rf.com/images/hanaschwarz/hanaschwarz1211/hanaschwarz121100002/16260237-%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-%EA%B3%A0%EB%A6%BD-%EB%B9%A8%EA%B0%84-%EB%A6%AC%EB%B3%B8%EA%B3%BC-%EC%A2%85.jpg"
+								width="30" height="30" class="noti-sender-photo" />
+								<div class="noti-main">
+
+									<div style="clear: both;"></div>
+									<div class="noti-title-only">
+										<span class="remarkable-viewer"></span>
+										<p>
+											<strong>스터디</strong>참여중인 강남스터디 일정 D-3입니다.
+										</p>
+										<div class="noti-date">2019.01.27 17:08</div>
+									</div>
+								</div>
+						</a></li>
+
+						<li class="notification" id="notification-id895558"><a
+							href="/"> <img
+								src="https://previews.123rf.com/images/hanaschwarz/hanaschwarz1211/hanaschwarz121100002/16260237-%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-%EA%B3%A0%EB%A6%BD-%EB%B9%A8%EA%B0%84-%EB%A6%AC%EB%B3%B8%EA%B3%BC-%EC%A2%85.jpg"
+								width="30" height="30" class="noti-sender-photo">
+								<div class="noti-main">
+
+									<div style="clear: both;"></div>
+									<div class="noti-title-only">
+										<span class="remarkable-viewer"></span>
+										<p>
+											<strong>세미나</strong>신청하신 서초세미나 신청이 <strong>수락</strong>되었습니다.
+										</p>
+										<div class="noti-date">2019.01.25 17:08</div>
+									</div>
+								</div>
+						</a></li>
+
+
+						<li class="notification" id="notification-id895558"><a
+							href="/"> <img
+								src="https://previews.123rf.com/images/hanaschwarz/hanaschwarz1211/hanaschwarz121100002/16260237-%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-%EA%B3%A0%EB%A6%BD-%EB%B9%A8%EA%B0%84-%EB%A6%AC%EB%B3%B8%EA%B3%BC-%EC%A2%85.jpg"
+								width="30" height="30" class="noti-sender-photo" />
+								<div class="noti-main">
+									<div style="clear: both;"></div>
+									<div class="noti-title-only">
+										<span class="remarkable-viewer"></span>
+										<p>
+											<strong style="color: skyblue;">스터디</strong>회원님의 게시판에 댓글이
+											달렸습니다.
+										</p>
+										<div class="noti-date">2019.01.23 17:08</div>
+									</div>
+								</div>
+						</a></li>
+
+
+						<li class="notification" id="notification-id895558"><a
+							href="/"> <img
+								src="https://previews.123rf.com/images/hanaschwarz/hanaschwarz1211/hanaschwarz121100002/16260237-%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-%EA%B3%A0%EB%A6%BD-%EB%B9%A8%EA%B0%84-%EB%A6%AC%EB%B3%B8%EA%B3%BC-%EC%A2%85.jpg"
+								width="30" height="30" class="noti-sender-photo" />
+								<div class="noti-main">
+									<div style="clear: both;"></div>
+									<div class="noti-title-only">
+										<span class="remarkable-viewer"></span>
+										<p>
+											<strong style="color: skyblue;">코드스퀘어</strong>회원님께 새로운 소식이
+											도착하였습니다.
+										</p>
+										<div class="noti-date">2019.01.23 17:08</div>
+									</div>
+								</div>
+						</a></li>
+
+						<li class="notification" id="notification-id895558"><a
+							href="/"> <img
+								src="https://previews.123rf.com/images/hanaschwarz/hanaschwarz1211/hanaschwarz121100002/16260237-%ED%9D%B0%EC%83%89-%EB%B0%B0%EA%B2%BD%EC%97%90-%EA%B3%A0%EB%A6%BD-%EB%B9%A8%EA%B0%84-%EB%A6%AC%EB%B3%B8%EA%B3%BC-%EC%A2%85.jpg"
+								width="30" height="30" class="noti-sender-photo" />
+								<div class="noti-main">
+									<div style="clear: both;"></div>
+									<div class="noti-title-only">
+										<span class="remarkable-viewer"></span>
+										<p>
+											<strong style="color: skyblue;">코드스퀘어</strong> 강희정님의 가입을
+											축하드립니다.
+										</p>
+										<div class="noti-date">2019.01.23 17:08</div>
+									</div>
+								</div>
+						</a></li>
+					</ul>
 				</div>
+			</div>
 
 
 
