@@ -55,9 +55,13 @@
                   <li><a class="nav-link" href="#">유저커리큘럼</a>
                </ul>
             </li>
+            </ul>
+
+
 		
 
-			</ul>
+
+
 			<div sec:authorize="isAuthenticated()">
 				<ul>
 					<li><span sec:authentication="name"></span> 님 안녕하세요!</li>
@@ -183,6 +187,8 @@
 				</ul>
 			</div>
 
+            </div>
+            </nav>
 </header>
 
 </html>
