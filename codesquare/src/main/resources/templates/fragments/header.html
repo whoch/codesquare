@@ -59,7 +59,15 @@
 		
 
 
-			<!-- 알림 -->
+		
+
+
+
+			</ul>
+			<div sec:authorize="isAuthenticated()">
+				<ul>
+					<li><span sec:authentication="name"></span> 님 안녕하세요!</li>
+						<!-- 알림 -->
 			<div class="noti-dropdown">
 				<a onclick="myFunction()" id="noti-btn" class="noti-btn"> <img
 					width="25" height="25" class="noti-btn"
@@ -167,14 +175,7 @@
 					</ul>
 				</div>
 			</div>
-
-
-
-
-			</ul>
-			<div sec:authorize="isAuthenticated()">
-				<ul>
-					<li><span sec:authentication="name"></span> 님 안녕하세요!</li>
+					
 					<li><a th:href="@{/member/myPage}">마이페이지</a></li>
 					<li><a th:href="@{/logout}">로그아웃</a></li>
 				</ul>
