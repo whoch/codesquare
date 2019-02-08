@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.authorizeRequests() /* 인증 요청 선언?????? */
 
-				.antMatchers("/", "/member/login", "/member/signUp", "/logout").permitAll()
+				.antMatchers("/", "/member/login", "/member/signUp", "/member/findId", "/member/findPw", "/member/findIdPw", "/logout").permitAll()
 
 				.antMatchers("/member/**").authenticated() // 로그인 하면 다 가능
 //				.and()

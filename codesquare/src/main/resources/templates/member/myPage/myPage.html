@@ -26,10 +26,10 @@
 						결제 내역</span></li>
 				<li ><span sec:authorize="hasRole('ROLE_2')">
 						<span id="modifyInstructorInfo">강사정보수정하기</span><br />
-				</span> <span sec:authorize="hasAnyRole('ROLE_1','ROLE_4','ROLE_5') ">
+				</span> <span sec:authorize="hasAnyRole('ROLE_1','ROLE_4','ROLE_5', 'ROLE_6') ">
 						<span id="toInstructor">강사전환신청하기</span>
 				</span>
-				<li ><span id="changePw">비밀번호바꾸기</span></li>
+				<li ><span sec:authorize="hasAnyRole('ROLE_1', 'ROLE_2' ,'ROLE_4','ROLE_5') "><span id="changePw">비밀번호바꾸기</span></span></li>
 
 			</ul>
 
@@ -43,7 +43,12 @@
 				<li id="myAppliedList">나의 신청 내역</li>
 				<li id="myWantedList">나의 모집 내역</li>
 				<li id="myBoardList">내가쓴 글</li>
-				<li id="modifyMyInfo">내 정보 수정</li>
+				<li><span sec:authorize="hasAnyRole('ROLE_1','ROLE_2','ROLE_4', 'ROLE_5' )">
+				<span id="modifyMyInfo">내 정보 수정</span></span>
+				<span sec:authorize="hasRole('ROLE_6' )">
+				<span id="changeNickName">닉네임 수정</span>
+				</span>
+				</li>
 			</ul>
 
 			<h2>내용</h2>

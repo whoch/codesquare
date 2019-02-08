@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org" 	layout:decorator="layout/mainLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
 <!-- default header name is X-CSRF-TOKEN -->
 <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
-<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
-<script th:src="@{/static/js/member/modifyMyInfo.js}"></script> 
 </head>
 <body>
 	
@@ -30,6 +29,10 @@
 
 
 <br /> <br /> <br /> <br />
+<th:block layout:fragment="script">
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+<script th:src="@{/static/js/member/modifyMyInfo.js}"></script> 
+</head></th:block>
 		</div>
 	</form>
 	</body>

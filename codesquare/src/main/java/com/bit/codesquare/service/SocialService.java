@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 @Component
 @AllArgsConstructor
 public class SocialService {
-   MemberMapper mm;
+   private MemberMapper mm;
    
    public UsernamePasswordAuthenticationToken doAuthentication(Member member) {
       if (mm.checkUser(member.getUserId())!=null) {
@@ -29,10 +29,10 @@ public class SocialService {
            return setAuthenticationToken(user);
        } else {
            // 새 회원일 경우 회원가입 이후 인증 처리
-          mm.signUp(member);
-          Member member1 = mm.checkUser(member.getUserId());
+    	   member.setAuthorId(6);
+    	   mm.signUp(member);
           
-           final SecurityMember user = new SecurityMember(member1);
+           final SecurityMember user = new SecurityMember(member);
            
            
          
@@ -42,12 +42,12 @@ public class SocialService {
    
     private UsernamePasswordAuthenticationToken setAuthenticationToken(Object user) {
            return new UsernamePasswordAuthenticationToken(user,
-                 null, getAuthorities("ROLE_1"));
+                 null, getAuthorities("ROLE_6"));
        }
     
-    private Collection<? extends GrantedAuthority> getAuthorities(String role) {
+    private Collection<? extends GrantedAuthority> getAuthorities(String authorId) {
            List<GrantedAuthority> authorities = new ArrayList<>();
-           authorities.add(new SimpleGrantedAuthority(role));
+           authorities.add(new SimpleGrantedAuthority(authorId));
            return authorities;
        }
 }

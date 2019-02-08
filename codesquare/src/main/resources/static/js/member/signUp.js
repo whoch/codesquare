@@ -101,17 +101,20 @@ function idCheck() {
 	$.ajax({
 		type : "post",
 		data : userId,
-		url : "idCheck",
-		contentType : "application/json; charset=UTF-8",
+		url : "/member/idCheck",
+		contentType: "application/json; charset=utf-8",
+		async: false,
 		success : function(response) {
 
 			if (response > 0) {
-
+				alert(response);
 				$("#idCheckMsg").css("color", "red");
 				$("#idCheckMsg").text("이미 존재하는 아이디 입니다.");
 				$("#userId").focus();
 
 			} else {
+				
+				alert(response);
 				$("#idCheckMsg").css("color", "blue");
 				$("#idCheckMsg").text("사용 가능한 아이디 입니다.");
 				$("#name").focus();
@@ -122,7 +125,7 @@ function idCheck() {
 		},
 		error : function(error) {
 			$("#idCheckMsg").css("color", "black");
-			$("#idCheckMsg").text("아이디를 입력해주세요.");
+			$("#idCheckMsg").text("error");
 		}
 	});
 
@@ -196,20 +199,27 @@ function emailCheck() {
 
 	
 	var email = $("#email").val();
+	
+	
 	$.ajax({
 		type : "post",
 		data : email,
 		url : "emailCheck",
+		dataType: "json",
 		contentType : "application/json; charset=UTF-8",
+		async: false,
 		success : function(response) {
 
 			if (response > 0) {
 
+				alert(response);
 				$("#emailCheckMsg").css("color", "red");
 				$("#emailCheckMsg").text("이미 존재하는 이메일 입니다.");
 				$("#email").focus();
 
 			} else {
+				alert(response+22);
+
 				$("#emailCheckMsg").css("color", "blue");
 				$("#emailCheckMsg").text("사용 가능한 이메일 입니다.");
 				emailck = 1;

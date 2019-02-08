@@ -16,13 +16,6 @@ public class SecurityMember extends User implements UserDetails {
 	
 	private static final String ROLE_PREFIX = "ROLE_";
 	private static final long serialVersionUID = 1L;
-	public int getAuthorId() {
-		return authorId;
-	}
-
-	public void setAuthorId(int authorId) {
-		this.authorId = authorId;
-	}
 
 	public String getNickName() {
 		return nickName;
@@ -32,13 +25,12 @@ public class SecurityMember extends User implements UserDetails {
 		this.nickName = nickName;
 	}
 
-	private int authorId;
 	private String nickName;
 	
 
 	public SecurityMember(Member member) {
 		super(member.getUserId(), member.getPassword(), makeGrantedAuthority(member));
-		this.authorId = member.getAuthorId();
+		
 		this.nickName = member.getNickName();
 
 	}

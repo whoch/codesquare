@@ -5,8 +5,7 @@
 <meta charset="UTF-8">
 
 <title>Insert title here</title>
-
-</head>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <body>
 <div class="container" layout:fragment="content">
 	<form id="signUpForm" method="post">
