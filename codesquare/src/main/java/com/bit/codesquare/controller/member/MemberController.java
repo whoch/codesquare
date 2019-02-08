@@ -62,7 +62,8 @@ public class MemberController {
 	@PostMapping("/idCheck")
 	@ResponseBody
 	public int idCheck(@RequestBody String userId) {
-
+		logger.info("idCheck호출");
+		logger.info(userId);
 		int count = 0;
 		count = mm.idCheck(userId);
 		logger.info(count+"count");
@@ -72,26 +73,28 @@ public class MemberController {
 	@PostMapping("/emailCheck")
 	@ResponseBody
 	public int emailCheck(@RequestBody String email) {
-
+		logger.info("anjwl");
+		logger.info(email);
+		
 		int count = 0;
 		count = mm.emailCheck(email);
 		logger.info(email);
 		return count;
 	}
 
-	@PostMapping("/nickCheck")
-	@ResponseBody
-	public int nickCheck(@RequestBody String nickName) {
-
-		int count = 0;
-		count = mm.nickCheck(nickName);
-
-		return count;
-	}
+//	@PostMapping("/nickCheck")
+//	@ResponseBody
+//	public int nickCheck(@RequestBody String nickName) {
+//
+//		int count = 0;
+//		count = mm.nickCheck(nickName);
+//
+//		return count;
+//	}
 
 	@PostMapping("/nickChange")
 	@ResponseBody
-	public int changeNick(Model model, Principal principal, @RequestBody String nickName) {
+	public int changeNick(Principal principal, @RequestBody String nickName) {
 		String userId = principal.getName();
 	
 		int count = 0;

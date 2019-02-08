@@ -51,14 +51,12 @@ $(function (){
 
 	function emailCheck() {
 
-		
 		var email = $("#email").val();
 		$.ajax({
 			type : "post",
 			data : email,
 			url : "emailCheck",
 			async: false,
-			dataType: "json",
 			contentType : "application/json; charset=UTF-8",
 			success : function(response) {
 
@@ -76,6 +74,7 @@ $(function (){
 				}
 			},
 			error : function(error) {
+				//alert(error);
 				$("#emailCheckMsg").css("color", "black");
 				$("#emailCheckMsg").text("error");
 			}
