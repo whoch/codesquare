@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 	layout:decorator="layout/mainLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+	
+	<form id="changePw" method="post">
+		<h2>비밀번호 변경</h2>
+	<span id="pwMsg"></span>
+	
+				<div><input type="hidden" id="userId" name="userId" th:value="${user.userId}">
+				비밀번호:
+				<input type="password" id="password" name="password" required>
+		</div>
+			<div>
+				비밀번호확인:
+				<input type="password" id="rePassword" name="rePassword" required><br /><span id="pwCheckMsg"></span>
+			</div>
+				<span id="pwCheckMsg"></span>
+	
+			<div>
+				<span id="pwValidate">변경하기</span> 
+
+
+<br /> <br /> <br /> <br />
+<th:block layout:fragment="script">
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+<script th:src="@{/static/js/member/modifyMyInfo.js}"></script> 
+</head></th:block>
+		</div>
+	</form>
+	</body>
+	</html>
+

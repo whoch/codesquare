@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout/mainLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+
+<title>Insert title here</title>
+</head>
+<body>
+
+<div class="container" layout:fragment="content">
+아이디 비밀번호 찾기
+<br />
+<div id="bar">
+<span id="findIdBar">아이디 찾기   </span> <span id="findPwBar">비밀번호 찾기</span>
+</div>
+<br />
+<br />
+<br />
+<div id="content" >
+
+</div>
+<th:block layout:fragment="script">
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+<script th:src="@{/static/js/member/find.js}"></script> 
+</th:block>
+</div>
+
+</body>
+</html>

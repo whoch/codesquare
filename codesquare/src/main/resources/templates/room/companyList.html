@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.typeleaf.org"
+xmlns:sd="http://www.thymeleaf.org/spring-data"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorator="layout/mainLayout">
+<meta charset="utf-8">
+<head>
+
+<link rel="stylesheet" type="text/css" href="/static/styles/room/datepicker.min.css" th:href="@{/static/styles/room/datepicker.min.css}">
+  
+  <style type="text/css">
+  input {
+  border: 1px solid #542672;
+  border-radius: 5px;
+  color: #542672;
+  }
+  select {
+	border: 1px solid #542672;
+	border-radius: 5px;
+}
+</style>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+
+<br>
+
+						<div class="search_box_container d-flex flex-row align-items-center justify-content-start" style="background-color: #542672">
+							<div class="search_form_container">
+								<form action="search" id="search_form" class="search_form">
+									<div class="">
+										<ul class="search_form_list d-flex flex-row align-items-center">
+											<input type="text" id="testDatepicker" placeholder="날짜선택" style="height: 60px">
+											<select name="searchOption" style="height: 60px" id="lstFavorites">
+												<option value="address">지역</option>
+												<option value="address">강남구</option>
+												<option value="address">서초구</option>
+												<option value="address">금천구</option>
+												<option value="address">종로구</option>
+												<option value="address">수원시</option>
+												<option value="address">안산시</option>
+												<option value="companyname">스터디룸 이름</option>
+											</select>
+												<input type="text" name="keyword" value="" size="50" placeholder="ex) 강남, 수원" style="height: 60px" id="txtFavorite">
+												<input type="submit" value="검색" style="height: 60px">
+										</ul>
+									</div>
+								</form>
+							</div>
+						</div>
+
+<br><br>
+          <div class="row" >
+            <div class="col-md-4" th:each="Company:${list}">
+              <div class="card mb-4 box-shadow">
+                <a th:href="@{'/getid?companyid=' + ${Company.id}}"><img data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"></a>
+                <div class="card-body">
+     			<a th:href="@{'/getid?companyid=' + ${Company.id}}"><p th:text="${Company.companyname}"></p></a>
+                  <p class="card-text"><span th:text="${Company.companyinfo}"></span></p>
+                  						<span th:text="${Company.address}"></span>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <!-- <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#myModal">방 정보</button> -->
+                    </div>
+                    <!-- <small class="text-muted">9 mins</small> --> 
+                  </div>
+                </div>
+              </div>
+            </div>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.6/holder.min.js"></script>
+		</div>
+		
+
+<th:block layout:fragment="script">
+<script th:src="@{/static/js/room/datepicker.js}"></script>
+<script th:src="@{/static/js/room/picker.js}"></script> 
+<script th:src="@{/static/js/room/i18n/datepicker.en.js}"></script>
+</th:block>
+</div>
+</body>
+</html>

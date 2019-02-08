@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+
+<title>Insert title here</title>
+</head>
+
+<body>
+비밀번호 찾기<br /><br />
+<div id="findPwContent">
+<span>아이디를 입력하세요</span><br />
+<input type="text" id="userId"><br />
+<span> 이메일을 입력하세요</span><br />
+<input type="text" id="email"><br />
+<span id="findPwDone">  비밀번호 찾기</span>
+</div>
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+<script th:src="@{/static/js/member/find.js}"></script> 
+</body>
+</html>

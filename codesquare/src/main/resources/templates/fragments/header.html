@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<header class="main-header" th:fragment="headerFragment">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="/"><img th:src="@{/static/images/logo.png}" alt="noimg" /></a>
+
+		<div class="collapse navbar-collapse" id="navbarColor03">
+			<ul class="navbar-nav mr-auto">
+				
+				<li class="nav-item">
+					<a class="nav-link" href="#">새소식</a>
+					<ul class="csnav-dropdown">
+						<li><a class="nav-link" href="/home">공지사항</a>
+						<li><a class="nav-link" href="#">이벤트</a>
+            <li><a class="nav-link" href="#">IT News</a>
+					</ul>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">스터디</a>
+					<ul class="csnav-dropdown">
+						<li><a class="nav-link" href="#">스터디모집</a>
+						<li><a class="nav-link" href="#">스터디후기</a>
+						<li><a class="nav-link" href="/companyList">스터디룸</a>
+					</ul>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">세미나</a>
+					<ul class="csnav-dropdown">
+						<li><a class="nav-link" href="#">세미나모집</a>
+						<li><a class="nav-link" href="#">세미나후기</a>
+						<li><a class="nav-link" href="/companyList">세미나룸</a>
+					</ul>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">커뮤니티</a>
+          <ul class="csnav-dropdown">
+						<li><a class="nav-link" href="#">자유게시판</a>
+						<li><a class="nav-link" href="#">질문있어요</a>
+            <li><a class="nav-link" href="#">IT Forum</a>
+					</ul>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/learn">프로그래밍강의</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">코드리뷰</a>
+					<ul class="csnav-dropdown">
+						<li><a class="nav-link" href="#">리뷰신청하기</a>
+						<li><a class="nav-link" href="#">코드리뷰하기</a>
+					</ul>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">커리큘럼</a>
+					<ul class="csnav-dropdown">
+						<li><a class="nav-link" href="#">추천커리큘럼</a>
+						<li><a class="nav-link" href="#">유저커리큘럼</a>
+					</ul>
+				</li>
+			</ul>
+			<div sec:authorize="isAuthenticated()">
+				<ul>
+					<li><span sec:authentication="name"></span> 님 안녕하세요!</li>
+					<li><a th:href="@{/member/myPage}">마이페이지</a></li>
+					<li><a th:href="@{/logout}">로그아웃</a></li>
+				</ul>
+			</div>
+
+
+			<div sec:authorize="isAnonymous()">
+				<ul>
+					<li><a th:href="@{/member/login}">로그인</a></li>
+					<li><a th:href="@{/member/signUp}">회원가입</a></li>
+				</ul>
+			</div>
+			
+		</div>
+	</nav>
+</header>
+
+</html>

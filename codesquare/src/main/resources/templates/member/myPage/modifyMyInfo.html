@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+<head>
+<meta charset="UTF-8">
+
+
+
+<title>Insert title here</title>
+
+</head>
+<body>
+
+	<h2>회원정보 수정</h2>
+	<form id="modifyMyInfo">
+	<div>
+		아이디:<input type="hidden" name="userId" th:value="${user.userId}">
+		<span th:text="${user.userId}"> </span>
+	</div>
+
+	<div>
+		이름: <span th:text="${user.name}"></span>
+	</div>
+	
+	<div>생년월일:
+	<span th:text="${user.dateOfBirth}"></span>
+	</div>
+
+	<div>
+	닉네임:
+		<span id="nickField" th:text="${user.nickName}"></span>
+
+		<span id="changeNick"> 변경하기 </span>
+			<div id="changeNickContent">
+				<input type="text" id="nickName" name="nickName"> <span
+					id="nickValidate">변경하기</span><br /> <div
+					id="nickCheckMsg">닉네임은 한글,영문자, 숫자를 포함한 2자 이상 10자 이하</div>
+			</div>
+	</div>
+	<div>
+		이메일:
+		<span id="emailField" th:text="${user.email}"></span>
+		<span id="changeEmail"> 변경하기 </span>
+			<div id="changeEmailContent">
+				<input type="text" id="email" name="email"> <span
+					id="emailValidate" >변경하기</span><br />
+				<span id="emailCheckMsg"></span>
+			</div>
+			<br /> <br /> <br /> <br />
+	</div>
+
+</form>
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+<script th:src="@{/static/js/member/modifyMyInfo.js}"></script> 
+
+</body>
+</html>

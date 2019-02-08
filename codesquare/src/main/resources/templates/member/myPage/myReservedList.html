@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+
+<title>Insert title here</title>
+
+</head>
+<body>
+
+	나의 예약 및 결제 내역
+	<input type="hidden" id="userId" th:value="${userId}">
+
+	<div>예약날짜 예약번호 예약내역 결제금액 결제일 예약시간 </div>
+	<div th:each="list : ${list}">
+		<span th:text="${list.reservationDate}"></span>
+		<span th:text="${list.id}"></span>
+		<span th:text="${list.roomName}"></span>
+		<span th:text="${list.payAmount}"></span>
+		<span th:text="${list.paymentDate}"></span>
+		<span th:text="${list.reservationTime}"></span>
+
+
+	</div>
+	
+	<br /> <br /> <br /> <br />
+	</body>
+	</html>
