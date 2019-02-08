@@ -169,11 +169,12 @@ public class MemberController {
 //	}
 	
 	
+	
 	@RequestMapping("/myPage")
 	public String myPage(Model model, Principal principal, @ModelAttribute Member member) {
 		String userId = principal.getName();
 		model.addAttribute("user", mm.getUser(userId));
-		return "member/myPage/myPage";
+		return "index";
 	}
 
 	@GetMapping("/modifyMyInfo")
