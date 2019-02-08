@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <title>Welcome to CodeSquare!</title>
-<meta charset="utf-8">
+<meta charset="utf-8"> 
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="CodeSquare Project">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,6 +17,10 @@
 <link rel="stylesheet" type="text/css" href="/static/styles/main_styles.css" th:href="@{/static/styles/main_styles.css}">
 <link rel="stylesheet" type="text/css" href="/static/styles/responsive.css" th:href="@{/static/styles/responsive.css}">
 <link rel="stylesheet" type="text/css" href="/static/styles/notice.css" th:href="@{/static/styles/notice.css}">
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'master' of https://github.com/catsbi/codesquare.git
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
 <!-- default header name is X-CSRF-TOKEN -->
 <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -24,6 +28,7 @@
 <body>
 <!-- 페이지의 헤더부분 -->
 <header th:replace="fragments/header :: headerFragment"></header>
+
 
 <!-- 페이지의 content -->
 <div layout:fragment="content" style="margin-bottom: 100px;"></div>
@@ -47,6 +52,7 @@
 <script th:src="@{/static/plugins/colorbox/jquery.colorbox-min.js}"></script>
 <script th:src="@{/static/plugins/parallax-js-master/parallax.min.js}"></script>
 <script th:src="@{/static/js/custom.js}"></script>
+<script th:src="@{/static/js/notice/notice.js}"></script>
 
 
 
