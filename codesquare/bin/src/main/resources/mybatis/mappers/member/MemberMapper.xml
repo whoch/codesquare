@@ -84,11 +84,11 @@
 	</select>
 	
 	<select id="getAppliedList" parameterType="String" resultType="JoiningAndRecruitmentLog"> 
-	select a.UserId, a.ApplyDate, b.BoardKindId, a.BoardId, b.Title, a.ApplyContent, a. DeclineContent, a.Status from JoiningAndRecruitmentLog a join Board b on a.BoardId = b.Id where a.UserId=#{userId} AND BoardKindId='SmnMo' or BoardKindId='StdMo'
+	select a.UserId, a.ApplyDate, b.BoardKindId, a.BoardId, b.Title, a.ApplyContent, a. DeclineContent, a.Status from JoiningAndRecruitmentLog a join Board b on a.BoardId = b.Id where a.UserId=#{userId} AND (BoardKindId='SmnMo' or BoardKindId='StdMo')
 	</select>
 	
 	<select id="getWantedList" parameterType="String" resultType="JoiningAndRecruitmentLog"> 
-	select Id, WriteDate, Title, Status from Board where UserId=#{userId} AND BoardKindId='StdMo' or BoardKindId='SmnMo'
+	select Id, UserId, BoardKindId, WriteDate, Title, Status from Board where (BoardKindId='StdMo' or BoardKindId='SmnMo') and UserId=#{userId}
 	</select>
 	
 	<select id="getInstructorInfo" resultType="instructorInfo">
