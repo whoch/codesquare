@@ -1,0 +1,18 @@
+@charset "UTF-8";
+.jumbotron{
+  background-image:url("indexContainer.gif");
+  background-color: #cccccc;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  
+}
+.lead{
+  color:white;
+  font-weight:bold;
+}
+.display-3{
+  color:#A9BCF5;
+}
+

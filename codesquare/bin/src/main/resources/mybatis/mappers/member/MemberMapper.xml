@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.bit.codesquare.mapper.member.MemberMapper">
+	<select id="checkUser" parameterType="String" resultType="Member">
+		select
+		UserId, Password, NickName,AuthorId from UserInfo where UserId = #{userId}
+	</select>
+	<select id="getUser" parameterType="String" resultType="Member">
+		select
+		*
+		from
+		UserInfo where UserId = #{userId}
+	</select>
+	<insert id="signUp">
+		insert into UserInfo (UserId, NickName, Password,
+		Email, Name, DateOfBirth)
+		values (#{userId}, #{userId}, #{password},
+		#{email}, #{name}, #{dateOfBirth})
+	</insert>
+
+	<select id="idCheck" parameterType="String" resultType="Int">
+		SELECT
+		COUNT(*) FROM UserInfo WHERE UserId = #{userId}
+	</select>
+
+	<select id="emailCheck" parameterType="String" resultType="Int">
+		SELECT COUNT(*) FROM UserInfo WHERE Email = #{email}
+	</select>
+
+	<select id="nickCheck" parameterType="String" resultType="Int">
+		SELECT
+		COUNT(*) FROM UserInfo WHERE NickName = #{nickName}
+	</select>
+
+	<update id="changeNick">
+		update UserInfo set NickName = #{nickName} where
+		UserId=#{userId}
+	</update>
+
+	<update id="changeEmail">
+		update UserInfo set Email = #{email} where
+		UserId=#{userId}
+	</update>
+
+
+	<update id="modifyMyInfo">
+		update UserInfo set NickName = #{nickName},
+		Email=#{email} where UserId =
+		#{userId}
+	</update>
+
+	<update id="changePw">
+		update UserInfo set Password = #{password} where
+		UserId = #{userId}
+	</update>
+
+	<select id="findId">
+		select userId from UserInfo where Email = #{email}
+	</select>
+
+	<select id="findPwCheck">
+		select count(*) from UserInfo where userId = #{userId} and Email=#{email}
+	</select>
+	
+	<insert id="toInstructor">
+		insert into InstructorInfo (UserId, IntroContent) values (#{userId}, '[신청]' #{introContent})
+	</insert>
+	
+	<select id="checkInstructor" parameterType="String" resultType="Int">
+		select count(userId) from InstructorInfo where UserId=#{userId}
+	</select>
+
+	<update id="modifyInstructorInfo" >
+		update InstructorInfo set IntroContent = #{introContent}, History = #{history} where UserId = #{userId}
+	</update>
+	
+	<select id="getReservedList" parameterType="String" resultType="ReservationInfo"> 
+		select a.UserId, a.ReservationDate, a.Id, a.RoomId, b.RoomName, a.PayAmount, a.PaymentDate, a.ReservationTime from ReservationInfo a join RoomInfo b on a.RoomId = b.id where UserId  =#{userId}
+	</select>
+	
+	<select id="getAppliedList" parameterType="String" resultType="JoiningAndRecruitmentLog"> 
+	select a.UserId, a.ApplyDate, b.BoardKindId, a.BoardId, b.Title, a.ApplyContent, a. DeclineContent, a.Status from JoiningAndRecruitmentLog a join Board b on a.BoardId = b.Id where a.UserId=#{userId} AND BoardKindId='SmnMo' or BoardKindId='StdMo'
+	</select>
+	
+	<select id="getWantedList" parameterType="String" resultType="JoiningAndRecruitmentLog"> 
+	select Id, WriteDate, Title, Status from Board where UserId=#{userId} AND BoardKindId='StdMo' or BoardKindId='SmnMo'
+	</select>
+	
+	<select id="getInstructorInfo" resultType="instructorInfo">
+	select UserId, IntroContent, History from InstructorInfo where UserId =#{userId}
+	</select>
+</mapper>

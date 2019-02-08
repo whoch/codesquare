@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+
+</head>
+<body>
+
+	<h2>강사 전환 신청하기</h2>
+
+
+	<form id="toInstructorForm" method="post">
+
+		<div>
+			<input type="hidden" name="userId" th:value="${user.userId}">
+		</div>
+		<div>
+		신청사유:<br />
+		<textarea name="introContent" id="introContent"  rows="10" cols="30" >
+		</textarea>
+		<span id="toInstructorDone">신청하기</span>
+		<br /> <br /> <br /> <br />
+		</div>
+	</form>
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+<script th:src="@{/static/js/member/myPage.js}"></script>
+</body>
+</html>

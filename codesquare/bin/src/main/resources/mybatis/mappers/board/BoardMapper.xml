@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit.codesquare.mapper.board.BoardMapper">
+	<select id="getRecommandList" resultType="Board">
+		SELECT *
+		FROM (select *
+			  from Board_view
+			  where BoardName IN('세미나모집','스터디모집')AND STATUS=1)AS B
+		ORDER BY B.WriteDate LIMIT 2;
+	</select>
+	<select id="getQuickBoardList" parameterType="String" resultType="Board">
+		select id, BoardKindId, title, writeDate, hit,commentCount
+		from v_QuickBoard
+		where BoardKindId=#{tag};
+	</select>
+<!--     <insert id="insert" parameterType="test">
+    	INSERT INTO HANSOL(ID,NAME) VALUES(#{id},#{name})
+    </insert>
+    <update id="update" parameterType="test">
+    	UPDATE HANSOL
+    	SET NAME=#{name}
+    	WHERE ID=#{id}
+    </update>
+    <delete id="delete" parameterType="int">
+    	DELETE FROM HANSOL
+    	WHERE ID=#{id}
+    </delete> -->
+</mapper>

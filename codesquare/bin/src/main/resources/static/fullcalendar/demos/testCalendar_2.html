@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Full-Calendar 테스트</title>
+	<!-- 합쳐지고 최소화된 최신 CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+	<!-- 부가적인 테마 -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+	<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+	<link rel='stylesheet' href='../fullcalendar.css' />
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
+	<script src='../fullcalendar.js'></script>
+	<script src='../fullcalendar/locale/ko.js'></script>
+	<script>
+		$(document).ready(function () {
+			// page is now ready, initialize the calendar...
+			$('#calendar').fullCalendar({
+
+				//-----테마 설정-----
+				//부트스트랩 테마를 사용하고 싶은 경우
+				//버튼 부트스트랩 버튼 사용하고 싶은 경우
+				//'standard', 'bootstrap3', 'bootstrap4', 'jquery-ui'
+				theme: 'bootstrap3',
+				locale: 'ko',
+
+				//-----버튼 커스텀 설정-----
+				//text : 버튼에 표시할 텍스트
+				//click : 클릭시 발생할 이벤트
+				//icon : buttonIcons 사용할 경우
+				//themeIcon : themeIcon 사용할 경우
+				// bootstrapGlyphicon :bootstrapGlyphicon 사용할 경우
+				customButtons: {
+					groupButton: {
+						text: '그룹^_^',
+						bootstrapGlyphicon: 'glyphicon-user',
+						click: function () {
+							//VIEW 체인지
+							$('#calendar').fullCalendar('changeView', 'agenda', {
+								start: '2019-01-19',
+								end: '2019-01-20'
+							});
+						}
+					},
+					todoButton: {
+						text: '투두*^^*',
+						click: function () {
+							alert('TODOLIST이라능!');
+						}
+					}
+				},
+
+				//-----날짜 부분 클릭 링크로 변경-----
+				navLinks: true,
+				navLinkDayClick: function (weekStart, jsEvent) {
+					weekStart.format(); // weekStart is a moment
+					console.log('coords', jsEvent.pageX, jsEvent.pageY); // 클릭한 x,y좌표값 출력
+				},
+
+				//-----머리글의 텍스트 형식 text로 변경-----
+				columnHeaderText: function (mom) {
+					if (mom.weekday() === 5) {
+						return 'Friday!';
+					} else {
+						return mom.format('LLL');
+					}
+				},
+
+				//-----머리글의 텍스트 형식 html으로 변경-----
+				columnHeaderHtml: function (mom) {
+					if (mom.weekday() === 5) {
+						return '<b>Friday!</b>';
+					} else {
+						return '<a>' + mom.format('LLL') + '</a>';
+					}
+				},
+
+
+
+				//-----헤더 설정 부분-----
+				// left, center, right 3가지의 속성
+				// title : 현재 월 / 주 / 일을 포함하는 텍스트
+				// prev : 달력을 1개월 전으로 이동
+				// next : 달력을 1개월 후로 이동
+				// prevYear : 달력을 1년 전으로 이동
+				// nextYear : 달력을 1년 후로 이동
+				// today : 달력을 오늘 날짜로 이동
+				header: {
+					left: 'title',
+					center: '',
+					right: 'prev,next today groupButton,todoButton'
+				},
+				//-----푸터 설정 부분 속성값 header와 같음-----
+				footer: {
+					left: '',
+					center: 'prevYear,prev,next,nextYear',
+					right: 'list,listWeek,listMonth basicDay,basicWeek'
+				},
+
+				//-----버튼 텍스트 설정하는 부분-----
+				buttonText: {
+					today: '오늘',
+					month: 'month',
+					week: 'week',
+					day: 'day',
+					list: 'list'
+				},
+
+
+				//-----버튼의 아이콘 설정하는 부분-----
+				buttonIcons: {
+					prev: 'left-single-arrow',
+					next: 'right-single-arrow',
+					prevYear: 'left-double-arrow',
+					nextYear: 'right-double-arrow'
+				},
+
+				// -----버튼의 아이콘 bootstrap의 Glyphicons 사용하기-----
+				bootstrapGlyphicons: {
+					close: 'glyphicon-remove',
+					prev: 'glyphicon-chevron-left',
+					next: 'glyphicon-chevron-right',
+					prevYear: 'glyphicon-backward',
+					nextYear: 'glyphicon-forward',
+					groupButton: 'glyphicon-user',
+					todoButton: 'glyphicon-star'
+				},
+				// -----하루를 클릭했을 때 나타나는 이벤트-----
+				dayClick: function () {
+					alert('a day has been clicked!');
+				},
+
+				//-----이벤트 기본 메세지 설정-----
+				noEventsMessage: "이벤트가 없어어어어",
+
+				//----- Header 표시할건지 -----
+				columnHeader: true,
+
+				//----- Header의 날짜 표시양식 -----
+				columnHeaderFormat: 'dddd',
+
+				events: {
+					url: '/myfeed.php',
+					data: function () { // a function that returns an object
+						return {
+							dynamic_value: Math.random()
+						};
+					}
+				}
+			});
+		});
+
+	</script>
+	<style>
+		body {
+			margin: 40px 10px;
+			padding: 0;
+			font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+			font-size: 14px;
+		}
+
+		#calendar {
+			max-width: 850px;
+			margin: 0 auto;
+		}
+	</style>
+</head>
+
+<body>
+	<div id='calendar'></div>
+</body>
+
+</html>
