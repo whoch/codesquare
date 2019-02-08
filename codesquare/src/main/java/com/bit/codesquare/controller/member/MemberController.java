@@ -92,7 +92,6 @@ public class MemberController {
 	@PostMapping("/nickChange")
 	@ResponseBody
 	public int changeNick(Model model, Principal principal, @RequestBody String nickName) {
->>>>>>> branch 'master' of https://github.com/catsbi/codesquare.git
 		String userId = principal.getName();
 	
 		int count = 0;
