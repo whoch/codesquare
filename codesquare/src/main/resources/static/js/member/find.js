@@ -51,6 +51,7 @@ $(function (){
 
 	function emailCheck() {
 
+<<<<<<< HEAD
 		var email = $("#email").val();
 		$.ajax({
 			type : "post",
@@ -75,6 +76,33 @@ $(function (){
 			},
 			error : function(error) {
 				//alert(error);
+=======
+		
+		var email = $("#email").val();
+		$.ajax({
+			type : "post",
+			data : email,
+			url : "emailCheck",
+			async: false,
+			dataType: "json",
+			contentType : "application/json; charset=UTF-8",
+			success : function(response) {
+
+				if (response > 0) {
+
+					$("#emailCheckMsg").css("color", "red");
+					$("#emailCheckMsg").text("이미 존재하는 이메일 입니다.");
+					$("#email").focus();
+
+				} else {
+					$("#emailCheckMsg").css("color", "blue");
+					$("#emailCheckMsg").text("사용 가능한 이메일 입니다.");
+					emailck = 1;
+
+				}
+			},
+			error : function(error) {
+>>>>>>> branch 'master' of https://github.com/catsbi/codesquare.git
 				$("#emailCheckMsg").css("color", "black");
 				$("#emailCheckMsg").text("error");
 			}
