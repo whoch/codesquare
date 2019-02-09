@@ -11,10 +11,7 @@ import lombok.EqualsAndHashCode;
 public class JoiningAndRecruitmentLog  extends Member{
 	
 	private String id;
-<<<<<<< HEAD
 	private String applyUserId;
-=======
->>>>>>> branch 'master' of https://github.com/catsbi/codesquare.git
 	private String boardId;
 	private String boardKindId;
 	private String title;

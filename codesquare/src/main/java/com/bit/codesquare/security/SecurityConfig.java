@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
-	
+
 	@Autowired
 	SocialService socialService;
 
@@ -71,7 +71,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.authorizeRequests() /* 인증 요청 선언?????? */
 
-				.antMatchers("/", "/member/login", "/member/signUp", "/member/findId", "/member/findPw", "/member/findIdPw", "/logout").permitAll()
+				.antMatchers("/", "/member/login", "/member/signUp", "/member/findId", "/member/findPw",
+						"/member/findIdPw", "/logout")
+				.permitAll()
 
 				.antMatchers("/member/**").authenticated() // 로그인 하면 다 가능
 //				.and()
@@ -88,17 +90,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll() /* 모두 오픈 ( 반대는 denyAll() ) */
 				.defaultSuccessUrl("/").failureUrl("/member/login?error").and().logout().invalidateHttpSession(true)
 				.clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
-<<<<<<< HEAD
+
 				.logoutSuccessUrl("/") /* 로그아웃 성공시 리다이렉트 url */
-		;
-=======
 				.logoutSuccessUrl("/"); /* 로그아웃 성공시 리다이렉트 url */
-		//Naver Smarteditor2.9.1 을 사용하기위해 framoption 변경
-		http
-				.headers()
-		   		.frameOptions()
-		        .sameOrigin();
->>>>>>> branch 'master' of https://github.com/catsbi/codesquare.git
+		// Naver Smarteditor2.9.1 을 사용하기위해 framoption 변경
+		http.headers().frameOptions().sameOrigin();
 
 	}
 
@@ -118,8 +114,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private Filter ssoFilter() {
 		CompositeFilter filter = new CompositeFilter();
 		List<Filter> filters = new ArrayList<>();
-		filters.add(ssoFilter(google(),  new GoogleFilter(socialService))); // 이전에 등록했던 OAuth 리다이렉트 URL
-		filters.add(ssoFilter(facebook(),  new FacebookFilter(socialService)));
+		filters.add(ssoFilter(google(), new GoogleFilter(socialService))); // 이전에 등록했던 OAuth 리다이렉트 URL
+		filters.add(ssoFilter(facebook(), new FacebookFilter(socialService)));
 		filter.setFilters(filters);
 		return filter;
 	}
