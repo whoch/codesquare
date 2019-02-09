@@ -184,23 +184,21 @@ public class MemberController {
 //	}
 
 	@RequestMapping("/myPage")
-	public String myPage(Model model, Authentication auth, HttpSession session, @ModelAttribute Member member) {
+	public String myPage(Authentication auth, HttpSession session) {
 		csu.getSession(auth, session);
 		return "member/myPage/myPage";
 	}
 
 	@GetMapping("/modifyMyInfo")
-	public String ModifyMyInfo(Model model, Principal principal) {
-		String userId = principal.getName();
-		// logger.info("아이디"+userId);
-		model.addAttribute("user", mm.getUser(userId));
+	public String ModifyMyInfo(Model model, Authentication auth) {
+		model.addAttribute("user", mm.getUser(auth.getName()));
 		return "member/myPage/modifyMyInfo";
 	}
 
 	@GetMapping("/changePw")
-	public String changePw(Model model, Principal principal) {
-		String userId = principal.getName();
-		model.addAttribute("user", mm.getUser(userId));
+	public String changePw(Model model, Authentication auth) {
+		
+		model.addAttribute("user", mm.getUser(auth.getName()));
 		// logger.info(userId);
 		return "member/myPage/changePw";
 	}
@@ -221,12 +219,13 @@ public class MemberController {
 	}
 
 	@GetMapping("/toInstructor")
-	public String toInstructor(Model model, Principal principal) {
-		String userId = principal.getName();
-		model.addAttribute("user", mm.getUser(userId));
-
+	public String toInstructor(Model model, Authentication auth, @ModelAttribute InstructorInfo instructorInfo) {
+		
+		model.addAttribute("user", mm.getUser(auth.getName()));
+		model.addAttribute("instructorInfo", mm.getInstructorInfo(auth.getName()));
+		
 		int count = 0;
-		count = mm.checkInstructor(userId);
+		count = mm.checkInstructor(auth.getName());
 		if (count == 0) {
 			return "member/myPage/toInstructor";
 		}
@@ -234,15 +233,14 @@ public class MemberController {
 	}
 
 	@PostMapping("/toInstructor")
-	public String toInstructor(Principal principal, @ModelAttribute InstructorInfo instructorInfo,
+	public String toInstructor(Authentication auth, @ModelAttribute InstructorInfo instructorInfo,
 			@RequestBody String introContent) {
 
-		String userId = principal.getName();
 		// model.addAttribute("user", mm.getUser(userId));
 		// logger.info(userId);
 		// logger.info(introContent);
 
-		instructorInfo.setUserId(userId);
+		instructorInfo.setUserId(auth.getName());
 		instructorInfo.setIntroContent(introContent);
 		mm.toInstructor(instructorInfo);
 
@@ -250,21 +248,20 @@ public class MemberController {
 	}
 
 	@GetMapping("/modifyInstructorInfo")
-	public String modifyInstructorInfo(Model model, Principal principal,
+	public String modifyInstructorInfo(Model model,  Authentication auth,
 			@ModelAttribute InstructorInfo instructorInfo) {
-		String userId = principal.getName();
-		model.addAttribute("user", mm.getUser(userId));
+		
+		model.addAttribute("user", mm.getUser(auth.getName()));
 		// logger.info(mm.getUser(userId).toString());
-		model.addAttribute("instructorInfo", mm.getInstructorInfo(userId));
+		model.addAttribute("instructorInfo", mm.getInstructorInfo(auth.getName()));
 		// logger.info(mm.getInstructorInfo(userId).toString());
 		return "member/myPage/modifyInstructorInfo";
 	}
 
 	@PostMapping("/modifyInstructorInfo")
-	public String modifyInstructorInfo(Model model, Principal principal, @ModelAttribute InstructorInfo instructorInfo,
+	public String modifyInstructorInfo(Model model,  @ModelAttribute InstructorInfo instructorInfo,
 			@RequestBody Map<String, String> data) {
-		String userId = principal.getName();
-		// String userId = data.get("userId");
+		String userId = data.get("userId");
 		String introContent = data.get("introContent");
 		String history = data.get("history");
 //		logger.info(data.toString());
@@ -280,25 +277,23 @@ public class MemberController {
 	}
 
 	@GetMapping("/myReservedList")
-	public String myReservedList(Model model, Principal principal) {
-		String userId = principal.getName();
+	public String myReservedList(Model model, Authentication auth) {
+		
 		// model.addAttribute("user", us.getUser(userId));
 
-		model.addAttribute("list", mm.getReservedList(userId));
+		model.addAttribute("list", mm.getReservedList(auth.getName()));
 		return "member/myPage/myReservedList";
 	}
 
 	@GetMapping("/myAppliedList")
-	public String myAppliedList(Model model, Principal principal) {
-		String userId = principal.getName();
-		model.addAttribute("list", mm.getAppliedList(userId));
+	public String myAppliedList(Model model, Authentication auth) {
+		model.addAttribute("list", mm.getAppliedList(auth.getName()));
 		return "member/myPage/myAppliedList";
 	}
 
 	@GetMapping("/myWantedList")
-	public String myWantedList(Model model, Principal principal) {
-		String userId = principal.getName();
-		model.addAttribute("list", mm.getWantedList(userId));
+	public String myWantedList(Model model, Authentication auth) {
+		model.addAttribute("list", mm.getWantedList(auth.getName()));
 		return "member/myPage/myWantedList";
 	}
 
