@@ -17,10 +17,10 @@
 		UserInfo where UserId = #{userId}
 	</select>
 	<insert id="signUp">
-		insert into UserInfo (UserId, NickName, Password,
-		Email, Name, DateOfBirth, AuthorId)
-		values (#{userId}, #{userId}, #{password},
-		#{email}, #{name}, #{dateOfBirth}, #{authorId})
+		insert into UserInfo (UserId,  Password,
+		Email, Name, NickName, DateOfBirth, AuthorId)
+		values (#{userId}, #{password},
+		#{email}, #{name}, #{nickName}, #{dateOfBirth}, #{authorId})
 	</insert>
 
 	<select id="idCheck" parameterType="String" resultType="Int">

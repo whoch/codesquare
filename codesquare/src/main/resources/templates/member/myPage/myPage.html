@@ -18,7 +18,7 @@
 	<div class="inner" >
 		<nav>
 			<!-- <img th:src="@{/static/}+${item.thumbnailPath}"	alt="강좌썸네일" /> -->
-			<span id="myNickName" th:text="${user.nickName}"> </span> 님, 안녕하세요!
+			<span id="myNickName" th:text="${session.nickName}"> </span> 님, 안녕하세요!
 
 			<ul >
 				<li ><a th:href="@{/myMessage}">내 쪽지함</a></li>

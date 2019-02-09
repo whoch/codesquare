@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bit.codesquare.dto.member.InstructorInfo;
 import com.bit.codesquare.dto.member.Member;
 import com.bit.codesquare.mapper.member.MemberMapper;
+import com.bit.codesquare.util.CodesquareUtil;
 
 @Controller
 @RequestMapping("/member")
@@ -33,8 +35,9 @@ public class MemberController {
 	@Autowired
 	MemberMapper mm;
 
-//	Authentication auth;
-//	LoginUserDetails lud = (LoginUserDetails) auth.getPrincipal();
+	@Autowired
+	CodesquareUtil csu;
+
 
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request) {
@@ -54,6 +57,7 @@ public class MemberController {
 	public String signUp(Model model, @ModelAttribute Member member, @RequestParam String userId,
 			@RequestParam String password) {
 		member.setAuthorId(1);
+		member.setNickName(userId);
 		member.setPassword(new BCryptPasswordEncoder().encode(password));
 		mm.signUp(member);
 		model.addAttribute("user", mm.getUser(userId));
@@ -89,12 +93,26 @@ public class MemberController {
 
 		return count;
 	}
+	
+
+	@GetMapping("/changeNick")
+	public String changeNick(Model model, Principal principal) {
+		String userId = principal.getName();
+		model.addAttribute("user", mm.getUser(userId));
+		// logger.info(userId);
+		return "member/myPage/changeNick";
+	}
 
 	@PostMapping("/nickChange")
 	@ResponseBody
-	public int changeNick(Model model, Principal principal, @RequestBody String nickName) {
-		String userId = principal.getName();
+	public int changeNick(Authentication auth, @RequestBody String nickName) {
+		String userId = auth.getName();
 
+		// 다른정보 가지고올때
+//		SecurityMember sm = (SecurityMember) auth.getPrincipal();
+//		sm.getNickName();
+		
+		
 		int count = 0;
 		count = mm.nickCheck(nickName);
 
@@ -166,8 +184,8 @@ public class MemberController {
 //	}
 
 	@RequestMapping("/myPage")
-	public String myPage(Model model, Authentication auth, @ModelAttribute Member member) {
-		
+	public String myPage(Model model, Authentication auth, HttpSession session, @ModelAttribute Member member) {
+		csu.getSession(auth, session);
 		return "member/myPage/myPage";
 	}
 
