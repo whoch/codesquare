@@ -174,7 +174,7 @@ public class MemberController {
 	public String myPage(Model model, Principal principal, @ModelAttribute Member member) {
 		String userId = principal.getName();
 		model.addAttribute("user", mm.getUser(userId));
-		return "index";
+		return "member/myPage/myPage";
 	}
 
 	@GetMapping("/modifyMyInfo")
@@ -286,6 +286,7 @@ public class MemberController {
 	@GetMapping("/myWantedList")
 	public String myWantedList(Model model, Principal principal) {
 		String userId = principal.getName();
+		logger.info(mm.getWantedList(userId).toString());
 		model.addAttribute("list",mm.getWantedList(userId));
 		return "member/myPage/myWantedList";
 	}
