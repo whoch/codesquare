@@ -567,3 +567,71 @@
 }
 
 
+<<<<<<< HEAD
+=======
+
+/*
+	lecture view style
+*/
+.lecture-header {
+	width: 100%;
+	border: 1px solid black;
+	background: black;
+}
+
+.breadcrumb li, .breadcrumb a {
+	all: unset;
+	color: gray;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.breadcrumb a:hover {
+	all: unset; cursor : pointer;
+	color: white;
+	cursor: pointer;
+}
+
+.breadcrumb .active {
+	color: white;
+}
+
+.lecture-body {
+	text-align: center;
+}
+.video-finish{
+	position:absolute;
+	top:0;
+	margin:auto;
+	
+}
+#modal-container{
+	position:absolute;
+	text-align: center;
+	top:36%;
+	left:39%;
+}
+.btn-yt{
+  width:100%;
+  display:block;
+  position:relative;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:10px;
+}
+#modal-overay-wrap{
+	background: black;
+	width:1618px;
+  	height:910.125px;
+	opacity: .7;
+}
+
+#lecture-content label{
+	cursor: pointer;
+	font-size: 20px;
+	
+}
+#lecture-content label:hover{
+	font-size:25px;
+}
+>>>>>>> branch 'master' of https://github.com/catsbi/codesquare.git

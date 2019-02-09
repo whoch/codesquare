@@ -193,6 +193,7 @@ $(document).ready(function() {
 	})
 
 	// 후기작성 등록 기능
+<<<<<<< HEAD
 	$(".btn-regist").click(function() {
 		var review = $("[name=reviewForm]").serialize();
 		insertReview(review);
@@ -268,6 +269,83 @@ $(document).ready(function() {
 	$(document).on('click', '.btn-comment-modify, .fa-ban, .btn-regist', function(){
 		var objClass=$(this).attr('class');
 		if(objClass.indexOf('btn-regist')!=-1){//리플 등록
+=======
+	$(".btn-review-regist").click(function() {
+		var review = $("[name=reviewForm]").serialize();
+		insertReview(review);
+	})
+	// 후기 수정 등록 버튼 기능
+	$(document).on('click','.btn-modify-regist', function(){
+		var id=$(this).data('id');
+		var content=$("[name=modify-content]").val();
+		updateReview(id,content)
+	})
+	
+	// 후기 삭제&수정 버튼 감지
+	$(document).on('click', '.btn-delete, .btn-modify', function(){
+		var id=$(this).val();
+		var btn=$(this).attr('class');
+		if(btn.indexOf('btn-delete')!=-1){
+			deleteReview(id);
+		}else{
+			var txt=$("#"+id+" .review-content-text").text();
+			var txtarea="<textarea rows=\"3\" cols=\"20\" name=\"modify-content\" maxlength=\"300\" required=\"required\" placeholder=\"강의를 들으셨다면 후기를 남겨주세요!\">"+txt+"</textarea>"
+			$("#"+id+" .review-content").html(txtarea);
+			$("#"+id+"btn").html("<button data-id=\""+id+"\" type=\"button\" class=\"btn btn-modify-regist btn-primary\" style=\"height: 40px;font-size: 19px;\">작성하기</button>");
+		}
+	})
+	
+	//댓글 등록버튼 클릭
+	$(".btn-comment-regist").click(function(){
+		var comment=$("[name=commentForm]").serialize();
+		insertQNAComment(comment);
+	})
+	
+	/**
+	 * 대댓글 작성(fa-reply),수정(fa-pencil-square-o),삭제(fa-trash) 감지 이벤트 리스너 
+	 */
+	$(document).on('click','.fa-pencil-square-o,.fa-trash, .fa-reply',function(){
+		var obj=$(this).closest('.comment-box').children('.comment-content');
+		var objClass=$(this).attr('class');
+		var id=$(this).closest('li').attr('id').split('-');
+		if(objClass.indexOf('fa-pencil-square-o')!=-1){//수정
+			var txt=obj.children('p').text();
+			var txtarea="<textarea rows=\"3\" cols=\"20\" name=\"modify-content\" maxlength=\"300\" required=\"required\" placeholder=\"바르고 고운말을 사용해요!!\">"+txt+"</textarea>";
+			var icon="<i data-id class=\"fa fa-check-square-o fa-lg btn-comment-modify\" title=\"등록\" aria-hidden=\"true\"></i><i class=\"fa fa-ban fa-lg\" title=\"취소\" aria-hidden=\"true\"></i>";
+			obj.html(txtarea);
+			$(obj).prev().children('.comment-icon').html(icon);
+		}
+		if(objClass.indexOf('fa-trash')!=-1){//삭제
+			deleteQNAComment(id[1]);
+		}
+		if(objClass.indexOf('fa-reply')!=-1){//리플
+			
+			var replyContent="";
+			replyContent+="<li id=\"reply\"><!--메인 댓글--><form name=\"comment-reply-form\"><div class=\"comment-main-level reply-list\">";
+			replyContent+="<input type=\"hidden\" name=\"boardId\" value=\""+boardId+"\" />";
+			replyContent+="<input type=\"hidden\" name=\"boardKindId\" value=\"LrnQa\" />";
+			replyContent+="<input type=\"hidden\" name=\"userId\" value=\"1212\" /> ";
+			replyContent+="<input type=\"hidden\" name=\"nickName\"	value=\""+nickName+"\" />";
+			replyContent+="<input type=\"hidden\" name=\"parentId\"	value=\""+id[1]+"\" />";
+	        replyContent+="<!-- Avatar --><div class=\"comment-avatar\"><img src=\"/static/codesquareDB/UserThumbnail/1212/1212_Thumbnail.jpg\" alt=\"유저썸네일\"></div>";
+	        replyContent+="<div class=\"comment-box\">";
+	        replyContent+="<div class=\"comment-head\">";
+	        replyContent+="<h6 class=\"comment-name\"><a href=\"member/\" >작성자</a></h6>";
+	        replyContent+="<span class=\"comment-icon\"><i class=\"fa fa-check-square-o fa-lg btn-regist\" title=\"등록\" aria-hidden=\"true\"></i><i class=\"fa fa-ban fa-lg\" title=\"취소\" aria-hidden=\"true\"></i></span></div>";
+	        replyContent+="<div class=\"comment-content\"><textarea rows=\"3\" cols=\"20\" name=\"content\" maxlength=\"300\" required=\"required\" placeholder=\"바르고 고운말을 사용해요!!\"></textarea></div></div></div>";
+	        replyContent+="</form></li>";
+	        $(this).closest("li").append(replyContent);
+		}
+
+	})
+	
+	/**
+	 * 대댓글 수정,취소,등록 이벤트 리스너
+	 */
+	$(document).on('click', '.btn-comment-modify, .fa-ban, .btn--review-regist', function(){
+		var objClass=$(this).attr('class');
+		if(objClass.indexOf('btn-review-regist')!=-1){//리플 등록
+>>>>>>> branch 'master' of https://github.com/catsbi/codesquare.git
 			var comment=$("[name=comment-reply-form]").serialize();
 			insertQNAComment(comment);
 		}else if(objClass.indexOf('btn-comment-modify')!=-1){//리플 수정 등록

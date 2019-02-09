@@ -53,6 +53,7 @@
 									<!-- <input type="hidden" name="userId" th:value="@{${lecture.userId}}"/>히든속성 유저이름 -->
 									<input type="hidden" name="boardKindId" value="LrnHu" />
 									<!-- 히든속성 강의종류 -->
+<<<<<<< HEAD
 									<input type="hidden" name="userId" value="1212" /> <input
 										type="hidden" name="nickName"
 										th:value="@{${lecture.nickName}}" />
@@ -93,6 +94,47 @@
 										</section>
 										<button type="button"
 											class="btn btn-regist btn-primary btn-block">작성하기</button>
+=======
+									<input type="hidden" name="userId" value="1212" /> 
+									<input type="hidden" name="nickName" th:value="@{${lecture.nickName}}" />
+									<!-- 히든속성 닉네임 -->
+									<div class="col-sm-2 review-writerInfo">
+										<img class="review-writer-thumbnail"
+											th:src="@{/static/codesquareDB/UserThumbnail/1212/1212_Thumbnail.jpg}"
+											alt="유저썸네일" />
+										<div class="review-writer">
+											<h5 class="name" th:text="@{${lecture.nickName}}"></h5>
+										</div>
+									</div>
+									<div class="col-sm-7 review-content">
+										<textarea rows="3" cols="20" name="content" maxlength="300"
+											required="required" placeholder="강의를 들으셨다면 후기를 남겨주세요!"></textarea>
+									</div>
+									<div class="col-sm-3 review-regist">
+										<img th:src="@{/static/images/lectureImages/reviewHeart.png}"
+											alt="좋아요"> <span class="heart-count"
+											style="display: inline-block;">0</span>
+										<!-- LIKE -->
+										<section id="like" class="rating">
+											<!-- FIFTH HEART -->
+											<input type="radio" id="heart_5" name="like" value="5" /> <label
+												for="heart_5" title="Five">&#10084;</label>
+											<!-- FOURTH HEART -->
+											<input type="radio" id="heart_4" name="like" value="4" /> <label
+												for="heart_4" title="Four">&#10084;</label>
+											<!-- THIRD HEART -->
+											<input type="radio" id="heart_3" name="like" value="3" /> <label
+												for="heart_3" title="Three">&#10084;</label>
+											<!-- SECOND HEART -->
+											<input type="radio" id="heart_2" name="like" value="2" /> <label
+												for="heart_2" title="Two">&#10084;</label>
+											<!-- FIRST HEART -->
+											<input type="radio" id="heart_1" name="like" value="1" /> <label
+												for="heart_1" title="One">&#10084;</label>
+										</section>
+										<button type="button"
+											class="btn btn-review-regist btn-primary btn-block">작성하기</button>
+>>>>>>> branch 'master' of https://github.com/catsbi/codesquare.git
 									</div>
 								</div>
 							</form>

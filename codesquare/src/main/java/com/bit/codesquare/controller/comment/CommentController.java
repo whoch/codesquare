@@ -54,7 +54,12 @@ public class CommentController {
 	@RequestMapping(value="insert" , method=RequestMethod.POST)
 	@ResponseBody
 	private int insertReview(@ModelAttribute LectureReview lReview)throws Exception {
+<<<<<<< HEAD
 		logger.info("댓글입력 입장:");
+=======
+		
+		logger.info("댓글입력 입장:"+lReview.toString());
+>>>>>>> branch 'master' of https://github.com/catsbi/codesquare.git
 		int result=cMapper.insertReview(lReview);
 		cMapper.updateLikePlus(lReview);
 		

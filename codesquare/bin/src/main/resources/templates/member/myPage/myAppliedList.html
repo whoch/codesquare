@@ -8,6 +8,7 @@
 <body>
 
 	나의 신청내역
+<<<<<<< HEAD
 
 	<div>신청날짜 신청내역 상태 신청메세지</div>
 tututuytuytytytuyytyutut
@@ -15,5 +16,17 @@ tututuytuytytytuyytyutut
 	<br />
 	<br />
 	<br />
+=======
+	<input type="hidden" id="userId" th:value="${userId}">
+
+	<div>신청날짜 신청내역 상태 </div>
+	<div th:each="list : ${list}">
+		<span th:text="${list.applyDate}"></span>
+		<span th:text="${list.title}"></span>
+		<span th:text="${list.status}"></span>
+		
+	</div>
+<br /> <br /> <br /> <br />
+>>>>>>> branch 'master' of https://github.com/catsbi/codesquare.git
 </body>
 </html>
