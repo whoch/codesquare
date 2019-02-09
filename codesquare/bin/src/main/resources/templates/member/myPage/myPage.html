@@ -10,61 +10,63 @@
 
 </head>
 <body>
-<div class="container" layout:fragment="content">
-<th:block layout:fragment="css">
-<link rel="stylesheet" th:href="@{/static/styles/member/myPage.css}">
-</th:block> 
+	<div class="container" layout:fragment="content">
+		<th:block layout:fragment="css">
+			<link rel="stylesheet" th:href="@{/static/styles/member/myPage.css}">
+		</th:block>
 
-	<div class="inner" >
-		<nav>
-			<!-- <img th:src="@{/static/}+${item.thumbnailPath}"	alt="강좌썸네일" /> -->
-			<span id="myNickName" th:text="${user.nickName}"> </span> 님, 안녕하세요!
+		<div class="inner">
+			<nav>
+				<!-- <img th:src="@{/static/}+${item.thumbnailPath}"	alt="강좌썸네일" /> -->
+				<span id="myNickName" th:text="${user.nickName}"> </span> 님, 안녕하세요!
 
-			<ul >
-				<li ><a th:href="@{/myMessage}">내 쪽지함</a></li>
-				<li ><span id="myReservedList">나의 예약 및
-						결제 내역</span></li>
-				<li ><span sec:authorize="hasRole('ROLE_2')">
-						<span id="modifyInstructorInfo">강사정보수정하기</span><br />
-				</span> <span sec:authorize="hasAnyRole('ROLE_1','ROLE_4','ROLE_5') ">
-						<span id="toInstructor">강사전환신청하기</span>
-				</span>
-				<li ><span id="changePw">비밀번호바꾸기</span></li>
+				<ul>
+					<li><a th:href="@{/myMessage}">내 쪽지함</a></li>
+					<li><span id="myReservedList">나의 예약 및 결제 내역</span></li>
+					<li><span sec:authorize="hasRole('ROLE_2')"> <span
+							id="modifyInstructorInfo">강사정보수정하기</span><br />
+					</span> <span sec:authorize="hasAnyRole('ROLE_1','ROLE_4','ROLE_5') ">
+							<span id="toInstructor">강사전환신청하기</span>
+					</span>
+					<li><span id="changePw">비밀번호바꾸기</span></li>
 
-			</ul>
+				</ul>
 
-		</nav>
+			</nav>
 
-		<article>
+			<article>
 
 
-			<ul>
-				<li id="myReservedList2">나의 예약 및 결제 내역</li>
-				<li id="myAppliedList">나의 신청 내역</li>
-				<li id="myWantedList">나의 모집 내역</li>
-				<li id="myBoardList">내가쓴 글</li>
-				<li id="modifyMyInfo">내 정보 수정</li>
-			</ul>
+				<ul>
+					<li id="myReservedList2">나의 예약 및 결제 내역</li>
+					<li id="myAppliedList">나의 신청 내역</li>
+					<li id="myWantedList">나의 모집 내역</li>
+					<li id="myBoardList">내가쓴 글</li>
+					<li><span
+						sec:authorize="hasAnyRole('ROLE_1','ROLE_4','ROLE_5')"> <span
+							id="modifyMyInfo">내 정보 수정</span></span> <span
+						sec:authorize="hasAnyRole('ROLE_6')"> <span
+							id="changeNickName">닉네임 수정</span></span></li>
+				</ul>
 
-			<h2>내용</h2>
-			<div class="contentcontainer" id="contentcontainer">
+			
+				<div class="contentcontainer" id="contentcontainer">
 
-				<p>내용</p>
-				<br /> <br /> <br /> <br />
-			</div>
+					<p>내용ddd</p>
+					
+					<br /> <br /> <br /> <br />
+				</div>
+			</article>
 
-		</article>
+		</div>
 
+		<br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+		<th:block layout:fragment="script">
+			<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+			<script th:src="@{/static/js/member/myPage.js}"></script>
+		</th:block>
 	</div>
-
-<br /> <br /> <br /> <br />
-<br /> <br /> <br /> <br />
-<th:block layout:fragment="script">
-<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
-<script th:src="@{/static/js/member/myPage.js}"></script> 
-</th:block>
-</div>
-<!-- 사용자 스크립트 추가 -->
+	<!-- 사용자 스크립트 추가 -->
 
 
 

@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 public class JoiningAndRecruitmentLog  extends Member{
 	
 	private String id;
+	private String applyUserId;
 	private String boardId;
 	private String boardKindId;
 	private String title;

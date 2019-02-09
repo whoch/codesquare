@@ -6,9 +6,11 @@
 
 
 <mapper namespace="com.bit.codesquare.mapper.member.MemberMapper">
-	<select id="checkUser" parameterType="String" resultType="Member">
+	<select id="checkUser" parameterType="String"
+		resultType="Member">
 		select
-		UserId, Password, NickName,AuthorId from UserInfo where UserId = #{userId}
+		UserId, Password, NickName,AuthorId from UserInfo
+		where UserId = #{userId}
 	</select>
 	<select id="getUser" parameterType="String" resultType="Member">
 		select
@@ -64,34 +66,60 @@
 	</select>
 
 	<select id="findPwCheck">
-		select count(*) from UserInfo where userId = #{userId} and Email=#{email}
-	</select>
-	
-	<insert id="toInstructor">
-		insert into InstructorInfo (UserId, IntroContent) values (#{userId}, '[신청]' #{introContent})
-	</insert>
-	
-	<select id="checkInstructor" parameterType="String" resultType="Int">
-		select count(userId) from InstructorInfo where UserId=#{userId}
+		select count(*) from UserInfo where userId =
+		#{userId} and Email=#{email}
 	</select>
 
-	<update id="modifyInstructorInfo" >
-		update InstructorInfo set IntroContent = #{introContent}, History = #{history} where UserId = #{userId}
+	<insert id="toInstructor">
+		insert into InstructorInfo (UserId, IntroContent)
+		values (#{userId}, '[신청]' #{introContent})
+	</insert>
+
+	<select id="checkInstructor" parameterType="String"
+		resultType="Int">
+		select count(userId) from InstructorInfo where
+		UserId=#{userId}
+	</select>
+
+	<update id="modifyInstructorInfo">
+		update InstructorInfo set
+		IntroContent =
+		#{introContent}, History = #{history} where UserId =
+		#{userId}
 	</update>
-	
-	<select id="getReservedList" parameterType="String" resultType="ReservationInfo"> 
-		select a.UserId, a.ReservationDate, a.Id, a.RoomId, b.RoomName, a.PayAmount, a.PaymentDate, a.ReservationTime from ReservationInfo a join RoomInfo b on a.RoomId = b.id where UserId  =#{userId}
+
+	<select id="getReservedList" parameterType="String"
+		resultType="ReservationInfo">
+		select a.UserId, a.ReservationDate, a.Id, a.RoomId,
+		b.RoomName, a.PayAmount,
+		a.PaymentDate, a.ReservationTime from
+		ReservationInfo a join RoomInfo
+		b on a.RoomId = b.id where UserId
+		=#{userId}
 	</select>
-	
-	<select id="getAppliedList" parameterType="String" resultType="JoiningAndRecruitmentLog"> 
-	select a.UserId, a.ApplyDate, b.BoardKindId, a.BoardId, b.Title, a.ApplyContent, a. DeclineContent, a.Status from JoiningAndRecruitmentLog a join Board b on a.BoardId = b.Id where a.UserId=#{userId} AND BoardKindId='SmnMo' or BoardKindId='StdMo'
+
+	<select id="getAppliedList" parameterType="String"
+		resultType="JoiningAndRecruitmentLog">
+		select a.UserId, a.ApplyDate, b.BoardKindId, a.BoardId,
+		b.Title,
+		a.ApplyContent, a. DeclineContent, a.Status from
+		JoiningAndRecruitmentLog a join Board b on a.BoardId = b.Id where
+		a.UserId=#{userId}
 	</select>
-	
-	<select id="getWantedList" parameterType="String" resultType="JoiningAndRecruitmentLog"> 
-	select Id, WriteDate, Title, Status from Board where UserId=#{userId} AND BoardKindId='StdMo' or BoardKindId='SmnMo'
+
+	<select id="getWantedList" parameterType="String"
+		resultType="JoiningAndRecruitmentLog">
+		select b.UserId 모집자, a.UserId 신청자, a.ApplyDate,
+		b.BoardKindId, a.BoardId, b.Title, a.ApplyContent, a. DeclineContent,
+		a.Status from JoiningAndRecruitmentLog a join Board b on a.BoardId =
+		b.Id where b.UserId=#{userId} AND (BoardKindId='SmnMo' or
+		BoardKindId='StdMo');
+
 	</select>
-	
+
 	<select id="getInstructorInfo" resultType="instructorInfo">
-	select UserId, IntroContent, History from InstructorInfo where UserId =#{userId}
+		select UserId,
+		IntroContent, History from InstructorInfo where UserId
+		=#{userId}
 	</select>
 </mapper>
