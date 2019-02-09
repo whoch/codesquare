@@ -1,5 +1,16 @@
 package com.bit.codesquare.util;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+
+import com.bit.codesquare.dto.member.Member;
+import com.bit.codesquare.mapper.member.MemberMapper;
+import com.bit.codesquare.security.SecurityMember;
+
+@Component
 public class CodesquareUtil {
 	/**
 	 * 
@@ -31,4 +42,19 @@ public class CodesquareUtil {
 	public String getPath(String userId, String imgName) {
 		return userId+"/"+imgName;
 	}
+	
+	@Autowired
+	MemberMapper mm;
+	
+	public void getSession(Authentication auth, HttpSession session) {
+		
+		if ( auth != null && session.getAttribute("userId")==null ) {
+			SecurityMember sc = (SecurityMember) auth.getPrincipal();
+			Member member =mm.getUser(sc.getUsername());
+			session.setAttribute("userId", member.getUserId());
+			session.setAttribute("nickName", member.getNickName());
+			session.setAttribute("authorId", member.getAuthorId());
+		}
+	}
+	
 }

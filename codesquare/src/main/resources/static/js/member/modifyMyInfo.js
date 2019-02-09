@@ -127,6 +127,7 @@ function nickChange() {
 				$("#changeNick").show();
 				// location.reload();
 				$("#nickCheckMsg").text("");
+				$("#headerNickName").html(nickName);
 				$("#nickField").html(nickName);
 				$("#myNickName").html(nickName);
 

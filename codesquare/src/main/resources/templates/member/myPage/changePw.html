@@ -14,7 +14,7 @@
 		<h2>비밀번호 변경</h2>
 	<span id="pwMsg"></span>
 	
-				<div><input type="hidden" id="userId" name="userId" th:value="${user.userId}">
+				<div><input type="hidden" id="userId" name="userId" th:value="${session.userId}">
 				비밀번호:
 				<input type="password" id="password" name="password" required>
 		</div>

@@ -23,7 +23,5 @@
 /nbdist/
 /.nb-gradle/
 /build/
-<<<<<<< HEAD
-=======
+
 /.metadata/
->>>>>>> branch 'master' of https://github.com/catsbi/codesquare.git
