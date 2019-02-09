@@ -65,7 +65,7 @@
 
 			<div sec:authorize="isAuthenticated()">
 				<ul>
-					<li><a id="headerNickName" th:text="${session.nickName}"></a> 님! 안녕하세요.</li>
+					<li><span id="headerNickName" th:text="${session.nickName}"></span> 님! 안녕하세요.</li>
 					<li><a th:href="@{/member/myPage}">마이페이지</a></li>
 					<li><a th:href="@{/logout}">로그아웃</a></li>
 						<!-- 알림 -->
