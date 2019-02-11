@@ -90,10 +90,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.usernameParameter("userId") /* username 을 대체할 아이디 param default username */
 				.successHandler(successHandler())
 				.permitAll() /* 모두 오픈 ( 반대는 denyAll() ) */
-				.defaultSuccessUrl("/").failureUrl("/member/login?error").and().logout().invalidateHttpSession(true)
+				.failureUrl("/member/login?error").and().logout().invalidateHttpSession(true)
 				.clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
 
-				.logoutSuccessUrl("/") /* 로그아웃 성공시 리다이렉트 url */
 				.logoutSuccessUrl("/"); /* 로그아웃 성공시 리다이렉트 url */
 		// Naver Smarteditor2.9.1 을 사용하기위해 framoption 변경
 		http.headers().frameOptions().sameOrigin();

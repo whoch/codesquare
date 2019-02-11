@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 	>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+	
+	<form id="changeNick" method="post">
+		<h2>닉네임 변경</h2>
+	<div>
+	닉네임:
+		<span id="nickField" th:text="${session.nickName}"></span>
+
+		<span id="changeNick"> 변경하기 </span>
+			<div id="changeNickContent">
+				<input type="text" id="nickName" name="nickName"> <span
+					id="nickValidate">변경하기</span><br /> <div
+					id="nickCheckMsg">닉네임은 한글,영문자, 숫자를 포함한 2자 이상 10자 이하</div>
+			</div>
+	</div>
+
+<br /> <br /> <br /> <br />
+
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+<script th:src="@{/static/js/member/myPage.js}"></script> 
+
+
+	</form>
+	</body>
+	</html>
+

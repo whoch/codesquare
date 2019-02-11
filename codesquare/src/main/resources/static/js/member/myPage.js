@@ -270,6 +270,105 @@ $(function(){
 		
 	});
 	
+	
+	
+	$("#changeNickName").click(function() {
+
+		$("#myReservedList2").removeClass('active');
+		$("#myBoardList").removeClass('active');
+		$("#myWantedList").removeClass('active');
+		$("#myAppliedList").removeClass('active');
+		$("#modifyMyInfo").removeClass('active');
+
+		$.ajax({
+			type : 'get',
+			url : 'changeNick',
+			dataType : 'html',
+			async: false
+		})
+			.done (function(data) {
+				// alert("id");
+				$("#contentcontainer").html(data);
+			})
+			.fail( function(data){
+				alert("에러");
+			});
+	});
+	
+	$("#changeNickContent").hide();
+
+	$("#changeNick").click(
+			function() {
+				$("#changeNickContent").not(
+						$(this).next("#changeNickContent").slideToggle())
+						.hide();
+				$("#changeNick").not($(this).next("#changeNick")).hide();
+				// var a = '<a onclick="nickChange()"> 수정하기 </a>'
+				// $("#nickChange").html(a);
+			});
+	
+	$("#nickValidate").click(function() {
+
+		
+		
+		var nickName = $("#nickName").val();
+		var regExp = /^[a-zA_Z0-9ㄱ-힣]{2,10}$/;
+
+		if (regExp.test(nickName)) {
+			nickChange();
+		} else {
+			$("#nickCheckMsg").css("color", "red");
+			$("#nickCheckMsg").text("닉네임은 영대소문자,한글,숫자로 이루어진 2자이상 10자 미만");
+			$("#nickName").focus();
+		}
+
+	});
+
+	function nickChange() {
+
+		var nickName = $("#nickName").val();
+		$.ajax({
+			type : "post",
+			data : nickName,
+			url : "nickChange",
+			contentType : "application/json; charset=UTF-8",
+			success : function(response) {
+
+				if (response > 0) {
+
+					$("#nickCheckMsg").css("color", "red");
+					$("#nickCheckMsg").text("이미 존재하는 닉네임 입니다.");
+					$("#nickName").focus();
+
+				} else {
+					//alert(response+",");
+					// var a=nickName;
+					// '<a onclick="changeNick(' + data + ');">수정</a>';
+					$("#changeNickContent").hide();
+					$("#changeNick").show();
+					// location.reload();
+					$("#nickCheckMsg").text("");
+					$("#headerNickName").html(nickName);
+					$("#nickField").html(nickName);
+					$("#myNickName").html(nickName);
+
+					// 아이디가 중복하지 않으면 idck = 1
+
+				}
+			},
+			error : function(error) {
+				$("#nickCheckMsg").css("color", "black");
+				$("#nickCheckMsg").text("error");
+			}
+		});
+
+	};
+	
+	
+	
+	
+	
+	
 	$(".detail").hide();
 	//content 클래스를 가진 div를 표시/숨김(토글)
 	  $(".heading").click(function()
@@ -278,6 +377,8 @@ $(function(){
 	  });
 	
 
+	  
+	  
 
 
 }); // end function

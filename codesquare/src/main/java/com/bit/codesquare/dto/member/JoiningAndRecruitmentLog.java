@@ -10,10 +10,8 @@ import lombok.EqualsAndHashCode;
 @Data
 public class JoiningAndRecruitmentLog  extends Member{
 	
-	private String id;
+	private int boardId;
 	private String applyUserId;
-	private String boardId;
-	private String boardKindId;
 	private String title;
 	private String nickName;
 	private Date applyDate;

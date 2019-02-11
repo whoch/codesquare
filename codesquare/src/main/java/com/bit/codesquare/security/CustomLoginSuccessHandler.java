@@ -26,7 +26,6 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 			Authentication authentication) throws ServletException, IOException {
 		SavedRequest savedRequest = requestCache.getRequest(request, response);
 
-		System.out.println(authentication);
 		if (savedRequest == null) {
 			HttpSession session = request.getSession();
 			if (session != null) {

@@ -8,28 +8,55 @@
 </head>
 <body>
 
-	나의 모집 내역
-	<input type="hidden" id="userId" th:value="${userId}">
 
-	<div>모집글번호 모집날짜 모집내역 상태</div>
-	<div th:each="list : ${list}">
-		<p class="heading">
-			<span th:text="${list.id}"></span> <span th:text="${list.writeDate}"></span>
-			<span th:text="${list.title}"></span> <span
-				th:if="${list.status} == 1 " th:text="모집중"></span> <span
-				th:unless="${list.status} == 1" th:text="모집완료"></span>
-		</p>
 
-		<span class="detail">신청자 : <span th:text="${list.ApplyUserId}"></span>, 
-		신청일: <span th:text="${list.applyDate}">, 신청메세지: <span th:text="${list.applyContent}"></span></span>
-		</span>
-=
+	<div class="accordion" id="wantedList">
+	
+	<div class="card-header"> 
+	모집 글번호  모집 글 제목   모집글 작성일   상태
 	</div>
+		
+		<div class="card" th:each="list : ${list}">
+			<div class="card-header" id="'heading'+${list.id}">
+				<h5 class="mb-0">
+
+
+					<button class="btn btn-link" type="button" data-toggle="collapse"
+						th:data-target="'#body'+${list.id}" aria-expanded="true"
+						aria-controls="'body'+${list.id}">
+						<span th:text="${list.id}"></span>  <span th:text="${list.title}"></span> <span
+							th:text="${list.writeDate}"></span>
+						<span th:if="${list.status} == 1 " th:text="모집중"></span> <span
+							th:unless="${list.status} == 1" th:text="모집완료"></span>
+
+
+					</button>
+				</h5>
+			</div>
+
+			<div th:id="'body'+${list.id}" class="collapse"
+				th:aria-labelledby="'heading'+${list.id}" data-parent="#wantedList">
+				<div class="card-body">
+
+
+
+					<div th:each="plist : ${list.wantedPlist}">
+						신청자 : <span th:text="${plist.ApplyUserId}"></span> 신청일: <span
+							th:text="${plist.applyDate}"> </span> 신청메세지: <span
+							th:text="${plist.applyContent}"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
 	<br />
 	<br />
 	<br />
 	<br />
-<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
-<script th:src="@{/static/js/member/myPage.js}"></script>
+	<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+	<!-- <script th:src="@{/static/js/member/myPage.js}"></script> -->
 </body>
 </html>

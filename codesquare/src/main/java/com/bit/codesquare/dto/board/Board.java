@@ -1,6 +1,9 @@
 package com.bit.codesquare.dto.board;
 
 import java.sql.Date;
+import java.util.List;
+
+import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
 
 import lombok.Data;
 
@@ -22,4 +25,7 @@ public class Board {
 	int likeCount;
 	int parentId;
 	int status;
+	
+	List <JoiningAndRecruitmentLog> wantedPlist;
+	
 }
