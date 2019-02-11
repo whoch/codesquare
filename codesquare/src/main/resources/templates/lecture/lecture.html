@@ -168,6 +168,25 @@
 				</div>
 			</div>
 		</div>
+		<div class="modal fade" id="myModal">
+		    <div class="modal-dialog modal-dialog-centered">
+		      <div class="modal-content">
+		        <!-- Modal Header -->
+		        <div class="modal-header">
+		          <h4 class="modal-title">강의 찜하기</h4>
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		        </div>
+		        <!-- Modal body -->
+		        <div class="modal-body">
+		        	<h5 th:text="@{${lecture.title}}"></h5><span></span>
+		        </div>
+		        <!-- Modal footer -->
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+		        </div>
+		      </div>
+	    	</div>
+	  	</div>
 		<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
 		<script type="text/javascript"
 			th:src="@{/static/js/Lecture/LectureCustom.js}"></script>

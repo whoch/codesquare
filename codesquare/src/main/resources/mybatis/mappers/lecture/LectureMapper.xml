@@ -1,30 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.codesquare.mapper.lecture.LectureMapper">
+
+	<!-- 강의리스트 조회 쿼리 -->
 	<select id="getAllLecture" resultType="LectureIntroContent">
 		SELECT *
 		FROM
 		v_LectureIntroContent;
 	</select>
-	<select id="getLecture" parameterType="int" resultType="Lecture">
+	
+	<!-- 강의소개페이지 조회 쿼리 -->
+	<select id="getLecture" parameterType="int" resultType="LectureIntro">
 		SELECT *
 		FROM v_Lecture
 		WHERE id=#{id};
 	</select>
-	<select id="getRecommandLecture" parameterType="int"
-		resultType="Board">
+	
+	<!-- 추천강의 조회 쿼리   #자기자신은 제외한다. -->
+	<select id="getRecommandLecture" parameterType="int" resultType="Board">
 		SELECT *
 		FROM v_Lecture vl1, (SELECT * FROM v_Lecture WHERE Id=#{id})AS vl2
 		WHERE
 		NOT vl1.Id=vl2.Id and vl1.LangKind=vl2.LangKind LIMIT 3;
 	</select>
-	<select id="getLecutreList" parameterType="int"
-		resultType="Board">
+	
+	<!-- 강의목록 조회 쿼리 -->
+	<select id="getLecutreList" parameterType="int"	resultType="Board">
 		SELECT b2.ParentId,b2.Id, b2.Title
 		FROM Board b2
 		WHERE
 		b2.ParentId=#{id} AND b2.BoardKindId='LrnVo'
 		ORDER BY b2.Id;
 	</select>
-
+	
+	<!-- 강의글의 상태(처음강의, 마지막강의, 노말상태)조회 쿼리 -->
+	<select id="getLectureStatus" parameterType="int" resultType="String">
+		SELECT CASE WHEN #{boardId}=(SELECT b2.Id FROM Board b2 WHERE	b2.ParentId=(SELECT b.ParentId FROM Board b WHERE b.Id=#{id}) AND b2.BoardKindId='LrnVo' ORDER BY b2.Id LIMIT 1) THEN 'first'
+		 	        WHEN #{boardId}=(SELECT b2.Id FROM Board b2 WHERE	b2.ParentId=(SELECT b.ParentId FROM Board b WHERE b.Id=#{id}) AND b2.BoardKindId='LrnVo' ORDER BY b2.Id DESC LIMIT 1) THEN 'last'
+		 			ELSE 'nomal' END
+	</select>
+	
+	<!-- 강의본문 조회 쿼리 -->
+	<select id="getLectureContent" parameterType="int" resultType="Lecture">
+		SELECT *
+		FROM v_LectureContent
+		WHERE Id=#{id}
+	</select>
+	
+	<!-- 해당강좌의 해당유저의 필기내용 조회 쿼리 -->
+	<select id="getLectureHandWriting" parameterType="map" resultType="String">
+		SELECT IF((SELECT COUNT(*) FROM LectureHandWriting WHERE BoardId=#{boardId} and UserId=#{userId})=0,'',
+					(SELECT NoteContent FROM LectureHandWriting WHERE BoardId=#{boardId} and UserId=#{userId}));
+	</select>
+	
+	<!-- 유저가 봐야하는 글번호 조회 쿼리 
+		#유저가 강의를 처음 보는 경우 강의의 첫번째 강좌 글번호 반환
+		#유저가 강의를 봤던 경우 마지막으로 봤던 강좌 글번호 반환
+	 -->
+	<select id="getLectureBoardIdno" parameterType="map" resultType="int">
+		SELECT IF((SELECT COUNT(*) FROM UserLearningLog WHERE UserId=#{userId} AND ParentId=#{boardId})=0,
+			 	(SELECT b2.Id
+				 FROM Board b2
+				 WHERE	b2.ParentId=#{boardId} AND b2.BoardKindId='LrnVo'
+				 ORDER BY b2.Id LIMIT 1),
+				(SELECT ul.BoardId
+				 FROM UserLearningLog ul
+				 WHERE ul.ParentId=#{boardId} AND ul.UserId=#{userId} AND ul.IsRecent=1
+				));
+	</select>
+	<!-- 강의 찜하기 쿼리 -->
+	<insert id="insertBookmark" parameterType="map">
+		INSERT INTO BookmarkList(UserId, BoardId)
+		SELECT #{userId},#{boardId} FROM dual
+		WHERE NOT EXISTS(SELECT UserId FROM BookmarkList WHERE UserId=#{userId} AND BoardId=#{boardId})
+	</insert>
+	
+	<!-- 필기 저장 쿼리  -->
+	<insert id="saveNoteContent" parameterType="map">
+		INSERT INTO LectureHandWriting(Id,UserId,BoardId,NoteContent)
+		VALUES ((SELECT l.Id FROM LectureHandWriting l WHERE l.UserId=#{userId} AND l.BoardId=#{boardId}),#{userId}, #{boardId}, #{content})
+        ON DUPLICATE KEY UPDATE NoteContent=#{content}
+	</insert>
+	
+	
 </mapper>
