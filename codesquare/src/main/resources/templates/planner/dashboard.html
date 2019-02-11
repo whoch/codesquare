@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/plannerLayout}"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/styles/planner/dashboard.css}">
+    <script type="text/javascript" th:inline="javascript">
+
+        var allSchedule = /*[[${allSchedule}]]*/;
+        allSchedule.sort(function (a, b) {
+            return a.meetingDate < b.meetingDate ? -1 : 1
+        });
+
+        var groupSchedule = allSchedule.filter(function (item) {
+            return !('seminarStartDate' in item);
+        });
+
+        var seminarSchedule = allSchedule.filter(function (item) {
+            return 'seminarStartDate' in item;
+        });
+
+        var JSONallSchedule = JSON.stringify(allSchedule);
+        
+        var viewSchedule = function (objectSchedule, str) {
+            /* 
+                ############################################
+                 스케쥴이 0이거나 객체가 없는 경우 데이터 처리할 로직도 추가해야됨
+                ############################################
+              */
+            $.each(objectSchedule, function (index, item) {
+                var isSeminarSchedule = 'seminarStartDate' in item;
+                var week = ['일', '월', '화', '수', '목', '금', '토'];
+                var el = [
+                    ['list__scheduleId', isSeminarSchedule ? '강사' : '그룹명', item.nickname || item.groupId]
+                    , ['list__boardKind', '분류', isSeminarSchedule ? '세미나' : '그룹']
+                    , ['list__meetingDate', '모임일', new Date(item.meetingDate).getDate() + '일']
+                    , ['list__meetingDay', '요일', week[new Date(item.meetingDate).getDay()]]
+                    , ['list__status '+(item.status=='none'?'fa fa-exclamation':(item.status==false?'fa fa-close':'fa fa-check')), '상태', '']
+                ];
+                var html = '';
+
+                $.each(el, function (i, arr) {
+                    html += '<div class=\"' + arr[0] + '\" aria-label=\"' + arr[1] + '\">' + arr[2] + '</div>';
+                });
+
+                $('#' + str + ' ul').append('<li><a href="#"></a></li>');
+                $('#' + str + ' a:last').append(html);
+            });
+        };//end viewSchedule function
+
+        $(document).ready(function () {
+            viewSchedule(allSchedule, 'all');
+            viewSchedule(groupSchedule, 'study');
+            viewSchedule(seminarSchedule, 'seminar');
+
+            $(".nav-custom-tabs a").click(function () {
+                $(this).tab('show');
+            });//탭 클릭 이벤트
+        });
+
+        $(function () {
+            $(".map").click(function () {
+                $.ajax({
+                    type: 'post',
+                    url: '/test',
+                    /* dataType : 'html',  내가 서버에서 받을 데이터값의 타입을 정하는건가? */
+                    /* data : {"JSONallScedule":JSONallSchedule, "A" : "A"}, */
+                    data: JSONallSchedule,
+                    contentType: 'application/json; charset=UTF-8',
+/* 					traditional : true,
+ */					success: function (data) {
+                        $(this).css('background-color', 'red');
+                        console.log("########여기는?##########");
+                        console.log(this);
+                        console.log(event);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("에러 발생~" + textStatus + " : " + errorThrown);
+                    }
+                });
+            });
+        });
+
+
+    </script>
+</head>
+
+<body>
+
+    <article class="content" layout:fragment="content">
+
+        <!-- START CUSTOM-TAB 나의 그룹 및 세미나 스케쥴 보기 -->
+        <div class="row group-schedule custom-tab">
+            <!-- 왼쪽 Nav tabs 부분 -->
+            <ul class="nav nav-custom-tabs flex-column col-md-2">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#all">all</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#study">study</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#seminar">seminar</a>
+                </li>
+            </ul>
+			<!-- 오른쪽 컨텐츠 부분 -->
+            <div class="tab-content custom-tab-content col-md-10">
+                <div id="all" class="container tab-pane active">
+                    <p>all</p>
+                    <div class="row">
+                        <ul class="col-md-7 schedule-list">
+                            <!-- #####  스케쥴의 리스트의 data  ##### -->
+                        </ul>
+                        <div class="map col-md-5" style="background-color: lightgray; height: 250px">
+                        </div>
+                    </div>
+                </div>
+                <div id="study" class="container tab-pane fade">
+                   <p>study</p>
+                    <div class="row">
+                        <ul class="col-md-7 schedule-list">
+                            <!-- #####  스케쥴의 리스트의 data  ##### -->
+                        </ul>
+                        <div class="map col-md-5" style="background-color: lightgray; height: 250px">
+                        </div>
+                    </div>
+                </div>
+                <div id="seminar" class="container tab-pane fade">
+                    <p>seminar</p>
+                    <div class="row">
+                        <ul class="col-md-7 schedule-list">
+                            <!-- #####  스케쥴의 리스트의 data  ##### -->
+                        </ul>
+                        <div class="map col-md-5" style="background-color: lightgray; height: 250px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END CUSTOM-TAB 나의 그룹 및 세미나 스케쥴 보기  -->
+
+        <!-- START CARD-DECK -->
+        <div class="row card-deck">
+            <div class="card card-stats">
+                <div class="card-header">
+                    <div class="card-icon card-icon-pink">
+                        <i class="fa fa-group"></i>
+                    </div>
+                    <p class="card-category">My groups</p>
+                    <h1 class="card-title" th:text="${userStats.groupCnt}"></h1>
+                </div>
+                <div class="card-footer">참여중인 그룹</div>
+            </div>
+
+            <div class="card card-stats">
+                <div class="card-header">
+                    <div class="card-icon card-icon-orange">
+                        <i class="fa fa-leanpub"></i>
+                    </div>
+                    <p class="card-category">My Seminar</p>
+                    <h1 class="card-title" th:text="${userStats.seminarCnt}"></h1>
+                </div>
+                <div class="card-footer">참여중인 세미나</div>
+            </div>
+
+            <div class="card card-stats">
+                <div class="card-header">
+                    <div class="card-icon card-icon-green">
+                        <i class="fa fa-television"></i>
+                    </div>
+                    <p class="card-category">My lectures</p>
+                    <h1 class="card-title" th:text="${userStats.lectureCnt}"></h1>
+                </div>
+                <div class="card-footer">진행중인 강의</div>
+            </div>
+
+            <div class="card card-stats">
+                <div class="card-header">
+                    <div class="card-icon card-icon-blue">
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <p class="card-category">My todo-list</p>
+                    <h1 class="card-title" th:text="${userStats.todoCnt}"></h1>
+                </div>
+                <div class="card-footer">해야할 일</div>
+            </div>
+
+        </div>
+        <!-- END CARD-DECK -->
+
+        <!-- START LECTURE CARD -->
+        <div class="row card card-lecture">
+            <div class="card-header">
+                <!-- <div class="icon">           
+	            <i class="fa fa-group"></i>
+	          </div> -->
+                <p class="card-category">나의 학습 현황</p>
+            </div>
+            <div class="card-body">
+            
+                <div class="lecture-list" th:each="list : ${cardLecture}">
+                    <div class="lecture-description">
+                        <a href="#">
+                            <p th:text="*{list.title}"></p>
+                            <p class="small" th:text="${list.introContent}"></p>
+                        </a>
+                    </div>
+
+                    <div class="lecture-progress">
+                        <p class="small" th:text="*{list.learningRate}+'% Completed'"></p>
+                        <div class="progress">
+                            <div th:class="'progress-bar '+(${list.learningRate} lt 35? 'bg-warning' : (${list.learningRate} eq 100? 'bg-success' : ''))"
+                                th:style="'width:'+@{*{list.learningRate}}+'%'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <!-- END LECTURE CARD -->
+        <!-- START GROUPNOTICE CARD -->
+        <div class="card card-nomal">
+            <div class="card-header">
+                <p class="card-category">그룹 공지사항</p>
+            </div>
+            <div class="card-body">
+                <div class="card-grid groupNotice" th:each="list : ${cardGroupNotice}">
+                    <div class="groupNt-groupId">
+                        <span th:text="*{list.groupId}"></span>
+                    </div>
+                    <div class="groupNt-title">
+                        <span th:text="*{list.title}"></span>
+                        <i class="fa fa-check-circle"></i>
+                    </div>
+                    <div class="groupNt-content" th:text="*{list.content}"> </div>
+                    <div class="groupNt-writeDate writeDate" th:text="*{list.writeDateFormat}"></div>
+                </div>
+            </div>
+        </div>
+        <!-- END GROUPNOTICE CARD -->
+    </article>
+
+
+
+</body>
+
+</html>

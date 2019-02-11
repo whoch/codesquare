@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/plannerLayout}"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/styles/planner/dashboard.css}">
+    <script type="text/javascript" th:inline="javascript">
+	    $(document).ready(function () {
+
+	        $(".nav-custom-tabs a").click(function () {
+	            $(this).tab('show');
+	        });//탭 클릭 이벤트
+	    });
+		
+
+    </script>
+</head>
+
+<body>
+
+    <article class="content" layout:fragment="content">
+
+		<!-- START GROUP-WORK Accorion -->
+       <div class="accordion acc-custom" id="accorionGroupWork">
+       <p class="card-category">그룹 공지사항</p>
+            <div class="card" th:each=" list, status : ${groupWorkList}">
+                <div class="card-header" th:id="'heading'+${status.index}">
+                    <div class="mb-0 grpWkGrid">
+                        <a th:text="${list.groupId}" href="#"></a>
+                        <a th:class="(${status.index} eq 0?'':' collapsed')" data-toggle="collapse"
+                            th:data-target="'#grpWk'+${list.id}" aria-expanded="true" th:aria-controls="'grpWk'+${list.id}" th:text="${list.title}">
+                        </a>
+                        <span class="writeDate" th:text="${list.writeDateFormat}"></span>                       
+                    </div>
+                </div>
+                <div th:id="'grpWk'+${list.id}" th:class="'collapse'+(${status.index} eq 0?' show':'')" 
+                	th:aria-labelledby="'heading'+${status.index}" data-parent="#accorionGroupWork">
+                    <div class="card-body" th:text="${list.content}"></div>
+                </div>
+            </div>
+        </div>
+        <!-- END GROUP-WORK Accorion -->
+        
+        
+         <!-- START CUSTOM-TAB bookmarkList -->
+        <div class="row bookmarkList custom-tab">
+            <!-- 왼쪽 Nav tabs 부분 -->
+            <ul class="nav nav-custom-tabs flex-column col-md-2">
+<!--                 <li class="nav-item">
+                    <a class="nav-link active" href="#all">all</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#study">study</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#seminar">seminar</a>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link active" href="#all">all</a>
+                </li>
+                
+                <li class="nav-item" th:each="list : ${bookmarkKind}">
+               	 <a class="nav-link" th:href="'#'+${list}" th:text="${list}"></a>
+                </li>
+                
+            </ul>
+			<!-- 오른쪽 컨텐츠 부분 -->
+            <div class="tab-content custom-tab-content col-md-10">
+                <div id="all" class="container tab-pane active">
+                    <p>all</p>
+                    <div class="row">
+                        <ul class="bookmarkList">
+                           <li th:each="list : ${bookmarkList}">
+                           		<span th:text="*{list.boardKindId}"></span>
+                           		<span th:text="*{list.groupId}"></span>
+                           		<span th:text="*{list.title}"></span>
+                           		<span th:text="*{list.content}"></span>
+                           		<span th:text="*{list.status}"></span>
+                           		<span th:text="*{list.writeDateFormat}"></span>
+                           </li>
+                        </ul>
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+        <!-- END CUSTOM-TAB bookmarkList  -->
+        
+        
+        
+        
+        
+    </article>
+
+
+
+</body>
+</html>
