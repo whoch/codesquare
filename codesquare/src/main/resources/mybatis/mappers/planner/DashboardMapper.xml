@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit.codesquare.mapper.planner.DashboardMapper">
+<!-- UserId는 임시로 'cksdud'으로 출력중 -->
+
+	<select id="getWeeklyScheduleGroup" resultType="GroupMeetingDateDetails">
+		<![CDATA[
+		SELECT `Id`, `GroupId`, `UserId`, `Locale`, `MeetingDate`, `Cost`,
+			(CASE WHEN STATUS=1 THEN 'true'
+					WHEN STATUS=0 THEN 'false'
+					ELSE 'none' END
+			) AS `Status`
+		FROM GroupStudyLog
+		WHERE `UserId`='cksdud' 
+				AND DATE(`MeetingDate`) >= CURDATE()
+				AND DATE(`MeetingDate`) <  CURDATE()+INTERVAL 7 DAY
+		ORDER BY `MeetingDate` ASC
+		 ]]>
+	</select>
+
+	
+	<select id="getWeeklyScheduleSeminar" resultType="SeminarMeetingDateDetails">
+		<![CDATA[
+		SELECT si.`BoardId`, si.`UserId`, si.`Locale`,si.`SeminarStartDate`,si.`SeminarEndDate`,bo.Nickname
+		FROM JoiningAndRecruitmentLog jr
+		INNER JOIN SeminarInfo si 
+		ON jr.`ApplyUserId`='cksdud' AND si.SeminarEndDate >= CURDATE() AND jr.BoardId=si.BoardId 
+		INNER JOIN Board bo
+		ON jr.`BoardId`=bo.Id
+		 ]]>		
+	</select>
+	
+	<select id="getCountJoiningGroup" resultType="int">
+		SELECT COUNT(*) from GroupMemberInfo WHERE `UserId`='cksdud'
+	</select>
+	
+	<select id="getCountJoiningSeminar" resultType="int">
+		SELECT COUNT(*)
+		FROM JoiningAndRecruitmentLog jr INNER JOIN SeminarInfo si 
+		ON jr.ApplyUserId='cksdud' AND jr.BoardId=si.BoardId
+	</select>
+	
+	<select id="getCountLearningLecture" resultType="int">
+		SELECT COUNT(DISTINCT ParentId) FROM UserLearningLog WHERE `UserId`='cksdud'
+	</select>
+
+	<select id="getCountToDo" resultType="int">
+		SELECT COUNT(*) FROM ToDoList WHERE `UserId`='cksdud' AND IFNULL(`EndDate`,CURDATE())>=CURDATE()
+	</select>
+	
+	<select id="getUserLectureList" resultType="UserLectureList">
+		SELECT l.ParentId, b.UserId, b.Nickname, b.Title, d.IntroContent, 
+				format((COUNT(if(l.CurrentTime=l.Duration,1,null)))/
+				(SELECT COUNT(*) FROM Board b WHERE l.ParentId=b.ParentId)*100,-1) AS LearningRate
+		FROM UserLearningLog l 
+		INNER JOIN Board b ON l.ParentId=b.Id
+		INNER JOIN LectureDetailInfo d ON l.ParentId=d.Id
+		WHERE l.UserId='cksdud'
+		GROUP BY l.ParentId
+	</select>
+	
+	<select id="getUserGroupNoticeList" resultType="UserGroupNoticeList">
+		SELECT g.GroupId, b.Nickname, b.Title, b.Content, b.WriteDate  FROM GroupMemberInfo g
+		INNER JOIN Board b ON b.BoardKindId='GrpNt' AND g.GroupId=b.GroupId
+		WHERE g.UserId='cksdud' ORDER BY b.WriteDate DESC LIMIT 10
+	</select>
+	
+	
+</mapper>

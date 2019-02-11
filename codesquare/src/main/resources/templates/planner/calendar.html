@@ -1,51 +1,43 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/plannerLayout}"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Full-Calendar 테스트</title>
+	<title>Calendar</title>
+	<!-- fullcalendar -->
 
-<!-- bootstrap & jQuery -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<!-- moment -->
-<script	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"></script>
-<!-- full calendar -->
-<link rel='stylesheet' href='/fullcalendar/fullcalendar.css' />
-<script src='/fullcalendar/fullcalendar.js'></script>
-<script type='text/javascript' src='fullcalendar/gcal.js'></script>
-<script src='fullcalendar/locale/ko.js'></script>
-<script type="text/javascript" th:inline="javascript">
+ 	<link th:href="@{/static/fullcalendar/fullcalendar.min.css}" rel="stylesheet">	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+	<script th:src="@{/static/fullcalendar/fullcalendar.min.js}"></script>
+	<script type='text/javascript' th:src='@{/static/fullcalendar/gcal.js}'></script>
+	<script th:src='@{/static/fullcalendar/locale/ko.js}'></script>
+	<script type="text/javascript" th:inline="javascript">
+	/*<![CDATA[*/
+	
 
 		$(document).ready(function () {
 			// page is now ready, initialize the calendar...
+			console.log("되니?");
 			$('#calendar').fullCalendar({
 				//-----테마 설정-----
-				theme: 'bootstrap3',
+				theme: 'bootstrap4',
 				
-				//----- googleCalendar -----
-				googleCalendarApiKey: 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE',
 				
+ 				//----- googleCalendar -----
+				googleCalendarApiKey: 'AIzaSyDLfWhH0ZLqE_NvLAdO-CNtCQHuCyyXm-I',	 	 
+				 
+				 
 				//----- 시간 표시 포맷 설정 -----
-				timeFormat:'a h:mm',			
+				timeFormat:'a h:mm',					
 			
-			
-				//-----헤더 설정 부분-----
+				//----- 헤더 설정 -----
 				header: {
 					left: 'title',
-					center: '',
+					center: 'list,listWeek,listMonth basicDay,basicWeek,Month prevYear,prev,next,nextYear',
 					right: 'prev,next today groupButton,todoButton'
 				},
 
-				//-----푸터 설정 부분 속성값 header와 같음-----
-				footer: {
-					left: '',
-					center: 'prevYear,prev,next,nextYear',
-					right: 'list,listWeek,listMonth basicDay,basicWeek,Month'
-				},
 
-				//-----커스텀 버튼-----
+				//----- 커스텀 버튼 -----
 				customButtons: {
 					groupButton: {
 						text: '그룹^_^',
@@ -72,42 +64,23 @@
 					
 					listWeek:'일정(주)',
 					listMonth:'일정(월)'
-				}, 
-
-				// -----버튼의 아이콘 bootstrap의 Glyphicons 사용하기-----
-				bootstrapGlyphicons: {
-					close: 'glyphicon-remove',
-					prev: 'glyphicon-chevron-left',
-					next: 'glyphicon-chevron-right',
-					prevYear: 'glyphicon-backward',
-					nextYear: 'glyphicon-forward',
-					groupButton: 'glyphicon-user',
-					todoButton: 'glyphicon-star'
-				},
+				}, 												
 				
 				//-----이벤트 기본 메세지 설정-----
 				noEventsMessage: '이벤트가 없습니다.',
 
-				//----- 하루에 표시되는 이벤트의 수를 제한 -----
+				//----- 하루에 표시되는 이벤트의 수 제한 -----
 				eventLimit:true,
 				
 				//----- eventLimit의 event -----
-				eventLimitClick: 'popover',
-				
-				//-----날짜 부분 클릭 링크로 변경-----
-				navLinks: true,				
+				eventLimitClick: 'popover',				
+
 				//-----날짜 텍스트 부분 클릭 이벤트-----
+				navLinks: true,				
 		 		navLinkDayClick: function (weekStart, jsEvent) {
 					weekStart.format(); // weekStart is a moment
 					console.log('coords', jsEvent.pageX, jsEvent.pageY); // 클릭한 x,y좌표값 출력
 				}, 
-
-				
-				// -----날짜 '일'의 셀 부분을 클릭 이벤트-----
-				dayClick: function () {
-					alert('a day has been clicked!');
-				},
-
 				
 				// -----일정이벤트를 클릭 이벤트-----
 				eventClick: function(calEvent, jsEvent, view) {
@@ -118,73 +91,58 @@
 
 				    // change the border color just for fun
 				    $(this).css('border-color', 'red');
-
-				  },
-				  
- 				  eventRender: function(eventObj, $el) {
-				        $el.popover({
-				          title: eventObj.title,
-				          content: eventObj.description,
-				          trigger: 'hover',
-				          placement: 'top',
-				          container: 'body',
-				          html:'true'
-				        });
-				      }, 
+				  },	
 				
-				//----- EVENT 추가 -----						
-				
-				eventSources:[
-					{
-						googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
-						color:'#B22222',
-					},
+				// ----- EVENT 추가 -----	
+					eventSources:[
+/* 						{
+							googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+							color:'#B22222'
+						}, */
+						{
+							events:   /*[[${seminar}]]*/ ,
+						    color: '#006400',     
+						    textColor: 'white' 
+						},					
+						{
+							events:   /*[[${study}]]*/,
+						    color: '#483D8B',     
+						    textColor: 'white'
+						}
+					],						
+ 					//------Event End-----
 					
-					{
-						events:   /*[[${seminar}]]*/ ,
-					    color: '#006400',     
-					    textColor: 'white' 
-					},					
-					{
-						events:   /*[[${study}]]*/,
-					    color: '#483D8B',     
-					    textColor: 'white'
-					},
-					{
-						events:   /*[[${study2}]]*/
-					}					
-				]
-				//------Event End-----
-				
-					
-				
+ 					
+				  eventRender: function(eventObj, $el) {
+					   $el.popover({
+			              title: eventObj.title,
+			              content: eventObj.description,
+			              trigger: 'hover',
+			              placement: 'top',
+			              container: 'body',
+			              html: true
+			            });
+			       } 				
 			});// end fullCalendar
-			
-				 /*  $('[data-toggle="popover"]').popover();   */
-
 		});
-
+		/*]]>*/
 	</script>
-<style>
-body {
-	margin: 40px 10px;
-	padding: 0;
-	font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
-	font-size: 14px;
-}
+	<style>
+		#calendar {
+			max-width: 80%;
+ 	        margin-left: auto;
+	        margin-right: auto;		
 
-#calendar {
-	max-width: 850px;
-	margin: 0 auto;
-}
-</style>
+		}
+	</style>
 </head>
 
 <body>
 
-	<div id='calendar'></div>
-
-
+	<article class="content" layout:fragment="content">
+		<div id='calendar'></div>
+	</article>
+	      
 </body>
 
 </html>
