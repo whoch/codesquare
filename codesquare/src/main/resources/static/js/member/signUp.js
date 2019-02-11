@@ -4,15 +4,15 @@
 
 
 
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
 $(function() {
-	
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
-	$(function() {
-		$(document).ajaxSend(function(e, xhr, options) {
-			xhr.setRequestHeader(header, token);
-		});
+	$(document).ajaxSend(function(e, xhr, options) {
+		xhr.setRequestHeader(header, token);
 	});
+});
+
+
 	
 	
 var idck = 0;
@@ -22,43 +22,43 @@ var pwck = 0;
 $("#idValidate").click(function() {
 
 	var userId = $("#userId").val();
-	var regExp = /^[a-z0-9]{4,20}$/;
+	var regExp = /^[a-z0-9]{4,10}$/;
 
 	if (regExp.test(userId)) {
 		idCheck();
 	} else {
 		$("#idCheckMsg").css("color", "red");
-		$("#idCheckMsg").text("아이디는 영문,숫자로 이루어진 최소 4자 이상 20자 이하");
+		$("#idCheckMsg").text("닉네임은 영대소문자,한글,숫자로 이루어진 2자이상 10자 미만");
 		$("#userId").focus();
 	}
 
 });
 
 function idCheck() {
-	
+
 	var userId = $("#userId").val();
 	
 	$.ajax({
 		type : "post",
 		data : userId,
 		url : "idCheck",
-		contentType: "application/json; charset=utf-8",
+		contentType : "application/json; charset=UTF-8",
 		success : function(response) {
+			if ( response > 0) {
 
-			if (response > 0) {
-				alert(response);
 				$("#idCheckMsg").css("color", "red");
-				$("#idCheckMsg").text("이미 존재하는 아이디 입니다.");
+				$("#idCheckMsg").text("이미 존재하는 닉네임 입니다.");
 				$("#userId").focus();
 
 			} else {
-				
-				alert(response);
 				$("#idCheckMsg").css("color", "blue");
-				$("#idCheckMsg").text("사용 가능한 아이디 입니다.");
-				$("#name").focus();
-				// 아이디가 중복하지 않으면 idck = 1
-				idck = 1;
+				$("#idCheckMsg").text("사용가능한 아이디입니다.");
+//				$("#headerNickName").html(nickName);
+//				$("#nickField").html(nickName);
+//				$("#myNickName").html(nickName);
+
+				// 아이디가 중복하지 않으면 
+				idck = 1
 
 			}
 		},
@@ -108,7 +108,6 @@ function emailCheck() {
 				$("#email").focus();
 
 			} else {
-				alert(response+22);
 
 				$("#emailCheckMsg").css("color", "blue");
 				$("#emailCheckMsg").text("사용 가능한 이메일 입니다.");
@@ -151,10 +150,9 @@ $("#signUp").click(function() {
 			alert("체크해주세요.");
 		}
 	} else {
-
+		alert(idck+","+emailck+","+pwck);
 		alert("입력한 정보를 확인해주세요.");
 	}
 });
 
-});
 

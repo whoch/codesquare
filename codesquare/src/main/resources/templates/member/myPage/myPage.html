@@ -7,103 +7,82 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 </head>
 <body>
 	<div class="container" layout:fragment="content">
 
-<div class="container-fluid">
-      <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link active" href="#">
-                  <span data-feather="home"></span>
-                  Dashboard <span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file"></span>
-                  Orders
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="shopping-cart"></span>
-                  Products
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="users"></span>
-                  Customers
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="bar-chart-2"></span>
-                  Reports
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="layers"></span>
-                  Integrations
-                </a>
-              </li>
-            </ul>
+		<div class="container-fluid">
+			<div class="row">
+				<nav class="col-md-3 d-none d-md-block">
+					<div class="sidebar-sticky">
+						<br />
+						<br />
+						<br />
+						<ul class="nav flex-column">
+							<li class="nav-item"><a class="nav-link" href="#"> <span
+									id="myNickName" th:text="${session.nickName}"> </span> 님,<br />
+									안녕하세요! <span class="sr-only">(current)</span>
+							</a></li>
 
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Saved reports</span>
-              <a class="d-flex align-items-center text-muted" href="#">
-                <span data-feather="plus-circle"></span>
-              </a>
-            </h6>
-            <ul class="nav flex-column mb-2">
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Current month
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Last quarter
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Social engagement
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Year-end sale
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+
+
+							<li class="nav-item"><a class="nav-link" href="#"> <span
+									data-feather="inbox"></span> 내쪽지함 <span class="sr-only">(current)</span>
+							</a></li>
+							<li class="nav-item"><a class="nav-link" href="#"> <span
+									data-feather="file"></span> 나의 예약 및 결제 내역
+							</a></li>
+							<li  class="nav-item" sec:authorize="hasRole('ROLE_2')"><a class="nav-link" href="#"> <span
+									id="modifyInstructorInfo">강사정보수정하기 </span> </a>
+							<li  class="nav-item" sec:authorize="hasAnyRole('ROLE_1','ROLE_4','ROLE_5', 'ROLE_6') ">
+									<a class="nav-link" href="#"> <span id="toInstructor">강사전환신청하기</span></a></li>
+							<li class="nav-item" sec:authorize="hasAnyRole('ROLE_1', 'ROLE_2' ,'ROLE_4','ROLE_5') "><a class="nav-link" href="#">
+							<span
+									id="changePw">비밀번호바꾸기</span></a> </li>
+
+						</ul>
+
+						<h6
+							class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+							<span>Saved reports</span> <a
+								class="d-flex align-items-center text-muted" href="#"> <span
+								data-feather="plus-circle"></span>
+							</a>
+						</h6>
+						<ul class="nav flex-column mb-2">
+							<li class="nav-item"><a class="nav-link" href="#"> <span
+									data-feather="file-text"></span> Current month
+							</a></li>
+							<li class="nav-item"><a class="nav-link" href="#"> <span
+									data-feather="file-text"></span> Last quarter
+							</a></li>
+							<li class="nav-item"><a class="nav-link" href="#"> <span
+									data-feather="file-text"></span> Social engagement
+							</a></li>
+							<li class="nav-item"><a class="nav-link" href="#"> <span
+									data-feather="file-text"></span> Year-end sale
+							</a></li>
+						</ul>
+					</div>
+				</nav>
 				<main class="col h-100">
 				<div class="row bg-light">
 					<div class="col-12 py-4">
 						<ul class="nav">
-							<li class="nav-item"><a class="nav-link" href="#">나의 예약 및 결제 내역</a>
-							</li>
-							<li class="nav-item"><a class="nav-link" href="#">나의 신청 내역</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">나의 모집 내역</a></li>
+							<li class="nav-item"><a class="nav-link" href="#">나의 예약
+									및 결제 내역</a></li>
+							<li class="nav-item"><a class="nav-link" href="#">나의 신청
+									내역</a></li>
+							<li class="nav-item"><a class="nav-link" href="#">나의 모집
+									내역</a></li>
 							<li class="nav-item"><a class="nav-link" href="#">내가쓴 글</a></li>
-							<li class="nav-item" sec:authorize="hasAnyRole('ROLE_1','ROLE_2','ROLE_4', 'ROLE_5' )">
-							<a class="nav-link" href="#" id="modifyMyInfo">내 정보 수정</a>
-							<li class="nav-item" sec:authorize="hasRole('ROLE_6' )">
-							<a class="nav-link" href="#" id="changeNickName">닉네임 수정</a>
-							</li>
-							
+							<li class="nav-item"
+								sec:authorize="hasAnyRole('ROLE_1','ROLE_2','ROLE_4', 'ROLE_5' )">
+								<a class="nav-link" href="#" id="modifyMyInfo">내 정보 수정</a>
+							<li class="nav-item" sec:authorize="hasRole('ROLE_6' )"><a
+								class="nav-link" href="#" id="changeNickName">닉네임 수정</a></li>
+
 						</ul>
 					</div>
 				</div>
@@ -141,6 +120,9 @@
 		<br /> <br /> <br /> <br />
 		<th:block layout:fragment="script">
 			<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+			<script>
+				feather.replace()
+			</script>
 		</th:block>
 	</div>
 	<!-- 사용자 스크립트 추가 -->

@@ -72,10 +72,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.authorizeRequests() /* 인증 요청 선언?????? */
 
-				.antMatchers("/", "/member/login", "/member/signUp", "/member/findId", "/member/findPw",
+				.antMatchers("/", "/member/login", "/member/signUp", "/member/idCheck", "/member/emailCheck", "/member/findId", "/member/findPw",
 						"/member/findIdPw", "/logout")
 				.permitAll()
-
+				.antMatchers("/member/signUp").anonymous()
 				.antMatchers("/member/**").authenticated() // 로그인 하면 다 가능
 //				.and()
 //				.oauth2Login()

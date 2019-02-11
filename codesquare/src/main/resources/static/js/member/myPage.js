@@ -335,13 +335,11 @@ $(function(){
 			success : function(response) {
 
 				if (response > 0) {
-
 					$("#nickCheckMsg").css("color", "red");
 					$("#nickCheckMsg").text("이미 존재하는 닉네임 입니다.");
 					$("#nickName").focus();
 
 				} else {
-					//alert(response+",");
 					// var a=nickName;
 					// '<a onclick="changeNick(' + data + ');">수정</a>';
 					$("#changeNickContent").hide();
@@ -366,18 +364,6 @@ $(function(){
 	
 	
 	
-	
-	
-	
-	$(".detail").hide();
-	//content 클래스를 가진 div를 표시/숨김(토글)
-	  $(".heading").click(function()
-	  {
-	    $(".detail").not($(this).next(".detail").slideToggle()).hide();
-	  });
-	
-
-	  
 	  
 
 

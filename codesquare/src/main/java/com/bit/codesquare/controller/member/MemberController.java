@@ -69,13 +69,11 @@ public class MemberController {
 		return "member/login/signUpDone";
 	}
 
-	@PostMapping("/idCheck")
+	@PostMapping("idCheck")
 	@ResponseBody
 	public int idCheck(@RequestBody String userId) {
-
 		int count = 0;
 		count = mm.idCheck(userId);
-		logger.info(count + "count");
 		return count;
 	}
 
@@ -89,16 +87,16 @@ public class MemberController {
 		return count;
 	}
 
-	@PostMapping("/nickCheck")
-	@ResponseBody
-	public int nickCheck(@RequestBody String nickName) {
-
-		int count = 0;
-		count = mm.nickCheck(nickName);
-
-		return count;
-	}
-	
+//	@PostMapping("/nickCheck")
+//	@ResponseBody
+//	public int nickCheck(@RequestBody String nickName) {
+//
+//		int count = 0;
+//		count = mm.nickCheck(nickName);
+//
+//		return count;
+//	}
+//	
 
 	@GetMapping("/changeNick")
 	public String changeNick(Model model, Principal principal) {
@@ -187,7 +185,7 @@ public class MemberController {
 	@RequestMapping("/myPage")
 	public String myPage(Authentication auth, HttpSession session) {
 		csu.getSession(auth, session);
-		return "member/myPage/myPage";
+		return "member/myPage/myPage2";
 	}
 
 	@GetMapping("/modifyMyInfo")
