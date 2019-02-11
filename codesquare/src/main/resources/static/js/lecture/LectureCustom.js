@@ -8,7 +8,7 @@ $(function() {
 
 var boardId = $("[name=boardId]").val();
 var nickName=$("[name=nickName]").val();
-
+var userId=$("#userId").text();
 
 // ajax 댓글 목록 불러오기
 function reviewList() {
@@ -47,7 +47,7 @@ function reviewList() {
 // 댓글 작성
 function insertReview(review){
 	$.ajax({
-		url:'Comment/insert',
+		url:'Comment/review/insert',
 		type:'POST',
 		data:review
 	}).done(function(data){
@@ -65,7 +65,7 @@ function insertReview(review){
 // 수정 댓글 업데이트
 function updateReview(id,content){
 	$.ajax({
-		url:'Comment/update',
+		url:'Comment/review/update',
 		type:'POST',
 		data:{"id":id,"content":content}
 	}).done(function(data){
@@ -80,7 +80,7 @@ function updateReview(id,content){
 // 댓글 삭제
 function deleteReview(id){
 	$.ajax({
-		url:'Comment/delete',
+		url:'Comment/review/delete',
 		type:'GET',
 		data:{"id":id}
 	}).done(function(data){
@@ -114,7 +114,7 @@ function qnaCommentList(){
 		        cContent+="<h6 class=\"comment-name\"><a href=\"member/"+value.id+"\">작성자</a></h6>";
 		        cContent+="<span>"+value.writeDate+"</span>";
 		        if(value.deleteStatus==0){
-		        	cContent+="<span class=\"comment-icon\"><i class=\"fa fa-reply\" title=\"댓글달기\"></i><i class=\"fa fa-pencil-square-o\" title=\"수정하기\"></i><i class=\"fa fa-trash\" title=\"삭제하기\"></i></span>";
+		        	cContent+="<span class=\"comment-icon\"><i class=\"fa fa-reply\" title=\"댓글달기\"></i><i class=\"fas fa-edit\" title=\"수정하기\"></i><i class=\"fa fa-trash\" title=\"삭제하기\"></i></span>";
 		        }
 		        cContent+="</div><div class=\"comment-content\"><p class=\"comment-content-text\">"+value.content+"</p></div></div></div>";
 		        cContent+="</li>";
@@ -175,7 +175,23 @@ function deleteQNAComment(id){
 	});
 }
 
-
+//찜하기 메서드
+function addBookmark(){
+	$.ajax({
+		url:'bookmark',
+		type:'POST',
+		data:{"userId":userId, "boardId":boardId}
+	}).done(function(data){
+		if(data==1){
+			$(".modal-body>span").text("찜하기가 완료되었습니다.");
+		}else{
+			$(".modal-body>span").text("이미 찜하신 강의입니다.");
+		}
+		$("#myModal").modal();
+	}).fail(function(data){
+			alert("Load Review Fail");
+	});
+}
 
 
 
@@ -223,38 +239,36 @@ $(document).ready(function() {
 		var comment=$("[name=commentForm]").serialize();
 		insertQNAComment(comment);
 	})
-	
 	/**
-	 * 대댓글 작성(fa-reply),수정(fa-pencil-square-o),삭제(fa-trash) 감지 이벤트 리스너 
+	 * 대댓글 작성(fa-reply),수정(fa-edit),삭제(fa-trash) 감지 이벤트 리스너 
 	 */
-	$(document).on('click','.fa-pencil-square-o,.fa-trash, .fa-reply',function(){
+	$(document).on('click','.fa-edit,.fa-trash, .fa-reply',function(){
 		var obj=$(this).closest('.comment-box').children('.comment-content');
 		var objClass=$(this).attr('class');
-		var id=$(this).closest('li').attr('id').split('-');
-		if(objClass.indexOf('fa-pencil-square-o')!=-1){//수정
+		var id=$(this).closest('li').attr('id').split('-')[1];
+		if(objClass.indexOf('fa-edit')!=-1){//수정
 			var txt=obj.children('p').text();
 			var txtarea="<textarea rows=\"3\" cols=\"20\" name=\"modify-content\" maxlength=\"300\" required=\"required\" placeholder=\"바르고 고운말을 사용해요!!\">"+txt+"</textarea>";
-			var icon="<i data-id class=\"fa fa-check-square-o fa-lg btn-comment-modify\" title=\"등록\" aria-hidden=\"true\"></i><i class=\"fa fa-ban fa-lg\" title=\"취소\" aria-hidden=\"true\"></i>";
+			var icon="<i data-id class=\"far fa-check-square fa-lg btn-comment-modify\" title=\"등록\" aria-hidden=\"true\"></i><i class=\"fa fa-ban fa-lg\" title=\"취소\" aria-hidden=\"true\"></i>";
 			obj.html(txtarea);
 			$(obj).prev().children('.comment-icon').html(icon);
 		}
 		if(objClass.indexOf('fa-trash')!=-1){//삭제
-			deleteQNAComment(id[1]);
+			deleteQNAComment(id);
 		}
 		if(objClass.indexOf('fa-reply')!=-1){//리플
-			
 			var replyContent="";
 			replyContent+="<li id=\"reply\"><!--메인 댓글--><form name=\"comment-reply-form\"><div class=\"comment-main-level reply-list\">";
 			replyContent+="<input type=\"hidden\" name=\"boardId\" value=\""+boardId+"\" />";
 			replyContent+="<input type=\"hidden\" name=\"boardKindId\" value=\"LrnQa\" />";
 			replyContent+="<input type=\"hidden\" name=\"userId\" value=\"1212\" /> ";
 			replyContent+="<input type=\"hidden\" name=\"nickName\"	value=\""+nickName+"\" />";
-			replyContent+="<input type=\"hidden\" name=\"parentId\"	value=\""+id[1]+"\" />";
+			replyContent+="<input type=\"hidden\" name=\"parentId\"	value=\""+id+"\" />";
 	        replyContent+="<!-- Avatar --><div class=\"comment-avatar\"><img src=\"/static/codesquareDB/UserThumbnail/1212/1212_Thumbnail.jpg\" alt=\"유저썸네일\"></div>";
 	        replyContent+="<div class=\"comment-box\">";
 	        replyContent+="<div class=\"comment-head\">";
 	        replyContent+="<h6 class=\"comment-name\"><a href=\"member/\" >작성자</a></h6>";
-	        replyContent+="<span class=\"comment-icon\"><i class=\"fa fa-check-square-o fa-lg btn-regist\" title=\"등록\" aria-hidden=\"true\"></i><i class=\"fa fa-ban fa-lg\" title=\"취소\" aria-hidden=\"true\"></i></span></div>";
+	        replyContent+="<span class=\"comment-icon\"><i class=\"far fa-check-square fa-lg btn-regist\" title=\"등록\" aria-hidden=\"true\"></i><i class=\"fa fa-ban fa-lg\" title=\"취소\" aria-hidden=\"true\"></i></span></div>";
 	        replyContent+="<div class=\"comment-content\"><textarea rows=\"3\" cols=\"20\" name=\"content\" maxlength=\"300\" required=\"required\" placeholder=\"바르고 고운말을 사용해요!!\"></textarea></div></div></div>";
 	        replyContent+="</form></li>";
 	        $(this).closest("li").append(replyContent);
@@ -265,14 +279,13 @@ $(document).ready(function() {
 	/**
 	 * 대댓글 수정,취소,등록 이벤트 리스너
 	 */
-	$(document).on('click', '.btn-comment-modify, .fa-ban, .btn--review-regist', function(){
+	$(document).on('click', '.btn-comment-modify, .fa-ban, .btn-regist', function(){
 		var objClass=$(this).attr('class');
-		if(objClass.indexOf('btn-review-regist')!=-1){//리플 등록
+		if(objClass.indexOf('btn-regist')!=-1){//리플 등록
 			var comment=$("[name=comment-reply-form]").serialize();
 			insertQNAComment(comment);
 		}else if(objClass.indexOf('btn-comment-modify')!=-1){//리플 수정 등록
-			var idArr=$(this).closest('li').attr('id').split('-');
-			var id=idArr[1];
+			var id=$(this).closest('li').attr('id').split('-')[1];
 			var content=$("[name=modify-content]").val();
 			updateQNAComment(id,content);
 		}else{//취소
@@ -288,16 +301,16 @@ $(document).ready(function() {
 		var obj=$(this).attr('id');
 		console.log(obj);
 		if(obj=='lecture-view'){
-			alert(obj);
 			/**
 			 * 강의듣기버튼 눌렀을 경우의 로직
 			 * 1.유저아이디로 db의 UserLearningLog테이블을 조회해서 어디까지 봤는지 검색(parentId)
 			 * 2.최초 강의듣기일 경우 첫번째 강의로 이동(LrnVo이며 ParentId를 통해 목록을 뽑아내서 최초row)
 			 * 3.최초가 아닐경우 가장 마지막 parentId와 userid로 조회해서 나온 결과중 isRecent가 1인 row값 반환
 			 */
-			location.href="/learn/view/23";
+			
+			location.href="/learn/view?boardId="+boardId+"&userId="+userId;
 		}else{
-			location.href="";
+			addBookmark();
 		}
 		
 	})

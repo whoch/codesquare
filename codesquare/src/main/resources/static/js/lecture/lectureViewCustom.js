@@ -1,18 +1,27 @@
 $(function() {
-    
     onYouTubeIframeAPIReady();
     createSmartEditor();
+    
+    
 });
-
+var boardId = $("[name=boardId]").val();
+var boardKindId = $("[name=boardKindId]").val();
+var nickName=$(".comment-writerInfo>[name=nickName]").val();
+var userId=$(".comment-writerInfo>[name=userId]").val();
+var oEditors = [];
 function createSmartEditor(){
-	var oEditors = [];
+	
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef : oEditors,
 		elPlaceHolder : "notepad",
 		sSkinURI : "/static/js/smarteditor2/dist/SmartEditor2Skin.html",
 		fCreator : "createSEditor2",
 		// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
-		bUseModeChanger : false
+		bUseModeChanger : false,
+		fOnAppLoad : function(){
+			addNoteContent();
+	    }
+
 	});
 }
 // YOUTUBE
@@ -68,15 +77,62 @@ $(".lecture-link").click(function(){
 	
 })
 
+//노트 정보 가져와서 붙혀넣기
+function addNoteContent(){
+	$.ajax({
+		url:'note',
+		type:'GET',
+		data:{"boardId":boardId, "userId":userId}
+	}).done(function(data){
+		var sHTML=data;
+		oEditors.getById["notepad"].exec("SET_IR", [""]); //내용초기화
+		oEditors.getById["notepad"].exec("PASTE_HTML", [sHTML]); //내용밀어넣기
+	}).fail(function(data){
+		if(data!=1){
+			alert("Load Review Fail");
+		}
+	});
+}
 
+//필기정보 저장
+function saveNoteContent(content){
+	$.ajax({
+		url:'note',
+		type:'PUT',
+		data:{"boardId":boardId, "userId":userId,"content":content}
+	}).done(function(data){
+		var sHTML=data;
+		console.log(data);
+		alert("저장완료");
+	}).fail(function(data){
+		if(data!=1){
+			alert("Load Review Fail");
+		}
+	});
+}
+$("#save").click(function() {
+	oEditors.getById["notepad"].exec("UPDATE_CONTENTS_FIELD", []);
+	saveNoteContent($("#notepad").val());
+});
 
-
-
-
-
-
-
-
+//우측상단 이전,목록,다음강의 버튼 구성
+//기능1. 강의목록을 가져온다.
+//기능2. 지금 강의가 첫강의인지 마지막강의인지 반환한다.
+//function getLectureListInfo(){
+//	$.ajax({
+//		url:'lectureBtn',
+//		type:'PUT',
+//		data:{"boardId":boardId, "userId":userId,"content":content}
+//	}).done(function(data){
+//		var sHTML=data;
+//		console.log(data);
+//		alert("저장완료");
+//	}).fail(function(data){
+//		if(data!=1){
+//			alert("Load Review Fail");
+//		}
+//	});
+//}
 
 
 

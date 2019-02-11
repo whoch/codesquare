@@ -17,4 +17,6 @@ public class Comment {
 	String Thumbnail;
 	int deleteStatus;
 	
+	
+	
 }

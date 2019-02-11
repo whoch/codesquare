@@ -594,8 +594,10 @@
 	color: white;
 }
 
-.lecture-body {
+.lecture-view-body {
 	text-align: center;
+	width:100%;
+	height:100%;
 }
 .video-finish{
 	position:absolute;
@@ -606,8 +608,8 @@
 #modal-container{
 	position:absolute;
 	text-align: center;
-	top:36%;
-	left:39%;
+	top:50%;
+	left:45%;
 }
 .btn-yt{
   width:100%;
@@ -624,7 +626,7 @@
 	opacity: .7;
 }
 
-#lecture-content label{
+#lecture-content label, .card-header{
 	cursor: pointer;
 	font-size: 20px;
 	
