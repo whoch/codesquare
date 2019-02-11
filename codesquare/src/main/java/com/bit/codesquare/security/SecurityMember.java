@@ -17,6 +17,8 @@ public class SecurityMember extends User implements UserDetails {
 	private static final String ROLE_PREFIX = "ROLE_";
 	private static final long serialVersionUID = 1L;
 
+	private String nickName;
+	
 	public String getNickName() {
 		return nickName;
 	}
@@ -25,7 +27,6 @@ public class SecurityMember extends User implements UserDetails {
 		this.nickName = nickName;
 	}
 
-	private String nickName;
 	
 
 	public SecurityMember(Member member) {

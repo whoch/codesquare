@@ -15,12 +15,16 @@
 	<div th:each="list : ${list}">
 		<p class="heading">
 			<span th:text="${list.id}"></span> <span th:text="${list.writeDate}"></span>
-			<span th:text="${list.title}"></span> <span
+			<span th:text="${list.title}"></span> 
+	
+			<span
 				th:if="${list.status} == 1 " th:text="모집중"></span> <span
 				th:unless="${list.status} == 1" th:text="모집완료"></span>
 		</p>
 
-		<span class="detail">확인</span>
+		<span class="detail"><span th:text="${list.userId}"></span>
+			<span th:text="${list.applyContent}"></span></span>
+
 	</div>
 	<br />
 	<br />

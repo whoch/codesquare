@@ -59,8 +59,7 @@ public class CommentController {
 	@RequestMapping(value="review/insert" , method=RequestMethod.POST)
 	@ResponseBody
 	private int insertReview(@ModelAttribute LectureReview lReview)throws Exception {
-		
-		logger.info("댓글입력 입장:"+lReview.toString());
+
 		int result=cMapper.insertReview(lReview);
 		cMapper.updateLikePlus(lReview);
 		

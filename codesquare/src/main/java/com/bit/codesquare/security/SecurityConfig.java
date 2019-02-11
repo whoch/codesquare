@@ -22,6 +22,7 @@ import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CompositeFilter;
@@ -41,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
-	
+
 	@Autowired
 	SocialService socialService;
 
@@ -71,7 +72,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.authorizeRequests() /* 인증 요청 선언?????? */
 
-				.antMatchers("/", "/member/login", "/member/signUp", "/member/findId", "/member/findPw", "/member/findIdPw", "/logout").permitAll()
+				.antMatchers("/", "/member/login", "/member/signUp", "/member/findId", "/member/findPw",
+						"/member/findIdPw", "/logout")
+				.permitAll()
 
 				.antMatchers("/member/**").authenticated() // 로그인 하면 다 가능
 //				.and()
@@ -85,15 +88,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.formLogin() /* 로그인 폼 나오도록 */
 				.loginPage("/member/login") /* 내가 만든 로그인 페이지 */
 				.usernameParameter("userId") /* username 을 대체할 아이디 param default username */
+				.successHandler(successHandler())
 				.permitAll() /* 모두 오픈 ( 반대는 denyAll() ) */
-				.defaultSuccessUrl("/").failureUrl("/member/login?error").and().logout().invalidateHttpSession(true)
+				.failureUrl("/member/login?error").and().logout().invalidateHttpSession(true)
 				.clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
+
 				.logoutSuccessUrl("/"); /* 로그아웃 성공시 리다이렉트 url */
-		//Naver Smarteditor2.9.1 을 사용하기위해 framoption 변경
-		http
-				.headers()
-		   		.frameOptions()
-		        .sameOrigin();
+		// Naver Smarteditor2.9.1 을 사용하기위해 framoption 변경
+		http.headers().frameOptions().sameOrigin();
 
 	}
 
@@ -113,8 +115,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private Filter ssoFilter() {
 		CompositeFilter filter = new CompositeFilter();
 		List<Filter> filters = new ArrayList<>();
-		filters.add(ssoFilter(google(),  new GoogleFilter(socialService))); // 이전에 등록했던 OAuth 리다이렉트 URL
-		filters.add(ssoFilter(facebook(),  new FacebookFilter(socialService)));
+		filters.add(ssoFilter(google(), new GoogleFilter(socialService))); // 이전에 등록했던 OAuth 리다이렉트 URL
+		filters.add(ssoFilter(facebook(), new FacebookFilter(socialService)));
 		filter.setFilters(filters);
 		return filter;
 	}
@@ -148,6 +150,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@ConfigurationProperties("google")
 	public ClientResources google() {
 		return new ClientResources();
+	}
+	
+	@Bean
+	public AuthenticationSuccessHandler successHandler() {
+		return new CustomLoginSuccessHandler("/defaultsuccessurl");
 	}
 
 }

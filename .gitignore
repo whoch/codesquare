@@ -1,10 +1,7 @@
 /.metadata/
 /.recommenders/
-.log
-.recommenders
-Server
-.project
-.DS_Store
+/.log/
+
 /Server/
 /.project/
 /.DS_Store/

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <header class="main-header" th:fragment="headerFragment">
+
    <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="/"><img th:src="@{/static/images/logo.png}" alt="noimg" /></a>
       <div class="collapse navbar-collapse" id="navbarColor03">
@@ -64,7 +65,10 @@
 
 			<div sec:authorize="isAuthenticated()">
 				<ul>
-					<li><span id="userId" sec:authentication="name"></span> 님 안녕하세요!</li>
+					<li><span id="headerNickName" th:text="${session.nickName}"></span> 님! 안녕하세요.</li>
+					<li><a th:href="@{/member/myPage}">마이페이지</a></li>
+					<li><a th:href="@{/logout}">로그아웃</a></li>
+
 						<!-- 알림 -->
 			<div class="noti-dropdown">
 				<a onclick="myFunction()" id="noti-btn" class="noti-btn"> <img
@@ -173,9 +177,7 @@
 					</ul>
 				</div>
 			</div>
-					
-					<li><a th:href="@{/member/myPage}">마이페이지</a></li>
-					<li><a th:href="@{/logout}">로그아웃</a></li>
+	
 				</ul>
 			</div>
 

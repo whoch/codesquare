@@ -17,10 +17,10 @@
 		UserInfo where UserId = #{userId}
 	</select>
 	<insert id="signUp">
-		insert into UserInfo (UserId, NickName, Password,
-		Email, Name, DateOfBirth, AuthorId, profileImagePath)
-		values (#{userId}, #{userId}, #{password},
-		#{email}, #{name}, #{dateOfBirth}, #{authorId},CONCAT(#{userId},'_','Thumbnail.jpg'))
+		insert into UserInfo (UserId,  Password,
+		Email, Name, NickName, DateOfBirth, AuthorId)
+		values (#{userId}, #{password},
+		#{email}, #{name}, #{nickName}, #{dateOfBirth}, #{authorId})
 	</insert>
 
 	<select id="idCheck" parameterType="String" resultType="Int">
@@ -80,16 +80,24 @@
 	</update>
 	
 	<select id="getReservedList" parameterType="String" resultType="ReservationInfo"> 
-		select a.UserId, a.ReservationDate, a.Id, a.RoomId, b.RoomName, a.PayAmount, a.PaymentDate, a.ReservationTime from ReservationInfo a join RoomInfo b on a.RoomId = b.id where UserId  =#{userId}
+		select a.UserId, a.ReservationDate, a.RoomId, b.RoomName, a.PayAmount, a.PaymentDate, a.ReservationTime from ReservationInfo a join RoomInfo b on a.RoomId = b.id where UserId  =#{userId}
 	</select>
 	
 	<select id="getAppliedList" parameterType="String" resultType="JoiningAndRecruitmentLog"> 
-	select a.UserId, a.ApplyDate, b.BoardKindId, a.BoardId, b.Title, a.ApplyContent, a. DeclineContent, a.Status from JoiningAndRecruitmentLog a join Board b on a.BoardId = b.Id where a.UserId=#{userId} AND BoardKindId='SmnMo' or BoardKindId='StdMo'
+	select a.ApplyUserId, a.ApplyDate, b.BoardKindId, a.BoardId, b.Title,
+		a.ApplyContent, a. DeclineContent, a.Status from
+		JoiningAndRecruitmentLog a join Board b on a.BoardId = b.Id where
+		a.ApplyUserId=#{userId}
 	</select>
 	
-	<select id="getWantedList" parameterType="String" resultType="JoiningAndRecruitmentLog"> 
-	select Id, UserId, BoardKindId, WriteDate, Title, Status from Board where (BoardKindId='StdMo' or BoardKindId='SmnMo')  and UserId=#{userId}
+	<select id="getWantedList" parameterType="String" resultType="Board"> 
+	select Id,  WriteDate, Title, Status from Board where UserId= #{userId} AND (BoardKindId='SmnMo' or BoardKindId='StdMo')
 	</select>
+	
+	<select id="getWantedPList" parameterType="int" resultType="JoiningAndRecruitmentLog">
+	select a.BoardId, a.ApplyUserId, a.ApplyDate, b.Title, b.WriteDate, a.ApplyContent, a. DeclineContent, a.Status from JoiningAndRecruitmentLog a join Board b on a.BoardId = b.Id where b.Id=#{boardId}
+	</select>
+	
 	
 	<select id="getInstructorInfo" resultType="instructorInfo">
 	select UserId, IntroContent, History from InstructorInfo where UserId =#{userId}
