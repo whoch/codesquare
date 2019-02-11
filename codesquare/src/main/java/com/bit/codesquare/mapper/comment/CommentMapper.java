@@ -1,6 +1,7 @@
 package com.bit.codesquare.mapper.comment;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -22,4 +23,9 @@ public interface CommentMapper {
 	public int updateQNAComment(Comment comment)throws Exception;
 	public int searchChildComment(int id)throws Exception;
 	public int searchParentComment(int id)throws Exception;
+	
+	public List<Comment> getCommentList(Map<String, Object> map)throws Exception;
+	public int insertComment(Comment comment)throws Exception;
+	public int deleteComment(int id)throws Exception;
+	public int updateComment(Comment comment)throws Exception;
 }

@@ -1,21 +1,20 @@
 package com.bit.codesquare.dto.lecture;
 
-import com.bit.codesquare.dto.board.Board;
-
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper=true)
 @Data
-public class Lecture extends Board{
-	String tag;
-	String langKind;
-	int studentCount;
-	int completeCount;
-	String priceInfo;
-	String changedName;
-	String extension;
-	String introContent;
-	String history;
-	String thumbnailPath;
+public class Lecture {
+	int id; 
+	String boardKindId; 
+	String nickname;
+	String title;
+	String content;
+	int fileCount;
+	int imageCount;
+	int commentCount;
+	int parentId;
+	String videoUrl;
+	String userId;
+	String lectureStatus;
 }
+

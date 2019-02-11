@@ -64,7 +64,7 @@
 
 			<div sec:authorize="isAuthenticated()">
 				<ul>
-					<li><span sec:authentication="name"></span> 님 안녕하세요!</li>
+					<li><span id="userId" sec:authentication="name"></span> 님 안녕하세요!</li>
 						<!-- 알림 -->
 			<div class="noti-dropdown">
 				<a onclick="myFunction()" id="noti-btn" class="noti-btn"> <img
