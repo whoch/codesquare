@@ -1,9 +1,11 @@
 package com.bit.codesquare.mapper.member;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.member.InstructorInfo;
 import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
 import com.bit.codesquare.dto.member.Member;
@@ -37,7 +39,9 @@ public interface MemberMapper {
 	
 	public List <ReservationInfo> getReservedList(String userId);
 	public List <JoiningAndRecruitmentLog> getAppliedList(String userId);
-	public List <JoiningAndRecruitmentLog> getWantedList(String userId);
+	
+	public List <Board> getWantedList(String userId);
+	public List <JoiningAndRecruitmentLog> getWantedPList(int boardId);
 	
 	public InstructorInfo getInstructorInfo (String userId);
 }

@@ -10,7 +10,6 @@ import lombok.EqualsAndHashCode;
 public class ReservationInfo extends Member{
 
 	
-	private String id;
 	private String roomId;
 	private String roomName;
 	private int boardId;
