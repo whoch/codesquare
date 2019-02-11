@@ -10,66 +10,140 @@
 
 </head>
 <body>
-<div class="container" layout:fragment="content">
-<th:block layout:fragment="css">
-<link rel="stylesheet" th:href="@{/static/styles/member/myPage.css}">
-</th:block> 
+	<div class="container" layout:fragment="content">
 
-	<div class="inner" >
-		<nav>
-			<!-- <img th:src="@{/static/}+${item.thumbnailPath}"	alt="강좌썸네일" /> -->
-			<span id="myNickName" th:text="${session.nickName}"> </span> 님, 안녕하세요!
+<div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" href="#">
+                  <span data-feather="home"></span>
+                  Dashboard <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="file"></span>
+                  Orders
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="shopping-cart"></span>
+                  Products
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="users"></span>
+                  Customers
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="bar-chart-2"></span>
+                  Reports
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="layers"></span>
+                  Integrations
+                </a>
+              </li>
+            </ul>
 
-			<ul >
-				<li ><a th:href="@{/myMessage}">내 쪽지함</a></li>
-				<li ><span id="myReservedList">나의 예약 및
-						결제 내역</span></li>
-				<li ><span sec:authorize="hasRole('ROLE_2')">
-						<span id="modifyInstructorInfo">강사정보수정하기</span><br />
-				</span> <span sec:authorize="hasAnyRole('ROLE_1','ROLE_4','ROLE_5', 'ROLE_6') ">
-						<span id="toInstructor">강사전환신청하기</span>
-				</span>
-				<li ><span sec:authorize="hasAnyRole('ROLE_1', 'ROLE_2' ,'ROLE_4','ROLE_5') "><span id="changePw">비밀번호바꾸기</span></span></li>
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>Saved reports</span>
+              <a class="d-flex align-items-center text-muted" href="#">
+                <span data-feather="plus-circle"></span>
+              </a>
+            </h6>
+            <ul class="nav flex-column mb-2">
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="file-text"></span>
+                  Current month
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="file-text"></span>
+                  Last quarter
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="file-text"></span>
+                  Social engagement
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span data-feather="file-text"></span>
+                  Year-end sale
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+				<main class="col h-100">
+				<div class="row bg-light">
+					<div class="col-12 py-4">
+						<ul class="nav">
+							<li class="nav-item"><a class="nav-link" href="#">나의 예약 및 결제 내역</a>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="#">나의 신청 내역</a></li>
+							<li class="nav-item"><a class="nav-link" href="#">나의 모집 내역</a></li>
+							<li class="nav-item"><a class="nav-link" href="#">내가쓴 글</a></li>
+							<li class="nav-item" sec:authorize="hasAnyRole('ROLE_1','ROLE_2','ROLE_4', 'ROLE_5' )">
+							<a class="nav-link" href="#" id="modifyMyInfo">내 정보 수정</a>
+							<li class="nav-item" sec:authorize="hasRole('ROLE_6' )">
+							<a class="nav-link" href="#" id="changeNickName">닉네임 수정</a>
+							</li>
+							
+						</ul>
+					</div>
+				</div>
+				<div class="row bg-white">
+					<div class="col-12 py-4">
+						Hello
 
-			</ul>
+						<p>Sriracha biodiesel taxidermy organic post-ironic,
+							Intelligentsia salvia mustache 90's code editing brunch. Butcher
+							polaroid VHS art party, hashtag Brooklyn deep v PBR narwhal
+							sustainable mixtape swag wolf squid tote bag. Tote bag cronut
+							semiotics, raw denim deep v taxidermy messenger bag. Tofu YOLO
+							Etsy, direct trade ethical Odd Future jean shorts paleo. Forage
+							Shoreditch tousled aesthetic irony, street art organic Bushwick
+							artisan cliche semiotics ugh synth chillwave meditation. Shabby
+							chic lomo plaid vinyl chambray Vice. Vice sustainable cardigan,
+							Williamsburg master cleanse hella DIY 90's blog.</p>
 
-		</nav>
-
-		<article>
-
-
-			<ul>
-				<li id="myReservedList2">나의 예약 및 결제 내역</li>
-				<li id="myAppliedList">나의 신청 내역</li>
-				<li id="myWantedList">나의 모집 내역</li>
-				<li id="myBoardList">내가쓴 글</li>
-				<li><span sec:authorize="hasAnyRole('ROLE_1','ROLE_2','ROLE_4', 'ROLE_5' )">
-				<span id="modifyMyInfo">내 정보 수정</span></span>
-				<span sec:authorize="hasRole('ROLE_6' )">
-				<span id="changeNickName">닉네임 수정</span>
-				</span>
-				</li>
-			</ul>
-
-			<h2>내용</h2>
-			<div class="contentcontainer" id="contentcontainer">
-
-				<p>내용</p>
-				<br /> <br /> <br /> <br />
+						<p>Ethical Kickstarter PBR asymmetrical lo-fi. Dreamcatcher
+							street art Carles, stumptown gluten-free Kickstarter artisan Wes
+							Anderson wolf pug. Godard sustainable you probably haven't heard
+							of them, vegan farm-to-table Williamsburg slow-carb readymade
+							disrupt deep v. Meggings seitan Wes Anderson semiotics, cliche
+							American Apparel whatever. Helvetica cray plaid, vegan brunch
+							Banksy leggings +1 direct trade. Wayfarers codeply PBR selfies.
+							Banh mi McSweeney's Shoreditch selfies, forage fingerstache food
+							truck occupy YOLO Pitchfork fixie iPhone fanny pack art party
+							Portland.</p>
+					</div>
+				</div>
+				</main>
 			</div>
+		</div>
 
-		</article>
-
+		<br /> <br /> <br /> <br />
+		<th:block layout:fragment="script">
+			<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+		</th:block>
 	</div>
-
-<br /> <br /> <br /> <br />
-<br /> <br /> <br /> <br />
-<th:block layout:fragment="script">
-<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
-<script th:src="@{/static/js/member/myPage.js}"></script> 
-</th:block>
-</div>
-<!-- 사용자 스크립트 추가 -->
+	<!-- 사용자 스크립트 추가 -->
 
 
 

@@ -1,6 +1,8 @@
 package com.bit.codesquare.controller.member;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +24,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.member.InstructorInfo;
+import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
 import com.bit.codesquare.dto.member.Member;
 import com.bit.codesquare.mapper.member.MemberMapper;
+import com.bit.codesquare.service.MemberService;
 import com.bit.codesquare.util.CodesquareUtil;
 
 @Controller
@@ -105,7 +110,7 @@ public class MemberController {
 
 	@PostMapping("/nickChange")
 	@ResponseBody
-	public int changeNick(Authentication auth, @RequestBody String nickName) {
+	public int changeNick(Authentication auth, HttpSession session, @RequestBody String nickName) {
 		String userId = auth.getName();
 
 		// 다른정보 가지고올때
@@ -124,6 +129,7 @@ public class MemberController {
 			// us.changeNick(user);
 			logger.info(member.toString());
 			mm.changeNick(member);
+			session.setAttribute("nickName", member.getNickName());
 		}
 
 		// logger.info("count:"+count);
@@ -176,12 +182,7 @@ public class MemberController {
 		return "member/login/findPw";
 	}
 
-//	@RequestMapping("/myPage")
-//	public String myPage(Model model, Principal principal, @ModelAttribute Member member) {
-//		String userId = principal.getName();
-//		model.addAttribute("user", mm.getUser(userId));
-//		return "member/myPage/myPage";
-//	}
+
 
 	@RequestMapping("/myPage")
 	public String myPage(Authentication auth, HttpSession session) {
@@ -287,13 +288,22 @@ public class MemberController {
 
 	@GetMapping("/myAppliedList")
 	public String myAppliedList(Model model, Authentication auth) {
+		logger.info(mm.getAppliedList(auth.getName()).toString());
 		model.addAttribute("list", mm.getAppliedList(auth.getName()));
 		return "member/myPage/myAppliedList";
 	}
 
+	@Autowired
+	MemberService ms;
+	
 	@GetMapping("/myWantedList")
 	public String myWantedList(Model model, Authentication auth) {
-		model.addAttribute("list", mm.getWantedList(auth.getName()));
+		
+		//logger.info(ms.getWantedList(auth.getName()).toString());
+		logger.info(ms.getWantedList(auth.getName()).toString());
+		 model.addAttribute("list", ms.getWantedList(auth.getName()));
+
+		
 		return "member/myPage/myWantedList";
 	}
 

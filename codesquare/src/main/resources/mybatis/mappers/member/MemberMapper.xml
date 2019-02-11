@@ -80,7 +80,7 @@
 	</update>
 	
 	<select id="getReservedList" parameterType="String" resultType="ReservationInfo"> 
-		select a.UserId, a.ReservationDate, a.Id, a.RoomId, b.RoomName, a.PayAmount, a.PaymentDate, a.ReservationTime from ReservationInfo a join RoomInfo b on a.RoomId = b.id where UserId  =#{userId}
+		select a.UserId, a.ReservationDate, a.RoomId, b.RoomName, a.PayAmount, a.PaymentDate, a.ReservationTime from ReservationInfo a join RoomInfo b on a.RoomId = b.id where UserId  =#{userId}
 	</select>
 	
 	<select id="getAppliedList" parameterType="String" resultType="JoiningAndRecruitmentLog"> 
@@ -90,9 +90,14 @@
 		a.ApplyUserId=#{userId}
 	</select>
 	
-	<select id="getWantedList" parameterType="String" resultType="JoiningAndRecruitmentLog"> 
-	select b.Id, b.UserId, a.ApplyUserId, a.ApplyDate, b.BoardKindId, a.BoardId, b.Title, b.WriteDate, a.ApplyContent, a. DeclineContent, a.Status from JoiningAndRecruitmentLog a join Board b on a.BoardId = b.Id where b.UserId=#{userId} AND (BoardKindId='SmnMo' or BoardKindId='StdMo')
+	<select id="getWantedList" parameterType="String" resultType="Board"> 
+	select Id,  WriteDate, Title, Status from Board where UserId= #{userId} AND (BoardKindId='SmnMo' or BoardKindId='StdMo')
 	</select>
+	
+	<select id="getWantedPList" parameterType="int" resultType="JoiningAndRecruitmentLog">
+	select a.BoardId, a.ApplyUserId, a.ApplyDate, b.Title, b.WriteDate, a.ApplyContent, a. DeclineContent, a.Status from JoiningAndRecruitmentLog a join Board b on a.BoardId = b.Id where b.Id=#{boardId}
+	</select>
+	
 	
 	<select id="getInstructorInfo" resultType="instructorInfo">
 	select UserId, IntroContent, History from InstructorInfo where UserId =#{userId}

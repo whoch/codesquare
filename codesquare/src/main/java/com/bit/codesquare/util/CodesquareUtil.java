@@ -54,6 +54,7 @@ public class CodesquareUtil {
 			session.setAttribute("userId", member.getUserId());
 			session.setAttribute("nickName", member.getNickName());
 			session.setAttribute("authorId", member.getAuthorId());
+			session.setAttribute("profileImagePath", member.getProfileImagePath());
 		}
 	}
 	
