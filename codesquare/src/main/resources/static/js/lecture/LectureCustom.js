@@ -308,7 +308,7 @@ $(document).ready(function() {
 			 * 3.최초가 아닐경우 가장 마지막 parentId와 userid로 조회해서 나온 결과중 isRecent가 1인 row값 반환
 			 */
 			
-			location.href="/learn/view?boardId="+boardId+"&userId="+userId;
+			location.href="/learn/view?boardId="+boardId;
 		}else{
 			addBookmark();
 		}

@@ -115,28 +115,60 @@ $("#save").click(function() {
 	saveNoteContent($("#notepad").val());
 });
 
-//우측상단 이전,목록,다음강의 버튼 구성
-//기능1. 강의목록을 가져온다.
-//기능2. 지금 강의가 첫강의인지 마지막강의인지 반환한다.
-//function getLectureListInfo(){
-//	$.ajax({
-//		url:'lectureBtn',
-//		type:'PUT',
-//		data:{"boardId":boardId, "userId":userId,"content":content}
-//	}).done(function(data){
-//		var sHTML=data;
-//		console.log(data);
-//		alert("저장완료");
-//	}).fail(function(data){
-//		if(data!=1){
-//			alert("Load Review Fail");
-//		}
-//	});
-//}
+/*우측상단 이전,목록,다음강의 버튼 구성
+기능1. 강의목록을 가져온다.
+기능2. 지금 강의가 첫강의인지 마지막강의인지 반환한다.
+function getLectureListInfo(){
+	$.ajax({
+		url:'lectureBtn',
+		type:'PUT',
+		data:{"boardId":boardId, "userId":userId,"content":content}
+	}).done(function(data){
+		var sHTML=data;
+		console.log(data);
+		alert("저장완료");
+	}).fail(function(data){
+		if(data!=1){
+			alert("Load Review Fail");
+		}
+	});
+}*/
+
+//목록 토글 기능
+$("#btn-lectureList").click(function(){
+	var status=$(".lecture-list-container").data('status');
+	if(status=='invisible'){
+	  $(".lecture-list-container").animate({
+	    left:'-50%'
+	  },"slow")
+	  $(".lecture-list-container").data('status','visible');
+	}else{
+		$(".lecture-list-container").animate({
+		    left:'100%'
+		  },"slow")
+		  $(".lecture-list-container").data('status','invisible');
+	}
+
+})
+//top으로 가기 waypoint
+// ===== Scroll to Top ==== 
+$(window).scroll(function() {
+    if ($(this).scrollTop() >= 310) {    // If page is scrolled more than 50px
+        $('#top').fadeIn("fast");       // Fade in the arrow
+    } else {
+        $('#top').fadeOut("fast");      // Else fade out the arrow
+    }
+});
+$('#top').click(function() {            // When arrow is clicked
+    $('body,html').animate({
+        scrollTop : 0                   // Scroll to top of body
+    }, 500);
+});
 
 
-
-
+$(document).on('click','#lecture-content-modify',function(){
+	location.href="/learn/course?boardId="+boardId;
+})
 
 
 
