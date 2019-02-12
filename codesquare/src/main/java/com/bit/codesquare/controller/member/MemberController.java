@@ -1,10 +1,10 @@
 package com.bit.codesquare.controller.member;
 
+import java.io.PrintWriter;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -24,9 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.member.InstructorInfo;
-import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
 import com.bit.codesquare.dto.member.Member;
 import com.bit.codesquare.mapper.member.MemberMapper;
 import com.bit.codesquare.service.MemberService;
@@ -43,6 +43,9 @@ public class MemberController {
 	@Autowired
 	CodesquareUtil csu;
 
+	@Autowired
+	MemberService ms;
+	
 
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request) {
@@ -77,26 +80,7 @@ public class MemberController {
 		return count;
 	}
 
-	@PostMapping("/emailCheck")
-	@ResponseBody
-	public int emailCheck(@RequestBody String email) {
 
-		int count = 0;
-		count = mm.emailCheck(email);
-		logger.info(email);
-		return count;
-	}
-
-//	@PostMapping("/nickCheck")
-//	@ResponseBody
-//	public int nickCheck(@RequestBody String nickName) {
-//
-//		int count = 0;
-//		count = mm.nickCheck(nickName);
-//
-//		return count;
-//	}
-//	
 
 	@GetMapping("/changeNick")
 	public String changeNick(Model model, Principal principal) {
@@ -158,29 +142,47 @@ public class MemberController {
 	public String findIdPw() {
 		return "member/login/findIdPw";
 	}
+	
+	@PostMapping("/emailCheck")
+	@ResponseBody
+	public int emailCheck(@RequestBody String email) {
 
-	@GetMapping("/findId")
-	public String findId() {
-		return "member/login/findId";
+		int count = 0;
+		count = mm.emailCheck(email);
+	
+		return count;
+	}
+	
+	@PostMapping("findId")
+	@ResponseBody
+	public String findId(@RequestBody String email) {
+		return mm.findId(email);
 	}
 
-	@PostMapping("/findId")
-	public String findIdDone(HttpServletResponse response, @RequestParam String email, Model model) {
-		model.addAttribute("findIdDone", mm.findId(email));
-		return "findId";
+	@PostMapping("findPw")
+	@ResponseBody
+	public int findPw(@RequestBody Map<String, String> data) {
+		String userId = data.get("userId");
+		String email = data.get("email");
+		int count = 0;
+		count = mm.findPw(userId, email);
+	
+		return count;
 	}
+	
 
-	@GetMapping("/findPw")
-	public String findPw() {
-		return "member/login/findPw";
+	
+	@PostMapping("/findPwMail")
+	@ResponseBody
+	public void mailSending(@RequestBody String userId) {
+		ms.mailSending(userId);
+		
 	}
-
-	@PostMapping("/findPw")
-	public String findPw(@RequestParam String email) {
-		return "member/login/findPw";
-	}
-
-
+	
+	
+	
+	
+	
 
 	@RequestMapping("/myPage")
 	public String myPage(Authentication auth, HttpSession session) {
@@ -291,8 +293,7 @@ public class MemberController {
 		return "member/myPage/myAppliedList";
 	}
 
-	@Autowired
-	MemberService ms;
+
 	
 	@GetMapping("/myWantedList")
 	public String myWantedList(Model model, Authentication auth) {

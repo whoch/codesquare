@@ -18,6 +18,7 @@ public class SecurityMember extends User implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	private String nickName;
+
 	
 	public String getNickName() {
 		return nickName;
@@ -33,7 +34,7 @@ public class SecurityMember extends User implements UserDetails {
 		super(member.getUserId(), member.getPassword(), makeGrantedAuthority(member));
 		
 		this.nickName = member.getNickName();
-
+	
 	}
 
 	private static List<GrantedAuthority> makeGrantedAuthority(Member member) {

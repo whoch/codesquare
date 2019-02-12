@@ -59,11 +59,11 @@
 		UserId = #{userId}
 	</update>
 
-	<select id="findId">
+	<select id="findId" resultType="String">
 		select userId from UserInfo where Email = #{email}
 	</select>
 
-	<select id="findPwCheck">
+	<select id="findPw" resultType="int">
 		select count(*) from UserInfo where userId = #{userId} and Email=#{email}
 	</select>
 	
