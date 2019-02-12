@@ -25,13 +25,10 @@ public class DashboardController {
 	@RequestMapping("/dashboard")
 	public String dashBoard(Model model) {
 		
-		dashboardService.getDifferenceInTime(dashboardService.getUserGroupNoticeList().get(0).getWriteDate());
-		
 		model.addAttribute("allSchedule", dashboardService.getAllSchedule());
 		model.addAttribute("userStats", dashboardService.getUserStats());
 		model.addAttribute("cardLecture", dashboardMapper.getUserLectureList());
 		model.addAttribute("cardGroupNotice", dashboardService.getUserGroupNoticeList());
-		logger.info(dashboardService.getUserGroupNoticeList().toString());
 		return "planner/dashboard";		
 	}
 	

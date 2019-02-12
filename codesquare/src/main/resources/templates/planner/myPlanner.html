@@ -47,15 +47,6 @@
         <div class="row bookmarkList custom-tab">
             <!-- 왼쪽 Nav tabs 부분 -->
             <ul class="nav nav-custom-tabs flex-column col-md-2">
-<!--                 <li class="nav-item">
-                    <a class="nav-link active" href="#all">all</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#study">study</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#seminar">seminar</a>
-                </li> -->
                 <li class="nav-item">
                     <a class="nav-link active" href="#all">all</a>
                 </li>
@@ -68,22 +59,30 @@
 			<!-- 오른쪽 컨텐츠 부분 -->
             <div class="tab-content custom-tab-content col-md-10">
                 <div id="all" class="container tab-pane active">
-                    <p>all</p>
-                    <div class="row">
-                        <ul class="bookmarkList">
-                           <li th:each="list : ${bookmarkList}">
-                           		<span th:text="*{list.boardKindId}"></span>
-                           		<span th:text="*{list.groupId}"></span>
-                           		<span th:text="*{list.title}"></span>
-                           		<span th:text="*{list.content}"></span>
-                           		<span th:text="*{list.status}"></span>
-                           		<span th:text="*{list.writeDateFormat}"></span>
-                           </li>
-                        </ul>
-                    </div>
+					<div class="accordion acc-custom" id="accorionBookmark">
+			        <p class="card-category">테스트</p>
+			            <div class="card" th:each=" list, status : ${bookmarkList}">
+			                <div class="card-header" th:id="'headingBL'+*{status.index}">
+			                    <div class="mb-0 bookmarkGrid">
+			                        <a th:text="*{list.boardName}" href="#"></a> 
+			                        <a th:text="*{list.title}" th:class="(*{status.index} eq 0?'':' collapsed')" data-toggle="collapse"
+			                            th:data-target="'#bookmark'+*{list.id}" aria-expanded="true" th:aria-controls="'bookmark'+*{list.id}">
+			                        </a>
+			                        <span class="status" th:text="(*{list.status} eq 0?'마감':'')"></span> 
+			                        <span class="writeDate" th:text="*{list.writeDateFormat}"></span>
+			                        <button class="fa fa-bookmark" type="button"></button>
+			                        <button class="fa fa-external-link" type="button"></button>
+			                    </div>
+			                </div>
+			                <div th:id="'bookmark'+*{list.id}" th:class="'collapse'+(${status.index} eq 0?' show':'')" 
+			                	th:aria-labelledby="'headingBL'+*{status.index}" data-parent="#accorionBookmark">
+			                    <div class="card-body" th:text="*{list.content}"></div>
+			                </div>
+			            </div>
+			        </div>
                 </div>
-              
             </div>
+            
         </div>
         <!-- END CUSTOM-TAB bookmarkList  -->
         

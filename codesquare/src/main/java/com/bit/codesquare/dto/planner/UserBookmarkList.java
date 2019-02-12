@@ -13,6 +13,7 @@ public class UserBookmarkList {
 	String id; 
 	String boardId;
 	String boardKindId;
+	String boardName;
 	String groupId; 
 	String nickname; 
 	String title; 

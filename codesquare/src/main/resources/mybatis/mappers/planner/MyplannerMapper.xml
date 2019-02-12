@@ -11,10 +11,11 @@
 	
 	<select id="getUserBookmarkList" resultType="UserBookmarkList">
 		SELECT bl.Id, bl.BoardId,
-				 bo.BoardKindId, bo.GroupId, bo.Nickname, bo.Title, bo.Content, bo.WriteDate, bo.`Status`
+				 bo.BoardKindId, bk.BoardName, bo.GroupId, bo.Nickname, bo.Title, bo.Content, bo.WriteDate, bo.`Status`
 		FROM BookmarkList bl 
 		INNER JOIN Board bo ON bl.BoardId=bo.Id
-		WHERE bl.UserId='cksdud'
+		INNER JOIN BoardKind bk ON bk.Id = bo.BoardKindId
+		WHERE bl.UserId='cksdud' ORDER BY Id DESC
 	</select>
 	
 	<select id="getUserBookmarkKinds" resultType="String">

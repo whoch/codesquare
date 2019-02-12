@@ -11,7 +11,8 @@
 4. card-lecture
 5. card-nomal
 6. grid
-
+7. accordion
+8. bookmarkList
 ******************************/
 
 
@@ -24,14 +25,17 @@
 	margin: 70px 0px;
 }
 
-.tab-content {
-	overflow:hidden;
-}
-
 .writeDate {
 	text-align: center;	
 }
 
+.custom-tab-content {
+	overflow:auto;
+}
+
+.custom-tab-content li {
+	list-style-type: none;
+}
 
 /********************
 2. group-schedule
@@ -39,8 +43,6 @@
 
 
 /* nav-tabs custom CSS START */
-
-/* 상속받은 css 초기화하려고 추가 */
 
 /* .custom-tab .nav-tabs .nav-item .nav-link {
 	border : none;
@@ -69,7 +71,6 @@
 
 .custom-tab .nav-custom-tabs {
 	padding: 0px;
-	/* border: none;	 */
 	border-right: 1px solid rgba(0,0,0,.125);
 }
 .custom-tab .nav-custom-tabs .nav-item {
@@ -276,19 +277,38 @@
      grid-template-columns: 30% 50% 20%;
      padding: 5px 0px;
      text-align: left;
- }d
+ }
+
+ 
+ .bookmarkGrid {
+     display: grid;
+     grid-template-columns: 15% 45% 10% 20% 5% 5%;
+ }
+ 
+ 
+ 
+ /**********
+7. accordion
+***********/
+
+
  
  .accordion .card-header a {
 	cursor: pointer;
  }
  
- /**********
-7. accordion
-***********/
 .accordion.acc-custom .card-header {
 	padding: 5px 20px;
-	
 }
 
+
+  /**********
+ 8. bookmarkList
+ ***********/
+ 
+ 
+ 
+ 
+ 
  
  

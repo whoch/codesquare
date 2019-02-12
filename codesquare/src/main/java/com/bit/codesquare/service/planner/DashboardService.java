@@ -86,14 +86,8 @@ public class DashboardService {
 		LocalDate currentDate = LocalDate.now();
 		LocalTime currentTime = LocalTime.now();
 		String result;
-		
-		System.out.println("writeTime:"+writeTime);
-		System.out.println("currentTime"+currentTime);
-		System.out.println(Duration.between(writeTime,currentTime)+" : between");
 		if(writeDateTime!=null && writeDate.isEqual(currentDate)) { //오늘일 때
 			int differenceInMinutes = (int)Duration.between(writeTime,currentTime).toMinutes();
-			System.out.println("writeTime:"+writeTime);
-			System.out.println("currentTime"+currentTime);
 			if(differenceInMinutes<1) {
 				result="방금 전";
 			}else if(differenceInMinutes<60) {
