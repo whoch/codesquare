@@ -1,8 +1,4 @@
-/**
- * 
- */
-
-
+$(document).ready(function(){
 $(function() {
     $( "#testDatepicker" ).datepicker({
     	language: 'en',
@@ -18,3 +14,4 @@ $(function() {
           $(":selected").text();  // 드롭다운리스트가 하나밖에 없다면 이렇게 써도 됨
       $('#txtFavorite').val(selectedText);
   });
+});

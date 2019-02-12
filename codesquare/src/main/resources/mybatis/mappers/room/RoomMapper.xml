@@ -9,4 +9,9 @@
 	<select id="getid" resultType="Room">
 		SELECT * FROM codesquare.RoomInfo where CompanyId=#{companyid}
 	</select>
+	
+	<select id="getroom" resultType="Room">
+		select * from codesquare.RoomInfo where id=#{id}
+	</select>
+	
 </mapper>
