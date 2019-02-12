@@ -99,23 +99,25 @@ public class LectureController {
 	}
 	
 	@RequestMapping("view")
-	public ModelAndView lectureView(@RequestParam("boardId") int boardId, @RequestParam("userId") String userId, Principal pricipal){
+	public ModelAndView lectureView(@RequestParam("boardId") int boardId, Principal pricipal){
 		try {
+			member= memberMapper.getUser(pricipal.getName());
+			
 			String thumbPath=userThumbPath;
 			map= new HashMap<String, Object>();
 			map.put("boardId", boardId);
-			map.put("userId", userId);
+			map.put("userId", member.getUserId());
 			
 			int id=lectureMapper.getLectureBoardIdno(map);
 			map.put("boardId", id);
 			String noteContent=lectureMapper.getLectureHandWriting(map);
 			lecture= lectureMapper.getLectureContent(id);
-			member= memberMapper.getUser(pricipal.getName());
+			
 			member.setProfileImagePath(thumbPath+=cUtil.getPath(member.getUserId(), member.getProfileImagePath()));
 			
 			String status=lectureMapper.getLectureStatus(id);
 			lecture.setLectureStatus(status);
-			
+			mav.addObject("lectureList",lectureMapper.getLecutreList(boardId)); //강의목록 불러오기
 			mav.addObject("user", member);//유저정보
 			mav.addObject("lecture",lecture);//강의정보
 			mav.addObject("noteContent",noteContent);//필기정보
@@ -177,6 +179,12 @@ public class LectureController {
 		return noteContent;
 	}
 	
+	@RequestMapping(value="course",method=RequestMethod.GET)
+	public ModelAndView learnModifyPage(@RequestParam int boardId) {
+		
+		mav.setViewName("lecture/lectureWritePage");
+		return mav; 
+	}
 	
 	
 	
