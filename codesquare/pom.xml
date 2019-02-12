@@ -20,11 +20,17 @@
 	</properties>
 
 	<dependencies>
+		<!-- fancybox -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>fancybox</artifactId>
+		    <version>3.2.5</version>
+		</dependency>
 		<!-- Font Awesome -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>font-awesome</artifactId>
-			<version>5.6.3</version>
+			<version>5.7.1</version>
 		</dependency>
 		<!-- waypoint -->
 		<dependency>
