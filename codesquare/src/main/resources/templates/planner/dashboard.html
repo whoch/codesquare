@@ -79,12 +79,13 @@
 /* 					traditional : true,
  */					success: function (data) {
                         $(this).css('background-color', 'red');
-                        console.log("########여기는?##########");
+                        console.log("##### Ajax SUCCESS #######");
                         console.log(this);
+                        console.log(data);
                         console.log(event);
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        console.log("에러 발생~" + textStatus + " : " + errorThrown);
+                        console.log("##### Ajax ERROR #######");
                     }
                 });
             });
