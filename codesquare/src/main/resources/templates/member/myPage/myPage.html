@@ -5,9 +5,13 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>Insert title here</title>
-
-<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/font-awesome/5.7.1/css/all.css"
+	th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}" />
 </head>
 <body>
 	<div class="container" layout:fragment="content">
@@ -16,102 +20,254 @@
 			<div class="row">
 				<nav class="col-md-3 d-none d-md-block">
 					<div class="sidebar-sticky">
-						<br />
-						<br />
-						<br />
+						<br /> <br /> <br />
 						<ul class="nav flex-column">
 							<li class="nav-item"><a class="nav-link" href="#"> <span
 									id="myNickName" th:text="${session.nickName}"> </span> 님,<br />
 									안녕하세요! <span class="sr-only">(current)</span>
 							</a></li>
 
-
-
-							<li class="nav-item"><a class="nav-link" href="#"> <span
-									data-feather="inbox"></span> 내쪽지함 <span class="sr-only">(current)</span>
-							</a></li>
-							<li class="nav-item"><a class="nav-link" href="#"> <span
-									data-feather="file"></span> 나의 예약 및 결제 내역
-							</a></li>
-							<li  class="nav-item" sec:authorize="hasRole('ROLE_2')"><a class="nav-link" href="#"> <span
-									id="modifyInstructorInfo">강사정보수정하기 </span> </a>
-							<li  class="nav-item" sec:authorize="hasAnyRole('ROLE_1','ROLE_4','ROLE_5', 'ROLE_6') ">
-									<a class="nav-link" href="#"> <span id="toInstructor">강사전환신청하기</span></a></li>
-							<li class="nav-item" sec:authorize="hasAnyRole('ROLE_1', 'ROLE_2' ,'ROLE_4','ROLE_5') "><a class="nav-link" href="#">
-							<span
-									id="changePw">비밀번호바꾸기</span></a> </li>
-
 						</ul>
 
 						<h6
 							class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-							<span>Saved reports</span> <a
-								class="d-flex align-items-center text-muted" href="#"> <span
-								data-feather="plus-circle"></span>
-							</a>
 						</h6>
 						<ul class="nav flex-column mb-2">
-							<li class="nav-item"><a class="nav-link" href="#"> <span
-									data-feather="file-text"></span> Current month
+
+							<li class="nav-item"><a class="nav-link" href="#"><i
+									class="far fa-envelope"></i> 내쪽지함 [<span th:text="${count.messageCount}"></span>] <span class="sr-only">(current)</span>
 							</a></li>
-							<li class="nav-item"><a class="nav-link" href="#"> <span
-									data-feather="file-text"></span> Last quarter
+							<li class="nav-item"><a class="nav-link"
+								href="#myReservedList"> <i
+									class="fas fa-file-invoice-dollar"></i> 나의 예약 및 결제 내역 [<span th:text="${count.reservationCount}"></span>]
 							</a></li>
-							<li class="nav-item"><a class="nav-link" href="#"> <span
-									data-feather="file-text"></span> Social engagement
+							<li class="nav-item" sec:authorize="hasRole('ROLE_2')"><a
+								class="nav-link" href="#modifyInstructorInfoForm"> <i
+									class="fas fa-chalkboard-teacher"></i> 강사정보수정하기
 							</a></li>
-							<li class="nav-item"><a class="nav-link" href="#"> <span
-									data-feather="file-text"></span> Year-end sale
-							</a></li>
+							<li class="nav-item"
+								sec:authorize="hasAnyRole('ROLE_1','ROLE_4','ROLE_5', 'ROLE_6') ">
+								<a class="nav-link" href="#toInstructorForm"><i
+									class="fas fa-user-tie"></i> 강사전환신청하기</a>
+							</li>
+							<li class="nav-item"
+								sec:authorize="hasAnyRole('ROLE_1', 'ROLE_2' ,'ROLE_4','ROLE_5') ">
+								<a class="nav-link" href="#changePwForm"><i
+									class="fas fa-key"></i> 비밀번호바꾸기 </a>
+							</li>
+
 						</ul>
 					</div>
 				</nav>
 				<main class="col h-100">
-				<div class="row bg-light">
+				<div class="row">
 					<div class="col-12 py-4">
 						<ul class="nav">
-							<li class="nav-item"><a class="nav-link" href="#">나의 예약
-									및 결제 내역</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">나의 신청
+							<li class="nav-item"><a class="nav-link"
+								href="#myReservedList"><i class="fas fa-file-invoice-dollar"></i>
+									나의 예약 및 결제 내역</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="#myAppliedList"><i class="far fa-calendar"></i> 나의 신청
 									내역</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">나의 모집
-									내역</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">내가쓴 글</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="#myWantedList"><i class="far fa-calendar-check"></i>
+									나의 모집 내역</a></li>
+							<li class="nav-item"><a class="nav-link" href="#myBoardList"><i
+									class="fas fa-clipboard-list"></i> 내가 쓴 글</a></li>
 							<li class="nav-item"
 								sec:authorize="hasAnyRole('ROLE_1','ROLE_2','ROLE_4', 'ROLE_5' )">
-								<a class="nav-link" href="#" id="modifyMyInfo">내 정보 수정</a>
+								<a class="nav-link" href="#modifyMyInfoForm"><i
+									class="far fa-address-card"></i> 내 정보 수정</a>
 							<li class="nav-item" sec:authorize="hasRole('ROLE_6' )"><a
-								class="nav-link" href="#" id="changeNickName">닉네임 수정</a></li>
+								class="nav-link" href="#changeNickForm"><i
+									class="fas fa-ticket-alt"></i> 닉네임 수정</a></li>
 
 						</ul>
 					</div>
 				</div>
-				<div class="row bg-white">
-					<div class="col-12 py-4">
-						Hello
+				<div class="tab-content">
+					<div id="myReservedList" class="container tab-pane active">
+						<br>
+						<h3>나의 예약 및 결제 내역</h3>
+						<div>예약날짜 예약내역 결제금액 결제일 예약시간</div>
+						<div th:each="rlist : ${rlist}">
+							<span th:text="${rlist.reservationDate}"></span> <span
+								th:text="${rlist.roomName}"></span> <span
+								th:text="${rlist.payAmount}"></span> <span
+								th:text="${rlist.paymentDate}"></span> <span
+								th:text="${rlist.reservationTime}"></span>
 
-						<p>Sriracha biodiesel taxidermy organic post-ironic,
-							Intelligentsia salvia mustache 90's code editing brunch. Butcher
-							polaroid VHS art party, hashtag Brooklyn deep v PBR narwhal
-							sustainable mixtape swag wolf squid tote bag. Tote bag cronut
-							semiotics, raw denim deep v taxidermy messenger bag. Tofu YOLO
-							Etsy, direct trade ethical Odd Future jean shorts paleo. Forage
-							Shoreditch tousled aesthetic irony, street art organic Bushwick
-							artisan cliche semiotics ugh synth chillwave meditation. Shabby
-							chic lomo plaid vinyl chambray Vice. Vice sustainable cardigan,
-							Williamsburg master cleanse hella DIY 90's blog.</p>
-
-						<p>Ethical Kickstarter PBR asymmetrical lo-fi. Dreamcatcher
-							street art Carles, stumptown gluten-free Kickstarter artisan Wes
-							Anderson wolf pug. Godard sustainable you probably haven't heard
-							of them, vegan farm-to-table Williamsburg slow-carb readymade
-							disrupt deep v. Meggings seitan Wes Anderson semiotics, cliche
-							American Apparel whatever. Helvetica cray plaid, vegan brunch
-							Banksy leggings +1 direct trade. Wayfarers codeply PBR selfies.
-							Banh mi McSweeney's Shoreditch selfies, forage fingerstache food
-							truck occupy YOLO Pitchfork fixie iPhone fanny pack art party
-							Portland.</p>
+						</div>
 					</div>
+					<div id="myAppliedList" class="container tab-pane fade">
+						<br>
+						<h3>나의 신청 내역</h3>
+
+						<div>신청날짜 신청내역 상태 신청메세지</div>
+						<div th:each="alist : ${alist}">
+							<span th:text="${alist.applyDate}"></span> <span
+								th:text="${alist.title}"></span> <span
+								th:text="${alist.status} =='' ? '없을무' : ''"></span> <span
+								th:text="${alist.applyContent}"></span>
+
+						</div>
+
+					</div>
+					<div id="myWantedList" class="container tab-pane fade">
+						<br>
+						<h3>나의 모집 내역</h3>
+						<div class="accordion" id="wantedList">
+
+							<div class="card-header">모집 글번호 모집 글 제목 모집글 작성일 상태</div>
+
+							<div class="card" th:each="wlist : ${wlist}">
+								<div class="card-header" id="'heading'+${wlist.id}">
+									<h5 class="mb-0">
+
+
+										<button class="btn btn-link" type="button"
+											data-toggle="collapse" th:data-target="'#body'+${wlist.id}"
+											aria-expanded="true" aria-controls="'body'+${wlist.id}">
+											<span th:text="${wlist.id}"></span> <span
+												th:text="${wlist.title}"></span> <span
+												th:text="${wlist.writeDate}"></span> <span
+												th:if="${wlist.status} == 1 " th:text="모집중"></span> <span
+												th:unless="${wlist.status} == 1" th:text="모집완료"></span>
+
+
+										</button>
+									</h5>
+								</div>
+
+								<div th:id="'body'+${wlist.id}" class="collapse"
+									th:aria-labelledby="'heading'+${wlist.id}"
+									data-parent="#wantedList">
+									<div class="card-body">
+
+										<div th:each="plist : ${wlist.wantedPlist}">
+											신청자 : <span th:text="${plist.ApplyUserId}"></span> 신청일: <span
+												th:text="${plist.applyDate}"> </span> 신청메세지: <span
+												th:text="${plist.applyContent}"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div id="myBoardList" class="container tab-pane fade">
+						<br>
+						<h3>내가 쓴 글</h3>
+						글번호 게시판 제목 작성일 좋아요
+						<div th:each="blist : ${blist}">
+							<span th:text="${blist.id}"></span> 
+							<span th:text="${blist.boardName}"></span>
+							<span th:text="${blist.nickName}"></span>
+							<span th:text="${blist.writeDate}"></span> 
+							<!-- <span th:text="${blist.FileCount}"></span> 
+							<span th:text="${blist.imageCount}"></span>  -->
+							[<span th:text="${blist.CommentCount}"></span>] 
+							<span th:text="${blist.LikeCount}"></span> 
+							<!-- <span th:text="${blist.parantId}"></span> 
+							<span th:text="${blist.status}"></span>   -->
+
+						</div>
+					</div>
+					<div id="modifyMyInfoForm" class="container tab-pane fade">
+						<br>
+						<h3>내 정보 수정</h3>
+						<form id="modifyMyInfoForm">
+							<div>
+								아이디:<input type="hidden" name="userId" th:value="${user.userId}">
+								<span th:text="${user.userId}"> </span>
+							</div>
+
+							<div>
+								이름: <span th:text="${user.name}"></span>
+							</div>
+
+							<div>
+								생년월일: <span th:text="${user.dateOfBirth}"></span>
+							</div>
+
+							<div>
+								닉네임: <span id="nickField" th:text="${user.nickName}"></span> <span
+									id="changeNick"> 변경하기 </span>
+								<div id="changeNickContent">
+									<input type="text" id="nickName" name="nickName"> <span
+										id="nickValidate">변경하기</span><br />
+									<div id="nickCheckMsg">닉네임은 한글,영문자, 숫자를 포함한 2자 이상 10자 이하</div>
+								</div>
+							</div>
+							<div>
+								이메일: <span id="emailField" th:text="${user.email}"></span> <span
+									id="changeEmail"> 변경하기 </span>
+								<div id="changeEmailContent">
+									<input type="text" id="email" name="email"> <span
+										id="emailValidate">변경하기</span><br /> <span id="emailCheckMsg"></span>
+								</div>
+								<br /> <br /> <br /> <br />
+							</div>
+
+						</form>
+					</div>
+					<div id="changeNickForm" class="container tab-pane fade">
+						<br>
+						<h3>닉네임 변경</h3>
+						닉네임: <span id="nickField" th:text="${session.nickName}"></span> <span
+							id="changeNick"> 변경하기 </span>
+						<div id="changeNickContent">
+							<input type="text" id="nickName" name="nickName"> <span
+								id="nickValidate">변경하기</span><br />
+							<div id="nickCheckMsg">닉네임은 한글,영문자, 숫자를 포함한 2자 이상 10자 이하</div>
+						</div>
+					</div>
+					<div id="toInstructorForm" class="container tab-pane fade">
+						<br>
+						<h3>강사 전환 신청하기</h3>
+						<form id="toInstructorForm" method="post">
+							<input type="hidden" name="userId"  th:value="${session.userId}">
+								신청사유:<br />
+								<textarea name="introContent" rows="10"
+									cols="30">
+								</textarea>
+								<br /> <span id="toInstructorDone">신청하기</span>
+						</form>
+					</div>
+
+					<div id="modifyInstructorInfoForm" class="container tab-pane fade">
+						<br>
+						<h3>강사정보 수정하기</h3>
+						<p>Sed ut perspiciatis unde omnis iste natus error sit
+							voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+					</div>
+
+					<div id="changePwForm" class="container tab-pane fade">
+						<br>
+						<h3>비밀번호 변경하기</h3>
+						<form id="changePw" method="post">
+							<span id="pwMsg"></span>
+
+							<div>
+								<input type="hidden" id="userId" name="userId"
+									th:value="${session.userId}"> 비밀번호: <input
+									type="password" id="password" name="password" required>
+							</div>
+							<div>
+								비밀번호확인: <input type="password" id="rePassword" name="rePassword"
+									required><br /> <span id="pwCheckMsg"></span>
+							</div>
+							<span id="pwCheckMsg"></span>
+
+							<div>
+								<span id="pwValidate">변경하기</span>
+							</div>
+						</form>
+
+					</div>
+
+
+
 				</div>
 				</main>
 			</div>
@@ -120,9 +276,7 @@
 		<br /> <br /> <br /> <br />
 		<th:block layout:fragment="script">
 			<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
-			<script>
-				feather.replace()
-			</script>
+			<script th:src="@{/static/js/member/myPage.js}"></script>
 		</th:block>
 	</div>
 	<!-- 사용자 스크립트 추가 -->

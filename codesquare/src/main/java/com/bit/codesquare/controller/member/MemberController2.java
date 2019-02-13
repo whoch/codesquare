@@ -1,22 +1,16 @@
 package com.bit.codesquare.controller.member;
 
-import java.io.PrintWriter;
 import java.security.Principal;
 import java.util.Map;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,10 +26,10 @@ import com.bit.codesquare.mapper.member.MemberMapper;
 import com.bit.codesquare.service.MemberService;
 import com.bit.codesquare.util.CodesquareUtil;
 
-@Controller
-@RequestMapping("/member")
-public class MemberController {
-	private final static Logger logger = LoggerFactory.getLogger(MemberController.class);
+//@Controller
+//@RequestMapping("/member")
+public class MemberController2 {
+	private final static Logger logger = LoggerFactory.getLogger(MemberController2.class);
 
 	@Autowired
 	MemberMapper mm;
@@ -178,29 +172,40 @@ public class MemberController {
 		ms.mailSending(userId);
 		
 	}
+	
+	
+	
+	
+	
 
 	@GetMapping("/myPage")
-	public String myPage(Model model, Authentication auth, HttpSession session) {
+	public String myPage(Model model,@ModelAttribute Member user, Authentication auth, HttpSession session) {
 		csu.getSession(auth, session);
-		String userId = auth.getName();
-		model.addAttribute("user", mm.getUser(userId));
-		model.addAttribute("rlist", mm.getReservedList(userId));
-		model.addAttribute("alist", mm.getAppliedList(userId));
-		model.addAttribute("wlist", ms.getWantedList(userId));
-		model.addAttribute("blist", mm.getMyBoardList(userId));
-		model.addAttribute("count", mm.getMyCount(userId));
-		logger.info(userId);
-		logger.info(mm.getMyCount(userId).toString());
+		model.addAttribute("user", mm.getUser(auth.getName()));
 		return "member/myPage/myPage";
 	}
+//
+//	@GetMapping("/modifyMyInfo")
+//	public String ModifyMyInfo(Model model, Authentication auth) {
+//		return "member/myPage/modifyMyInfo";
+//	}
 
+	@GetMapping("/changePw")
+	public String changePw(Model model, Authentication auth) {
+		
+		model.addAttribute("user", mm.getUser(auth.getName()));
+		// logger.info(userId);
+		return "member/myPage/changePw";
+	}
 
 	@PostMapping("/changePw")
 	@ResponseBody
 	public int changePwDone(@ModelAttribute Member user, @RequestBody Map<String, String> data) {
-		String userId = data.get("userId");
-		String password = data.get("password");
 		int count = 0;
+		String password = data.get("password");
+		String userId = data.get("userId");
+//		logger.info(userId);
+//		logger.info(password);
 		user.setPassword(new BCryptPasswordEncoder().encode(password));
 		user.setUserId(userId);
 		count = mm.changePw(user);
@@ -208,7 +213,19 @@ public class MemberController {
 		return count;
 	}
 
-
+	@GetMapping("/toInstructor")
+	public String toInstructor(Model model, Authentication auth, @ModelAttribute InstructorInfo instructorInfo) {
+		
+		model.addAttribute("user", mm.getUser(auth.getName()));
+		model.addAttribute("instructorInfo", mm.getInstructorInfo(auth.getName()));
+		
+		int count = 0;
+		count = mm.checkInstructor(auth.getName());
+		if (count == 0) {
+			return "member/myPage/toInstructor";
+		}
+		return "member/myPage/instructorPending";
+	}
 
 	@PostMapping("/toInstructor")
 	@ResponseBody
@@ -222,7 +239,16 @@ public class MemberController {
 		return "수정해야해";
 	}
 
-
+	@GetMapping("/modifyInstructorInfo")
+	public String modifyInstructorInfo(Model model,  Authentication auth,
+			@ModelAttribute InstructorInfo instructorInfo) {
+		
+		model.addAttribute("user", mm.getUser(auth.getName()));
+		// logger.info(mm.getUser(userId).toString());
+		model.addAttribute("instructorInfo", mm.getInstructorInfo(auth.getName()));
+		// logger.info(mm.getInstructorInfo(userId).toString());
+		return "member/myPage/modifyInstructorInfo";
+	}
 
 	@PostMapping("/modifyInstructorInfo")
 	public String modifyInstructorInfo(Model model,  @ModelAttribute InstructorInfo instructorInfo,
@@ -230,7 +256,9 @@ public class MemberController {
 		String userId = data.get("userId");
 		String introContent = data.get("introContent");
 		String history = data.get("history");
+//		logger.info(data.toString());
 		model.addAttribute("userId", mm.getUser(userId));
+//		logger.info(userId);
 
 		instructorInfo.setUserId(userId);
 		instructorInfo.setIntroContent(introContent);
@@ -240,8 +268,34 @@ public class MemberController {
 		return "redirect:modifyInstructorInfo";
 	}
 
+	@GetMapping("/myReservedList")
+	public String myReservedList(Model model, Authentication auth) {
+		
+		// model.addAttribute("user", us.getUser(userId));
+
+		model.addAttribute("list", mm.getReservedList(auth.getName()));
+		return "member/myPage/myReservedList";
+	}
+
+	@GetMapping("/myAppliedList")
+	public String myAppliedList(Model model, Authentication auth) {
+		logger.info(mm.getAppliedList(auth.getName()).toString());
+		model.addAttribute("list", mm.getAppliedList(auth.getName()));
+		return "member/myPage/myAppliedList";
+	}
+
 
 	
+	@GetMapping("/myWantedList")
+	public String myWantedList(Model model, Authentication auth) {
+		
+		//logger.info(ms.getWantedList(auth.getName()).toString());
+		logger.info(ms.getWantedList(auth.getName()).toString());
+		 model.addAttribute("list", ms.getWantedList(auth.getName()));
+
+		
+		return "member/myPage/myWantedList";
+	}
 
 	@GetMapping("/myBoardList")
 	public String myBoardList() {
