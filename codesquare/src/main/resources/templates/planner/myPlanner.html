@@ -3,96 +3,184 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-    <title>Dashboard</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/styles/planner/dashboard.css}">
-    <script type="text/javascript" th:inline="javascript">
-	    $(document).ready(function () {
+<title>Dashboard</title>
+<link rel="stylesheet" type="text/css" th:href="@{/static/styles/planner/dashboard.css}">
+<script type="text/javascript" th:inline="javascript">
 
-	        $(".nav-custom-tabs a").click(function () {
-	            $(this).tab('show');
-	        });//탭 클릭 이벤트
-	    });
-		
 
-    </script>
+$(function(){
+	
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	$(function() {
+		$(document).ajaxSend(function(e, xhr, options) {
+			xhr.setRequestHeader(header, token);
+		});
+	});
+	
+	
+
+	    $(".nav-custom-tabs a").click(function () {
+	        $(this).tab('show');
+	    });//탭 클릭 이벤트
+	   
+	   $(".todo-li span").click(function () {
+		 console.log(this);
+		 $(this).attr("contentEditable",true);
+	   });//탭 클릭 이벤트
+	   
+	   $(".todo-li input").change(function () {
+			 console.log("체인지체인지체인지");
+			 $("form").submit();
+			 console.log("체인지체인지체인지후후후후");
+/* 			 $(this).attr("contentEditable",true); */
+		   });//탭 클릭 이벤트
+		   
+	   
+        var bookmarkListObj = /*[[${bookmarkList}]]*/;
+         var JSONallSchedule = JSON.stringify(bookmarkListObj);
+        
+        
+        $(function () {
+            $("#testtest").click(function () {
+                console.log(JSONallSchedule);
+                $.ajax({
+                    type: 'post',
+                    url: '/test',
+                    /* data : {"JSONallScedule":JSONallSchedule, "A" : "A"}, */
+                    data: JSONallSchedule,
+                    contentType: 'application/json; charset=UTF-8',
+    /* 					traditional : true,
+    */					success: function (data) {
+                        $("#testtest").css('background-color', 'red');
+                        console.log("########성공?##########");
+                        console.log(event.target);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("에러 발생~" + textStatus + " : " + errorThrown);
+                    }
+                });
+            });
+        });
+        
+        
+	
+	
+	
+	
+	
+	
+});
+
+
+ </script>
 </head>
 
 <body>
-
     <article class="content" layout:fragment="content">
 
-		<!-- START GROUP-WORK Accorion -->
-       <div class="accordion acc-custom" id="accorionGroupWork">
-       <p class="card-category">그룹 공지사항</p>
+
+        <!-- START GROUP-WORK Accorion -->
+        <div class="accordion acc-custom" id="accorionGroupWork">
+            <p class="card-category">그룹 공지사항</p>
             <div class="card" th:each=" list, status : ${groupWorkList}">
-                <div class="card-header" th:id="'heading'+${status.index}">
+                <div class="card-header" th:id="|heading${status.index}|">
                     <div class="mb-0 grpWkGrid">
-                        <a th:text="${list.groupId}" href="#"></a>
-                        <a th:class="(${status.index} eq 0?'':' collapsed')" data-toggle="collapse"
-                            th:data-target="'#grpWk'+${list.id}" aria-expanded="true" th:aria-controls="'grpWk'+${list.id}" th:text="${list.title}">
-                        </a>
-                        <span class="writeDate" th:text="${list.writeDateFormat}"></span>                       
+                        <a th:text="${list.groupId}" href="#"></a> <a th:class="${status.index eq 0?'':' collapsed'}"
+                            data-toggle="collapse" th:data-target="|#grpWk${list.id}|" aria-expanded="true"
+                            th:aria-controls="'grpWk'+${list.id}" th:text="${list.title}"> </a> <span class="writeDate"
+                            th:text="${list.writeDateFormat}"></span>
                     </div>
                 </div>
-                <div th:id="'grpWk'+${list.id}" th:class="'collapse'+(${status.index} eq 0?' show':'')" 
-                	th:aria-labelledby="'heading'+${status.index}" data-parent="#accorionGroupWork">
+                <div th:id="|grpWk${list.id}|" th:class="|collapse${status.index eq 0?' show':''}|"
+                    th:aria-labelledby="|heading${status.index}|" data-parent="#accorionGroupWork">
                     <div class="card-body" th:text="${list.content}"></div>
                 </div>
             </div>
         </div>
         <!-- END GROUP-WORK Accorion -->
-        
-        
-         <!-- START CUSTOM-TAB bookmarkList -->
+
+
+
+
+
+        <!-- START CUSTOM-TAB bookmarkList -->
         <div class="row bookmarkList custom-tab">
             <!-- 왼쪽 Nav tabs 부분 -->
             <ul class="nav nav-custom-tabs flex-column col-md-2">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#all">all</a>
+                <li class="nav-item" th:each="category,index : ${bookmarkKind}">
+                    <a th:class="|nav-link${index.first?' active':''}|" th:href="|#${category.category}|" th:text="${category.boardName}"></a>
                 </li>
-                
-                <li class="nav-item" th:each="list : ${bookmarkKind}">
-               	 <a class="nav-link" th:href="'#'+${list}" th:text="${list}"></a>
-                </li>
-                
             </ul>
-			<!-- 오른쪽 컨텐츠 부분 -->
+            <!-- 오른쪽 컨텐츠 부분 -->
             <div class="tab-content custom-tab-content col-md-10">
-                <div id="all" class="container tab-pane active">
-					<div class="accordion acc-custom" id="accorionBookmark">
-			        <p class="card-category">테스트</p>
-			            <div class="card" th:each=" list, status : ${bookmarkList}">
-			                <div class="card-header" th:id="'headingBL'+*{status.index}">
-			                    <div class="mb-0 bookmarkGrid">
-			                        <a th:text="*{list.boardName}" href="#"></a> 
-			                        <a th:text="*{list.title}" th:class="(*{status.index} eq 0?'':' collapsed')" data-toggle="collapse"
-			                            th:data-target="'#bookmark'+*{list.id}" aria-expanded="true" th:aria-controls="'bookmark'+*{list.id}">
-			                        </a>
-			                        <span class="status" th:text="(*{list.status} eq 0?'마감':'')"></span> 
-			                        <span class="writeDate" th:text="*{list.writeDateFormat}"></span>
-			                        <button class="fa fa-bookmark" type="button"></button>
-			                        <button class="fa fa-external-link" type="button"></button>
-			                    </div>
-			                </div>
-			                <div th:id="'bookmark'+*{list.id}" th:class="'collapse'+(${status.index} eq 0?' show':'')" 
-			                	th:aria-labelledby="'headingBL'+*{status.index}" data-parent="#accorionBookmark">
-			                    <div class="card-body" th:text="*{list.content}"></div>
-			                </div>
-			            </div>
-			        </div>
-                </div>
-            </div>
             
+            	<button id="testtest" type="button">쀼</button>
+            
+                 <div th:id="*{category.category}" th:class="|container tab-pane ${index.first?'active':'fade'}|" th:each="category,index : ${bookmarkKind}">
+                      <div class="accordion acc-custom" id="accorionBookmark">
+                          <div class="card" th:each="list,status:${index.first?bookmarkList:bookmarkList.?[#strings.startsWith(boardKindId,'__${category.category}__')]}">
+                              <div class="card-header" th:id="|headingBL-*{status.index}|">
+                                  <div class="mb-0 bookmarkGrid">
+                                      <a th:text="*{list.boardName}" href="#"></a> <a th:text="*{list.title}"
+                                          th:class="*{status.index eq 0?'':'collapsed'}" data-toggle="collapse"
+                                          th:data-target="|#bookmark*{list.id}|" aria-expanded="true"
+                                          th:aria-controls="|bookmark*{list.id}|">
+                                      </a>
+                                      <span class="status" th:text="*{list.status eq '0'?'마감':''}"></span>
+                                      <span class="writeDate" th:text="*{list.writeDateFormat}"></span>
+                                      <button class="fa fa-bookmark" type="button"></button>
+                                      <button class="fa fa-external-link" type="button"></button>
+                                  </div>
+                              </div>
+                              <div th:id="|bookmark*{list.id}|"
+                                  th:class="|collapse${status.index eq 0?' show':''}|"
+                                  th:aria-labelledby="|headingBL-*{status.index}|" data-parent="#accorionBookmark">
+                                  <div class="card-body" th:text="*{list.content}"></div>
+                              </div>
+                          </div>
+                      </div>
+                </div>
+                
+                
+                
+                
+                
+                
+                
+                
+            </div>
         </div>
         <!-- END CUSTOM-TAB bookmarkList  -->
-        
-        
-        
-        
-        
+
+
+
+
+          
+		<!-- START TODO List -->
+		<div id="custom-todoList">
+			<form action="/todolist">
+				<div class="form-group todoInputGrid">
+					<div>
+						<textarea class="form-control" rows="1" id="comment" name="content"></textarea>
+					</div>
+					<button type="submit" class="btn fa fa-arrow-circle-up todo-submit-btn"></button>
+				</div>
+			<div>
+				<div class="todoGrid todo-li" th:each="list : ${todoList}">
+					<span th:text="${list.id}"></span>
+					<input th:value="${list.content}"></span>
+					<span th:text="${list.status}"></span>
+				</div>
+			</div>
+			</form>
+		</div>
+		<!-- END TODO List -->
+
+
+
+
     </article>
-
-
-
 </body>
+
 </html>

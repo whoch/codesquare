@@ -59,6 +59,14 @@
             });//탭 클릭 이벤트
         });
 
+        $(".todo-li span").click(function ()){
+            $.ajax({
+               url: "save.php",
+               data: "content="+html
+            })
+        }
+        
+        
         $(function () {
             $(".map").click(function () {
                 $.ajax({
@@ -240,6 +248,8 @@
             </div>
         </div>
         <!-- END GROUPNOTICE CARD -->
+
+
     </article>
 
 

@@ -282,11 +282,22 @@
  
  .bookmarkGrid {
      display: grid;
-     grid-template-columns: 15% 45% 10% 20% 5% 5%;
+     grid-template-columns: 20% 50% 5% 15% 5% 5%;
+ }
+ 
+ .todoGrid {
+     display: grid;
+     grid-template-columns: 20% 50% 10%;
  }
  
  
+  .todoInputGrid {
+     display: grid;
+     grid-template-columns: 90% 10%;
+     align-items: center;
+ }
  
+
  /**********
 7. accordion
 ***********/
@@ -310,5 +321,54 @@
  
  
  
+   /**********
+ 9. todoList
+ ***********/
+  #custom-todoList{
+
+ }
  
  
+ 
+ #custom-todoList .todo-li {
+ 	list-style-type: none;
+ /* 	padding : 10px; */
+ 	margin-bottom: 5px;
+ 	border : 1px solid rgba(0,0,0,.125);
+ 	border-radius: 5px;
+ 	 	
+ }
+ 
+  #custom-todoList .todo-li span {
+	padding : 5px; 
+	margin : 5px; 
+ 	 	
+ }
+ 
+ 
+  #custom-todoList .todo-submit-btn{
+  font-size: 40px;
+ }
+
+ #custom-todoList textarea {
+ 	resize: none
+ }
+ 
+  #custom-todoList input{
+    font-size:14px;
+    line-height:1.25em; 
+    padding:5px; 
+    margin:5px; 
+ 	border: 0;
+ }
+ 
+	
+ #custom-todoList  input[type=number]::-webkit-outer-spin-button,
+ #custom-todoList  input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+ #custom-todoList  input[type=number] {
+    -moz-appearance: textfield;
+}

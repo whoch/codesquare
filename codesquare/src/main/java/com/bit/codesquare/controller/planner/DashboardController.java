@@ -32,11 +32,5 @@ public class DashboardController {
 		return "planner/dashboard";		
 	}
 	
-	@PostMapping("/test")
-	public String test(@RequestBody Object JSONallSchedule,Model model) {
-		logger.info(JSONallSchedule.toString());
-		logger.info("#########오긴오는거니############");
-		model.addAttribute("allSchedule", JSONallSchedule);
-		return "planner/test";		
-	}
+
 }

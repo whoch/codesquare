@@ -18,12 +18,23 @@
 		WHERE bl.UserId='cksdud' ORDER BY Id DESC
 	</select>
 	
-	<select id="getUserBookmarkKinds" resultType="String">
-		SELECT DISTINCT LEFT(bo.BoardKindId,3) AS BookmarkKind
+	<select id="getUserBookmarkKinds" resultType="UserBookmarkCatecory">
+ 		SELECT 'All' as Category, 'ALL' as BoardName FROM DUAL
+ 		UNION     
+		SELECT DISTINCT LEFT(bo.BoardKindId,3), bk.BoardName
 		FROM BookmarkList bl
 		INNER JOIN Board bo ON bl.BoardId=bo.Id
+		INNER JOIN BoardKind bk ON CONCAT("MS",LEFT(bo.BoardKindId,3))=bk.Id
 		WHERE bl.UserId='cksdud'
 	</select>
 	
+	<select id="getUserTodoList" resultType="UserTodoList">
+		SELECT * FROM ToDoList WHERE `UserId`='cksdud'
+		ORDER BY Id DESC, Status DESC
+	</select>
+	
+	<insert id="writeTodo" parameterType="userTodoList">
+		INSERT INTO ToDoList (`UserId`, `Content`) VALUES ('cksdud',#{content});
+	</insert>
 	
 </mapper>

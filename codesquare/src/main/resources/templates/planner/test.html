@@ -8,12 +8,35 @@
 <script type="text/javascript" th:inline="javascript">
 
 var allSchedule = /*[[${allSchedule}]]*/;
-console.log("그냥텍스트구나");
+console.log("ajax test 페이지 들어옴");
 console.log(allSchedule);
 </script>
 
 
-							<li>####### 테스트 ###########</li>
+                <div th:id="*{category.category}" th:class="|container tab-pane ${index.first?'active':'fade'}|" th:each="category,index : ${bookmarkKind}">
+                      <div class="accordion acc-custom" id="accorionBookmark">
+                          <div class="card" th:each="list,status:${index.first?bookmarkList:bookmarkList.?[#strings.startsWith(boardKindId,'__${category.category}__')]}">
+                              <div class="card-header" th:id="|headingBL-*{status.index}|">
+                                  <div class="mb-0 bookmarkGrid">
+                                      <a th:text="*{list.boardName}" href="#"></a> <a th:text="*{list.title}"
+                                          th:class="*{status.index eq 0?'':'collapsed'}" data-toggle="collapse"
+                                          th:data-target="|#bookmark*{list.id}|" aria-expanded="true"
+                                          th:aria-controls="|bookmark*{list.id}|">
+                                      </a>
+                                      <span class="status" th:text="*{list.status eq '0'?'마감':''}"></span>
+                                      <span class="writeDate" th:text="*{list.writeDateFormat}"></span>
+                                      <button class="fa fa-bookmark" type="button"></button>
+                                      <button class="fa fa-external-link" type="button"></button>
+                                  </div>
+                              </div>
+                              <div th:id="|bookmark*{list.id}|"
+                                  th:class="|collapse${status.index eq 0?' show':''}|"
+                                  th:aria-labelledby="|headingBL-*{status.index}|" data-parent="#accorionBookmark">
+                                  <div class="card-body" th:text="*{list.content}"></div>
+                              </div>
+                          </div>
+                      </div>
+                </div>
 
 </body>
 
