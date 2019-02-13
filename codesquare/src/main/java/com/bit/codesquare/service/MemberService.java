@@ -55,10 +55,12 @@ public class MemberService {
 
 		member.setPassword(new BCryptPasswordEncoder().encode(buf));
 		mm.changePw(member);
-		String setfrom = "codesquare12@gmail.com";
+		
+		String setfrom = "info@codesquare.com";
 		String tomail = member.getEmail();
-		String title = "CodeSquare"+userId+"님의 초기화 된 비밀번호";
+		String title = "[NO-REPLY]CodeSquare"+userId+"님의 초기화 된 비밀번호";
 		String content = userId + "님의 초기화된 비밀 번호는 " + buf + " 입니다. ";
+		
 		try {
 			MimeMessage message = mailsender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
@@ -71,6 +73,7 @@ public class MemberService {
 			mailsender.send(message);
 
 		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 

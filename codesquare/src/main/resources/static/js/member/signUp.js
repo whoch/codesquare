@@ -22,13 +22,13 @@ var pwck = 0;
 $("#idValidate").click(function() {
 
 	var userId = $("#userId").val();
-	var regExp = /^[a-z0-9]{4,10}$/;
+	var regExp = /^[a-z0-9]{4,15}$/;
 
 	if (regExp.test(userId)) {
 		idCheck();
 	} else {
 		$("#idCheckMsg").css("color", "red");
-		$("#idCheckMsg").text("닉네임은 영대소문자,한글,숫자로 이루어진 2자이상 10자 미만");
+		$("#idCheckMsg").text("아이디는 영문자,숫자로 이루어진 4자이상 15자 미만");
 		$("#userId").focus();
 	}
 
@@ -47,15 +47,12 @@ function idCheck() {
 			if ( response > 0) {
 
 				$("#idCheckMsg").css("color", "red");
-				$("#idCheckMsg").text("이미 존재하는 닉네임 입니다.");
+				$("#idCheckMsg").text("이미 존재하는 아이디 입니다.");
 				$("#userId").focus();
 
 			} else {
 				$("#idCheckMsg").css("color", "blue");
 				$("#idCheckMsg").text("사용가능한 아이디입니다.");
-//				$("#headerNickName").html(nickName);
-//				$("#nickField").html(nickName);
-//				$("#myNickName").html(nickName);
 
 				// 아이디가 중복하지 않으면 
 				idck = 1
@@ -75,7 +72,7 @@ function idCheck() {
 $("#emailValidate").click(function() {
 
 	var email = $("#email").val();
-	var regExp = /[a-zA-Z0-9]{2,}@[a-zA-Z0-9]{2,}.[a-zA-Z0-9]{2,}/i;
+	var regExp = /[a-zA-Z0-9-_]{2,}@[a-zA-Z0-9]{2,}.[a-zA-Z0-9]{2,}/i;
 
 	if (regExp.test(email)) {
 		emailCheck();
@@ -124,6 +121,21 @@ function emailCheck() {
 };
 
 // 비밀번호 체크
+
+$("#password").blur(function() {
+	
+	var password = $("#password").val();
+	var regExp = /^[a-zA_Z0-9]{4,15}$/;
+	
+	if (regExp.test(rePassword)) {
+		$("#pwCheckMsg").text("");
+	} else {
+		$("#pwCheckMsg").css("color", "red");
+		$("#pwCheckMsg").text("비밀번호는 영 대, 소문자, 숫자 로 이루어진 4자 이상 15자 미만");
+		$("#password").focus();
+	}
+
+});
 
 $("#rePassword").blur(function() {
 	

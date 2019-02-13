@@ -1,7 +1,14 @@
 package com.bit.codesquare.controller.member;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
@@ -12,9 +19,13 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +35,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bit.codesquare.dto.member.InstructorInfo;
 import com.bit.codesquare.dto.member.Member;
@@ -45,7 +59,6 @@ public class MemberController {
 
 	@Autowired
 	MemberService ms;
-	
 
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request) {
@@ -80,8 +93,6 @@ public class MemberController {
 		return count;
 	}
 
-
-
 	@GetMapping("/changeNick")
 	public String changeNick(Model model, Principal principal) {
 		String userId = principal.getName();
@@ -98,8 +109,7 @@ public class MemberController {
 		// 다른정보 가지고올때
 //		SecurityMember sm = (SecurityMember) auth.getPrincipal();
 //		sm.getNickName();
-		
-		
+
 		int count = 0;
 		count = mm.nickCheck(nickName);
 
@@ -142,17 +152,17 @@ public class MemberController {
 	public String findIdPw() {
 		return "member/login/findIdPw";
 	}
-	
+
 	@PostMapping("/emailCheck")
 	@ResponseBody
 	public int emailCheck(@RequestBody String email) {
 
 		int count = 0;
 		count = mm.emailCheck(email);
-	
+
 		return count;
 	}
-	
+
 	@PostMapping("findId")
 	@ResponseBody
 	public String findId(@RequestBody String email) {
@@ -166,17 +176,15 @@ public class MemberController {
 		String email = data.get("email");
 		int count = 0;
 		count = mm.findPw(userId, email);
-	
+
 		return count;
 	}
-	
 
-	
 	@PostMapping("/findPwMail")
 	@ResponseBody
 	public void mailSending(@RequestBody String userId) {
 		ms.mailSending(userId);
-		
+
 	}
 
 	@GetMapping("/myPage")
@@ -189,70 +197,86 @@ public class MemberController {
 		model.addAttribute("wlist", ms.getWantedList(userId));
 		model.addAttribute("blist", mm.getMyBoardList(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
-		logger.info(userId);
-		logger.info(mm.getMyCount(userId).toString());
+		model.addAttribute("instructorInfo", mm.getInstructorInfo(userId));
+
 		return "member/myPage/myPage";
 	}
 
-
 	@PostMapping("/changePw")
 	@ResponseBody
-	public int changePwDone(@ModelAttribute Member user, @RequestBody Map<String, String> data) {
+	public int changePwDone(@ModelAttribute Member member, @RequestBody Map<String, String> data) {
 		String userId = data.get("userId");
 		String password = data.get("password");
 		int count = 0;
-		user.setPassword(new BCryptPasswordEncoder().encode(password));
-		user.setUserId(userId);
-		count = mm.changePw(user);
+		member.setPassword(new BCryptPasswordEncoder().encode(password));
+		member.setUserId(userId);
+		count = mm.changePw(member);
 
 		return count;
 	}
-
-
 
 	@PostMapping("/toInstructor")
 	@ResponseBody
 	public String toInstructor(@ModelAttribute InstructorInfo instructorInfo, @RequestBody Map<String, String> data) {
 
-
 		instructorInfo.setUserId(data.get("userId"));
 		instructorInfo.setIntroContent(data.get("introContent"));
 		mm.toInstructor(instructorInfo);
 
-		return "수정해야해";
+		return "redirect:myPage";
 	}
 
-
-
 	@PostMapping("/modifyInstructorInfo")
-	public String modifyInstructorInfo(Model model,  @ModelAttribute InstructorInfo instructorInfo,
+	public String modifyInstructorInfo(@ModelAttribute InstructorInfo instructorInfo,
 			@RequestBody Map<String, String> data) {
+
 		String userId = data.get("userId");
 		String introContent = data.get("introContent");
 		String history = data.get("history");
-		model.addAttribute("userId", mm.getUser(userId));
 
 		instructorInfo.setUserId(userId);
 		instructorInfo.setIntroContent(introContent);
 		instructorInfo.setHistory(history);
 		mm.modifyInstructorInfo(instructorInfo);
 
-		return "redirect:modifyInstructorInfo";
+		return "redirect:myPage" + "#modifyInstructorInfoForm";
 	}
 
-
+	@GetMapping("/upload")
+	public String upload( Authentication auth, HttpSession session) {
+		csu.getSession(auth, session);
+		return "member/myPage/upload";
+	}
 	
+	
+	
+    @PostMapping("/upload")
+    @ResponseBody
+    public String uploadForm(@RequestBody MultipartFile[] uploadForm, Authentication auth) {
 
-	@GetMapping("/myBoardList")
-	public String myBoardList() {
-//		String userId = principal.getName();
-//		model.addAttribute("list",us.getWantedList(userId));
-		return "member/myPage/myBoardList";
-	}
+    	String userId = auth.getName();
+    	String uploadFolder = "/Users/jiyeon/git/codesquare/codesquare/src/main/resources/static/codesquareDB/UserThumbnail/"+userId;
+    	//db에 저장할 상대경로
+    	//String uploadRelativeDirectory = "/static/codesquareDB/UserThumbnail/"+userId;
+    	
+    	File uploadPath= new File(uploadFolder); //안에 여러개 쓰면 합쳐짐
+    	
+    	if (!uploadPath.exists()) {
+    		uploadPath.mkdirs(); //존재하지 않으면 경로를 만든다
+        }
+    	
+    	String uploadFileName = userId+"_Thumbnail.jpg"; //+multipartFile.getOriginalFilename()하면 업로드한 파일네임으로 들어감
 
-//	@RequestMapping("/logout")
-//	public void logout() {
-//
-//	}
+        try {
+        	File saveFile = new File(uploadPath, uploadFileName);
+        	uploadForm[0].transferTo(saveFile); //실제저장되는단계. savefile:경로랑 파일명 합친거
+        } catch (Exception e) {
+        	e.getMessage();
+        }
+
+        return "redirect:upload";
+    }
+
+  
 
 }

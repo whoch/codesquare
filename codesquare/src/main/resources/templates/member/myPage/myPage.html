@@ -5,9 +5,10 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
-<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
 <!-- default header name is X-CSRF-TOKEN -->
-<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css"
 	href="/webjars/font-awesome/5.7.1/css/all.css"
@@ -22,10 +23,16 @@
 					<div class="sidebar-sticky">
 						<br /> <br /> <br />
 						<ul class="nav flex-column">
-							<li class="nav-item"><a class="nav-link" href="#"> <span
-									id="myNickName" th:text="${session.nickName}"> </span> 님,<br />
-									안녕하세요! <span class="sr-only">(current)</span>
-							</a></li>
+							<li class="nav-item">
+								<div class="profile">
+									<img
+									th:src="@{'/static/codesquareDB/UserThumbnail/'+${session.userId}+'/'+${session.userId}+'_Thumbnail.jpg'}"
+									id="profileImg" style="width: 100px; height: 100px" />
+								</div> <a class="nav-link" href="#"> <span id="myNickName"
+									th:text="${session.nickName}"> </span> 님,<br /> 안녕하세요! <span
+									class="sr-only">(current)</span>
+							</a>
+							</li>
 
 						</ul>
 
@@ -35,11 +42,13 @@
 						<ul class="nav flex-column mb-2">
 
 							<li class="nav-item"><a class="nav-link" href="#"><i
-									class="far fa-envelope"></i> 내쪽지함 [<span th:text="${count.messageCount}"></span>] <span class="sr-only">(current)</span>
+									class="far fa-envelope"></i> 내쪽지함 [<span
+									th:text="${count.messageCount}"></span>] <span class="sr-only">(current)</span>
 							</a></li>
 							<li class="nav-item"><a class="nav-link"
 								href="#myReservedList"> <i
-									class="fas fa-file-invoice-dollar"></i> 나의 예약 및 결제 내역 [<span th:text="${count.reservationCount}"></span>]
+									class="fas fa-file-invoice-dollar"></i> 나의 예약 및 결제 내역 [<span
+									th:text="${count.reservationCount}"></span>]
 							</a></li>
 							<li class="nav-item" sec:authorize="hasRole('ROLE_2')"><a
 								class="nav-link" href="#modifyInstructorInfoForm"> <i
@@ -107,8 +116,8 @@
 						<div th:each="alist : ${alist}">
 							<span th:text="${alist.applyDate}"></span> <span
 								th:text="${alist.title}"></span> <span
-								th:text="${alist.status} =='' ? '없을무' : ''"></span> <span
-								th:text="${alist.applyContent}"></span>
+								th:text="${alist.applyContent}"></span> <span
+								th:text="${alist.status} =='' ? '없을무' : ''"></span>
 
 						</div>
 
@@ -158,25 +167,26 @@
 					<div id="myBoardList" class="container tab-pane fade">
 						<br>
 						<h3>내가 쓴 글</h3>
-						글번호 게시판 제목 작성일 좋아요
+						글번호 게시판 제목 작성일 조회수 좋아요
 						<div th:each="blist : ${blist}">
-							<span th:text="${blist.id}"></span> 
-							<span th:text="${blist.boardName}"></span>
-							<span th:text="${blist.nickName}"></span>
-							<span th:text="${blist.writeDate}"></span> 
+							<span th:text="${blist.id}"></span> <span
+								th:text="${blist.boardName}"></span> <span
+								th:text="${blist.nickName}"></span> <span
+								th:text="${blist.writeDate}"></span>
 							<!-- <span th:text="${blist.FileCount}"></span> 
 							<span th:text="${blist.imageCount}"></span>  -->
-							[<span th:text="${blist.CommentCount}"></span>] 
-							<span th:text="${blist.LikeCount}"></span> 
+							[<span th:text="${blist.commentCount}"></span>] <span
+								th:text="${blist.hit}"></span> <span
+								th:text="${blist.likeCount}"></span>
 							<!-- <span th:text="${blist.parantId}"></span> 
 							<span th:text="${blist.status}"></span>   -->
-
 						</div>
 					</div>
 					<div id="modifyMyInfoForm" class="container tab-pane fade">
 						<br>
 						<h3>내 정보 수정</h3>
-						<form id="modifyMyInfoForm">
+						<form id="modifyMyInfoForm" method="post"
+							enctype="multipart/form-data">
 							<div>
 								아이디:<input type="hidden" name="userId" th:value="${user.userId}">
 								<span th:text="${user.userId}"> </span>
@@ -206,10 +216,16 @@
 									<input type="text" id="email" name="email"> <span
 										id="emailValidate">변경하기</span><br /> <span id="emailCheckMsg"></span>
 								</div>
-								<br /> <br /> <br /> <br />
 							</div>
-
+							<div>
+								프로필: <img
+									th:src="@{'/static/codesquareDB/UserThumbnail/'+${session.userId}+'/'+${session.userId}+'_Thumbnail.jpg'}"
+									id="profileImg" style="width: 100px; height: 100px" /><br />
+								<input type="file" id="uploadProfile" name="uploadProfile">
+								<input type="button" id="uploadDone" value="변경"> 
+							</div>
 						</form>
+
 					</div>
 					<div id="changeNickForm" class="container tab-pane fade">
 						<br>
@@ -222,24 +238,34 @@
 							<div id="nickCheckMsg">닉네임은 한글,영문자, 숫자를 포함한 2자 이상 10자 이하</div>
 						</div>
 					</div>
+
+
 					<div id="toInstructorForm" class="container tab-pane fade">
 						<br>
 						<h3>강사 전환 신청하기</h3>
 						<form id="toInstructorForm" method="post">
-							<input type="hidden" name="userId"  th:value="${session.userId}">
-								신청사유:<br />
-								<textarea name="introContent" rows="10"
-									cols="30">
+							<input type="hidden" name="userId" th:value="${session.userId}">
+							신청사유:<br />
+							<textarea name="introContent" rows="10" cols="30">
 								</textarea>
-								<br /> <span id="toInstructorDone">신청하기</span>
+							<br /> <span id="toInstructorDone">신청하기</span>
 						</form>
 					</div>
 
 					<div id="modifyInstructorInfoForm" class="container tab-pane fade">
-						<br>
-						<h3>강사정보 수정하기</h3>
-						<p>Sed ut perspiciatis unde omnis iste natus error sit
-							voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+						<h3>강사 정보 수정하기</h3>
+						<form id="modifyInstructorInfoForm" method="post">
+							강사 소개글:<br />
+							<textarea id="introContent" name="introContent" rows="10"
+								cols="30" th:text="${instructorInfo.introContent}">
+							</textarea>
+							<br /> <br /> 강사 이력:<br />
+							<textarea id="history" name="history"
+								th:text="${instructorInfo.history}" rows="10" cols="30">
+							</textarea>
+							<span id="modifyInstructorInfoDone">수정하기</span> <br /> <br /> <br />
+							<br />
+						</form>
 					</div>
 
 					<div id="changePwForm" class="container tab-pane fade">
@@ -273,7 +299,6 @@
 			</div>
 		</div>
 
-		<br /> <br /> <br /> <br />
 		<th:block layout:fragment="script">
 			<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
 			<script th:src="@{/static/js/member/myPage.js}"></script>
