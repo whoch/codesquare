@@ -67,6 +67,7 @@
 
 
 			<div sec:authorize="isAuthenticated()">
+			<input type="hidden" id="userId" th:value="@{${session.userId}}">
 				<ul>
 					
 					<li> <img th:src="@{'/static/codesquareDB/UserThumbnail/'+${session.userId}+'/'+${session.userId}+'_Thumbnail.jpg'}"

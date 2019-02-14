@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	xmlns:sd="http://www.thymeleaf.org/spring-data"
 	layout:decorator="layout/mainLayout"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
@@ -40,12 +40,13 @@
 				</div>
 				<div id="lecture-list" class="container-fluid">
 					<h4 class="subtitle">강의목록</h4>
-					<a th:each="list:${lectureList}" th:href="@{${list.id}}"
+					<a th:each="list:${lectureList}" th:href="${lecture.id}+@{/course/}+${list.id}"
 						class="list-group-item-action"> <span class="recommand-title"
 						th:text="@{${list.title}}"></span><br>
 					</a>
 				</div>
 				<div id="lecture-review" class="container-fluid">
+				
 					<h4 class="subtitle">후기</h4>
 					<ul class="review-regist-container list-group">
 						<li class="list-group-item regist-container" style="border: none;">
@@ -56,15 +57,15 @@
 									<!-- <input type="hidden" name="userId" th:value="@{${lecture.userId}}"/>히든속성 유저이름 -->
 									<input type="hidden" name="boardKindId" value="LrnHu" />
 									<!-- 히든속성 강의종류 -->
-									<input type="hidden" name="userId" value="1212" /> 
-									<input type="hidden" name="nickName" th:value="@{${lecture.nickName}}" />
+									<input type="hidden" name="userId" th:value="@{${session.userId}}" /> 
+									<input type="hidden" name="nickName" th:value="@{${session.nickName}}" />
 									<!-- 히든속성 닉네임 -->
 									<div class="col-sm-2 review-writerInfo">
 										<img class="review-writer-thumbnail"
-											th:src="@{/static/codesquareDB/UserThumbnail/1212/1212_Thumbnail.jpg}"
+											th:src="@{${session.profileImagePath}}"
 											alt="유저썸네일" />
 										<div class="review-writer">
-											<h5 class="name" th:text="@{${lecture.nickName}}"></h5>
+											<h5 class="name" th:text="@{${session.nickName}}"></h5>
 										</div>
 									</div>
 									<div class="col-sm-7 review-content">
@@ -115,16 +116,15 @@
 									<!-- <input type="hidden" name="userId" th:value="@{${lecture.userId}}"/>히든속성 유저이름 -->
 									<input type="hidden" name="boardKindId" value="LrnQa" />
 									<!-- 히든속성 강의종류 -->
-									<input type="hidden" name="userId" value="1212" /> <input
-										type="hidden" name="nickName"
-										th:value="@{${lecture.nickName}}" />
+									<input type="hidden" name="userId" th:value=@{${session.userId}} /> 
+									<input type="hidden" name="nickName" th:value="@{${session.nickName}}" />
 									<!-- 히든속성 닉네임 -->
 									<div class="col-sm-2 comment-writerInfo">
 										<img class="commnet-writer-thumbnail"
-											th:src="@{/static/codesquareDB/UserThumbnail/1212/1212_Thumbnail.jpg}"
+											th:src="@{${session.profileImagePath}}"
 											alt="유저썸네일" />
 										<div class="review-writer">
-											<h5 class="name" th:text="@{${lecture.nickName}}"></h5>
+											<h5 class="name" th:text="@{${session.nickName}}"></h5>
 										</div>
 									</div>
 									<div class="col-sm-8 comment-content">
@@ -162,6 +162,7 @@
 					</h5>
 					<button id="lecture-view" type="button" class="lecture-btn btn btn-primary btn-block">강의듣기</button>
 					<button id="lecture-bookmark" type="button" class="lecture-btn btn btn-primary btn-block">찜하기</button>
+					<button th:if="${session.userId}==${lecture.userId}" id="lecture-write" type="button" class="lecture-btn btn btn-primary btn-block" sec:authorize="hasAnyRole('ROLE_2', 'ROLE_3')">강의등록</button>
 				</div>
 				<div class="lecture-overview-footer list-group">
 					<a th:each="list:${recommandList}" th:href="@{${list.id}}"

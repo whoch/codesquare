@@ -14,4 +14,5 @@ public interface CompanyMapper {
 	public List<Company> getseocho() throws Exception;
 	public List<Company> getgeumcheon() throws Exception;
 	public List<Company> search(Company company) throws Exception;
+	public Company companycontent(String companyid) throws Exception;
 }

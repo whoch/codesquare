@@ -14,7 +14,7 @@ public class Comment {
 	String content;
 	int parentId;
 	Date writeDate;
-	String Thumbnail;
+	String profileImagePath;
 	int deleteStatus;
 	
 	

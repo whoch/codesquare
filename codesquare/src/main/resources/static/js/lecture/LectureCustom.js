@@ -1,4 +1,4 @@
-var token = $("meta[name='_csrf']").attr("content");
+ var token = $("meta[name='_csrf']").attr("content");
 var header = $("meta[name='_csrf_header']").attr("content");
 $(function() {
     $(document).ajaxSend(function(e, xhr, options) {
@@ -8,12 +8,12 @@ $(function() {
 
 var boardId = $("[name=boardId]").val();
 var nickName=$("[name=nickName]").val();
-var userId=$("#userId").text();
-
+var userId=$("#userId").val();
+var writerThumbnail=$(".commnet-writer-thumbnail").attr('src');
 // ajax 댓글 목록 불러오기
 function reviewList() {
 	$.ajax({
-		url:'Comment/review/list',
+		url:'/Comment/review/list',
 		type:'get',
 		data:{'boardId' : boardId}
 	}).done(function(data){
@@ -23,7 +23,7 @@ function reviewList() {
 		     	reviewContent+="<input type=\"hidden\" name=\"id\" value=\""+value.id+"\"/>";
 		     	reviewContent+="<div class=\"row review-container\">";
 		     	reviewContent+="<div class=\"col-sm-2 review-writerInfo\">";
-		     	reviewContent+="<img class=\"review-writer-thumbnail\" src=\""+value.thumbnail+"\" alt=\"유저썸네일\" />";
+		     	reviewContent+="<img class=\"review-writer-thumbnail\" src=\""+value.profileImagePath+"\" alt=\"유저썸네일\" />";
 		     	reviewContent+="<div class=\"review-writer\">";
 		     	reviewContent+="<h5 class=\"name\" >"+value.nickName+"</h5>";
 		     	reviewContent+="<h6 class=\"writeDate\" >"+value.writeDate+"</h6></div></div>";
@@ -33,8 +33,10 @@ function reviewList() {
 		     	reviewContent+="<img src=\"/static/images/lectureImages/reviewHeart.png\"alt=\"좋아요\"> ";
 		     	reviewContent+="<label class=\"heart-count\" >"+value.like+"</label>";
 		     	reviewContent+="<div id=\""+value.id+"btn\" class=\"btn-group btn-review-control\" style=\"border-radius: 3px; border: 1px solid #d8d8d8; right: 5px;\">";
-		     	reviewContent+="<button type=\"button\" value=\""+value.id+"\" class=\"btn btn-modify btn- btn-light\">📝</button>";
-		     	reviewContent+="<button type=\"button\" value=\""+value.id+"\" class=\"btn btn-delete btn-light\">✖</button></div></div></div></li>";
+		     	if(value.userId==userId){
+			     	reviewContent+="<button type=\"button\" value=\""+value.id+"\" class=\"btn btn-modify btn- btn-light\">📝</button>";
+			     	reviewContent+="<button type=\"button\" value=\""+value.id+"\" class=\"btn btn-delete btn-light\">✖</button></div></div></div></li>";
+		     	}
 		     });
 		 
 // $(".review-container").append(reviewContent);
@@ -47,7 +49,7 @@ function reviewList() {
 // 댓글 작성
 function insertReview(review){
 	$.ajax({
-		url:'Comment/review/insert',
+		url:'/Comment/review/insert',
 		type:'POST',
 		data:review
 	}).done(function(data){
@@ -65,7 +67,7 @@ function insertReview(review){
 // 수정 댓글 업데이트
 function updateReview(id,content){
 	$.ajax({
-		url:'Comment/review/update',
+		url:'/Comment/review/update',
 		type:'POST',
 		data:{"id":id,"content":content}
 	}).done(function(data){
@@ -80,7 +82,7 @@ function updateReview(id,content){
 // 댓글 삭제
 function deleteReview(id){
 	$.ajax({
-		url:'Comment/review/delete',
+		url:'/Comment/review/delete',
 		type:'GET',
 		data:{"id":id}
 	}).done(function(data){
@@ -97,7 +99,7 @@ function deleteReview(id){
 // QNA댓글 불러오기
 function qnaCommentList(){
 	$.ajax({
-		url:'Comment/qna/list',
+		url:'/Comment/qna/list',
 		type:'get',
 		data:{'boardId' : boardId}
 	}).done(function(data){
@@ -108,15 +110,21 @@ function qnaCommentList(){
 			}else{
 				cContent+="<li id=\"lrnQa-"+value.id+"\"><!--메인 댓글--><div class=\"comment-main-level reply-list\">";
 			}
-		        cContent+="<!-- Avatar --><div class=\"comment-avatar\"><img src=\""+value.thumbnail+"\" alt=\"유저썸네일\"></div>";
+		        cContent+="<!-- Avatar --><div class=\"comment-avatar\"><img src=\""+value.profileImagePath+"\" alt=\"유저썸네일\"></div>";
 		        cContent+="<div class=\"comment-box\">";
 		        cContent+="<div class=\"comment-head\">";
-		        cContent+="<h6 class=\"comment-name\"><a href=\"member/"+value.id+"\">작성자</a></h6>";
-		        cContent+="<span>"+value.writeDate+"</span>";
-		        if(value.deleteStatus==0){
-		        	cContent+="<span class=\"comment-icon\"><i class=\"fa fa-reply\" title=\"댓글달기\"></i><i class=\"fas fa-edit\" title=\"수정하기\"></i><i class=\"fa fa-trash\" title=\"삭제하기\"></i></span>";
+		        cContent+="<h6 class=\"comment-name";
+		        if(value.userId==userId){
+		        	cContent+=" by-author";
 		        }
-		        cContent+="</div><div class=\"comment-content\"><p class=\"comment-content-text\">"+value.content+"</p></div></div></div>";
+		        cContent+="\"><a href=\"member/"+value.id+"\">"+value.nickName+"</a></h6><span>"+value.writeDate+"</span>";
+		        if(value.deleteStatus==0){
+		        	cContent+="<span class=\"comment-icon\"><i class=\"fa fa-reply\" title=\"댓글달기\"></i>";
+		        	if(value.userId==userId){
+		        		cContent+="<i class=\"fas fa-edit\" title=\"수정하기\"></i><i class=\"fa fa-trash\" title=\"삭제하기\"></i>";
+		        	}
+		        }		        
+		        cContent+="</span></div><div class=\"comment-content\"><p class=\"comment-content-text\">"+value.content+"</p></div></div></div>";
 		        cContent+="</li>";
 		})
 		cContent+="</ul>";
@@ -130,7 +138,7 @@ function qnaCommentList(){
 // QNA댓글 작성하기
 function insertQNAComment(comment){
 	$.ajax({
-		url:'Comment/qna/insert',
+		url:'/Comment/qna/insert',
 		type:'POST',
 		data:comment
 	}).done(function(data){
@@ -148,7 +156,7 @@ function insertQNAComment(comment){
 // QNA댓글 수정하기
 function updateQNAComment(id,content){
 	$.ajax({
-		url:'Comment/qna/update',
+		url:'/Comment/qna/update',
 		type:'POST',
 		data:{"id":id,"content":content}
 	}).done(function(data){
@@ -162,7 +170,7 @@ function updateQNAComment(id,content){
 // QNA댓글 삭제하기
 function deleteQNAComment(id){
 	$.ajax({
-		url:'Comment/qna/delete',
+		url:'/Comment/qna/delete',
 		type:'GET',
 		data:{"id":id}
 	}).done(function(data){
@@ -178,7 +186,7 @@ function deleteQNAComment(id){
 //찜하기 메서드
 function addBookmark(){
 	$.ajax({
-		url:'bookmark',
+		url:'/learn/bookmark',
 		type:'POST',
 		data:{"userId":userId, "boardId":boardId}
 	}).done(function(data){
@@ -261,13 +269,13 @@ $(document).ready(function() {
 			replyContent+="<li id=\"reply\"><!--메인 댓글--><form name=\"comment-reply-form\"><div class=\"comment-main-level reply-list\">";
 			replyContent+="<input type=\"hidden\" name=\"boardId\" value=\""+boardId+"\" />";
 			replyContent+="<input type=\"hidden\" name=\"boardKindId\" value=\"LrnQa\" />";
-			replyContent+="<input type=\"hidden\" name=\"userId\" value=\"1212\" /> ";
+			replyContent+="<input type=\"hidden\" name=\"userId\" value=\""+userId+"\" /> ";
 			replyContent+="<input type=\"hidden\" name=\"nickName\"	value=\""+nickName+"\" />";
 			replyContent+="<input type=\"hidden\" name=\"parentId\"	value=\""+id+"\" />";
-	        replyContent+="<!-- Avatar --><div class=\"comment-avatar\"><img src=\"/static/codesquareDB/UserThumbnail/1212/1212_Thumbnail.jpg\" alt=\"유저썸네일\"></div>";
+	        replyContent+="<!-- Avatar --><div class=\"comment-avatar\"><img src=\""+writerThumbnail+"\" alt=\"유저썸네일\"></div>";
 	        replyContent+="<div class=\"comment-box\">";
 	        replyContent+="<div class=\"comment-head\">";
-	        replyContent+="<h6 class=\"comment-name\"><a href=\"member/\" >작성자</a></h6>";
+	        replyContent+="<h6 class=\"comment-name\"><a href=\"member/\" >"+userId+"</a></h6>";
 	        replyContent+="<span class=\"comment-icon\"><i class=\"far fa-check-square fa-lg btn-regist\" title=\"등록\" aria-hidden=\"true\"></i><i class=\"fa fa-ban fa-lg\" title=\"취소\" aria-hidden=\"true\"></i></span></div>";
 	        replyContent+="<div class=\"comment-content\"><textarea rows=\"3\" cols=\"20\" name=\"content\" maxlength=\"300\" required=\"required\" placeholder=\"바르고 고운말을 사용해요!!\"></textarea></div></div></div>";
 	        replyContent+="</form></li>";
@@ -301,19 +309,52 @@ $(document).ready(function() {
 		var obj=$(this).attr('id');
 		console.log(obj);
 		if(obj=='lecture-view'){
+			var parentId;
 			/**
 			 * 강의듣기버튼 눌렀을 경우의 로직
 			 * 1.유저아이디로 db의 UserLearningLog테이블을 조회해서 어디까지 봤는지 검색(parentId)
 			 * 2.최초 강의듣기일 경우 첫번째 강의로 이동(LrnVo이며 ParentId를 통해 목록을 뽑아내서 최초row)
 			 * 3.최초가 아닐경우 가장 마지막 parentId와 userid로 조회해서 나온 결과중 isRecent가 1인 row값 반환
 			 */
+			$.ajax({
+				url:'/learn/get/boardId',
+				type:'GET',
+				data:{"userId":userId, "parentId":boardId}
+			}).done(function(data){
+				if(data!=null){
+					parentId=data;
+					location.href=boardId+"/course/"+parentId;
+				}
+				
+			}).fail(function(data){
+					alert("Load Review Fail");
+			});
 			
-			location.href="/learn/view?boardId="+boardId;
+			
 		}else{
 			addBookmark();
 		}
 		
 	})
+	$("#lecture-write").click(function(){
+		location.href="/learn/intro/"+boardId+"/course";
+	})
 	
 
 });
+
+//window.onbeforeunload = function() {
+//	$.ajax({
+//		url:'/learn/course/update',
+//		type:'PUT',
+//		data:{"boardId":boardId}
+//	}).done(function(data){
+//		alert("조회수 증가");
+//	}).fail(function(data){
+//			alert("Load Review Fail");
+//	});
+//}
+
+
+
+

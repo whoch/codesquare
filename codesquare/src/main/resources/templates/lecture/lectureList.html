@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	xmlns:sd="http://www.thymeleaf.org/spring-data"
 	layout:decorator="layout/mainLayout"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
@@ -52,9 +52,9 @@
 				</div>
 			</div>
 		</div>
-		<ul class="leucture-group list-group list-group-flush">
+		<ul class="leucture-group list-group list-group-flush" style="border-bottom: 2px solid #D8D8D8;">
 			<li class="list-group-item" th:each="item:${lectureList}">
-				<a th:href="@{learn/}+${item.id}">
+				<a th:href="@{learn/intro/}+${item.id}">
 					<div class="row lecture-list">
 						<div class="lecture-thumbnail col-sm-2 align-self-center">
 							<img th:src="@{${item.thumbnailPath}}"	alt="강좌썸네일" />
@@ -83,8 +83,8 @@
 				</a>
 			</li>
 		</ul>
-		<div>
-			<br /> <br /> <br /> <br />
+		<div sec:authorize="hasAnyRole('ROLE_2', 'ROLE_3')" class="d-flex flex-row-reverse bg-light" >
+		  <a class="p-2 btn btn-secondary btn-lg" th:href="@{learn/intro}">강의등록</a>
 		</div>
 	</div>
 	<!-- end content -->

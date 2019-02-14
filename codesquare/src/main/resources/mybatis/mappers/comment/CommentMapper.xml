@@ -33,7 +33,7 @@
 		ORDER BY Id DESC;
 	</select>
 	<select id="getQNACommentList" parameterType="int" resultType="Comment">
-		SELECT c.*, u.profileImagePath AS 'Thumbnail'
+		SELECT c.*, u.profileImagePath
 		FROM `Comment`c INNER JOIN UserInfo u ON c.UserId=u.UserId
 		WHERE c.BoardId=#{id} AND c.BoardKindId="LrnQa"
 		ORDER BY IF(ISNULL(c.ParentId), c.Id, c.ParentId), c.Id;

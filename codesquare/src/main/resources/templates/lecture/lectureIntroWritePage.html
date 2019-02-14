@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sd="http://www.thymeleaf.org/spring-data"
+	layout:decorator="layout/mainLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<th:block layout:fragment="css">
+	<link rel="stylesheet" type="text/css"
+		th:href="@{/static/styles/lecture/lectureCustom.css}">
+	<link rel="stylesheet" type="text/css"
+		th:href="@{/webjars/dropzone/5.5.0/dropzone.css}">
+
+</th:block>
+
+</head>
+<body id="write-page">
+	<!-- BoardKindId,UserId,Nickname,Title,Content,ParentId -->
+	<div class="container" layout:fragment="content">
+		<div class="lecture-write-container" ondragover="allowDrop(event)"
+			style="margin-top: 5px;">
+			<form action="/file-upload" class="dropzone" id="lectureImg-dropzone">
+				<div class="dz-default dz-message"><i class="fas fa-image fa-5x"></i><br />썸네일을 업로드 해주세요.</div>
+			</form>
+			<div class="col-sm-12 video-change-box"></div>
+			<div class="col-sm-12 lecture-content">
+				<form name="lectureResgistForm">
+					<div class="col-sm-12 lecture-title">
+						<input type="hidden" name="boardKindId" value="LrnPr"> <input
+							type="hidden" name="Nickname" th:value="@{${session.nickName}}">
+						<input type="hidden" name="userId" th:value="@{${session.userId}}">
+						<input type="text" name="title" placeholder="제목을 입력해 주세요"
+							style="background: #F2F2F2; border: 2px solid gray; margin: 5px 0 5px 0"
+							value="">
+					</div>
+					<textarea name="content" id="content"
+						style="width: 100%; height: 412px; min-width: 610px; overflow: visible;"
+						rows="25"></textarea>
+
+					<div class="d-flex lecture-btn-container">
+						<button type="button"
+							class="btn-lecture-cancel p-2 flex-fill btn btn-secondary btn-lg"
+							style="margin-right: 1px;">취소</button>
+						<button type="button"
+							class="btn-lecture-regist p-2 flex-fill btn btn-secondary btn-lg">등록</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<th:block layout:fragment="script">
+			<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+			<script type="text/javascript"
+				th:src="@{/static/js/smarteditor2/dist/js/service/HuskyEZCreator.js}"></script>
+			<script type="text/javascript"
+				th:src="@{/webjars/dropzone/5.5.0/dropzone.js}"></script>
+			<script type="text/javascript"	th:src="@{/static/js/Lecture/LectureWriteCustom.js}"></script>
+			<script type="text/javascript"	th:src="@{/static/js/Lecture/fileCustom.js}"></script>
+		</th:block>
+	</div>
+	<!-- end content -->
+</body>
+</html>
