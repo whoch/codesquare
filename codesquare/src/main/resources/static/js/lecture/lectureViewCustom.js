@@ -1,5 +1,9 @@
+var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
 $(function() {
-    onYouTubeIframeAPIReady();
+	$(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
     createSmartEditor();
     
     
@@ -8,7 +12,18 @@ var boardId = $("[name=boardId]").val();
 var boardKindId = $("[name=boardKindId]").val();
 var nickName=$(".comment-writerInfo>[name=nickName]").val();
 var userId=$(".comment-writerInfo>[name=userId]").val();
+var parentId=$("#parent-link").data('parentid');
+var duartion;
+var videoCurrentTime=$("#currentTime").val()
 var oEditors = [];
+
+//YOUTUBE
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+var player;
+var btnContent;
 function createSmartEditor(){
 	
 	nhn.husky.EZCreator.createInIFrame({
@@ -24,18 +39,14 @@ function createSmartEditor(){
 
 	});
 }
-// YOUTUBE
-var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-var player;
+
 
 function onYouTubeIframeAPIReady() {
+	var videoUrl=$("#player").data('modifyVideoid');	
 	player = new YT.Player('player', {
 		height: '910.125px',
 		width: '1618px',
-		videoId: '2fnpPUs79MQ',
+		videoId: videoUrl,
 		playerVars: {
 			'autoplay': 0, // 자동재생
 			'controls': 1, // 재생컨트롤 노출여부
@@ -43,6 +54,7 @@ function onYouTubeIframeAPIReady() {
 			'rel': 0, // 동영상 재생완료 후 유사동영상 노출여부
 			'playsinline': 1, // 현페이지에서 재생
 			'wmode': 'transparent'
+				
 		},
 		events: {
 			'onReady': onPlayerReady,
@@ -59,12 +71,26 @@ function onPlayerStateChange(event) {
 				event.data == YT.PlayerState.BUFFERING ? 'buffering' :
 					event.data == YT.PlayerState.CUED ? 'playready' :
 						event.data == -1 ? 'not start' : 'error';
+	if (playerState == "playready"){
+		
+	}
 	if (playerState == "end") {
-		$(".video-finish").css('display','block');
-				
+		$(".video-overaybox").css('display','block');
+		btnContent="";
+		btnContent+="<button type=\"button\" id=\"nextLecture\"class=\"btn btn-lg btn-secondary btn-yt\">다음 강의듣기</button>";
+		btnContent+="<button type=\"button\" id=\"replay\"class=\"btn btn-lg btn-secondary btn-yt\">다시 보기</button>";
+		btnContent+="<button type=\"button\" id=\"goQna\"class=\"btn btn-lg btn-secondary btn-yt\">질문하러가기</button>";
+		$("#modal-container").html(btnContent);
 	}
 }
 function onPlayerReady(event) {
+	$(".video-overaybox").css('display','block');
+	btnContent="";
+	if(videoCurrentTime!=0){
+		btnContent+="<button type=\"button\" id=\"btn-continue\"class=\"btn btn-lg btn-secondary btn-yt\">이어보기</button>";
+	}
+	btnContent+="<button type=\"button\" id=\"btn-begin\"class=\"btn btn-lg btn-secondary btn-yt\">처음분터보기</button>";
+	$("#modal-container").html(btnContent);
 }
 
 $(".lecture-link").click(function(){
@@ -80,7 +106,7 @@ $(".lecture-link").click(function(){
 //노트 정보 가져와서 붙혀넣기
 function addNoteContent(){
 	$.ajax({
-		url:'note',
+		url:'/learn/note',
 		type:'GET',
 		data:{"boardId":boardId, "userId":userId}
 	}).done(function(data){
@@ -97,7 +123,7 @@ function addNoteContent(){
 //필기정보 저장
 function saveNoteContent(content){
 	$.ajax({
-		url:'note',
+		url:'/learn/note',
 		type:'PUT',
 		data:{"boardId":boardId, "userId":userId,"content":content}
 	}).done(function(data){
@@ -110,6 +136,43 @@ function saveNoteContent(content){
 		}
 	});
 }
+function playYoutube() {
+    // 플레이어 자동실행 (주의: 모바일에서는 자동실행되지 않음)
+    player.playVideo();
+}
+function pauseYoutube() {
+    player.pauseVideo();
+}
+function waypointStartYoutube(time) {
+	if(player){
+	    player.seekTo(time, true);     // 영상의 시간을 0초로 이동시킨다.
+//	    player.playVideo();
+	}
+}
+$(document).on('click','#btn-begin, #btn-continue, #replay, #goQna, #nextLecture', function(){
+	var eventId=$(this).attr('id');
+	switch(eventId){
+		case 'btn-begin': waypointStartYoutube(0);
+			$(".video-overaybox").css('display','none');
+			break;
+		case 'btn-continue':waypointStartYoutube(videoCurrentTime);
+			$(".video-overaybox").css('display','none');
+			break;
+		case 'replay':waypointStartYoutube(0);
+			$(".video-overaybox").css('display','none');
+			break;
+		case 'goQna':
+			$("#collapseTwo").collapse('show')
+			var offset = $("#collapseTwo").offset();
+	        $('html, body').animate({scrollTop : offset.top}, 400);
+			break;
+		case 'nextLecture':
+	}
+})
+
+
+
+
 $("#save").click(function() {
 	oEditors.getById["notepad"].exec("UPDATE_CONTENTS_FIELD", []);
 	saveNoteContent($("#notepad").val());
@@ -165,13 +228,43 @@ $('#top').click(function() {            // When arrow is clicked
     }, 500);
 });
 
-
+//강의내용 수정하기 버튼 
 $(document).on('click','#lecture-content-modify',function(){
-	location.href="/learn/course?boardId="+boardId;
+	location.href="/learn/intro/"+parentId+"/course/post/"+boardId;
 })
+//$(window).on("beforeunload",function(){
+$("#btn-nextLecture").click(function(){
+	getDuration();
+	var llInfo=new Object()
+	llInfo.userId=userId;
+	llInfo.parentId=parentId;
+	llInfo.boardId=boardId;
+	llInfo.currentTime=videoCurrentTime;
+	llInfo.duration=duration;
+	updateLearningLogInfo(llInfo);
+})
+function updateLearningLogInfo(llInfo){
+	$.ajax({
+		url:'/learn/learninglog/update',
+		type:'PUT',
+		data:llInfo
+	}).done(function(data){
+		alert("로그저장완료");
+		return;
+	}).fail(function(data){
+			alert("Log Save Fail");
+	});
+}
+window.onYouTubePlayerReady = function(playerId) {
+    window.player = document.getElementById("player");
+    getDuration();
+}
 
-
-
-
+function getDuration() {
+    if (player) {
+        duration = player.getDuration();
+        videoCurrentTime=player.getCurrentTime();
+    }
+}
 
 

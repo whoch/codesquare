@@ -23,7 +23,7 @@ import com.bit.codesquare.mapper.comment.CommentMapper;
 import com.bit.codesquare.util.CodesquareUtil;
 
 @Controller
-@RequestMapping(value= {"learn/Comment","Board/Comment", "*/Comment"})
+@RequestMapping(value="Comment")
 public class CommentController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BoardRestController.class);
@@ -45,14 +45,12 @@ public class CommentController {
 	@ResponseBody
 	public List<LectureReview> reviewList(@RequestParam int boardId)throws Exception{
 		
-		
 		lrList=cMapper.getLectureReview(boardId);
 		for(LectureReview lr:lrList) {
 			String path= userThumbPath;
-			path+=cUtil.getPath(lr.getUserId(),lr.getThumbnail());
-			lr.setThumbnail(path);
+			path+=cUtil.getPath(lr.getUserId(),lr.getProfileImagePath());
+			lr.setProfileImagePath(path);
 		}
-		logger.info("불러오기도 완료.");
 		return lrList;
 	}
 	
@@ -63,16 +61,13 @@ public class CommentController {
 		int result=cMapper.insertReview(lReview);
 		cMapper.updateLikePlus(lReview);
 		
-		logger.info("result:"+result);	
 		return result;
 	}
 	
 	@RequestMapping(value="review/delete" , method=RequestMethod.GET)
 	@ResponseBody
 	private int deleteReview(@RequestParam int id)throws Exception {
-		logger.info("id"+id);
 		int result=cMapper.deleteReview(id);	
-		logger.info("result:"+result);	
 		return result;
 	}
 	
@@ -83,7 +78,6 @@ public class CommentController {
 		lReview.setId(id);
 		lReview.setContent(content);
 		int result=cMapper.updateReview(lReview);
-		logger.info("result:"+result);
 		return result;
 	}
 	
@@ -93,9 +87,8 @@ public class CommentController {
 		List<Comment> cList=cMapper.getQNACommentList(boardId);
 		for(Comment c:cList) {
 			String path= userThumbPath;
-			path+=cUtil.getPath(c.getUserId(),c.getThumbnail());
-			logger.info("thumbnail:"+path);
-			c.setThumbnail(path);
+			path+=cUtil.getPath(c.getUserId(),c.getProfileImagePath());
+			c.setProfileImagePath(path);
 		}
 		return cList;
 	}
@@ -104,7 +97,6 @@ public class CommentController {
 	@ResponseBody
 	private int insertQNAComment(@ModelAttribute Comment comment)throws Exception {
 		int result = cMapper.insertQNAComment(comment);
-		logger.info("입력결과:"+result);
 		return result;
 	}
 	/**
@@ -127,7 +119,6 @@ public class CommentController {
 		}		
 		if(searchCCResult==0) {
 			result = cMapper.deleteQNAComment(id);
-			logger.info("삭제된결과는"+result+"입니다");
 			return result;
 		}else {
 			comment = new Comment();
@@ -146,7 +137,6 @@ public class CommentController {
 		comment.setId(id);
 		comment.setContent(content);
 		int result=cMapper.updateQNAComment(comment);
-		logger.info("입력결과:"+result);
 		return result;
 	}
 	
@@ -165,9 +155,8 @@ public class CommentController {
 		List<Comment> cList=cMapper.getCommentList(map);
 		for(Comment c:cList) {
 			String path= userThumbPath;
-			path+=cUtil.getPath(c.getUserId(),c.getThumbnail());
-			logger.info("thumbnail:"+path);
-			c.setThumbnail(path);
+			path+=cUtil.getPath(c.getUserId(),c.getProfileImagePath());
+			c.setProfileImagePath(path);
 		}
 		return cList;
 	}
@@ -175,9 +164,7 @@ public class CommentController {
 	@RequestMapping(value="/insert" , method=RequestMethod.POST)
 	@ResponseBody
 	private int insertComment(@ModelAttribute Comment comment)throws Exception {
-		logger.info("입력결과:"+comment.toString());
 		int result = cMapper.insertComment(comment);
-		logger.info("입력결과:"+result);
 		return result;
 	}
 	/**
@@ -200,7 +187,6 @@ public class CommentController {
 		}		
 		if(searchCCResult==0) {
 			result = cMapper.deleteComment(id);
-			logger.info("삭제된결과는"+result+"입니다");
 			return result;
 		}else {
 			comment = new Comment();

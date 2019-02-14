@@ -9,7 +9,7 @@ var writerThumbnail=$(".commnet-writer-thumbnail").attr('src');
 //댓글 불러오기
 function getCommentList(){
 	$.ajax({
-		url:'Comment/list',
+		url:'/Comment/list',
 		type:'get',
 		data:{'boardId' : boardId,'boardKindId':boardKindId}
 	}).done(function(data){
@@ -20,15 +20,21 @@ function getCommentList(){
 			}else{
 				cContent+="<li id=\""+value.boardKindId+"-"+value.id+"\"><!--메인 댓글--><div class=\"comment-main-level reply-list\">";
 			}
-		        cContent+="<!-- Avatar --><div class=\"comment-avatar\"><img src=\""+value.thumbnail+"\" alt=\"유저썸네일\"></div>";
+		        cContent+="<!-- Avatar --><div class=\"comment-avatar\"><img src=\""+value.profileImagePath+"\" alt=\"유저썸네일\"></div>";
 		        cContent+="<div class=\"comment-box\">";
 		        cContent+="<div class=\"comment-head\">";
-		        cContent+="<h6 class=\"comment-name\"><a href=\"member/"+value.id+"\">"+value.nickName+"</a></h6>";
-		        cContent+="<span>"+value.writeDate+"</span>";
-		        if(value.deleteStatus==0){
-		        	cContent+="<span class=\"comment-icon\"><i class=\"fa fa-reply\" title=\"댓글달기\"></i><i class=\"fas fa-edit\" title=\"수정하기\"></i><i class=\"fa fa-trash\" title=\"삭제하기\"></i></span>";
+		        cContent+="<h6 class=\"comment-name";
+		        if(value.userId==userId){
+		        	cContent+=" by-author";
 		        }
-		        cContent+="</div><div class=\"comment-content\"><p class=\"comment-content-text\">"+value.content+"</p></div></div></div>";
+		        cContent+="\"><a href=\"member/"+value.id+"\">"+value.nickName+"</a></h6><span>"+value.writeDate+"</span>";
+		        if(value.deleteStatus==0){
+		        	cContent+="<span class=\"comment-icon\"><i class=\"fa fa-reply\" title=\"댓글달기\"></i>";
+		        	if(value.userId==userId){
+		        		cContent+="<i class=\"fas fa-edit\" title=\"수정하기\"></i><i class=\"fa fa-trash\" title=\"삭제하기\"></i>";
+		        	}
+		        }
+		        cContent+="</span></div><div class=\"comment-content\"><p class=\"comment-content-text\">"+value.content+"</p></div></div></div>";
 		        cContent+="</li>";
 		})
 		cContent+="</ul>";
@@ -42,7 +48,7 @@ function getCommentList(){
 // 댓글 작성하기
 function insertComment(comment){
 	$.ajax({
-		url:'Comment/insert',
+		url:'/Comment/insert',
 		type:'POST',
 		data:comment
 	}).done(function(data){
@@ -60,7 +66,7 @@ function insertComment(comment){
 // 댓글 수정하기
 function updateComment(id,content){
 	$.ajax({
-		url:'Comment/update',
+		url:'/Comment/update',
 		type:'POST',
 		data:{"id":id,"content":content}
 	}).done(function(data){
@@ -74,7 +80,7 @@ function updateComment(id,content){
 // 댓글 삭제하기
 function deleteComment(id){
 	$.ajax({
-		url:'Comment/delete',
+		url:'/Comment/delete',
 		type:'GET',
 		data:{"id":id}
 	}).done(function(data){

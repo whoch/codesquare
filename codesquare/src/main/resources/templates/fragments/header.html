@@ -64,6 +64,7 @@
 
 
 			<div sec:authorize="isAuthenticated()">
+			<input type="hidden" id="userId" th:value="@{${session.userId}}">
 				<ul>
 					<li><span id="headerNickName" th:text="${session.nickName}"></span> 님! 안녕하세요.</li>
 					<li><a th:href="@{/member/myPage}">마이페이지</a></li>

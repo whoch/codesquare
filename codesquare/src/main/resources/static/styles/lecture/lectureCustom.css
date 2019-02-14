@@ -599,7 +599,7 @@
 	width:100%;
 	height:100%;
 }
-.video-finish{
+.video-overaybox{
 	position:absolute;
 	top:0;
 	margin:auto;
@@ -608,8 +608,8 @@
 #modal-container{
 	position:absolute;
 	text-align: center;
-	top:50%;
-	left:45%;
+	top:54%;
+	left:46%;
 }
 .btn-yt{
   width:100%;
@@ -619,7 +619,7 @@
   margin-right:auto;
   margin-top:10px;
 }
-#modal-overay-wrap{
+.modal-overay-wrap:not(#modal-container){
 	background: black;
 	width:1618px;
   	height:910.125px;
@@ -692,7 +692,7 @@
 
 
 /*lecture writer page style*/
-.lecture-write-container div:not(.lecture-btn-container){
+.lecture-write-container div:not(.lecture-btn-container, .dropzone *){
   width:100%;
   content:"";
   border-bottom:2px solid gray;
