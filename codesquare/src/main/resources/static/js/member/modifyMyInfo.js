@@ -9,6 +9,9 @@ $(function(){
 	    });
 	});
 	
+
+	
+	
 	//비밀번호 변경 버튼 클릭 시
 	$("#pwValidate").click(function() {
 	

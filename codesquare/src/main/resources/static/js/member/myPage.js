@@ -15,6 +15,12 @@ $(function() {
 		$(this).tab('show');
 	});// 탭 클릭 이벤트
 
+	var userId = $("#userId").val();
+	if (userId.indexOf("@") == -1){
+		$(".social").removeAttr('style');
+	}
+	
+	
 	// 강사전환신청하기 완료시
 
 	$("#toInstructorDone").click(function() {
@@ -260,12 +266,13 @@ $(function() {
 
 	$("input[name='uploadProfile']").change(function() {
 		readURL(this);
+		
 	});
 
 	function readURL(input) {
-		if (input.files[0]) {
+		if (input.files && input.files[0]) {
+			
 			var reader = new FileReader();
-
 			reader.onload = function(e) {
 				$("#profileImg").attr('src', e.target.result);
 			}

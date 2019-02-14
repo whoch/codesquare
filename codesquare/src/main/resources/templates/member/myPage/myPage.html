@@ -24,14 +24,13 @@
 						<br /> <br /> <br />
 						<ul class="nav flex-column">
 							<li class="nav-item">
-								<div class="profile">
+								<div class="profile p-sm-3 " style="text-align: center;">
 									<img
-									th:src="@{'/static/codesquareDB/UserThumbnail/'+${session.userId}+'/'+${session.userId}+'_Thumbnail.jpg'}"
-									id="profileImg" style="width: 100px; height: 100px" />
-								</div> <a class="nav-link" href="#"> <span id="myNickName"
-									th:text="${session.nickName}"> </span> 님,<br /> 안녕하세요! <span
-									class="sr-only">(current)</span>
-							</a>
+										th:src="@{'/static/codesquareDB/UserThumbnail/'+${session.userId}+'/'+${session.userId}+'_Thumbnail.jpg'}"
+										class="profileImg " style="width: 100px; height: 100px"  /> <br /> <span id="myNickName"
+										th:text="${session.nickName}"> </span> 님<br /> 안녕하세요! <span
+										class="sr-only">(current)</span>
+								</div>
 							</li>
 
 						</ul>
@@ -43,7 +42,7 @@
 
 							<li class="nav-item"><a class="nav-link" href="#"><i
 									class="far fa-envelope"></i> 내쪽지함 [<span
-									th:text="${count.messageCount}"></span>] <span class="sr-only">(current)</span>
+									th:text="${count.messageCount}"></span>] 
 							</a></li>
 							<li class="nav-item"><a class="nav-link"
 								href="#myReservedList"> <i
@@ -59,11 +58,9 @@
 								<a class="nav-link" href="#toInstructorForm"><i
 									class="fas fa-user-tie"></i> 강사전환신청하기</a>
 							</li>
-							<li class="nav-item"
-								sec:authorize="hasAnyRole('ROLE_1', 'ROLE_2' ,'ROLE_4','ROLE_5') ">
-								<a class="nav-link" href="#changePwForm"><i
-									class="fas fa-key"></i> 비밀번호바꾸기 </a>
-							</li>
+							<li class="nav-item social" style="display: none;"><a
+								class="nav-link" href="#changePwForm"><i class="fas fa-key"></i>
+									비밀번호바꾸기 </a></li>
 
 						</ul>
 					</div>
@@ -83,13 +80,9 @@
 									나의 모집 내역</a></li>
 							<li class="nav-item"><a class="nav-link" href="#myBoardList"><i
 									class="fas fa-clipboard-list"></i> 내가 쓴 글</a></li>
-							<li class="nav-item"
-								sec:authorize="hasAnyRole('ROLE_1','ROLE_2','ROLE_4', 'ROLE_5' )">
-								<a class="nav-link" href="#modifyMyInfoForm"><i
-									class="far fa-address-card"></i> 내 정보 수정</a>
-							<li class="nav-item" sec:authorize="hasRole('ROLE_6' )"><a
-								class="nav-link" href="#changeNickForm"><i
-									class="fas fa-ticket-alt"></i> 닉네임 수정</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="#modifyMyInfoForm"><i class="far fa-address-card"></i>
+									내 정보 수정</a></li>
 
 						</ul>
 					</div>
@@ -187,16 +180,16 @@
 						<h3>내 정보 수정</h3>
 						<form id="modifyMyInfoForm" method="post"
 							enctype="multipart/form-data">
-							<div>
+							<div class="social" style="display: none;">
 								아이디:<input type="hidden" name="userId" th:value="${user.userId}">
 								<span th:text="${user.userId}"> </span>
 							</div>
 
-							<div>
+							<div class="social" style="display: none;">
 								이름: <span th:text="${user.name}"></span>
 							</div>
 
-							<div>
+							<div class="social" style="display: none;">
 								생년월일: <span th:text="${user.dateOfBirth}"></span>
 							</div>
 
@@ -209,7 +202,7 @@
 									<div id="nickCheckMsg">닉네임은 한글,영문자, 숫자를 포함한 2자 이상 10자 이하</div>
 								</div>
 							</div>
-							<div>
+							<div class="social" style="display: none;">
 								이메일: <span id="emailField" th:text="${user.email}"></span> <span
 									id="changeEmail"> 변경하기 </span>
 								<div id="changeEmailContent">
@@ -220,25 +213,14 @@
 							<div>
 								프로필: <img
 									th:src="@{'/static/codesquareDB/UserThumbnail/'+${session.userId}+'/'+${session.userId}+'_Thumbnail.jpg'}"
-									id="profileImg" style="width: 100px; height: 100px" /><br />
-								<input type="file" id="uploadProfile" name="uploadProfile">
-								<input type="button" id="uploadDone" value="변경"> 
+									class="profileImg" id="profileImg"
+									style="width: 100px; height: 100px" /><br /> <input
+									type="file" id="uploadProfile" name="uploadProfile"> <input
+									type="button" id="uploadDone" value="변경">
 							</div>
 						</form>
 
 					</div>
-					<div id="changeNickForm" class="container tab-pane fade">
-						<br>
-						<h3>닉네임 변경</h3>
-						닉네임: <span id="nickField" th:text="${session.nickName}"></span> <span
-							id="changeNick"> 변경하기 </span>
-						<div id="changeNickContent">
-							<input type="text" id="nickName" name="nickName"> <span
-								id="nickValidate">변경하기</span><br />
-							<div id="nickCheckMsg">닉네임은 한글,영문자, 숫자를 포함한 2자 이상 10자 이하</div>
-						</div>
-					</div>
-
 
 					<div id="toInstructorForm" class="container tab-pane fade">
 						<br>
@@ -252,7 +234,8 @@
 						</form>
 					</div>
 
-					<div id="modifyInstructorInfoForm" class="container tab-pane fade">
+					<div id="modifyInstructorInfoForm" class="container tab-pane fade"
+						sec:authorize="hasRole('ROLE_2')">
 						<h3>강사 정보 수정하기</h3>
 						<form id="modifyInstructorInfoForm" method="post">
 							강사 소개글:<br />
@@ -268,7 +251,8 @@
 						</form>
 					</div>
 
-					<div id="changePwForm" class="container tab-pane fade">
+					<div id="changePwForm" class="social container tab-pane fade"
+						style="display: none;">
 						<br>
 						<h3>비밀번호 변경하기</h3>
 						<form id="changePw" method="post">
@@ -302,6 +286,8 @@
 		<th:block layout:fragment="script">
 			<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
 			<script th:src="@{/static/js/member/myPage.js}"></script>
+
+
 		</th:block>
 	</div>
 	<!-- 사용자 스크립트 추가 -->
