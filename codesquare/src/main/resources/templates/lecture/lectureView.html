@@ -26,35 +26,27 @@
 			<div
 				class="lecture-header d-flex justify-content-between mb-2" style="margin-bottom:0px!important;">
 				<ol class="breadcrumb " style="background: none;">
-					<li class="breadcrumb-item"><a th:href="@{/learn}">강의</a></li>
-					<li class="breadcrumb-item"><a th:href="@{/learn/}+${lecture.parentId}">자바의정석</a></li>
-					<li class="breadcrumb-item active" style="color:white;">변수</li>
+					<li class="breadcrumb-item"><a id="intro-link" th:href="@{/learn}">강의</a></li>
+					<li class="breadcrumb-item"><a id="parent-link" th:href="@{/learn/intro/}+${lecture.parentId}" th:attr="data-parentId=${lecture.parentId}" >자바의정석</a></li><!-- parentTitle추가해야함 -->
+					<li class="breadcrumb-item active" style="color:white;" th:text="@{${lecture.title}}"></li>
 				</ol>
 				<div class="btn-group p-2" >
 					<button id="btn-prevLecture" type="button" class="btn btn-secondary" th:if="${lecture.lectureStatus}!='first'"><i class="fas fa-chevron-left"></i> 이전강의</button>
 					<button id="btn-lectureList" type="button" class="btn btn-secondary">목록</button>
-					<div class="lecture-list-container list-group" data-status="invisible">
-					<a th:each="list:${lectureList}" th:href="@{/learn/view?boardId=}+${list.id}" class="list-group-item list-group-item-action"><span th:text="@{${list.title}}"></span></a>
+					<div class="lecture-list-container list-group" data-status="invisible"><!-- boardId+"/course/"+parentId; -->
+					<a th:each="list:${lectureList}" th:href="${list.id}" class="list-group-item list-group-item-action"><span th:text="@{${list.title}}"></span></a>
 					</div>
 					<button id="btn-nextLecture" type="button" class="btn btn-secondary" th:if="${lecture.lectureStatus}!='last'">다음강의 <i class="fas fa-chevron-right"></i></button>
 				</div>
 				
 			</div>
-			<button type="button" id="lecture-content-modify" class="btn btn-warning btn-block" style="font-size: 23px;font-weight: bold;margin-top: 5px; margin-bottom:5px;">수정하기</button><!-- <span sec:authorize="hasAnyRole('ROLE_2', 'ROLE_3')"></span> -->
 			<div class="lecture-view-body">
-				<div id="player" class="col-sm-12 "></div>
-				<div class="video-finish "	style="display: none;position: absolute;width: 100%;height: 100%;margin-top: 54px;margin-left: 20px;">
-					<div id="modal-overay-wrap" style="margin: auto; width: 100%"></div>
-					<div id="modal-container">
-						<button type="button" id="nextLecture"
-							class="btn btn-lg btn-secondary btn-yt">다음 강의듣기</button>
-						<button type="button" id="replay"
-							class="btn btn-lg btn-secondary btn-yt">다시 보기</button>
-						<button type="button" id="goQna"
-							class="btn btn-lg btn-secondary btn-yt">질문하러가기</button>
-					</div>
+				<input type="hidden" id="currentTime" name="currentTime" th:value="@{${vLogInfo.currentTime}}">
+				<div id="player" class="col-sm-12" th:attr="data-modify-videoId=${lecture.videoUrl}"></div>
+				<div class="video-overaybox" style="display: none;position: absolute;width: 100%;height: 100%;margin-top: 68px;margin-left: 15px;">
+					<div class="modal-overay-wrap" style="margin: auto; width: 100%"></div><div id="modal-container"></div>
+					
 				</div>
-				
 			</div>
 			<div id="lecture-content" class="col-sm-12 container">
 				<div id="accordion">
@@ -90,11 +82,11 @@
 												<input type="hidden" name="boardKindId" th:value="@{${lecture.boardKindId}}" />
 												
 												<div class="col-sm-2 comment-writerInfo" sec:authorize="isAuthenticated()">
-													<input type="hidden" name="userId" th:value="@{${user.userId}}" /> 
-													<input type="hidden" name="nickName"	th:value="@{${user.nickName}}" />
-													<img class="commnet-writer-thumbnail" th:src="@{${user.profileImagePath}}" alt="유저썸네일" />
+													<input type="hidden" name="userId" th:value="@{${session.userId}}" /> 
+													<input type="hidden" name="nickName"	th:value="@{${session.nickName}}" />
+													<img class="commnet-writer-thumbnail" th:src="@{${session.profileImagePath}}" alt="유저썸네일" />
 													<div class="review-writer">
-														<h5 class="nickName"  th:text="@{${user.nickName}}"></h5>
+														<h5 class="nickName"  th:text="@{${session.nickName}}"></h5>
 													</div>
 												</div>
 												<div class="col-sm-8 comment-content">
@@ -119,8 +111,9 @@
 						</div>
 						<div id="collapseThree" class="collapse show" data-parent="#accordion">
 							<div class="card-body">
-							<pre></pre>
+							<pre th:utext="@{${lecture.content}}"></pre>
 							</div>
+							<button th:if="@{${session.userId}==${lecture.userId}}" type="button" id="lecture-content-modify" class="btn btn-warning btn-block" style="font-size: 23px;font-weight: bold;margin-top: 5px; margin-bottom:5px;" sec:authorize="hasAnyRole('ROLE_2', 'ROLE_3')">수정하기</button>
 						</div>
 					</div>
 				</div>

@@ -3,6 +3,7 @@ package com.bit.codesquare.util;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,8 @@ import com.bit.codesquare.security.SecurityMember;
 
 @Component
 public class CodesquareUtil {
+	@Value("${user.thumbnail.directory}")
+	String userThumbPath;
 	/**
 	 * 
 	 * @param postId  글번호
@@ -44,6 +47,19 @@ public class CodesquareUtil {
 		return userId + "/" + imgName;
 	}
 
+	/**
+	 * 
+	 * @param cTime 회원이 영상을 본 현재시간
+	 * @param dTime 영상의 총 길이
+	 * @return 회원이 영상을 완강했는지 여부
+	 */
+	public String isClearcalc(Double cTime, Double dTime) {
+		double val=(cTime/dTime)*100;
+		return (val>=90)?"END":"ING";
+	}
+	
+	
+	
 	@Autowired
 	MemberMapper mm;
 
@@ -51,7 +67,10 @@ public class CodesquareUtil {
 
 		if (auth != null && session.getAttribute("userId") == null) {
 			SecurityMember sc = (SecurityMember) auth.getPrincipal();
-			Member member = mm.getUser(sc.getUsername());
+
+			Member member =mm.getUser(sc.getUsername());
+			member.setProfileImagePath(userThumbPath+=getPath(member.getUserId(), member.getProfileImagePath()));
+			
 			session.setAttribute("userId", member.getUserId());
 			session.setAttribute("nickName", member.getNickName());
 			session.setAttribute("authorId", member.getAuthorId());
