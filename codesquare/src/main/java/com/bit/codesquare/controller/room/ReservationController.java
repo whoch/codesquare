@@ -1,6 +1,5 @@
 package com.bit.codesquare.controller.room;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.bit.codesquare.dto.room.Company;
 import com.bit.codesquare.dto.room.Reservation;
 import com.bit.codesquare.dto.room.Room;
+import com.bit.codesquare.mapper.room.CompanyMapper;
 import com.bit.codesquare.mapper.room.ReservationMapper;
 import com.bit.codesquare.mapper.room.RoomMapper;
 
@@ -29,48 +29,48 @@ public class ReservationController {
 	RoomMapper roomMapper;
 	@Autowired
 	ReservationMapper reservationMapper;
+	@Autowired
+	CompanyMapper companyMapper;
 	
 	@Value("${roomIntro.savepath.directory}")
 	String path;
 	
-	List<Room> licList = new ArrayList<Room>();
-	List<Room> roomview = new ArrayList<Room>();
+	
 	
 	@RequestMapping("/getid")
-	public ModelAndView getid(Model model, String companyid) throws Exception {
+	public String getid(Model model, String companyid) throws Exception {
+		
 		try {
-			licList=roomMapper.getid(companyid);
+			List<Room> licList =roomMapper.getid(companyid);
 			for(Room l:licList) {
 				String thumbPath=path;
 				thumbPath+=l.getId()+"/Thumbnail."+l.getExtension();
 				l.setThumbnailPath(thumbPath);
 			}
+			model.addAttribute("list", licList);
+			model.addAttribute("content", companyMapper.companycontent(companyid));
+			System.out.println(companyid);
 		}catch (Exception e) {
-			
+			System.err.println(e.getMessage());
 		}
-		return new ModelAndView("room/roomList", "list", licList);
+		return "room/roomList";
 	}
 	
 	
 	@RequestMapping("/roomView")
-	public ModelAndView roomView(Model model, String id) throws Exception {
-		try {
-			roomview=roomMapper.getroom(id);
-			for(Room l:roomview) {
+	public String roomView(Model model, String id) throws Exception {
+		
+			Room l=roomMapper.getroom(id);
 				String thumbPath=path;
-				thumbPath+=l.getId()+"/Thumbnail."+l.getExtension();
+				thumbPath+=l.getId()+"/Thumbnail."+l;
 				l.setThumbnailPath(thumbPath);
-			}
-		}catch (Exception e) {
-			
-		}
-		
 //		int[] test = new int[] {8,9,11,15,16};
-		String[] test = new String[] {"03:00:00","08:00:00"};
+		String[] test = new String[] {"3","08:00:00"};
 		model.addAttribute("test", test);
+		model.addAttribute("item", l);
 		
-		System.out.println(roomview.toString());
-		return new ModelAndView("room/roomView", "list", roomview);
+		System.out.println(l);
+		return "room/roomView";
 	}
 	
 	@RequestMapping("/reserve")
