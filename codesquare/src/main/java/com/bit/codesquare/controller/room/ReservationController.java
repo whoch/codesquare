@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.bit.codesquare.dto.room.Company;
 import com.bit.codesquare.dto.room.Reservation;
 import com.bit.codesquare.dto.room.Room;
 import com.bit.codesquare.mapper.room.CompanyMapper;
@@ -38,7 +37,7 @@ public class ReservationController {
 	
 	
 	@RequestMapping("/getid")
-	public String getid(Model model, String companyid) throws Exception {
+	public String getid(Model model, String companyid, Reservation reservation) throws Exception {
 		
 		try {
 			List<Room> licList =roomMapper.getid(companyid);
