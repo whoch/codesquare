@@ -1,33 +1,16 @@
 package com.bit.codesquare.controller.member;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.Principal;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,10 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.bit.codesquare.dto.member.InstructorInfo;
 import com.bit.codesquare.dto.member.Member;
@@ -46,10 +26,10 @@ import com.bit.codesquare.mapper.member.MemberMapper;
 import com.bit.codesquare.service.MemberService;
 import com.bit.codesquare.util.CodesquareUtil;
 
-@Controller
-@RequestMapping("/member")
-public class MemberController {
-	private final static Logger logger = LoggerFactory.getLogger(MemberController.class);
+//@Controller
+//@RequestMapping("/member")
+public class MemberController2 {
+	private final static Logger logger = LoggerFactory.getLogger(MemberController2.class);
 
 	@Autowired
 	MemberMapper mm;
@@ -59,6 +39,7 @@ public class MemberController {
 
 	@Autowired
 	MemberService ms;
+	
 
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request) {
@@ -93,6 +74,8 @@ public class MemberController {
 		return count;
 	}
 
+
+
 	@GetMapping("/changeNick")
 	public String changeNick(Model model, Principal principal) {
 		String userId = principal.getName();
@@ -109,7 +92,8 @@ public class MemberController {
 		// 다른정보 가지고올때
 //		SecurityMember sm = (SecurityMember) auth.getPrincipal();
 //		sm.getNickName();
-
+		
+		
 		int count = 0;
 		count = mm.nickCheck(nickName);
 
@@ -152,17 +136,17 @@ public class MemberController {
 	public String findIdPw() {
 		return "member/login/findIdPw";
 	}
-
+	
 	@PostMapping("/emailCheck")
 	@ResponseBody
 	public int emailCheck(@RequestBody String email) {
 
 		int count = 0;
 		count = mm.emailCheck(email);
-
+	
 		return count;
 	}
-
+	
 	@PostMapping("findId")
 	@ResponseBody
 	public String findId(@RequestBody String email) {
@@ -176,107 +160,153 @@ public class MemberController {
 		String email = data.get("email");
 		int count = 0;
 		count = mm.findPw(userId, email);
-
+	
 		return count;
 	}
+	
 
+	
 	@PostMapping("/findPwMail")
 	@ResponseBody
 	public void mailSending(@RequestBody String userId) {
 		ms.mailSending(userId);
-
+		
 	}
+	
+	
+	
+	
+	
 
 	@GetMapping("/myPage")
-	public String myPage(Model model, Authentication auth, HttpSession session) {
+	public String myPage(Model model,@ModelAttribute Member user, Authentication auth, HttpSession session) {
 		csu.getSession(auth, session);
-		String userId = auth.getName();
-		model.addAttribute("user", mm.getUser(userId));
-		model.addAttribute("rlist", mm.getReservedList(userId));
-		model.addAttribute("alist", mm.getAppliedList(userId));
-		model.addAttribute("wlist", ms.getWantedList(userId));
-		model.addAttribute("blist", mm.getMyBoardList(userId));
-		model.addAttribute("count", mm.getMyCount(userId));
-		model.addAttribute("instructorInfo", mm.getInstructorInfo(userId));
-
+		model.addAttribute("user", mm.getUser(auth.getName()));
 		return "member/myPage/myPage";
+	}
+//
+//	@GetMapping("/modifyMyInfo")
+//	public String ModifyMyInfo(Model model, Authentication auth) {
+//		return "member/myPage/modifyMyInfo";
+//	}
+
+	@GetMapping("/changePw")
+	public String changePw(Model model, Authentication auth) {
+		
+		model.addAttribute("user", mm.getUser(auth.getName()));
+		// logger.info(userId);
+		return "member/myPage/changePw";
 	}
 
 	@PostMapping("/changePw")
 	@ResponseBody
-	public int changePwDone(@ModelAttribute Member member, @RequestBody Map<String, String> data) {
-		String userId = data.get("userId");
-		String password = data.get("password");
+	public int changePwDone(@ModelAttribute Member user, @RequestBody Map<String, String> data) {
 		int count = 0;
-		member.setPassword(new BCryptPasswordEncoder().encode(password));
-		member.setUserId(userId);
-		count = mm.changePw(member);
+		String password = data.get("password");
+		String userId = data.get("userId");
+//		logger.info(userId);
+//		logger.info(password);
+		user.setPassword(new BCryptPasswordEncoder().encode(password));
+		user.setUserId(userId);
+		count = mm.changePw(user);
 
 		return count;
+	}
+
+	@GetMapping("/toInstructor")
+	public String toInstructor(Model model, Authentication auth, @ModelAttribute InstructorInfo instructorInfo) {
+		
+		model.addAttribute("user", mm.getUser(auth.getName()));
+		model.addAttribute("instructorInfo", mm.getInstructorInfo(auth.getName()));
+		
+		int count = 0;
+		count = mm.checkInstructor(auth.getName());
+		if (count == 0) {
+			return "member/myPage/toInstructor";
+		}
+		return "member/myPage/instructorPending";
 	}
 
 	@PostMapping("/toInstructor")
 	@ResponseBody
 	public String toInstructor(@ModelAttribute InstructorInfo instructorInfo, @RequestBody Map<String, String> data) {
 
+
 		instructorInfo.setUserId(data.get("userId"));
 		instructorInfo.setIntroContent(data.get("introContent"));
 		mm.toInstructor(instructorInfo);
 
-		return "redirect:myPage";
+		return "수정해야해";
+	}
+
+	@GetMapping("/modifyInstructorInfo")
+	public String modifyInstructorInfo(Model model,  Authentication auth,
+			@ModelAttribute InstructorInfo instructorInfo) {
+		
+		model.addAttribute("user", mm.getUser(auth.getName()));
+		// logger.info(mm.getUser(userId).toString());
+		model.addAttribute("instructorInfo", mm.getInstructorInfo(auth.getName()));
+		// logger.info(mm.getInstructorInfo(userId).toString());
+		return "member/myPage/modifyInstructorInfo";
 	}
 
 	@PostMapping("/modifyInstructorInfo")
-	public String modifyInstructorInfo(@ModelAttribute InstructorInfo instructorInfo,
+	public String modifyInstructorInfo(Model model,  @ModelAttribute InstructorInfo instructorInfo,
 			@RequestBody Map<String, String> data) {
-
 		String userId = data.get("userId");
 		String introContent = data.get("introContent");
 		String history = data.get("history");
+//		logger.info(data.toString());
+		model.addAttribute("userId", mm.getUser(userId));
+//		logger.info(userId);
 
 		instructorInfo.setUserId(userId);
 		instructorInfo.setIntroContent(introContent);
 		instructorInfo.setHistory(history);
 		mm.modifyInstructorInfo(instructorInfo);
 
-		return "redirect:myPage" + "#modifyInstructorInfoForm";
+		return "redirect:modifyInstructorInfo";
 	}
 
-	@GetMapping("/upload")
-	public String upload( Authentication auth, HttpSession session) {
-		csu.getSession(auth, session);
-		return "member/myPage/upload";
+	@GetMapping("/myReservedList")
+	public String myReservedList(Model model, Authentication auth) {
+		
+		// model.addAttribute("user", us.getUser(userId));
+
+		model.addAttribute("list", mm.getReservedList(auth.getName()));
+		return "member/myPage/myReservedList";
 	}
+
+	@GetMapping("/myAppliedList")
+	public String myAppliedList(Model model, Authentication auth) {
+		logger.info(mm.getAppliedList(auth.getName()).toString());
+		model.addAttribute("list", mm.getAppliedList(auth.getName()));
+		return "member/myPage/myAppliedList";
+	}
+
+
 	
-	
-	
-    @PostMapping("/upload")
-    @ResponseBody
-    public String uploadForm(@RequestBody MultipartFile[] uploadForm, Authentication auth) {
+	@GetMapping("/myWantedList")
+	public String myWantedList(Model model, Authentication auth) {
+		
+		//logger.info(ms.getWantedList(auth.getName()).toString());
+		logger.info(ms.getWantedList(auth.getName()).toString());
+		 model.addAttribute("list", ms.getWantedList(auth.getName()));
 
-    	String userId = auth.getName();
-    	String uploadFolder = "/Users/jiyeon/git/codesquare/codesquare/src/main/resources/static/codesquareDB/UserThumbnail/"+userId;
-    	//db에 저장할 상대경로
-    	//String uploadRelativeDirectory = "/static/codesquareDB/UserThumbnail/"+userId;
-    	
-    	File uploadPath= new File(uploadFolder); //안에 여러개 쓰면 합쳐짐
-    	
-    	if (!uploadPath.exists()) {
-    		uploadPath.mkdirs(); //존재하지 않으면 경로를 만든다
-        }
-    	
-    	String uploadFileName = userId+"_Thumbnail.jpg"; //+multipartFile.getOriginalFilename()하면 업로드한 파일네임으로 들어감
+		
+		return "member/myPage/myWantedList";
+	}
 
-        try {
-        	File saveFile = new File(uploadPath, uploadFileName);
-        	uploadForm[0].transferTo(saveFile); //실제저장되는단계. savefile:경로랑 파일명 합친거
-        } catch (Exception e) {
-        	e.getMessage();
-        }
+	@GetMapping("/myBoardList")
+	public String myBoardList() {
+//		String userId = principal.getName();
+//		model.addAttribute("list",us.getWantedList(userId));
+		return "member/myPage/myBoardList";
+	}
 
-        return "redirect:upload";
-    }
-
-  
+//	@RequestMapping("/logout")
+//	public void logout() {
+//
+//	}
 
 }

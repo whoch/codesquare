@@ -1,252 +1,46 @@
 /**
  * 
  */
-$(function(){
+$(function() {
 
-	
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
 	$(function() {
-	    $(document).ajaxSend(function(e, xhr, options) {
-	        xhr.setRequestHeader(header, token);
-	    });
-	});
-	
-	
-	// 내정보 수정 버튼 클릭 시
-	$("#modifyMyInfo").click(function() {
-		$("#modifyMyInfo").addClass('active');
-		$("#myBoardList").removeClass('active');
-		$("#myWantedList").removeClass('active');
-		$("#myAppliedList").removeClass('active');
-		$("#myReservedList").removeClass('active');
-		$.ajax({
-			type : 'get',
-			url : 'modifyMyInfo',
-			dataType : 'html',
-			async: false,
-			success : function(data) {
-				// alert("id");
-				$("#contentcontainer").html(data);
-			},
-			error : function(data){
-				alert("에러");
-			}
+		$(document).ajaxSend(function(e, xhr, options) {
+			xhr.setRequestHeader(header, token);
 		});
 	});
 
-	// 나의 예약 및 결제 내역 클릭시
-	$("#myReservedList2").click(function() {
-		$("#myReservedList2").addClass('active');
-		$("#myBoardList").removeClass('active');
-		$("#myWantedList").removeClass('active');
-		$("#myAppliedList").removeClass('active');
-		$("#modifyMyInfo").removeClass('active');
-		$.ajax({
-			type : 'get',
-			url : 'myReservedList',
-			dataType : 'html',
-			async: false,
-			success : function(data) {
-				// alert("id");
-				$("#contentcontainer").html(data);
-			},
-			error : function(data){
-				alert("에러");
-			}
-		});
-	});
-
-	// 나의 신청 내역 클릭시
-	$("#myAppliedList").click(function() {
-		$("#myAppliedList").addClass('active');
-		$("#myReservedList2").removeClass('active');
-		$("#myWantedList").removeClass('active');
-		$("#myBoardList").removeClass('active');
-		$("#modifyMyInfo").removeClass('active');
-		$.ajax({
-			type : 'get',
-			url : 'myAppliedList',
-			dataType : 'html',
-			async: false,
-			success : function(data) {
-				// alert("id");
-				$("#contentcontainer").html(data);
-			},
-			error : function(data){
-				alert("에러");
-			}
-		});
-	});
-	// 나의 모집 내역 클릭시
-	$("#myWantedList").click(function() {
-		$("#myWantedList").addClass('active');
-		$("#myReservedList2").removeClass('active');
-		$("#myAppliedList").removeClass('active');
-		$("#myBoardList").removeClass('active');
-		$("#modifyMyInfo").removeClass('active');
-		$.ajax({
-			type : 'get',
-			url : 'myWantedList',
-			dataType : 'html',
-			async: false,
-			success : function(data) {
-				// alert("id");
-				$("#contentcontainer").html(data);
-			},
-			error : function(data){
-				alert("에러");
-			}
-		});
-	});
-
-	// 내가 쓴 글 클릭시
-	$("#myBoardList").click(function() {
-		$("#myBoardList").addClass('active');
-		$("#myReservedList2").removeClass('active');
-		$("#myWantedList").removeClass('active');
-		$("#myAppliedList").removeClass('active');
-		$("#modifyMyInfo").removeClass('active');
-		$.ajax({
-			type : 'get',
-			url : 'myBoardList',
-			dataType : 'html',
-			async: false,
-			success : function(data) {
-				// alert("id");
-				$("#contentcontainer").html(data);
-			},
-			error : function(data){
-				alert("에러");
-			}
-		});
-	});
-	// 나의 예약 및 결제 내역 클릭시
-	$("#myReservedList").click(function() {
-		$("#myReservedList2").addClass('active');
-		$("#myBoardList").removeClass('active');
-		$("#myWantedList").removeClass('active');
-		$("#myAppliedList").removeClass('active');
-		$("#modifyMyInfo").removeClass('active');
-		$.ajax({
-			type : 'get',
-			url : 'myReservedList',
-			dataType : 'html',
-			async: false,
-			success : function(data) {
-				// alert("id");
-				$("#contentcontainer").html(data);
-			},
-			error : function(data){
-				alert("에러");
-			}
-		});
-	});
-
-	// 강사 전환 신청하기 클릭시
-	$("#toInstructor").click(function() {
-		$("#myReservedList2").removeClass('active');
-		$("#myBoardList").removeClass('active');
-		$("#myWantedList").removeClass('active');
-		$("#myAppliedList").removeClass('active');
-		$("#modifyMyInfo").removeClass('active');
-		$.ajax({
-			type : 'get',
-			url : 'toInstructor',
-			dataType : 'html',
-			async: false,
-			success : function(data) {
-				// alert("id");
-				$("#contentcontainer").html(data);
-			},
-			error : function(data){
-				alert("에러");
-			}
-		});
-	});
+	$(".nav-link").click(function() {
+		$(this).tab('show');
+	});// 탭 클릭 이벤트
 
 	// 강사전환신청하기 완료시
 
 	$("#toInstructorDone").click(function() {
 
-		// var data = {
-		// introContent : $("introContent").val(),
-		// userId : $("userId").val()
-		// }
-		var introContent = $("#introContent").val();
+		var data = {
+			introContent : $("textarea[name='introContent']").val(),
+			userId : $("input[name='userId']").val()
+		}
 
-		//		
 		$.ajax({
 			type : 'post',
 			url : 'toInstructor',
-			data : introContent,
+			data : JSON.stringify(data),
 			contentType : "application/json; charset=UTF-8",
-			async: false,
+			async : false,
 			success : function(response) {
 
-				// $("#toInstructorForm").attr('action',
-				// "toInstructor").submit();
-				$("#contentcontainer").html(response);
-				// $(location).attr('href', data);
-
 			},
-			error : function(data){
-				alert("에러");
+			error : function(data) {
 			}
 		});
-	});
-
-	// 비밀번호 바꾸기 버튼 클릭 시
-	$("#changePw").click(function() {
-		$("#myReservedList2").removeClass('active');
-		$("#myBoardList").removeClass('active');
-		$("#myWantedList").removeClass('active');
-		$("#myAppliedList").removeClass('active');
-		$("#modifyMyInfo").removeClass('active');
-
-		$.ajax({
-			type : 'get',
-			url : 'changePw',
-			dataType : 'html',
-			async: false,
-			success : function(data) {
-				// alert("id");
-				$("#contentcontainer").html(data);
-			},
-			error : function(data){
-				alert("에러");
-			}
-		});
-	});
-
-	// 강사 정보 수정하기 클릭시
-
-	$("#modifyInstructorInfo").click(function() {
-
-		$("#myReservedList2").removeClass('active');
-		$("#myBoardList").removeClass('active');
-		$("#myWantedList").removeClass('active');
-		$("#myAppliedList").removeClass('active');
-		$("#modifyMyInfo").removeClass('active');
-
-		$.ajax({
-			type : 'get',
-			url : 'modifyInstructorInfo',
-			dataType : 'html',
-			async: false
-		})
-			.done (function(data) {
-				// alert("id");
-				$("#contentcontainer").html(data);
-			})
-			.fail( function(data){
-				alert("에러");
-			});
 	});
 
 	// 강사정보 수정하기 완료클릭시
 	$("#modifyInstructorInfoDone").click(function() {
-	
+
 		var data = {
 			introContent : $("#introContent").val(),
 			history : $("#history").val(),
@@ -257,44 +51,82 @@ $(function(){
 			type : 'post',
 			url : 'modifyInstructorInfo',
 			data : JSON.stringify(data),
-			contentType: 'application/json; charset=UTF-8',
-			async: false
+			contentType : 'application/json; charset=UTF-8',
+			async : false
+		}).done(function(response) {
+			alert("수정완료");
+		}).fail(function(response) {
+			alert("에러");
 		})
-			.done (function(response) {
-				 alert("수정완료");
-				$("#contentcontainer").html(response);
-			})
-			.fail(function(response){
-				alert("에러");
-			})
-		
-	});
-	
-	
-	
-	$("#changeNickName").click(function() {
 
-		$("#myReservedList2").removeClass('active');
-		$("#myBoardList").removeClass('active');
-		$("#myWantedList").removeClass('active');
-		$("#myAppliedList").removeClass('active');
-		$("#modifyMyInfo").removeClass('active');
+	});
+
+	// 비밀번호 변경 클릭시
+
+	$("#pwValidate").click(
+			function() {
+
+				var password = $("#password").val();
+				var rePassword = $("#rePassword").val();
+				var regExp = /^[a-zA_Z0-9]{4,15}$/;
+
+				if (regExp.test(rePassword)) {
+					if ((password != null && rePassword != null)
+							&& password == rePassword) {
+						pwChange();
+					} else {
+						$("#pwMsg").text("");
+						$("#pwCheckMsg").css("color", "red");
+						$("#pwCheckMsg").text("비밀번호가 일치하지 않습니다.");
+						$("#rePassword").focus();
+					}
+				} else {
+					$("#pwCheckMsg").css("color", "red");
+					$("#pwCheckMsg").text(
+							"비밀번호는 영 대, 소문자, 숫자 로 이루어진 4자 이상 15자 미만");
+					$("#rePassword").focus();
+				}
+
+			});
+
+	function pwChange() {
+
+		var data = {
+			password : $("#password").val(),
+			userId : $("#userId").val()
+		}
 
 		$.ajax({
-			type : 'get',
-			url : 'changeNick',
-			dataType : 'html',
-			async: false
-		})
-			.done (function(data) {
-				// alert("id");
-				$("#contentcontainer").html(data);
-			})
-			.fail( function(data){
-				alert("에러");
-			});
-	});
-	
+			type : "post",
+			data : JSON.stringify(data),
+
+			url : "changePw",
+			contentType : "application/json; charset=UTF-8",
+			success : function(response) {
+
+				if (response > 0) {
+					location.reload();
+					alert("비밀번호 변경 완료");
+					// $("#pwMsg").css("color", "black");
+					// $("#pwMsg").text("비밀번호 변경 완료");
+
+				} else {
+
+					$("#pwMsg").css("color", "red");
+					$("#pwMsg").text("비밀번호 변경 실패");
+					alert("실패" + response);
+					// 아이디가 중복하지 않으면 idck = 1
+
+				}
+			},
+			error : function(error) {
+				$("#nickCheckMsg").css("color", "black");
+				$("#nickCheckMsg").text("error");
+			}
+		});
+
+	}
+
 	$("#changeNickContent").hide();
 
 	$("#changeNick").click(
@@ -306,11 +138,11 @@ $(function(){
 				// var a = '<a onclick="nickChange()"> 수정하기 </a>'
 				// $("#nickChange").html(a);
 			});
-	
+
+	// 닉네임 변경 버튼
+
 	$("#nickValidate").click(function() {
 
-		
-		
 		var nickName = $("#nickName").val();
 		var regExp = /^[a-zA_Z0-9ㄱ-힣]{2,10}$/;
 
@@ -341,7 +173,6 @@ $(function(){
 					$("#nickName").focus();
 
 				} else {
-					//alert(response+",");
 					// var a=nickName;
 					// '<a onclick="changeNick(' + data + ');">수정</a>';
 					$("#changeNickContent").hide();
@@ -362,25 +193,115 @@ $(function(){
 			}
 		});
 
-	};
-	
-	
-	
-	
-	
-	
-	$(".detail").hide();
-	//content 클래스를 가진 div를 표시/숨김(토글)
-	  $(".heading").click(function()
-	  {
-	    $(".detail").not($(this).next(".detail").slideToggle()).hide();
-	  });
-	
+	}
+	;
 
-	  
-	  
+	$("#changeEmailContent").hide();
 
+	$("#changeEmail").click(
+			function() {
+				$("#changeEmailContent").not(
+						$(this).next("#changeEmailContent").slideToggle())
+						.hide();
+				$("#changeEmail").not($(this).next("#changeEmail")).hide();
+			});
+
+	// 이메일 변경 버튼
+	$("#emailValidate").click(function() {
+
+		var email = $("#email").val();
+		var regExp = /[a-zA-Z0-9]{2,}@[a-zA-Z0-9]{2,}.[a-zA-Z0-9]{2,}/i;
+
+		if (regExp.test(email)) {
+			emailChange();
+		} else {
+			$("#emailCheckMsg").css("color", "red");
+			$("#emailCheckMsg").text("올바르지 않은 이메일 양식입니다.");
+			$("#email").focus();
+		}
+
+	});
+
+	function emailChange() {
+
+		var email = $("#email").val();
+
+		$.ajax({
+			type : "POST",
+			data : email,
+			url : "emailChange",
+			contentType : "application/json; charset=UTF-8",
+			success : function(response) {
+
+				if (response > 0) {
+
+					$("#emailCheckMsg").css("color", "red");
+					$("#emailCheckMsg").text("이미 존재하는 이메일 입니다.");
+					$("#email").focus();
+
+				} else {
+
+					$("#changeEmailContent").hide();
+					$("#changeEmail").show();
+					// $("#nickField").html(data);
+					$("#emailCheckMsg").text("");
+					$("#emailField").html(email);
+					// location.reload();
+					// 아이디가 중복하지 않으면 idck = 1
+				}
+			},
+			error : function(error) {
+				$("#emailCheckMsg").css("color", "black");
+				$("#emailCheckMsg").text("error");
+			}
+		});
+	}
+	;
+
+	$("input[name='uploadProfile']").change(function() {
+		readURL(this);
+	});
+
+	function readURL(input) {
+		if (input.files[0]) {
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+				$("#profileImg").attr('src', e.target.result);
+			}
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+
+	// 프로필 사진 업데이트
+
+	$("#uploadDone").click(function() {
+		uploadProfile();
+	});
+
+	function uploadProfile() {
+
+		var formData = new FormData();
+		var uploadFile = $("input[name='uploadProfile']");
+		var files = uploadFile[0].files;
+		formData.append('uploadForm', files[0]);
+		//
+		$.ajax({
+			type : 'post',
+			url : 'upload',
+			data : formData,
+			processData : false,
+			contentType : false,
+			success : function(result) {
+				alert("업로드 완료");
+			},
+			error : function(error) {
+				// location.reload();
+				alert("업로드 실패");
+			}
+
+		});
+	}
 
 }); // end function
-
 

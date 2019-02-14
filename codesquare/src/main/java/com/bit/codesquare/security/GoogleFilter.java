@@ -37,9 +37,7 @@ public class GoogleFilter extends OAuth2ClientAuthenticationProcessingFilter {
 		final OAuth2Authentication auth = (OAuth2Authentication) authResult;
 		final Map<String, String> map = (HashMap<String, String>) auth.getUserAuthentication().getDetails(); // 소셜에서 넘겨
 																												// 받은
-																												// 정보를
-																												// details에
-																												// 저장
+																				// 저장
 
 		int ranNum = (int) (Math.random() * 999) + 1;
 

@@ -120,7 +120,6 @@ function nickChange() {
 				$("#nickName").focus();
 
 			} else {
-				//alert(response+",");
 				// var a=nickName;
 				// '<a onclick="changeNick(' + data + ');">수정</a>';
 				$("#changeNickContent").hide();

@@ -1,3 +1,4 @@
+
 $(function() {
     onYouTubeIframeAPIReady();
     createSmartEditor();
@@ -169,8 +170,6 @@ $('#top').click(function() {            // When arrow is clicked
 $(document).on('click','#lecture-content-modify',function(){
 	location.href="/learn/course?boardId="+boardId;
 })
-
-
 
 
 

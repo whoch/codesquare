@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <header class="main-header" th:fragment="headerFragment">
 
    <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -65,7 +68,9 @@
 
 			<div sec:authorize="isAuthenticated()">
 				<ul>
-					<li><span id="headerNickName" th:text="${session.nickName}"></span> 님! 안녕하세요.</li>
+					
+					<li> <img th:src="@{'/static/codesquareDB/UserThumbnail/'+${session.userId}+'/'+${session.userId}+'_Thumbnail.jpg'}"
+									id="profileImg" style="width: 20px; height: 20px" /> <span id="headerNickName" th:text="${session.nickName}"></span> 님! 안녕하세요.</li>
 					<li><a th:href="@{/member/myPage}">마이페이지</a></li>
 					<li><a th:href="@{/logout}">로그아웃</a></li>
 
