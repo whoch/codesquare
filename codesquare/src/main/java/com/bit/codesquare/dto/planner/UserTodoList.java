@@ -1,7 +1,6 @@
 package com.bit.codesquare.dto.planner;
 
-
-
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 import lombok.Data;
@@ -14,6 +13,8 @@ public class UserTodoList {
 	String userId;
 	String content;
 	LocalDateTime writeDate;
-	LocalDateTime endDate;
+	Date endDate;
 	String status;
+	
+	String rowNum;
 }

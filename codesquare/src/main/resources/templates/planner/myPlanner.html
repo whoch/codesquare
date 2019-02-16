@@ -2,16 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/plannerLayout}"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<title>Dashboard</title>
+<title>myPlanner</title>
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
 <!— default header name is X-CSRF-TOKEN —>
 <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/static/styles/planner/dashboard.css}">
 <script type="text/javascript" th:inline="javascript">
-
-
 $(function(){
-	
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
 	$(function() {
@@ -19,56 +16,227 @@ $(function(){
 			xhr.setRequestHeader(header, token);
 		});
 	});
-	
-	    $(".nav-custom-tabs a").click(function () {
-	        $(this).tab('show');
-	    });//탭 클릭 이벤트
-	   
-	   $(".todo-li span").click(function () {
-		 console.log(this);
-		 $(this).attr("contentEditable",true);
-	   });//탭 클릭 이벤트
-	   
-	   $(".todo-li input").change(function () {
-			 $("form").submit();
-			 console.log("체인지체인지체인지후후후후");
-		   });
-		   
-        var bookmarkListObj = /*[[${bookmarkList}]]*/;
-        var JSONallSchedule = JSON.stringify(bookmarkListObj);
-        
-        
-        $(function () {
-            $("#testtest").click(function () {
-                $.ajax({
-                    type: 'post',
-                    url: '/test',
-                    /* data : {"JSONallScedule":JSONallSchedule, "A" : "A"}, */
-                    data: JSONallSchedule,
-                    contentType: 'application/json; charset=UTF-8',
-    /* 					traditional : true,
-    */					success: function (data) {
-                        $("#testtest").html(data);
-                        console.log("##### Ajax SUCCESS #######");
-                        console.log(this);
-                        console.log(data);
-                        console.log(event);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log("##### Ajax ERROR #######");
-                    }
-                });
-            });
-        });
-        
-        
-	
-	
-	
-	
-	
-	
+}());// #### 시큐리티 Ajax 필수 항목 ####
+
+$(document).ready(function () {
+	loadBookmark();
 });
+
+$(function(){
+	$(document).on('click', '.nav-custom-tabs a', function(){
+		 $(this).tab('show');
+	});//네비 탭 클릭 이벤트
+
+	$(document).on('click', '.bk-icon', function(){
+		var data = {
+		 			id : $(this).attr('id').substr(5),
+		 			boardKind : 'BookmarkList'
+		} 
+	
+		$.ajax({
+			type: 'post',
+			url: 'delete',
+			data : JSON.stringify(data),
+			context : this,
+			contentType: 'application/json; charset=UTF-8',
+			success: function (response) {
+                $(this).parents('.card').remove(); 
+                loadBookmark();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("##### bookmark-icon click : Ajax ERROR #####");
+            }
+		})
+	});// 북마크 취소하는 이벤트
+	
+	
+	/*  
+		TODO LIST 하고싶은 기능
+		1. TODO 쓰기
+		2. 마우스 hover 될 때 : 삭제아이콘 뜨고, 삭제아이콘 클릭하면 투두리스트 삭제
+		3. 마우스 한번 클릭 할 때 : 해당 투두리스트 완료 표시 ( 왼쪽엔 체크아이콘 보여짐, 내용은 줄 쳐지기, bg-color 어둡게 ) 
+			--> 완료됐을 경우 Ajax로 제일 하단으로 내리려고 했으나 취소하고 싶은 경우엔 다시 해당 목록을 찾아야된다는 부분때문에 하단으로 정렬되는 기능은 페이지에 처음 요청 했을때만 발생
+
+			
+			*/
+	
+	$('#todoForm').submit(function(e) {
+		$.ajax({
+			type: "POST",
+				url: $(this).attr('action'),
+				data: $(this).serialize(),
+				success: function(response) {
+	        	   
+					if(response.endDate){
+		        		   console.log("form 성공 & endDate 있음"); 
+		        		   
+		   			}else{
+		        		   console.log("form 성공 & endDate XXXXXXX"); 
+		        		   console.log(response); 
+		        		   var $txt = $("<div id='' class='todoGrid todo-li'>\
+							        		   <i class='checkIcon-todo'>\
+							        		   </i><span class='todo-content'></span>\
+							        		   <span class='todo-endDate'></span>\
+							        		   <i class='deleteIcon-todo fa fa-trash-o input-group-text'></i>\
+						        		 </div>");
+							
+							$txt.attr('id','tdID_'+response.id);
+							$txt.children('.todo-content').text(response.content);
+							
+							$('.todo-endDate:empty:first').parent().before($txt);
+							$('.form-control').val('');
+							
+/* 		        		  $.each(endDates, function(index, item){
+		        			  console.log(item.innerHTML);
+		        		  }); */
+		   			}
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.log("##### tood write : Ajax ERROR #####");
+				}
+		});
+
+	    e.preventDefault(); 
+	});
+	
+	
+	
+	/* ### 2. 마우스 hover 될 때 이벤트 ### */
+	
+	/*  체크&삭제 아이콘 표시 event  */
+  	$(document).on({
+ 		mouseenter: function () {
+ 			$(this).children('.todo-li:not(".td-check") i').css('visibility', 'visible');
+ 		},
+ 		mouseleave: function () {
+ 			$(this).children('.todo-li:not(".td-check") i').css('visibility', 'hidden');
+ 		}
+ 	}, '.todo-li');
+		
+	
+ 	/*  삭제 아이콘 클릭시 해당 TODO 삭제   */
+	$(document).on('click', '.deleteIcon-todo', function(){
+		var data = {
+	 			id : $(this).parent().attr('id').substr(5),
+	 			boardKind : 'ToDoList'
+		} 
+		
+		$.ajax({
+			type: 'post',
+			url: 'delete',
+			data : JSON.stringify(data),
+			context : this,
+			contentType: 'application/json; charset=UTF-8',
+			success: function (response) {
+                $(this).parent().remove(); 
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("##### deleteIcon-todo click : Ajax ERROR #####");
+            }
+		})
+	});
+	
+ 	/* ###  3. 마우스 한번 클릭 할 때 : 해당 투두리스트 완료 이벤트  ### */
+ 	
+ 	/*  체크 아이콘 클릭시 해당 TODO 완료 및 이동  */
+	$(document).on('click', '.checkIcon-todo', function(){
+		var data = {
+				id : $(this).parent().attr('id').substr(5),
+				status : $(this).parent().hasClass('td-check')?1:0
+			}
+
+		 $.ajax({
+	  			type: 'post',
+	  			url: 'checkedTodo',
+	  			data : JSON.stringify(data),
+	  			context : this,
+	  			contentType: 'application/json; charset=UTF-8',
+	  			success: function (response) {
+	                  $(this).parent().toggleClass('td-check');
+	                  $(this).toggleClass('fa-square-o');
+	                  $(this).toggleClass('fa-check-square-o');
+	                  
+	                  var id = $(this).parent().attr('id').substr(5);
+	                  var $this_div = $(this).parent();
+	             
+	                  if(  $(this).parent().hasClass('td-check')   ){
+	                	  //완료 상태일 때
+							$('.todo-li:eq('+response.indexOf(id)+')').after($this_div);
+	                  }else{
+	                	  //완료 상태가 아닐 때
+							$('.todo-li:eq('+response.indexOf(id)+')').before($this_div);
+	                  }
+	            },
+	            error: function (jqXHR, textStatus, errorThrown) {
+	                  console.log("##### tood checked : Ajax ERROR #####");
+	            }
+	  	})
+	});
+	
+ 	
+ 	
+ 	/* ###  4. 마우스 더블 클릭 할 때 : 해당 TODO 수정되고 ajax로 반영  ### */
+ 	
+ 	var currentValue;
+	$(document).on({
+		click : function(){
+			currentValue = $(this).text();
+			$(this).attr("contentEditable",true);
+			$(this).focus();
+		}, 
+		
+		blur : function(){ 
+			if( $(this).text()!==currentValue ){
+				var data = {
+	 		 			id : $(this).parent().attr('id').substr(5),
+	 		 			content : $(this).text()
+				} 
+				
+				 $.ajax({
+			  			type: 'post',
+			  			url: 'updateTodo',
+			  			data : JSON.stringify(data),
+			  			context : this,
+			  			contentType: 'application/json; charset=UTF-8',
+			  			success: function (response) {
+			                  $(this).val(data.content);
+			            },
+			            error: function (jqXHR, textStatus, errorThrown) {
+			                  console.log("##### tood change : Ajax ERROR #####");
+			            }
+			  	})
+			}//END if
+			$(this).attr("contentEditable",false);
+		}}, '.todo-content');
+	
+
+ 	
+	
+	 
+	 
+	 
+	 
+	 
+		   
+});//익명function END
+
+var loadBookmark = function() {
+	var userId = 'userId추후구현해야됨';
+	$.ajax({
+		type: 'post',
+		url: 'loadBookmark',
+		data: userId,
+		contentType: 'application/json; charset=UTF-8',
+		success: function (data) {
+			$('#bookmarkList').html(data);
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log("##### Ajax ERROR #######");
+		}
+	});
+};//북마크 리스트를 새로 로드해오는 함수
+
+
 
 
  </script>
@@ -78,7 +246,7 @@ $(function(){
     <article class="content" layout:fragment="content">
 
 
-        <!-- START GROUP-WORK Accorion -->
+        <!-- START GROUP-WORK -->
         <div class="accordion acc-custom" id="accorionGroupWork">
             <p class="card-category">그룹 공지사항</p>
             <div class="card" th:each=" list, status : ${groupWorkList}">
@@ -96,86 +264,49 @@ $(function(){
                 </div>
             </div>
         </div>
-        <!-- END GROUP-WORK Accorion -->
+        <!-- END GROUP-WORK -->
 
 
 
 
 
-        <!-- START CUSTOM-TAB bookmarkList -->
-        <div class="row bookmarkList custom-tab">
-            <!-- 왼쪽 Nav tabs 부분 -->
-            <ul class="nav nav-custom-tabs flex-column col-md-2">
-                <li class="nav-item" th:each="category,index : ${bookmarkKind}">
-                    <a th:class="|nav-link${index.first?' active':''}|" th:href="|#${category.category}|" th:text="${category.boardName}"></a>
-                </li>
-            </ul>
-            <!-- 오른쪽 컨텐츠 부분 -->
-            <div class="tab-content custom-tab-content col-md-10">
-                  <div th:id="*{category.category}" th:class="|container tab-pane ${index.first?'active':'fade'}|" th:each="category,index : ${bookmarkKind}">
-                      <div class="accordion acc-custom" th:id="|accorionBookmark*{index.index}|">
-                          <div class="card" th:each="list,status:${index.first?bookmarkList:bookmarkList.?[#strings.startsWith(boardKindId,'__${category.category}__')]}">
-                              <div class="card-header" th:id="|heading*{index.index}_BL*{status.index}|">
-                                  <div class="mb-0 bookmarkGrid">
-                                      <a th:text="*{list.boardName}" href="#"></a> <a th:text="*{list.title}"
-                                          th:class="*{status.first?'':'collapsed'}" data-toggle="collapse"
-                                          th:data-target="|#bookmark*{list.id}|" aria-expanded="true"
-                                          th:aria-controls="|bookmark*{list.id}|">
-                                      </a>
-                                      <span class="status" th:text="*{list.status eq '0'?'마감':''}"></span>
-                                      <span class="writeDate" th:text="*{list.writeDateFormat}"></span>
-                                      <button class="fa fa-bookmark" type="button"></button>
-                                      <button class="fa fa-external-link" type="button"></button>
-                                  </div>
-                              </div>
-                              <div th:id="|bookmark*{list.id}|"
-                                  th:class="|collapse${status.first?' show':''}|"
-                                  th:aria-labelledby="|heading*{index.index}_BL*{status.index}|" th:data-parent="|#accorionBookmark*{index.index}|">
-                                  <div class="card-body" th:text="*{list.content}"></div>
-                              </div>
-                          </div>
-                      </div>
-                </div> 
-                
-                
-                
-                
-                
-                
-                
-                
-            </div>
+        <!-- START BOOK-MARK List -->
+        <div id="bookmarkList" class="row custom-tab">
+								<!-- *****************
+										이 부분은 Ajax로 로드 됨 
+									    *****************  -->
         </div>
-        <!-- END CUSTOM-TAB bookmarkList  -->
+        <!-- END BOOK-MARK List  -->
 
 
 
 
-          
+
 		<!-- START TODO List -->
 		<div id="custom-todoList">
-			<form action="/todolist">
+			<p class="card-category">TO-DO List</p>
+			<form id="todoForm" action="writeTodo">
 				<div class="form-group todoInputGrid">
 					<div>
-						<textarea class="form-control" rows="1" id="comment" name="content"></textarea>
+						<input class="form-control" name="content" />
 					</div>
-					<button type="submit" class="btn fa fa-arrow-circle-up todo-submit-btn"></button>
+					<button type="submit"
+						class="btn fa fa-arrow-circle-up todo-submit-btn"></button>
 				</div>
-			<div>
-				<div class="todoGrid todo-li" th:each="list : ${todoList}">
-					<span th:text="${list.id}"></span>
-					<input th:value="${list.content}"></span>
-					<span th:text="${list.status}"></span>
+			</form>
+			<div class="todoList">
+				<div th:id="|tdID_${list.id}|" th:class="|todoGrid todo-li${list.status eq '1'?'':' td-check'}|" th:each="list : ${todoList}">
+					<i th:class="|checkIcon-todo${list.status eq '1'?' fa fa-square-o':' fa fa-check-square-o'}|"></i>
+					<span class="todo-content" th:text="${list.content}"></span>
+					<span class="todo-endDate" th:text="${list.endDate} ? ${#dates.format(list.endDate,'yy-MM-dd')}"></span>
+					<i class="deleteIcon-todo fa fa-trash-o"></i>
 				</div>
 			</div>
-			</form>
 		</div>
-		<!-- END TODO List -->
+		<!-- END TODO List  -->
 
 
 
-
-    </article>
+	</article>
 </body>
-
 </html>

@@ -22,7 +22,7 @@
 ***********************/
 
 .row {
-	margin: 70px 0px;
+	margin: 150px 0px;
 }
 
 .writeDate {
@@ -283,17 +283,18 @@
  .bookmarkGrid {
      display: grid;
      grid-template-columns: 20% 50% 5% 15% 5% 5%;
+     cursor: pointer;
  }
  
  .todoGrid {
      display: grid;
-     grid-template-columns: 20% 50% 10%;
+     grid-template-columns: 8% 65% 15% 5% 5% ;
  }
  
  
   .todoInputGrid {
      display: grid;
-     grid-template-columns: 90% 10%;
+     grid-template-columns: 80% 10%;
      align-items: center;
  }
  
@@ -324,8 +325,9 @@
    /**********
  9. todoList
  ***********/
-  #custom-todoList{
-
+  #custom-todoList .todoList {
+	max-height: 400px;
+	overflow:auto;
  }
  
  
@@ -354,7 +356,7 @@
  	resize: none
  }
  
-  #custom-todoList input{
+  #custom-todoList .todoList input {
     font-size:14px;
     line-height:1.25em; 
     padding:5px; 
@@ -363,12 +365,38 @@
  }
  
 	
- #custom-todoList  input[type=number]::-webkit-outer-spin-button,
- #custom-todoList  input[type=number]::-webkit-inner-spin-button {
+ #custom-todoList .todoList input[type=number]::-webkit-outer-spin-button,
+ #custom-todoList .todoList input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
- #custom-todoList  input[type=number] {
+ #custom-todoList .todoList input[type=number] {
     -moz-appearance: textfield;
+}
+
+.todoList i {
+    font-size: 25px;
+    padding : 8px 0px 2px 0px;
+ 
+    text-align: center;
+ }
+ 
+ .todo-li:not(.td-check) i  {
+    visibility: hidden;
+    color: rgba(0,0,0,.125);
+ }
+
+.todoList .todo-li:hover {
+  background: #f9f9f9;
+   transition: 0.2s;
+}
+ 
+ .todoList .todo-li.td-check {
+  background: #ddd;
+  color: #fff;
+}
+
+ .todoList .todo-li.td-check .todo-content {
+  text-decoration: line-through;
 }

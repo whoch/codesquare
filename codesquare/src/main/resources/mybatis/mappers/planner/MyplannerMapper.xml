@@ -9,6 +9,9 @@
 		WHERE g.UserId='cksdud' ORDER BY b.WriteDate DESC LIMIT 10
 	</select>
 	
+	
+	
+	
 	<select id="getUserBookmarkList" resultType="UserBookmarkList">
 		SELECT bl.Id, bl.BoardId,
 				 bo.BoardKindId, bk.BoardName, bo.GroupId, bo.Nickname, bo.Title, bo.Content, bo.WriteDate, bo.`Status`
@@ -28,13 +31,43 @@
 		WHERE bl.UserId='cksdud'
 	</select>
 	
+	
+	<delete id="deleteUsingId" parameterType="java.util.Map">
+		<![CDATA[
+			DELETE FROM ${boardKind} WHERE `Id`=#{id};
+		 ]]>
+	</delete>
+	
+	
+	
 	<select id="getUserTodoList" resultType="UserTodoList">
-		SELECT * FROM ToDoList WHERE `UserId`='cksdud'
-		ORDER BY Id DESC, Status DESC
+		SELECT id, UserId, Content, EndDate, Status FROM ToDoList WHERE `UserId`='cksdud'
+		ORDER BY Status DESC, EndDate DESC,  Id DESC
 	</select>
 	
 	<insert id="writeTodo" parameterType="userTodoList">
+		<selectKey keyProperty="id" resultType="String" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 		INSERT INTO ToDoList (`UserId`, `Content`) VALUES ('cksdud',#{content});
 	</insert>
 	
+	<update id="updateTodo" parameterType="java.util.Map">
+		UPDATE ToDoList SET `Content` = #{content} WHERE `Id`= #{id}
+	</update>
+	
+	<update id="updateTodoStatus" parameterType="java.util.Map">
+		UPDATE ToDoList SET Status=#{status} WHERE `UserId`='cksdud' AND `Id`=#{id}
+	</update>
+	
+	<select id="getRowNumTodo" resultType="java.lang.String">
+		<![CDATA[
+			SELECT Id
+			FROM ToDoList
+			WHERE `UserId`='cksdud'
+			ORDER BY Status DESC, EndDate DESC,  Id DESC
+		 ]]>
+	</select>
+	
+
 </mapper>
