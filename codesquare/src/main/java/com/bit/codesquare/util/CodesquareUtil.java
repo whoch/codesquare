@@ -1,5 +1,13 @@
 package com.bit.codesquare.util;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +15,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import com.bit.codesquare.dto.member.Member;
+import com.bit.codesquare.dto.planner.UserBookmarkList;
 import com.bit.codesquare.mapper.member.MemberMapper;
 import com.bit.codesquare.security.SecurityMember;
+
+import ch.qos.logback.classic.Logger;
 
 @Component
 public class CodesquareUtil {
@@ -57,5 +68,53 @@ public class CodesquareUtil {
 			session.setAttribute("profileImagePath", member.getProfileImagePath());
 		}
 	}
+	
+	
+	/**
+	 * 
+	 * @param LocalDateTime타입 compareDateTime  현재와 비교할 날짜
+	 * @return String 문자열 반환(ex: 방금 전, 1분 전, 1시간 전, 7일 전)
+	 * @see 차이가 1분 이하일 땐 방금 전, 최대 7일까지만 텍스트로 반환 나머지는 yyyy.MM.dd의 문자열
+	 */
+	public String compareDateTime(LocalDateTime dateTime) {
+		LocalDate compareDate = dateTime.toLocalDate();
+		LocalTime compareTime = dateTime.toLocalTime();
+		LocalDate currentDate = LocalDate.now();
+		LocalTime currentTime = LocalTime.now();
+		String result;
+		if(dateTime!=null && compareDate.isEqual(currentDate)) { //오늘일 때
+			int differenceInMinutes = (int)Duration.between(compareTime,currentTime).toMinutes();
+			if(differenceInMinutes<1) {
+				result="방금 전";
+			}else if(differenceInMinutes<60) {
+				result=differenceInMinutes+"분 전";
+			}else {
+				result=differenceInMinutes/60+"시간 전";
+			}
+		}else { //오늘이 아닐 때
+			int differenceInDates = Period.between(compareDate, currentDate).getDays();
+			if(differenceInDates<=7) {
+				result=differenceInDates+"일 전";
+			}else {
+				result=compareDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @see writeDateformat을 set함
+	 * @param ComparebleDateTime 인터페이스를 구현한 객체의 List
+	 */
+	public List<? extends ComparableDateTime> compareDateTimeList(List<? extends ComparableDateTime> datetimes) {
+		List<? extends ComparableDateTime> result = datetimes;
+		for(ComparableDateTime list : result) {
+			list.setDateTimeCompare(compareDateTime(list.getDateTimeCompare()));
+		}
+		return result;
+	}
+	
+	
 	
 }

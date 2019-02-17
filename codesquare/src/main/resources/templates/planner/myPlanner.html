@@ -4,7 +4,7 @@
 <head>
 <title>myPlanner</title>
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
-<!— default header name is X-CSRF-TOKEN —>
+<!-- default header name is X-CSRF-TOKEN -->
 <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/static/styles/planner/dashboard.css}">
 <script type="text/javascript" th:inline="javascript">
@@ -247,7 +247,7 @@ var loadBookmark = function() {
 
         <!-- START GROUP-WORK -->
         <div class="accordion acc-custom" id="accorionGroupWork">
-            <p class="card-category">그룹 공지사항</p>
+            <p class="card-category">그룹 과제 목록</p>
             <div class="card" th:each=" list, status : ${groupWorkList}">
                 <div class="card-header" th:id="|heading${status.index}|">
                     <div class="mb-0 grpWkGrid">

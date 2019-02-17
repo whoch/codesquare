@@ -10,28 +10,30 @@ import org.springframework.stereotype.Service;
 import com.bit.codesquare.dto.planner.UserBookmarkList;
 import com.bit.codesquare.dto.planner.UserGroupWorkList;
 import com.bit.codesquare.mapper.planner.MyplannerMapper;
+import com.bit.codesquare.util.CodesquareUtil;
+import com.bit.codesquare.util.ComparableDateTime;
 
 @Service
 public class MyplannerService {
 
 	@Autowired
 	MyplannerMapper myplannerMapper;
+	
+	@Autowired
+	CodesquareUtil util;
+	
 	Logger logger = LoggerFactory.getLogger(MyplannerService.class);
 
 	public List<UserGroupWorkList> getUsergetGroupWorkList() {
 		List<UserGroupWorkList> groupWorkList = myplannerMapper.getGroupWorkList();
-		for (UserGroupWorkList list : groupWorkList) {
-			list.setWriteDateFormat(DashboardService.getDifferenceInTime(list.getWriteDate()));
-		}
-		return groupWorkList;
+		return (List<UserGroupWorkList>) util.compareDateTimeList(groupWorkList);
 	}
 
 	public List<UserBookmarkList> getUserBookmarkList() {
 		List<UserBookmarkList> userBookmarkList = myplannerMapper.getUserBookmarkList();
-		for (UserBookmarkList list : userBookmarkList) {
-			list.setWriteDateFormat(DashboardService.getDifferenceInTime(list.getWriteDate()));
-		}
-		return userBookmarkList;
+		return (List<UserBookmarkList>) util.compareDateTimeList(userBookmarkList);
 	}
 
+
+	
 }

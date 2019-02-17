@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bit.codesquare.dto.planner.UserTodoList;
 import com.bit.codesquare.mapper.planner.MyplannerMapper;
 import com.bit.codesquare.service.planner.MyplannerService;
+import com.bit.codesquare.util.CodesquareUtil;
 
 @Controller
 public class MyPlannerController {
@@ -29,7 +30,6 @@ public class MyPlannerController {
 	
 	@RequestMapping("/myplanner")
 	public String myPlanner(Model model) {
-		
 		model.addAttribute("groupWorkList", myplannerService.getUsergetGroupWorkList());
 		model.addAttribute("todoList", myplannerMapper.getUserTodoList());
 		return "planner/myPlanner";
@@ -68,11 +68,4 @@ public class MyPlannerController {
 		return myplannerMapper.getRowNumTodo();
 	}
 	
-	
-	@RequestMapping("/testtest")
-	public String testtest(Model model) {
-		logger.info("#########TEST############");
-		model.addAttribute("bookmarkList", myplannerService.getUserBookmarkList());
-		return "planner/ajax/test";		
-	}
 }

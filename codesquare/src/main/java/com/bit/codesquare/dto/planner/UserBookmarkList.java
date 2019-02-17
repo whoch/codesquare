@@ -4,10 +4,12 @@ package com.bit.codesquare.dto.planner;
 
 import java.time.LocalDateTime;
 
+import com.bit.codesquare.util.ComparableDateTime;
+
 import lombok.Data;
 
 @Data
-public class UserBookmarkList {
+public class UserBookmarkList implements ComparableDateTime {
 
 
 	String id; 
@@ -22,4 +24,19 @@ public class UserBookmarkList {
 	String status;
 
 	String writeDateFormat;
+
+	@Override
+	public LocalDateTime getDateTimeCompare() {
+		// TODO Auto-generated method stub
+		return this.writeDate;
+	}
+
+	@Override
+	public void setDateTimeCompare(String format) {
+		// TODO Auto-generated method stub
+		this.writeDateFormat = format;
+		
+	}
+
+
 }

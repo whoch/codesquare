@@ -22,12 +22,16 @@ import org.springframework.stereotype.Service;
 import com.bit.codesquare.dto.planner.SeminarMeetingDateDetails;
 import com.bit.codesquare.dto.planner.UserGroupNoticeList;
 import com.bit.codesquare.mapper.planner.DashboardMapper;
+import com.bit.codesquare.util.CodesquareUtil;
 
 @Service
 public class DashboardService {
 	
 	@Autowired
 	DashboardMapper dashboardMapper;
+	
+	@Autowired
+	CodesquareUtil util;
 	Logger logger = LoggerFactory.getLogger(DashboardService.class);
 	
 	
@@ -73,37 +77,7 @@ public class DashboardService {
 	
 	public List<UserGroupNoticeList> getUserGroupNoticeList(){
 		List<UserGroupNoticeList> groupNoticeLists = dashboardMapper.getUserGroupNoticeList();
-		for(UserGroupNoticeList list : groupNoticeLists) {
-			list.setWriteDateFormat(getDifferenceInTime(list.getWriteDate()));			
-		}
-		return groupNoticeLists;
+		return (List<UserGroupNoticeList>) util.compareDateTimeList(groupNoticeLists);
 	}
 	
-	
-	public static String getDifferenceInTime(LocalDateTime writeDateTime) {
-		LocalDate writeDate = writeDateTime.toLocalDate();
-		LocalTime writeTime = writeDateTime.toLocalTime();
-		LocalDate currentDate = LocalDate.now();
-		LocalTime currentTime = LocalTime.now();
-		String result;
-		if(writeDateTime!=null && writeDate.isEqual(currentDate)) { //오늘일 때
-			int differenceInMinutes = (int)Duration.between(writeTime,currentTime).toMinutes();
-			if(differenceInMinutes<1) {
-				result="방금 전";
-			}else if(differenceInMinutes<60) {
-				result=differenceInMinutes+"분 전";
-			}else {
-				result=differenceInMinutes/60+"시간 전";
-			}
-		}else { //오늘이 아닐 때
-			int differenceInDates = Period.between(writeDate, currentDate).getDays();
-			if(differenceInDates<=7) {
-				result=differenceInDates+"일 전";
-			}else {
-				result=writeDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
-			}
-		}
-		return result;
-	}
-
 }

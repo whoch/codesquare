@@ -12,7 +12,6 @@
 	<script th:src='@{/static/fullcalendar/locale/ko.js}'></script>
 	<script type="text/javascript" th:inline="javascript">
 	/*<![CDATA[*/
-	
 
 		$(document).ready(function () {
 			// page is now ready, initialize the calendar...
@@ -20,11 +19,9 @@
 				//-----테마 설정-----
 				theme: 'bootstrap4',
 				
+ 				/* 
+				googleCalendarApiKey: 'AIzaSyDLfWhH0ZLqE_NvLAdO-CNtCQHuCyyXm-I',	 */ 	 
 				
- 				//----- googleCalendar -----
-				googleCalendarApiKey: 'AIzaSyDLfWhH0ZLqE_NvLAdO-CNtCQHuCyyXm-I',	 	 
-				 
-				 
 				//----- 시간 표시 포맷 설정 -----
 				timeFormat:'a h:mm',					
 			
@@ -39,7 +36,7 @@
 				//----- 커스텀 버튼 -----
 				customButtons: {
 					groupButton: {
-						text: '그룹^_^',
+						text: '그룹그룹',
 						bootstrapGlyphicon: 'glyphicon-user',
 						click: function () {
 							//VIEW 체인지
@@ -50,7 +47,7 @@
 						}
 					},
 					todoButton: {
-						text: '투두*^^*',
+						text: '투두',
 						click: function () {
 							alert('TODOLIST이라능!');
 						}
@@ -92,24 +89,22 @@
 				    $(this).css('border-color', 'red');
 				  },	
 				
-				// ----- EVENT 추가 -----	
+				/* ###  EVENT 추가  ###*/
 					eventSources:[
 /* 						{
 							googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
 							color:'#B22222'
-						}, */
-						{
-							events:   /*[[${seminar}]]*/ ,
-						    color: '#006400',     
-						    textColor: 'white' 
-						},					
+						}, 
+						
+								##세미나 이벤트 객체 지저분해서 임시로 지움
+						
+						*/				
 						{
 							events:   /*[[${study}]]*/,
 						    color: '#483D8B',     
 						    textColor: 'white'
 						}
 					],						
- 					//------Event End-----
 					
  					
 				  eventRender: function(eventObj, $el) {

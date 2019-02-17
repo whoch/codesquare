@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit.codesquare.mapper.study.StudyMapper">
+<!-- UserId는 임시로 'cksdud'으로 출력중 -->
+
+	<select id="getBoardList" resultType="Board">
+		SELECT  * FROM Board_view WHERE BoardName IN(#{boardName}) ORDER BY WriteDate DESC
+	</select>
+	
+	<select id="getBoardView" resultType="Board">
+		SELECT  * FROM Board_view WHERE BoardName IN(#{boardName}) AND Id=#{boardId}
+	</select>
+	
+	<select id="getBoardKind" resultType='BoardKind'>	
+		SELECT bk.*, bk2.BoardNameEn AS MainSubjectName FROM BoardKind bk
+		INNER JOIN BoardKind AS bk2 ON RIGHT(bk2.Id,3) = LEFT(bk.Id,3)
+		WHERE bk.BoardNameEn=#{BoardNameEn}
+	</select>
+	
+	<select id="getGroupInfo" resultType="GroupInfo">
+		SELECT * FROM GroupInfo_view gv
+		INNER JOIN Board AS bo ON gv.Id=bo.GroupId 
+		WHERE bo.Id = #{boardId}
+	</select>
+
+</mapper>

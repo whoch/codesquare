@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/mainLayout}"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>스터디모집</title>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<style>
+	/* 게시판 리스트 관련 CSS */
+	.row.boardList {
+		display: contents;
+	}
+	
+	.boardList li div {
+		display: inline-block;
+	}
+	
+	.stdMoGrid {
+	     display: grid;
+	     grid-template-columns: 3% 50% 10% 10% 10% 10% 7%;
+	}
+	
+	/* 그룹 게시판 상세보기 관련 CSS */
+	.boardTitle {
+	    border-bottom: 3px solid #000;
+	    padding: 50px 0 25px;
+	}
+	.boardList li, .boardHeader, .boardContent, .commentContent {
+	    border-bottom : 1px  solid rgba(0,0,0,.125);	
+        padding : 30px 0px;
+	}
+	
+	.boardContent {
+		min-height: 400px; 
+   		 line-height: 1.75em;
+	}
+	.wantedContent {
+		padding : 20px 10px;
+	}
+
+	.wantedContent, .comment-form {
+		border : 1px solid rgba(0,0,0,.125);
+	}
+	
+	.comment-textarea {
+	    width: 100%;
+	    height: 101px;
+	    padding: 15px 10px 15px 20px;
+	    background-color: #f9f9f9;
+	    border: 0;
+	}
+	
+	.comment-div, .groupContent {
+		border-top: 1px solid rgba(0,0,0,.125);
+	}
+	
+	
+	.board-content, .groupContent {
+		padding: 50px 0px;
+	}
+	
+	.group-detail dt {
+	    display: inline-block;
+	    vertical-align: middle;
+	    color: #787878;
+	}
+	
+	.group-detail dd {
+		margin: 0;
+	}
+	.group-detail-Grid {
+		display: grid;
+		grid-column-gap : repeat(2, 10px);
+		grid-row-gap: 7px;
+     	grid-template-columns: 15% 20% 15% 15% 15% 20% ;
+	}
+	
+	.group-member-cnt {
+		grid-column: span 2;
+	}
+	
+	.group-goal, .group-content, .group-meeting, .group-startDate {
+		grid-column: span 5;
+	}
+	
+	#group-apply-button, #bookmark-button {
+	    margin-top: 10px;
+	    border: 1px solid rgba(0,0,0,.125);
+	}
+	#group-apply-button, #bookmark-button {
+	    /* display: block; */
+	   /*  width: 100%; */
+	   line-height: 56px;
+	   text-align: center;
+	   cursor: pointer;
+	}
+	#wantedContent-title, #wantedContent-detail {
+		padding : 24px 12px;
+	}
+
+</style>
+</head>
+
+<body>
+	<!-- START content -->
+    <article class="content" layout:fragment="content">
+    	<div class="container">
+    	<th:block th:with="url=${#httpServletRequest.requestURI}">
+    	<th:block th:with="id=${board.Id}">
+    		
+    		<h3 class="boardTitle">스터디모집 게시판 상세보기 [[*{url}]]</h3>
+			<!-- 게시판 본문 -->
+			<section class="boardDetail">
+				<div class="boardView" th:object="${board}">
+				
+					<div class="boardHeader">
+						<h2 class="row">
+							<span class="col-md-8" th:text="*{title}"></span>
+							<span class="col-md-4" th:text="*{nickName}"></span>
+						</h2>
+						<div class="row">
+							<span class="col-md-8" th:text="*{writeDate}"></span>
+							<div class="col-md-2">
+								좋아요
+								<i class="fa fa-heart" aria-hidden="true"></i>
+								<span th:text="*{likeCount}"></span>
+							</div>
+							<div class="col-md-2">
+								조회수
+								<i class="fa fa-eye" aria-hidden="true"></i>
+								<span th:text="*{hit}"></span>
+							</div>
+						</div>
+					</div>
+					<div class="boardContent row">
+						<!-- ####   START 왼쪽 컨텐츠     #### -->
+						<div class="col-md-9" >
+							<div class="board-content" th:text="*{content}"></div>
+							
+							<!-- ******** 그룹 상세정보 카드?부분은 html 따로 독립할 예정  ***** -->
+							<div class="groupContent row" th:object="${group}">
+								<div class="content-label col-md-3">그룹 상세 정보</div>
+								<dl class="group-detail group-detail-Grid col-md-9 row">
+									<dt>그룹명:</dt>
+									<dd th:text="*{id}"></dd>
+									
+									<dt>모집인원:</dt>
+									<dd th:text="|*{recruitmentCount}명|"></dd>
+									
+									<dd th:class="group-member-cnt" th:text="|*{memberCount}명의 멤버가 참여중 입니다|"></dd>
+									
+									<dt>태그:</dt>
+									<dd th:text="*{tagId}"></dd>									
+									
+									<dt>레벨:</dt> 
+									<dd th:text="*{levelId}"></dd>
+									
+								
+									<dt>지역:</dt>
+									<dd th:text="*{localeId}"></dd>
+
+									<dt>목표:</dt>
+									<dd class="group-goal" th:text="*{goal}"></dd>
+								
+									<dt>내용:</dt>
+									<dd class="group-content" th:text="*{content}"></dd>
+									
+									<!-- 
+										이런식으로 표시
+										(월)20:00-22:00 (진행중)
+										이미 시작한 스터디입니다. 
+										
+										(수)20:00-22:00
+										지금 신청하면 3월 20일 (수) 첫 스터디 시작!
+									-->
+									
+									<dt>시간:</dt>
+									<dd class="group-meeting" th:text="|*{meetingDate}요일 20:00 (진행중)|"></dd>
+									<dt></dt>
+									<dd class="group-startDate" th:text="|진행중인 스터디입니다. (~*{startDate})|"></dd>
+
+								</dl>
+							</div>
+							<!-- ************************************************ -->
+						</div>
+						<!-- ####   END 왼쪽 컨텐츠     #### -->
+						<!-- ####   START 오른쪽 컨텐츠     #### -->	
+						<div class="col-md-3 wantedContent" >
+							<h4 id="wantedContent-title" th:text="${group.goal}"></h4>
+							<div id="wantedContent-detail">
+								<div th:text="${group.id}"></div>
+								<div th:text="*{status} eq 1?'모집중':'마감'"></div>
+							</div>
+							<div id="group-apply-button">신청하기</div>
+							<div id="bookmark-button">
+								<i>하트</i>
+								<span>찜하기</span>
+							</div>
+						</div>
+						<!-- ####   END 왼쪽 컨텐츠     #### -->
+					</div>
+					
+					<div class="commentContent">
+						<H3>댓글 <span th:text="*{commentCount}"></span> </H3>
+						<div class="comment-form">
+							<form>
+								<textarea class="textarea comment-textarea" maxlength="200" placeholder=""></textarea>
+							</form>
+							<div class="comment-div">
+								<button type="button">등록</button>
+							</div>
+						</div>
+						<div class="comment-list">댓글리스트 예정</div>
+					</div>
+
+					
+					<div class="FileContent">
+						<span th:text="|파일 개수 *{fileCount}|"></span>
+						<span th:text="|이미지 개수*{imageCount}|"></span>
+					</div>
+					
+
+					
+
+						
+				</div>
+			</section>
+			
+			
+			
+			
+			<!-- 게시판 리스트 -->
+			<div class="row boardList">
+				<ul>
+					<li class="stdMoGrid" th:each="list : ${boardList}">
+						<span th:text="*{list.id}"></span>
+						
+						<div>
+							<a th:href="|${url}/*{list.id}|" th:text="*{list.title}"></a>
+							<span th:text="*{list.fileCount}"></span>
+							<span th:text="*{list.imageCount}"></span>
+							<span th:text="*{list.commentCount}"></span>
+						</div>
+						<span th:text="*{list.status} eq 1?'':'마감'"></span>
+						
+						
+						<span th:text="*{list.groupId}"></span>
+						<span th:text="*{list.nickName}"></span>
+						<span th:text="*{list.writeDate}"></span>
+						
+						<div>
+							<span th:text="*{list.likeCount}"></span>
+							<span th:text="*{list.hit}"></span>
+						</div>
+						
+					</li>
+				</ul>
+			</div>
+			
+    	</th:block>
+    	</div>
+		<!-- 콘테이너 종료 -->
+
+	</article>
+	<!-- END content -->
+<script type="text/javascript" th:inline="javascript">
+$(function(){
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	$(function() {
+		$(document).ajaxSend(function(e, xhr, options) {
+			xhr.setRequestHeader(header, token);
+		});
+	});
+}());// #### 시큐리티 Ajax 필수 항목 ####
+</script>
+</body>
+</html>
