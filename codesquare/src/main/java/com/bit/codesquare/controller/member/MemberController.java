@@ -233,7 +233,7 @@ public class MemberController {
 	
 	
 	
-    @PostMapping("/upload")
+    @PostMapping("/uploadProfile")
     @ResponseBody
     public String uploadForm(@RequestBody MultipartFile[] uploadForm, Authentication auth) {
 

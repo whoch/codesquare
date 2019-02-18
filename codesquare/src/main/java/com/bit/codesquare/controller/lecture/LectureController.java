@@ -14,13 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,6 +32,7 @@ import com.bit.codesquare.dto.lecture.LearningLogInfo;
 import com.bit.codesquare.dto.lecture.Lecture;
 import com.bit.codesquare.dto.lecture.LectureIntro;
 import com.bit.codesquare.dto.lecture.LectureIntroContent;
+import com.bit.codesquare.dto.lecture.LectureTag;
 import com.bit.codesquare.dto.member.Member;
 import com.bit.codesquare.mapper.board.BoardMapper;
 import com.bit.codesquare.mapper.lecture.LectureMapper;
@@ -73,23 +75,27 @@ public class LectureController {
 	//강좌리스트 페이지 이동 컨트롤러 (default)
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView learnList(Model model) {
+		List<?> list=new ArrayList<>();
 		try {
+			list=lectureMapper.getAllLectureTag();
 			licList= lectureMapper.getAllLecture();
 			for(LectureIntroContent l: licList) {
 				String thumbPath=lectureIntropath;
 				thumbPath+=cUtil.getPath(l.getId(), l.getChangedName(),l.getExtension());
 				l.setThumbnailPath(thumbPath);
 			}
+			
 		}catch(Exception e) {
 			
 		}
-		mav.setViewName("lecture/lectureList");
+		mav.addObject("tagList",list);
 		mav.addObject("lectureList",licList);
+		mav.setViewName("lecture/lectureList");
 		return mav; 
 	}
 	//강좌 소개 페이지 이동 컨트롤러
 	@RequestMapping("intro/{id}")
-	public ModelAndView lectureIntroView(@PathVariable("id") int id, Principal pricipal, HttpSession session, Authentication auth) {
+	public ModelAndView lectureIntroView(@PathVariable("id") int id, Principal principal, HttpSession session, Authentication auth) {
 		cUtil.getSession(auth, session);
 		try {
 			lectureIntro= lectureMapper.getLecture(id);
@@ -112,10 +118,45 @@ public class LectureController {
 	@RequestMapping("intro")
 	public ModelAndView lectureIntroWrite(Principal pricipal, HttpSession session, Authentication auth) {
 		cUtil.getSession(auth, session);
+		List<LectureTag> ltList;
+		try {
+			
+			ltList = lectureMapper.getLectureTag();
+			mav.addObject("lectureTag",ltList);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		mav.setViewName("lecture/lectureIntroWritePage");
 		return mav; 
 	}
-	
+	//강의소개글 등록 컨트롤러
+	@RequestMapping(value="intro/regist",method=RequestMethod.POST)
+	@ResponseBody
+	public int insertLectureIntro(@RequestBody Map<String, Object> obj) {
+		int bResult=0;
+		int ldResult=0;
+		try {
+			bResult=lectureMapper.insertLectureIntroContent(obj);
+			if(bResult!=0) {
+				logger.info("bResult: "+bResult);
+//				obj.put("id", bResult);
+				ldResult=lectureMapper.insertLectureDetailContent(obj);
+				if(ldResult==0) {
+					logger.info("lectureDetailContent insert fail");
+				}
+			}else {
+				logger.info("lectureIntroContent insert fail");
+			}
+			bResult=(int)obj.get("id");
+			return bResult;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return bResult;
+	}
 	
 	
 	
@@ -273,6 +314,7 @@ public class LectureController {
 	public ModelAndView learnWriteViewPage(@PathVariable("parentId") int parentId, HttpSession session, Authentication auth) {
 		cUtil.getSession(auth, session);
 		try {
+			
 			mav.addObject("parentId", parentId);
 		}catch(Exception e) {
 
@@ -353,6 +395,26 @@ public class LectureController {
 		}catch(Exception e) {
 		}
 		return result; 
+	}
+	
+	//강의리스트부분 강의 검색 컨트롤러
+	@RequestMapping(value="/search",method=RequestMethod.GET)
+	@ResponseBody
+	public List<LectureIntroContent> searchLectureIntro(@RequestParam Map<String, Object> map) {
+		try {
+			logger.info(map.toString()+"hihihihi");
+			licList= new ArrayList<LectureIntroContent>();
+			licList= lectureMapper.searchLectureIntro(map);
+			for(LectureIntroContent l: licList) {
+				String thumbPath=lectureIntropath;
+				thumbPath+=cUtil.getPath(l.getId(), l.getChangedName(),l.getExtension());
+				l.setThumbnailPath(thumbPath);
+				logger.info(l.toString());
+			}
+			return licList;
+		}catch(Exception e) {
+		}
+		return licList; 
 	}
 	
 	

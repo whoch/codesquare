@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 
 				.authorizeRequests() /* 인증 요청 선언?????? */
-				.antMatchers("/","/member/upload").permitAll() //모든사람에게 권한 허용
+				.antMatchers("/","/member/upload","/cFile/**","learn/cFile/**").permitAll() //모든사람에게 권한 허용
 				.antMatchers("/member/signUp", "/member/login", "/member/signUp", "/member/idCheck",
 						"/member/emailCheck", "/member/findId", "/member/findPw", "/member/findIdPw", "/member/findPwMail")
 				.anonymous() //로그인 안한 사람만
@@ -83,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
 				// .antMatchers("/modifyInstructorInfo").hasAnyRole(roles)
 				.csrf().and()
-
+//				.ignoringAntMatchers("/cFile/**")
 				.formLogin() /* 로그인 폼 나오도록 */
 				.loginPage("/member/login") /* 내가 만든 로그인 페이지 */
 				.usernameParameter("userId") /* username 을 대체할 아이디 param default username */

@@ -11,11 +11,15 @@ import com.bit.codesquare.dto.lecture.LearningLogInfo;
 import com.bit.codesquare.dto.lecture.Lecture;
 import com.bit.codesquare.dto.lecture.LectureIntro;
 import com.bit.codesquare.dto.lecture.LectureIntroContent;
+import com.bit.codesquare.dto.lecture.LectureTag;
+
+import groovyjarjarpicocli.CommandLine.ExecutionException;
 
 @Mapper
 public interface LectureMapper {
 	
 	public List<LectureIntroContent> getAllLecture() throws Exception;
+	public List<String>getAllLectureTag()throws Exception;
 	public LectureIntro getLecture(int id) throws Exception;
 	public List<Board> getRecommandLecture(int id) throws Exception;
 	public List<Board> getLecutreList(int id)throws Exception;
@@ -34,5 +38,9 @@ public interface LectureMapper {
 	
 	@Transactional
 	public int updateLearningLogInfo(LearningLogInfo lLogInfo)throws Exception;
+	public List<LectureTag> getLectureTag()throws Exception;
+	public int insertLectureIntroContent(Map<String,Object> map)throws Exception;
+	public int insertLectureDetailContent(Map<String,Object> map)throws Exception;
+	public List<LectureIntroContent> searchLectureIntro(Map<String,Object> map)throws Exception;
 	
 }

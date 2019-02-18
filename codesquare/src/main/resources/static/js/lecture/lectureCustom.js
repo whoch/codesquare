@@ -340,8 +340,9 @@ $(document).ready(function() {
 		location.href="/learn/intro/"+boardId+"/course";
 	})
 	
-
 });
+
+
 
 //window.onbeforeunload = function() {
 //	$.ajax({

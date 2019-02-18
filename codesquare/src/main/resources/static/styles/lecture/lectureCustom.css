@@ -71,7 +71,7 @@
 .container-fluid{
   padding-top:60px;
 }
-.lecture-content .subtitle,:after{
+.lecture-content .subtitle:after{
   contetn:"";
   border-bottom:1px solid gray  ;
   width:100%;
@@ -725,7 +725,7 @@
   height:40px;
   border: dashed 2px gray;
 }
-.lecture-write-container input{
+.lecture-write-container input:not(.form-control){
   all:unset;
   width:100%;
   height:70px;
@@ -738,4 +738,23 @@ input[name="parent-title"]{
   width:100%;
   font-size:25px;
   border-bottom:2px solid gray;  
+}
+
+.checkbox-area{
+	
+    background: lightsteelblue;
+    border-radius: 3px;
+    margin: 5px 0 3px 0;
+    position: relative;
+    width: 100%;
+    height: 46px;
+	
+}
+.need-botton{
+    margin: 40px 0 10px 0;
+}
+.need-botton:after{
+	content="";
+	width:100%;
+	border-bottom: 1px solid gray;
 }
