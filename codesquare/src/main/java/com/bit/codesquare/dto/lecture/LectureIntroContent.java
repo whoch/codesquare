@@ -10,7 +10,7 @@ public class LectureIntroContent {
 	String nickName;
 	String changedName;
 	String extension;
-	String content;
+	String tag;
 	String introContent;
 	String priceInfo;
 	int studentCount;

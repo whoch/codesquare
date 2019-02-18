@@ -1,157 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.typeleaf.org"
-	xmlns:sd="http://www.thymeleaf.org/spring-data"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/mainLayout">
+ xmlns:sd="http://www.thymeleaf.org/spring-data"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorator="layout/mainLayout">
 <head>
 <title>Insert title here</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-<!-- mainlayout이 안먹는다? 일단 간직하자 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link href="static/styles/room/datepicker.min.css" rel="stylesheet" type="text/css">
-<script src="static/js/room/datepicker.min.js"></script>
-<script src="static/js/room/i18n/datepicker.en.js"></script>
-<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
-<script>
-
-
-  $(function() {
-	    $( "#testDatepicker" ).datepicker({
-	    	language: 'en',
-	    	dateFormat: 'yyyy-mm-dd',
-	        minDate: new Date()
-	    });
-	});
-  $(function () {
-	    $(window).scroll(function () { //브라우저에 스크롤이 발생하는 순간부터
-	        var curpos = $(window).scrollTop()+50; //스크롤바의 상단 위치값+20 보관
-	        $("#sky").stop().animate({"top":curpos}); //스카이메뉴의 상단위치값 애니
-	    });
-	});
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"> <!-- mainlayout이 안먹는다? 일단 간직하자 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
   
-  </script>
-
-<style>
-	label{
-       	font-family: 'Do Hyeon', sans-serif;
-        font-size: 20px;
-        font-weight: 200;
-    }
-	#box {
-    	position:relative;
-    	width:600px;
-    	margin:auto;
-    	background:white;
-	}
-	#sky {
-    	position:absolute;
-    	width:400px;
-    	left:80%;
-    	top:20px;
-    	background-color:;
-	}
-	.max-small {
-    width: auto; height: auto;
-    max-width: 600px;
-    max-height: 600px;
-}
-</style>
-
+  
 </head>
 <body>
-	<div class="container" layout:fragment="content">
-		<div><!-- 지우면 사진 크기 줄어듬 -->
-<form action="/reserve"  id="box">
-<div id="sky">
-			<label style="font-size: 30px">공간선택 </label>&nbsp;&nbsp;<label style="font-family: sans-serif; font-size: 15px">예약 및 문의는 <a th:href="@{/member/login}" style="color: red;">로그인</a>이 필수입니다.</label><br>
-			<label>이용 공간</label>
-			<label><select name="roomid">
-				<option th:each="item:${list}" th:text="${item.roomname}" th:value="${item.id}"></option>
-			</select>
-			</label><br>
-		
-			<label>이용 인원</label>
-			<select name="person" id="person">
-				<option>선택</option>
-				<option value=2>2인</option>
-				<option value=3>3인</option>
-				<option value=4>4인</option>
-				<option value=5>5인</option>
-				<option value=6>6인</option>
-				<option value=7>7인</option>
-				<option value=8>8인</option>
-				<option value=9>9인</option>
-				<option value=10>10인</option>
-				<option value=15>15인</option>
-				<option value=20>20인</option>
-				<option value=25>25인</option>
-				<option value=30>30인</option>
-			</select><br>
-			<label>이용 날짜</label>
-			<input type="text" id="testDatepicker" placeholder="연도/월/일" autocomplete="off" name="reservationdate"><br>
-			<label>이용 시간</label>
-			<select id="reservationtime" name="reservationtime">
-				<option>선택</option>
-				<option value=0>00</option>
-				<option value=1>01</option>
-				<option value=2>02</option>
-				<option value=3>03</option>
-				<option value=4>04</option>
-				<option value=5>05</option>
-				<option value=6>06</option>
-				<option value=7>07</option>
-				<option value=8>08</option>
-				<option value=9>09</option>
-				<option value=10>10</option>
-				<option value=11>11</option>
-				<option value=12>12</option>
-				<option value=13>13</option>
-				<option value=14>14</option>
-				<option value=15>15</option>
-				<option value=16>16</option>
-				<option value=17>17</option>
-				<option value=18>18</option>
-				<option value=19>19</option>
-				<option value=20>20</option>
-				<option value=21>21</option>
-				<option value=22>22</option>
-				<option value=23>23</option>
-			</select>
-			<label>시에 시작하여</label> &nbsp;
-				<select name="usetime">
-				<option value=2>2시간</option>
-				<option value=3>3시간</option>
-				<option value=4>4시간</option>
-				<option value=5>5시간</option>
-				<option value=6>6시간</option>
-				<option value=7>7시간</option>
-				<option value=8>8시간</option>
-				<option value=9>9시간</option>
-				<option value=10>10시간</option>
-				</select>
-			<label>동안 이용</label>
-<input type="submit" value="예약하기" class="btn btn-danger btn-block" style="font-weight: bolder;">
+<div class="container" layout:fragment="content">
+
+  <div class="carousel-inner"> <!-- 지우면 사진 크기 줄어듬 -->
+  
+    <div class="carousel-item active"></div>
+  <div th:each="item:${list}"><br><br>
+  		<img th:src="@{static/}+${item.thumbnailPath}" style="height: 280px"/>
+      		<ul th:text="${item.roomname}"></ul>
+		정원:<span th:text="${item.usepeople}"></span>명<br>
+		정보:<span th:text="${item.optioninfo}" ></span><br>
+		<td><a th:href="@{'roomView?id=' + ${item.id}}"><p th:text="${item.roomname}"></p></a></td>
+
 </div>
-</form>
-			<label style="font-size: 30px">지점 소개</label><br>
-			<div th:text="${content.companycontent}" style="width: 600px"></div><br><br>
-			<label style="font-size: 30px">공간 소개</label>
-			</div>
-			<span th:each="item:${list}"><br><br>
-			<div style="background-color: rgba( 204, 102, 204, 0.3 ); width: 600px"> 
-				<img th:src="@{static/}+${item.thumbnailPath}" class="max-small"/><br>
-				<label th:text="${item.roomname}"></label><br>
-				<label>정원:</label><label th:text="${item.usepeople}"></label><label>명</label><br>
-				<label>정보:</label><label th:text="${item.optioninfo}"></label><br>
-				<a th:href="@{'roomView?id='+${item.id}}">
-					<span th:text="${item.roomname}"></span>
-				</a>
-			</div>
-		</span>
-	</div>
+</div>
+</div>
+
 </body>
 </html>

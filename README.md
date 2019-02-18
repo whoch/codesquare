@@ -1,1 +1,7 @@
-1조 코드스퀘어 형상관리
+int BoardId ;
+String BoardKindId ;
+String Extension ;
+int IsImage;
+String OriginalName ;
+String ChangedName ;
+int Size;

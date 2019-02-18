@@ -9,7 +9,7 @@ public class Company {
 	String localeid;
 	String companyname;
 	String coordinates;
-	String companycontent;
+	String companyinfo;
 	String address;
 	String extension;
 	

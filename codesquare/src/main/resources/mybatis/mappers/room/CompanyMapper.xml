@@ -4,10 +4,9 @@
 
 	<select id="getCompany" resultType="Company">
 		select * from codesquare.CompanyInfo
+		<!-- select * from codesquare.CompanyInfo where address like '%강남%' -->
 	</select>
-	<select id="companycontent" resultType="Company">
-		SELECT * FROM codesquare.CompanyInfo where id=#{CompanyId}
-	</select>
+	
 	<select id="getgangnam" resultType="Company">
 		SELECT * FROM codesquare.CompanyInfo WHERE LocaleId LIKE '%SU%'
 	</select>

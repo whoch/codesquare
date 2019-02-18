@@ -1,5 +1,6 @@
 package com.bit.codesquare.controller.room;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.bit.codesquare.dto.room.Company;
 import com.bit.codesquare.dto.room.Reservation;
 import com.bit.codesquare.dto.room.Room;
-import com.bit.codesquare.mapper.room.CompanyMapper;
 import com.bit.codesquare.mapper.room.ReservationMapper;
 import com.bit.codesquare.mapper.room.RoomMapper;
 
@@ -29,31 +29,26 @@ public class ReservationController {
 	RoomMapper roomMapper;
 	@Autowired
 	ReservationMapper reservationMapper;
-	@Autowired
-	CompanyMapper companyMapper;
 	
 	@Value("${roomIntro.savepath.directory}")
 	String path;
 	
-	
+	List<Room> licList = new ArrayList<Room>();
+	List<Room> roomview = new ArrayList<Room>();
 	
 	@RequestMapping("/getid")
-	public String getid(Model model, String companyid) throws Exception {
-		
+	public ModelAndView getid(Model model, String companyid) throws Exception {
 		try {
-			List<Room> licList =roomMapper.getid(companyid);
+			licList=roomMapper.getid(companyid);
 			for(Room l:licList) {
 				String thumbPath=path;
 				thumbPath+=l.getId()+"/Thumbnail."+l.getExtension();
 				l.setThumbnailPath(thumbPath);
 			}
-			model.addAttribute("list", licList);
-			model.addAttribute("content", companyMapper.companycontent(companyid));
-			System.out.println(companyid);
 		}catch (Exception e) {
-			System.err.println(e.getMessage());
+			
 		}
-		return "room/roomList";
+		return new ModelAndView("room/roomList", "list", licList);
 	}
 	
 	
@@ -71,7 +66,7 @@ public class ReservationController {
 		
 		System.out.println(l);
 		return "room/roomView";
-	}
+	} 
 	
 	@RequestMapping("/reserve")
 	public String reserve(HttpServletRequest request, Model model, @ModelAttribute Reservation reservation) throws Exception {

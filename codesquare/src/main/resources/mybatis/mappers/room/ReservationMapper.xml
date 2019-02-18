@@ -12,7 +12,7 @@
 </insert>
 
 <update id="enddate" parameterType="Reservation">
-		UPDATE codesquare.ReservationInfo SET ENDDATE=DATE_ADD(RESERVATIONDATE, INTERVAL (RESERVATIONTIME + USETIME) HOUR) WHERE NO=#{NO}
+		UPDATE codesquare.ReservationInfo SET EndDate=ADDTIME(ReservationDate, ADDTIME(usetime,reservationtime)) WHERE no=#{no}
 </update>
 
 </mapper>
