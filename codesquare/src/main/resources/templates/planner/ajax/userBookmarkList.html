@@ -1,0 +1,34 @@
+<!-- 왼쪽 Nav tabs 부분 -->
+
+<ul class="nav nav-custom-tabs flex-column col-md-2">
+    <li class="nav-item" th:each="category,index : ${bookmarkKind}">
+        <a th:class="|nav-link${index.first?' active':''}|" th:href="|#${category.category}|" th:text="${category.boardName}"></a>
+    </li>
+</ul>
+<!-- 오른쪽 Tab Content 부분 -->
+<div id="bookmark-contentTab" class="tab-content custom-tab-content col-md-10">
+	<div th:id="${category.category}" role="tablist" th:class="|container tab-pane ${index.first?'active':'fade'}|" th:each="category,index : ${bookmarkKind}">
+	    <div id="bookmark-accordion">
+	        <div class="card" th:each="list,status:${index.first?bookmarkList:bookmarkList.?[#strings.startsWith(boardKindId,'__${category.category}__')]}">
+	            <div class="card-header" th:id="|header_*{category.category}_*{list.id}|">
+	                <div class="mb-0 bookmarkGrid">
+	                    <a th:text="*{list.boardName}"></a>
+	                    <a th:text="*{list.title}"
+	                        th:class="*{status.first?'':'collapsed'}" data-toggle="collapse"
+	                        th:data-target="|#content_*{category.category}_*{list.id}|" aria-expanded="true"
+	                        th:aria-controls="|content_*{category.category}_*{list.id}|"></a>
+	                    <span class="status" th:text="*{list.status eq '0'?'마감':''}"></span>
+	                    <span class="writeDate" th:text="*{list.writeDateFormat}"></span>
+	                    <button th:id="|bmID_${list.id}|" class="fa fa-bookmark bk-icon" type="button"></button>
+	                    <button th:id="|${list.boardKindId}${list.boardId}|" class="fa fa-external-link" type="button" href="#"></button>
+	                </div>
+	              </div>
+	              <div th:id="|content_*{category.category}_*{list.id}|"
+	                  th:class="|collapse${status.first?' show':''}|"
+	                  th:aria-labelledby="|header_*{category.category}_*{list.id}|" data-parent="#bookmark-contentTab">
+	                  <div class="card-body" th:text="*{list.content}"></div>
+	              </div>
+	          </div>
+	      </div>
+	</div>
+</div>              

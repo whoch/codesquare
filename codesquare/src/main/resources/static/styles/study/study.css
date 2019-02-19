@@ -1,0 +1,156 @@
+
+/* CSS Document */
+
+/******************************
+
+[Page of Contents]
+
+1. 게시판 리스트
+2. 그룹 게시판 상세보기
+
+
+******************************/
+
+
+
+/***********************
+1. 게시판 리스트
+***********************/
+	.row.boardList {
+		display: contents;
+	}
+	
+	.boardList li div {
+		display: inline-block;
+	}
+	
+	.stdMoGrid {
+	     display: grid;
+	     grid-template-columns: 3% 50% 10% 10% 10% 10% 7%;
+	}
+	
+/***********************
+2. 그룹 게시판 상세보기
+***********************/
+	.boardTitle {
+	    border-bottom: 3px solid #000;
+	    padding: 50px 0 25px;
+	}
+	.boardList li, .boardHeader, .boardContent, .commentContent {
+	    border-bottom : 1px  solid rgba(0,0,0,.125);	
+        padding : 30px 0px;
+	}
+	
+	.boardContent {
+		min-height: 400px; 
+   		 line-height: 1.75em;
+	}
+	.wantedContent {
+		padding : 20px 10px;
+	}
+
+	.wantedContent, .comment-form {
+		border : 1px solid rgba(0,0,0,.125);
+	}
+	
+	.comment-textarea {
+	    width: 100%;
+	    height: 101px;
+	    padding: 15px 10px 15px 20px;
+	    background-color: #f9f9f9;
+	    border: 0;
+	}
+	
+	.comment-div, .groupContent {
+		border-top: 1px solid rgba(0,0,0,.125);
+	}
+	
+	.board-content, .groupContent {
+		padding: 50px 0px;
+	}
+	
+	.group-detail dt {
+	    display: inline-block;
+	    vertical-align: middle;
+	    color: #787878;
+	}
+	
+	.group-detail dd {
+		margin: 0;
+	}
+	.group-detail-Grid {
+		display: grid;
+		grid-column-gap : repeat(2, 10px);
+		grid-row-gap: 7px;
+     	grid-template-columns: 15% 20% 15% 15% 15% 20% ;
+	}
+	
+	.group-member-cnt {
+		grid-column: span 4;
+	}
+	
+	.group-goal, .group-content, .group-meeting, .group-startDate, .group-meetingTime{
+		grid-column: span 5;
+	}
+	
+	#group-apply-button, #bookmark-button {
+	    margin-top: 10px;
+	    margin-bottom: 10px;
+	    border: 1px solid rgba(0,0,0,.125);
+	}
+	#group-apply-button, #bookmark-button {
+	    /* display: block; */
+	   /*  width: 100%; */
+	   line-height: 56px;
+	   text-align: center;
+	   cursor: pointer;
+	}
+	#wantedContent-title, #wantedContent-detail {
+		padding : 24px 12px;
+	}
+	
+	.group-meeting .tag-meetingDate {
+	    border: 1px solid #6190b3;
+	    color: #6190b3;
+	    border-radius: 8px;
+	   /*  font-size: .85rem; */
+		/* font-weight: 600; */
+	    padding: 3px 8px;
+	    margin-right: 5px;
+	}
+	
+	#group-apply-button{
+		background: #4B0082;
+		color: white;
+	}
+
+	#bookmark-button {
+		position: relative;
+		height: 58px;
+		color: #4f4f4f;
+	}
+	
+	#bookmark-button.checked {
+		color: #4B0082;
+		border-color: #4B0082;
+	}
+	
+	#bookmark-button:hover {
+		border-color: #4B0082;
+		color: #4B0082;
+	}
+	
+	.far.fa-heart {
+		font-size: 25px;;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.far.fa-heart span {
+		font-size: 16px;
+		vertical-align: middle;
+		margin-left :5px;
+	}
+  

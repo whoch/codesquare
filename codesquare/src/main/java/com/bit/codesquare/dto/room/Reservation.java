@@ -16,8 +16,8 @@ public class Reservation {
 	Date reservationdate;
 	Timestamp paymentdate;
 	int payamount;
-	int reservationtime;
-	int usetime;
+	Time reservationtime;
+	Time usetime;
 	int person;
 	Date enddate;
 	String roomname;

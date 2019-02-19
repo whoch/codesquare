@@ -1,6 +1,7 @@
 package com.bit.codesquare.dto.planner;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -11,8 +12,9 @@ public class SeminarMeetingDateDetails {
 	String boardId;
 	String userId;
 	String locale;
-	Timestamp seminarStartDate;
-	Timestamp seminarEndDate;	
+	LocalDateTime seminarStartDate;
+	LocalDate seminarEndDate;
+	LocalDateTime meetingDate;
 	String nickname;
 	
 }
