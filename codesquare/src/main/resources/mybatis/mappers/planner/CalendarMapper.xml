@@ -3,14 +3,16 @@
 <mapper namespace="com.bit.codesquare.mapper.planner.CalendarMapper">
 <!-- UserId는 임시로 'cksdud'으로 출력중 -->
 
-	<select id="getScheduleSeminar" resultType="SeminarMeetingDateDetails">
+	<select id="getAllScheduleSeminar" resultType="SeminarMeetingDateDetails">
 		SELECT si.`BoardId`, si.`UserId`, si.`Locale`,si.`SeminarStartDate`,si.`SeminarEndDate`,bo.Nickname
 		FROM JoiningAndRecruitmentLog jr INNER JOIN SeminarInfo si 
-		ON jr.UserId='cksdud' AND jr.BoardId=si.BoardId INNER JOIN Board bo ON jr.`BoardId`=bo.Id
+		ON jr.ApplyUserId='cksdud' AND jr.BoardId=si.BoardId INNER JOIN Board bo ON jr.`BoardId`=bo.Id
 	</select>
 	
-	<select id="getScheduleGroup" resultType="GroupMeetingDateDetails">
+	<select id="getAllScheduleGroup" resultType="GroupMeetingDateDetails">
 		SELECT * from GroupStudyLog WHERE `UserId`='cksdud'
 	</select>
-		
+	
+
+
 </mapper>
