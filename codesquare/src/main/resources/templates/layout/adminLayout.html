@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+xmlns:sd="http://www.thymeleaf.org/spring-data"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>Welcome to CodeSquare!</title>
+<meta charset="utf-8"> 
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="CodeSquare Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css" th:href="@{/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css}">
+ 	 <link rel="stylesheet" type="text/css"	href="/webjars/font-awesome/5.7.1/css/all.css"	th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}"/>
+ 	 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/f`ont-awesome/latest/css/font-awesome.min.css"> -->
+  <!-- Material Kit CSS -->
+ 	 <link th:href="@{/static/assets/css/material-dashboard.css?v=2.1.1}" rel="stylesheet" />
+</head>
+<body>
+<!-- 페이지의 헤더부분 -->
+<header th:replace="fragments/adminSide :: sideFragment"></header>
+
+
+<!-- 페이지의 content -->
+<div layout:fragment="content" style="margin-bottom: 100px;"></div>
+
+<!-- 페이지의 푸터부분 -->
+<footer th:replace="fragments/adminFooter :: adminFooterFragment"></footer> 
+
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+<script th:src="@{/webjars/popper.js/1.14.6/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.js}"></script>
+<script th:src="@{/webjars/bootstrap-select/1.13.3/js/bootstrap-select.js}"></script>
+<script th:src="@{/webjars/jquery-serialize-object/2.1.0/jquery.serialize-object.js}"></script>
+<script th:src="@{/static/js/admin/adminSideCustom.js}"></script>
+</body>
+</html>

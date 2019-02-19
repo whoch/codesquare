@@ -1,0 +1,214 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:sd="http://www.thymeleaf.org/spring-data"
+	layout:decorator="layout/adminLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+  <title>AdminPage by CodeSquare</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+</head>
+
+<body>
+  <div class="wrapper" layout:fragment="content">
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="#pablo">Dashboard</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="#pablo">
+                  <i class="material-icons">notifications</i> Notifications
+                </a>
+              </li>
+              <!-- your navbar here -->
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+          <!-- 업무목록 리스트 -->
+            <div class="col-lg-6 col-md-12">
+              <div class="card">
+                <div class="card-header card-header-tabs card-header-primary">
+                  <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                      <span class="nav-tabs-title">업무목록:</span>
+                      <ul class="nav nav-tabs" data-tabs="tabs">
+                      	<!-- 신고내역 -->
+                        <li class="nav-item">
+                          <a class="nav-link active" href="#repoted" data-toggle="tab">
+                            <i class="material-icons">bug_report</i> 신고내역
+                            <div class="ripple-container"></div>
+                          </a>
+                        </li>
+                        <!-- 강사신청 -->
+                        <li class="nav-item">
+                          <a class="nav-link" href="#teacher-apply" data-toggle="tab">
+                            <i class="fas fa-chalkboard-teacher fa-lg"></i> 강사신청
+                            <div class="ripple-container"></div>
+                          </a>
+                        </li>
+                        <!-- todolist -->
+                        <li class="nav-item">
+                          <a class="nav-link" href="#todolist" data-toggle="tab">
+                            <i class="fas fa-clipboard-list fa-lg"></i> Todo-List
+                            <div class="ripple-container"></div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body" style="height:400px;">
+                  <div class="tab-content">
+                  	<!-- 신고내역 -->
+                    <div class="tab-pane active" id="repoted">
+                      <table class="table">
+                        <tbody>
+                          <tr th:each="rList:${repotedList}">
+						    <td>
+						      <div class="form-check">
+						        <label class="form-check-label">
+						          <input class="form-check-input" type="checkbox" value="">
+						          <span class="form-check-sign">
+						            <span class="check"></span>
+						          </span>
+						        </label>
+						      </div>
+						    </td>
+						    <td th:text="${rList.reportedUserId}"></td>
+						    <td th:text="${rList.content}"></td>
+						    <td class="td-actions text-right">
+						      <button type="button" rel="tooltip" title="상세보기" class="btn btn-primary btn-link btn-sm">
+						        <i class="fas fa-address-card fa-lg"></i>
+						      </button>
+						      <button type="button" rel="tooltip" title="거절하기" class="btn btn-danger btn-link btn-sm">
+						        <i class="fas fa-user-times fa-lg"></i>
+						      </button>
+						    </td>
+						  </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- 강사신청 -->
+                    <div class="tab-pane" id="teacher-apply">
+                      <table class="table">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <div class="form-check">
+                                <label class="form-check-label">
+                                  <input class="form-check-input" type="checkbox" value="" checked>
+                                  <span class="form-check-sign">
+                                    <span class="check"></span>
+                                  </span>
+                                </label>
+                              </div>
+                            </td>
+                            <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
+                            </td>
+                            <td class="td-actions text-right">
+                              <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">edit</i>
+                              </button>
+                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                                <i class="material-icons">close</i>
+                              </button>
+                            </td>
+                          </tr>                          
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- todolist -->
+                    <div class="tab-pane" id="todolist">
+                      <table class="table">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <div class="form-check">
+                                <label class="form-check-label">
+                                  <input class="form-check-input" type="checkbox" value="">
+                                  <span class="form-check-sign">
+                                    <span class="check"></span>
+                                  </span>
+                                </label>
+                              </div>
+                            </td>
+                            <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
+                            <td class="td-actions text-right">
+                              <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">edit</i>
+                              </button>
+                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                                <i class="material-icons">close</i>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+             <textarea name="content" id="content" style="width: 100%; height: 412px; min-width: 610px; overflow: visible;"	rows="25" ></textarea> 
+            </div>
+          </div>
+          <div class="row">
+          	<div class="col-lg-6 col-md-offset-2 col-md-4">
+              <div class="card">
+                <div class="card-header card-header-warning">
+                  <h4 class="card-title">Employees Stats</h4>
+                  <p class="card-category">New employees on 15th September, 2016</p>
+                </div>
+                <div class="card-body table-responsive">
+                  <table class="table table-hover">
+                    <thead class="text-warning">
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Salary</th>
+                      <th>Country</th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>Dakota Rice</td>
+                        <td>$36,738</td>
+                        <td>Niger</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>          
+          </div>
+        </div>
+      </div>
+    </div>
+    <th:block layout:fragment="script">
+    	<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+    	<script th:src="@{/static/js/admin/dashboardCustom.js}"></script>
+    	<script type="text/javascript"	th:src="@{/static/js/smarteditor2/dist/js/service/HuskyEZCreator.js}"></script>
+    	
+    </th:block>
+  </div>
+</body>
+</html>
