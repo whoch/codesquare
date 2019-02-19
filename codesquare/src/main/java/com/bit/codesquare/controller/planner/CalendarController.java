@@ -1,5 +1,6 @@
 package com.bit.codesquare.controller.planner;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,17 +40,17 @@ public class CalendarController {
 		List<HashMap<String, Object>> seminarScheduleList=new ArrayList<HashMap<String, Object>>();
 		List<HashMap<String, Object>> groupMeetingScheduleList=new ArrayList<HashMap<String, Object>>();		
 		
-		List<SeminarMeetingDateDetails> seminarData=calendarMapper.getScheduleSeminar();
-		List<GroupMeetingDateDetails> groupMeetingData=calendarMapper.getScheduleGroup();
+		List<SeminarMeetingDateDetails> seminarData=calendarMapper.getAllScheduleSeminar();
+		List<GroupMeetingDateDetails> groupMeetingData=calendarMapper.getAllScheduleGroup();
 		
-		for(SeminarMeetingDateDetails info : seminarData) {
+		for(SeminarMeetingDateDetails list : seminarData) {
 			HashMap<String, Object> schedule = new HashMap<String, Object>();
-			int meetingTime = info.getSeminarStartDate().toLocalDateTime().getHour();
+			LocalTime meetingTime = list.getSeminarStartDate().toLocalTime();
 			
 			schedule.put("title", "세미나" );
-			schedule.put("start", info.getSeminarStartDate());
-			schedule.put("end", info.getSeminarEndDate().toLocalDateTime().plusHours(meetingTime));
-			schedule.put("description","강사:"+info.getNickname()+"<BR/>장소:"+info.getLocale());
+			schedule.put("start", list.getSeminarStartDate());
+			schedule.put("end", list.getSeminarEndDate().atTime(meetingTime));
+			schedule.put("description","강사:"+list.getNickname()+"<BR/>장소:"+list.getLocale());
 			
 			seminarScheduleList.add(schedule);
 		}//seminarScheduleList.add();

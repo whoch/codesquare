@@ -14,13 +14,13 @@ public interface CalendarMapper {
 	 * @author 김찬영
 	 * @todo 사용자 아이디 참조변수로 받는것
 	 */
-	public List<SeminarMeetingDateDetails> getScheduleSeminar();
+	public List<SeminarMeetingDateDetails> getAllScheduleSeminar();
 	
 	/**
 	 * @brief 사용자가 참여중인 그룹의 모임 일정을 가져온다
 	 * @author 김찬영
 	 * @todo 사용자 아이디 참조변수로 받는것
 	 */
-	public List<GroupMeetingDateDetails> getScheduleGroup();
+	public List<GroupMeetingDateDetails> getAllScheduleGroup();
 	
 }

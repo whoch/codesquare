@@ -18,6 +18,10 @@
 <link rel="stylesheet" type="text/css" href="/static/styles/responsive.css" th:href="@{/static/styles/responsive.css}">
 <link rel="stylesheet" type="text/css" href="/static/styles/notice.css" th:href="@{/static/styles/notice.css}">
 
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
 </head>
 <body>
 <!-- 페이지의 헤더부분 -->
@@ -28,9 +32,11 @@
 <div layout:fragment="content" style="margin-bottom: 100px;"></div>
 
 <!-- 페이지의 푸터부분 -->
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
 <footer th:replace="fragments/footer :: footerFragment"></footer> 
 
-<!-- <script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script> -->
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
 <script th:src="@{/webjars/popper.js/1.14.6/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.js}"></script>
 <script th:src="@{/webjars/bootstrap-select/1.13.3/js/bootstrap-select.js}"></script>
@@ -49,7 +55,8 @@
 <script th:src="@{/static/js/custom.js}"></script>
 <script th:src="@{/static/js/notice/notice.js}"></script>
 
-
+<script th:src="@{/static/js/securityAjax.js}"></script>
+<th:block layout:fragment="script"></th:block>
 
 
 </body>
