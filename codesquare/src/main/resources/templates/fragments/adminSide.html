@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<header class="main-header" th:fragment="sideFragment">
+<div class="sidebar" data-color="purple" data-background-color="white">
+      <!--
+      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+
+      Tip 2: you can also add an image using data-image tag
+  -->
+      <div class="logo">
+        <a class="navbar-brand simple-text logo-mini" href="/"><img th:src="@{/static/images/logo.png}" alt="noimg" /></a>
+        <a href="/" class="simple-text logo-normal">CodeSquare</a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li id="dashboard" class="nav-item">
+            <a class="nav-link" href="/admin">
+              <i class="material-icons">dashboard</i>
+              <p>Dashboard</p>
+            </a>
+          </li>
+          <li id="board" class="nav-item">
+            <a class="nav-link" href="/admin/board">
+              <i class="far fa-newspaper"></i>
+              <p>게시판관리</p>
+            </a>
+          </li>
+          <li id="member" class="nav-item ">
+            <a class="nav-link" href="/admin/member">
+              <i class="fas fa-users-cog"></i>
+              <p>회원관리</p>
+            </a>
+          </li>
+          <li id="lecture" class="nav-item ">
+            <a class="nav-link" href="/admin/lecture">
+              <i class="fas fa-chalkboard"></i>
+              <p>강의관리</p>
+            </a>
+          </li>
+          <li id="keyword" class="nav-item ">
+            <a class="nav-link" href="/admin/keyword">
+              <i class="material-icons">spellcheck</i>
+              <p>금칙어관리</p>
+            </a>
+          </li>
+          <!-- your sidebar here -->
+        </ul>
+      </div>
+    </div>
+</header>
+
+</html>

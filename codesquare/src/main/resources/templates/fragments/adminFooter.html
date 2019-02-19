@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
+<footer class="footer" th:fragment="adminFooterFragment">
+	<div class="container-fluid">
+		<nav class="float-left">
+			<ul>
+				<li><a href="https://www.creative-tim.com"> Creative Tim </a></li>
+			</ul>
+		</nav>
+		<div class="copyright float-right">
+			&copy;
+			<script>
+				document.write(new Date().getFullYear())
+			</script>
+			, made with <i class="material-icons">favorite</i> by <a
+				href="https://www.creative-tim.com" target="_blank">CodeSquare</a>
+			
+		</div>
+		<!-- your footer here -->
+	</div>
+</footer>
+</html>
