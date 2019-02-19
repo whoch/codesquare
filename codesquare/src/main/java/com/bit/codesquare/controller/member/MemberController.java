@@ -1,6 +1,5 @@
 package com.bit.codesquare.controller.member;
 
-import java.io.File;
 import java.security.Principal;
 import java.util.Map;
 
@@ -74,14 +73,6 @@ public class MemberController {
 		int count = 0;
 		count = mm.idCheck(userId);
 		return count;
-	}
-
-	@GetMapping("/changeNick")
-	public String changeNick(Model model, Principal principal) {
-		String userId = principal.getName();
-		model.addAttribute("user", mm.getUser(userId));
-		// logger.info(userId);
-		return "member/myPage/changeNick";
 	}
 
 	@PostMapping("/nickChange")
@@ -159,29 +150,26 @@ public class MemberController {
 		int count = 0;
 		count = mm.findPw(userId, email);
 
+		if(count > 0) {
+			ms.mailSending(userId);
+		}
 		return count;
 	}
 
-	@PostMapping("/findPwMail")
-	@ResponseBody
-	public void mailSending(@RequestBody String userId) {
-		ms.mailSending(userId);
-
-	}
 
 	@GetMapping("/myPage")
 	public String myPage(Model model, Authentication auth, HttpSession session) {
 		csu.getSession(auth, session);
 		String userId = auth.getName();
+
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("rlist", mm.getReservedList(userId));
 		model.addAttribute("alist", mm.getAppliedList(userId));
 		model.addAttribute("wlist", ms.getWantedList(userId));
 		model.addAttribute("blist", mm.getMyBoardList(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
+		model.addAttribute("checkInstructor", mm.checkInstructor(userId));
 		model.addAttribute("instructorInfo", mm.getInstructorInfo(userId));
-		
-		//mm.checkInstructor(userId)
 
 		return "member/myPage/myPage";
 	}
@@ -201,13 +189,13 @@ public class MemberController {
 
 	@PostMapping("/toInstructor")
 	@ResponseBody
-	public String toInstructor(@ModelAttribute InstructorInfo instructorInfo, @RequestBody Map<String, String> data) {
+	public int toInstructor(@ModelAttribute InstructorInfo instructorInfo, @RequestBody Map<String, String> data) {
 
 		instructorInfo.setUserId(data.get("userId"));
 		instructorInfo.setIntroContent(data.get("introContent"));
 		mm.toInstructor(instructorInfo);
 
-		return "redirect:myPage";
+		return mm.checkInstructor(data.get("userId"));
 	}
 
 	@PostMapping("/modifyInstructorInfo")
@@ -226,23 +214,55 @@ public class MemberController {
 		return "redirect:myPage" + "#modifyInstructorInfoForm";
 	}
 
-	@GetMapping("/upload")
-	public String upload( Authentication auth, HttpSession session) {
-		csu.getSession(auth, session);
-		return "member/myPage/upload";
+	@PostMapping("/uploadProfile")
+	@ResponseBody
+	public String uploadProfile(@RequestBody MultipartFile[] uploadForm, Authentication auth) {
+
+		csu.uploadProfile(uploadForm, auth);
+		return "redirect:myPage" + "#modifyMyInfoForm";
+
 	}
-	
-	
-	
-    @PostMapping("/upload")
-    @ResponseBody
-    public String uploadProfile(@RequestBody MultipartFile[] uploadForm, Authentication auth) {
-    	
-    	csu.uploadProfile(uploadForm, auth);
 
-        return "redirect:myPage"+"#modifyMyInfoForm";
-    }
+	
+	@PostMapping("cancelApply")
+	@ResponseBody
+	public int cancelApply(@RequestBody Map<String, String> data) {
+		
+		String applyUserId= data.get("applyUserId");
+		int boardId =  Integer.parseInt(data.get("boardId"));
+		
+		int count = 0 ;
+		count = mm.cancelApply(applyUserId, boardId);
+		logger.info(mm.cancelApply(applyUserId, boardId)+"durl");
+		return count;
+	}
 
-  
+	@PostMapping("acceptMo")
+	@ResponseBody
+	public int acceptMo(@RequestBody Map<String, String> data) {
+		logger.info("acceptMo called");
+		String applyUserId= data.get("applyUserId");
+		int boardId =  Integer.parseInt(data.get("boardId"));
+		
+		int count = 0 ;
+		count = mm.acceptMo(applyUserId, boardId);
+		
+		logger.info(applyUserId+","+boardId+"여기");
+		return count;
+	}
 
+	@PostMapping("declineMo")
+	@ResponseBody
+	public int declineMo(@RequestBody Map<String, String> data) {
+		String applyUserId= data.get("applyUserId");
+		int boardId =  Integer.parseInt(data.get("boardId"));
+		String declineContent = data.get("declineContent");
+		logger.info(mm.declineMo(applyUserId, boardId, declineContent)+"durl");
+		int count = 0 ;
+		count=mm.declineMo(applyUserId, boardId, declineContent);
+		return count;
+	}
+
+
+	
 }

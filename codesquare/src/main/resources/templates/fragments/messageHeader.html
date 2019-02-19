@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
+ 
+ 
+ <header th:fragment="messageHeader">
+ 
+	<nav id="message-navbar" class="navbar m-3 navbar-expand-lg navbar-light" >
+		<a class="navbar-brand " href="#">
+		<i class="far fa-envelope"></i> 내 쪽지함</a>
+
+		<div class="navbar" id="navbarText">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a id="receivedMessage" class="nav-link active" th:href="@{/message/receivedMessage}">받은 쪽지함
+				</a></li>
+				<li class="nav-item"><a id="snetMessage" class="nav-link" th:href="@{/message/sentMessage}">보낸 쪽지함</a>
+				</li>
+			</ul>
+
+		</div>
+	</nav>
+</header>
+</html>
