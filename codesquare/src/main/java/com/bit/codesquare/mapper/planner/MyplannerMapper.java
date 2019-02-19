@@ -21,8 +21,8 @@ public interface MyplannerMapper {
 	
 	public List<UserTodoList> getUserTodoList();
 	public int writeTodo(UserTodoList userTodoList);
-	public int updateTodo(Map map);
-	public int updateTodoStatus(Map map);
+	public int updateTodo(Map data);
+	public int updateTodoStatus(Map data);
 	
 	public String[] getRowNumTodo();
 }

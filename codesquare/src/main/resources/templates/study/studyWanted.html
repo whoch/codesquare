@@ -3,9 +3,7 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <title>스터디모집</title>
-<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
-<!-- default header name is X-CSRF-TOKEN -->
-<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
 <style>
 	
 	.row.boardList{
@@ -74,16 +72,6 @@
 
 	</article>
 	<!-- END content -->
-<script type="text/javascript" th:inline="javascript">
-$(function(){
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
-	$(function() {
-		$(document).ajaxSend(function(e, xhr, options) {
-			xhr.setRequestHeader(header, token);
-		});
-	});
-}());// #### 시큐리티 Ajax 필수 항목 ####
-</script>
+-
 </body>
 </html>

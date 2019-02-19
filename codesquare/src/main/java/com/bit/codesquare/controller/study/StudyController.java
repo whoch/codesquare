@@ -1,16 +1,28 @@
 package com.bit.codesquare.controller.study;
 
+import java.time.DayOfWeek;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.codesquare.dto.board.BoardKind;
 import com.bit.codesquare.mapper.study.StudyMapper;
 import com.bit.codesquare.service.study.StudyService;
+import com.bit.codesquare.util.CodesquareUtil;
+import com.bit.codesquare.util.DayEnum;
 
 
 @Controller
@@ -21,6 +33,9 @@ public class StudyController {
 	
 	@Autowired
 	StudyMapper studyMapper;
+	
+	@Autowired
+	CodesquareUtil util;
 	
 	Logger logger = LoggerFactory.getLogger(StudyController.class);
 	
@@ -49,15 +64,30 @@ public class StudyController {
 		BoardKind boardKind = studyMapper.getBoardKind(boardNameEn);
 		String boardName = boardKind.getBoardName();
 		String boardMainSubjectName = boardKind.getMainSubjectName();
-
+		
+	
 		model.addAttribute("board", studyMapper.getBoardView(boardName, boardId));
 		model.addAttribute("group", studyMapper.getGroupInfo(boardId));
-		logger.info(" ## board dto : "+ studyMapper.getBoardView(boardName, boardId).toString());
-		logger.info(" ## group dto : "+ studyMapper.getBoardView(boardName, boardId).toString());
+		model.addAttribute("bookmarkId", studyMapper.getBookmark(boardId));
+		
+		
+		logger.info(" ## getBookmark : "+ studyMapper.getBookmark(boardId));
 		
 //		return "study/studyWantedView";
 		return boardMainSubjectName+"/"+boardNameEn+"View";
 
 	}
 
+	
+	@PostMapping("/clickBookmark")
+	@ResponseBody
+	public Map clickBookmark(@RequestBody Map<String, String> data) {
+		studyMapper.addBookmark(data);
+		logger.info(data.toString());
+		logger.info("안될텐데 " );
+		return data;
+	}
+	
+	
+	
 }

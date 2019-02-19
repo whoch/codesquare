@@ -6,12 +6,18 @@
 <meta name="description" content="CodeSquare Project">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
 <link rel="stylesheet" type="text/css" th:href="@{/static/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/static/plugins/font-awesome-4.7.0/css/font-awesome.min.css}">
 
 <script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
 <script th:src="@{/webjars/popper.js/1.14.6/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.js}"></script>
+<script th:src="@{/static/js/securityAjax.js}"></script>
+
 
 
 <style>
@@ -183,7 +189,7 @@
 
 			<!-- main-panel : content START -->
 			<article class="content" layout:fragment="content">
-			
+			노논온옹ㄴ
 				<!-- ###   본문 페이지 이곳에 들어감    ### -->
 							
 			</article>

@@ -77,7 +77,8 @@ public class DashboardService {
 	
 	public List<UserGroupNoticeList> getUserGroupNoticeList(){
 		List<UserGroupNoticeList> groupNoticeLists = dashboardMapper.getUserGroupNoticeList();
-		return (List<UserGroupNoticeList>) util.compareDateTimeList(groupNoticeLists);
+		util.getDateTimeCompareObject(groupNoticeLists, "yy-MM-dd");
+		return  groupNoticeLists;
 	}
 	
 }

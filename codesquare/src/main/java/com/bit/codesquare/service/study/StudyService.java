@@ -7,8 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bit.codesquare.dto.board.Board;
+import com.bit.codesquare.dto.group.GroupInfo;
 import com.bit.codesquare.mapper.study.StudyMapper;
+import com.bit.codesquare.util.CodesquareUtil;
 
 @Service
 public class StudyService {
@@ -18,4 +19,8 @@ public class StudyService {
 	
 	Logger logger = LoggerFactory.getLogger(StudyService.class);
 	
+	public void test() {
+		GroupInfo group= studyMapper.getGroupInfo(76);
+		logger.info(group.toString());
+	}
 }

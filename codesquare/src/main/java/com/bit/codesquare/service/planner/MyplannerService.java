@@ -26,12 +26,12 @@ public class MyplannerService {
 
 	public List<UserGroupWorkList> getUsergetGroupWorkList() {
 		List<UserGroupWorkList> groupWorkList = myplannerMapper.getGroupWorkList();
-		return (List<UserGroupWorkList>) util.compareDateTimeList(groupWorkList);
+		return (List<UserGroupWorkList>) util.getDateTimeCompareObject(groupWorkList);
 	}
 
 	public List<UserBookmarkList> getUserBookmarkList() {
 		List<UserBookmarkList> userBookmarkList = myplannerMapper.getUserBookmarkList();
-		return (List<UserBookmarkList>) util.compareDateTimeList(userBookmarkList);
+		return (List<UserBookmarkList>) util.getDateTimeCompareObject(userBookmarkList);
 	}
 
 

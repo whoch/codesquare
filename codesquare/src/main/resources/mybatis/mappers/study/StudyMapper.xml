@@ -22,5 +22,17 @@
 		INNER JOIN Board AS bo ON gv.Id=bo.GroupId 
 		WHERE bo.Id = #{boardId}
 	</select>
-
+	
+	<insert id="addBookmark" parameterType="java.util.Map">
+		<selectKey keyProperty="id" resultType="String" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO BookmarkList (UserId, BoardId)
+		VALUES ('cksdud', #{boardId})
+	</insert>
+	
+	<select id="getBookmark" resultType="String">
+		SELECT Id FROM BookmarkList WHERE UserId='cksdud' AND BoardId=#{boardId} LIMIT 1;
+	</select>
+	
 </mapper>

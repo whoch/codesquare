@@ -2,6 +2,7 @@ package com.bit.codesquare.mapper.study;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,4 +17,6 @@ public interface StudyMapper {
 	public Board getBoardView(String boardName, int boardId);
 	public BoardKind getBoardKind(String boardNameEn);
 	public GroupInfo getGroupInfo(int boardId);
+	public void addBookmark(Map<String, String> data);
+	public String getBookmark(int boardId);
 }

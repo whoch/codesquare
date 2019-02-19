@@ -3,20 +3,8 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <title>myPlanner</title>
-<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
-<!-- default header name is X-CSRF-TOKEN -->
-<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/static/styles/planner/dashboard.css}">
 <script type="text/javascript" th:inline="javascript">
-$(function(){
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
-	$(function() {
-		$(document).ajaxSend(function(e, xhr, options) {
-			xhr.setRequestHeader(header, token);
-		});
-	});
-}());// #### 시큐리티 Ajax 필수 항목 ####
 
 $(document).ready(function () {
 	loadBookmark();

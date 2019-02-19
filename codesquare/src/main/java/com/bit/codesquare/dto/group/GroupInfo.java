@@ -1,7 +1,11 @@
 package com.bit.codesquare.dto.group;
 
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -16,7 +20,10 @@ public class GroupInfo {
 	int memberCount;
 	String goal;
 	String content;
-	LocalDateTime startDate;
+	
+	Timestamp startDate;
 	int recruitmentCount;
-	int[] meetingDate;
+	String meetingDate;
+	
+	String week;
 }
