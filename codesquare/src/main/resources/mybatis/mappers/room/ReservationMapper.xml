@@ -15,4 +15,7 @@
 		UPDATE codesquare.ReservationInfo SET ENDDATE=DATE_ADD(RESERVATIONDATE, INTERVAL (RESERVATIONTIME + USETIME) HOUR) WHERE NO=#{NO}
 </update>
 
+<select id="getReserve" parameterType="java.util.Map" resultType="Reservation">
+	select * from ReservationInfo where roomid=#{roomid} and reservationDate=#{reservationDate}
+</select>
 </mapper>

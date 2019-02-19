@@ -74,7 +74,8 @@ layout:decorator="layout/mainLayout">
           <div class="row" >
             <div class="col-md-4" th:each="Company:${list}">
               <div class="card mb-4 box-shadow">
-                <a th:href="@{'/getid?companyid=' + ${Company.id}}"><img data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"></a>
+                <a th:href="@{'/getid?companyid=' + ${Company.id}}">
+                <img data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"></a>
                 <div class="card-body">
      			<a th:href="@{'/getid?companyid=' + ${Company.id}}"><p th:text="${Company.companyname}"></p></a>
                   <p class="card-text"><!-- <span th:text="${Company.companyinfo}"></span></p> -->

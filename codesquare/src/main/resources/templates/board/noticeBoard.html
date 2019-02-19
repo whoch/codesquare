@@ -12,7 +12,7 @@ layout:decorator="layout/mainLayout">
 <div class="container" layout:fragment="content">
 		<div class="lecture_header_item d-flex justify-content-between"
 			style="border-bottom: 2px solid #D8D8D8">
-	<h1 align="center"><a href=noticeBoard>공지사항</a></h1>
+	<h1 align="center"><a href=home>공지사항</a></h1>
 	</div>
 
 	<div class="container">
@@ -33,8 +33,6 @@ layout:decorator="layout/mainLayout">
 	             <td><a th:href="@{'/noticeView?id=' + ${Board.id}}"><p th:text="${Board.title}"></p></a></td>
 	             <td th:text="${Board.writeDate}" ></td>
 	             <td th:text="${Board.modifyDate}" ></td>
-	             <td th:text="${Board.hit}" ></td>
-
 	        </tr>
 		</table>
 		<a href="noticeWrite" class="btn btn-default" role="button">글쓰기</a>
@@ -45,15 +43,15 @@ layout:decorator="layout/mainLayout">
 <div align="center">
               <ul class="pagination pagination-sm no-margin pull-right">
               <li th:if="${pageMaker.prev} == true">
-              	<a th:href="@{/noticeBoard(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum})}">&laquo;</a>
+              	<a th:href="@{/home(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum})}">&laquo;</a>
               </li>
 
               <li th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"  th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
-                <a th:href="@{/noticeBoard(page=${idx},perPageNum=${pageMaker.cri.perPageNum})}" th:text="${idx}"></a>
+                <a th:href="@{/home(page=${idx},perPageNum=${pageMaker.cri.perPageNum})}" th:text="${idx}"></a>
               </li>
                 
               <li th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
-              	<a th:href="@{/noticeBoard(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum})}">&raquo;</a>
+              	<a th:href="@{/home(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum})}">&raquo;</a>
               </li>
               </ul>
         </div>

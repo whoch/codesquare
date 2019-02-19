@@ -26,7 +26,7 @@ public class NewController {
 	@Autowired
 	NewService newService;
 	
-	@RequestMapping(value="/home")
+	@RequestMapping(value="/home", method=RequestMethod.GET)
 	public String noticeBoard(@ModelAttribute("cri") Criteria cri, Model model) throws Exception {
 		model.addAttribute("list", newService.listCriteria(cri)); // 글리스트
 		PageMaker pageMaker = new PageMaker();
@@ -41,6 +41,7 @@ public class NewController {
 		int id = Integer.parseInt(request.getParameter("id"));
 		newMapper.updateCount(id);
 		model.addAttribute("list", newMapper.getid(id));
+		
 		return "board/noticeView";
 	}
 	

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.typeleaf.org"
+xmlns:sd="http://www.thymeleaf.org/spring-data"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorator="layout/mainLayout">
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<title>자유게시판</title>
+</head>
+<body>
+
+<div class="container" layout:fragment="content">
+		<div class="lecture_header_item d-flex justify-content-between"
+			style="border-bottom: 5px solid #D8D8D8">
+	<h1 align="center"><a href=getfree>자유게시판</a></h1>
+	</div>
+
+	<div class="container">
+		<table class="table table-hover">
+			<tr>
+				<th bgcolor="skyblue">id</th>
+				<th bgcolor="skyblue">userId</th>
+				<th bgcolor="skyblue">nickname</th>
+				<th bgcolor="skyblue">title</th>
+				<th bgcolor="skyblue">writeDate</th>
+				<th bgcolor="skyblue">modifyDate</th>
+				<th bgcolor="skyblue">hit</th>
+			</tr>
+			<tr th:each="Board:${list}">
+	             <td th:text="${Board.id}" ></td>
+	             <td th:text="${Board.userId}" ></td>
+	             <td th:text="${Board.nickName}" ></td>
+	             <td><a th:href="@{'/noticeView?id=' + ${Board.id}}"><p th:text="${Board.title}"></p></a></td>
+	             <td th:text="${Board.writeDate}" ></td>
+	             <td th:text="${Board.modifyDate}" ></td>
+	             <td th:text="${Board.hit}" ></td>
+
+	        </tr>
+		</table>
+		</div>
+		</div>
+		</body>
+		</html>

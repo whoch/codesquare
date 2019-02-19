@@ -5,9 +5,12 @@
 	layout:decorator="layout/mainLayout">
 <head>
 <title>Insert title here</title>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 <!-- mainlayout이 안먹는다? 일단 간직하자 -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
@@ -17,29 +20,67 @@
 <script src="static/js/room/i18n/datepicker.en.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
 <script>
-
-
   $(function() {
+	  var token = $("meta[name='_csrf']").attr("content");
+	  var header = $("meta[name='_csrf_header']").attr("content");
+	  $(function() {
+	      $(document).ajaxSend(function(e, xhr, options) {
+	          xhr.setRequestHeader(header, token);
+	      });
+	  });
+	  
 	    $( "#testDatepicker" ).datepicker({
 	    	language: 'en',
 	    	dateFormat: 'yyyy-mm-dd',
-	        minDate: new Date()
+	        minDate: new Date(),
+	    	onSelect : function (dateText, inst) {
+				/* alert(dateText); */
+				var data= {
+					reservationDate : dateText,
+					roomid : $("#roomid option:selected").val()
+				}
+				console.log( data);
+				$.ajax({
+				      url:'/room/date',
+				      type:'POST',
+				      data:JSON.stringify(data),
+				      contentType : "application/json; charset=UTF-8"
+				   }).done(function(result){
+					   
+					   alert("ajax 성공~!");
+				      $.each(result, function(key,value){
+				        var rtime=value.reservationtime;
+				        var utime=value.usetime;
+				        var ttime=rtime+utime;
+				        for(var i=rtime; i<ttime; i++){
+				          $("#reservationtime option:eq("+i+")").prop("disabled",true);
+				        }
+				      })
+				    
+				}).fail(function(data){
+				      if(data!=1){
+				         alert("Load Review Fail");
+				      }
+				   });
+			}
 	    });
 	});
+
   $(function () {
 	    $(window).scroll(function () { //브라우저에 스크롤이 발생하는 순간부터
 	        var curpos = $(window).scrollTop()+50; //스크롤바의 상단 위치값+20 보관
 	        $("#sky").stop().animate({"top":curpos}); //스카이메뉴의 상단위치값 애니
 	    });
 	});
-  
   </script>
+  
 
 <style>
 	label{
        	font-family: 'Do Hyeon', sans-serif;
         font-size: 20px;
         font-weight: 200;
+        color: #4B0082;
     }
 	#box {
     	position:relative;
@@ -69,7 +110,7 @@
 <div id="sky">
 			<label style="font-size: 30px">공간선택 </label>&nbsp;&nbsp;<label style="font-family: sans-serif; font-size: 15px">예약 및 문의는 <a th:href="@{/member/login}" style="color: red;">로그인</a>이 필수입니다.</label><br>
 			<label>이용 공간</label>
-			<label><select name="roomid">
+			<label><select id="roomid" name="roomid">
 				<option th:each="item:${list}" th:text="${item.roomname}" th:value="${item.id}"></option>
 			</select>
 			</label><br>
@@ -96,30 +137,30 @@
 			<label>이용 시간</label>
 			<select id="reservationtime" name="reservationtime">
 				<option>선택</option>
-				<option value=0>00</option>
-				<option value=1>01</option>
-				<option value=2>02</option>
-				<option value=3>03</option>
-				<option value=4>04</option>
-				<option value=5>05</option>
-				<option value=6>06</option>
-				<option value=7>07</option>
-				<option value=8>08</option>
-				<option value=9>09</option>
-				<option value=10>10</option>
-				<option value=11>11</option>
-				<option value=12>12</option>
-				<option value=13>13</option>
-				<option value=14>14</option>
-				<option value=15>15</option>
-				<option value=16>16</option>
-				<option value=17>17</option>
-				<option value=18>18</option>
-				<option value=19>19</option>
-				<option value=20>20</option>
-				<option value=21>21</option>
-				<option value=22>22</option>
-				<option value=23>23</option>
+				<option value=1>00</option>
+				<option value=2>01</option>
+				<option value=3>02</option>
+				<option value=4>03</option>
+				<option value=5>04</option>
+				<option value=6>05</option>
+				<option value=7>06</option>
+				<option value=8>07</option>
+				<option value=9>08</option>
+				<option value=10>09</option>
+				<option value=11>10</option>
+				<option value=12>11</option>
+				<option value=13>12</option>
+				<option value=14>13</option>
+				<option value=15>14</option>
+				<option value=16>15</option>
+				<option value=17>16</option>
+				<option value=18>17</option>
+				<option value=19>18</option>
+				<option value=20>19</option>
+				<option value=21>20</option>
+				<option value=22>21</option>
+				<option value=23>22</option>
+				<option value=24>23</option>
 			</select>
 			<label>시에 시작하여</label> &nbsp;
 				<select name="usetime">
@@ -134,22 +175,22 @@
 				<option value=10>10시간</option>
 				</select>
 			<label>동안 이용</label>
-<input type="submit" value="예약하기" class="btn btn-danger btn-block" style="font-weight: bolder;">
+<input type="submit" value="예약하기" class="btn btn-outline-light btn-block" style="font-weight: bolder; background-color:#8B7D9F;">
 </div>
 </form>
 			<label style="font-size: 30px">지점 소개</label><br>
-			<div th:text="${content.companycontent}" style="width: 600px"></div><br><br>
+			<div th:utext="${content.companycontent}" style="width: 600px"></div><br><br>
 			<label style="font-size: 30px">공간 소개</label>
 			</div>
 			<span th:each="item:${list}"><br><br>
-			<div style="background-color: rgba( 204, 102, 204, 0.3 ); width: 600px"> 
+			<div style="width: 600px"> 
 				<img th:src="@{static/}+${item.thumbnailPath}" class="max-small"/><br>
 				<label th:text="${item.roomname}"></label><br>
 				<label>정원:</label><label th:text="${item.usepeople}"></label><label>명</label><br>
 				<label>정보:</label><label th:text="${item.optioninfo}"></label><br>
-				<a th:href="@{'roomView?id='+${item.id}}">
+				<!-- <a th:href="@{'roomView?id='+${item.id}}">
 					<span th:text="${item.roomname}"></span>
-				</a>
+				</a> -->
 			</div>
 		</span>
 	</div>

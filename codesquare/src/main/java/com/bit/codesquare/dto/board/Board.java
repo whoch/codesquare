@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class Board {
 	int id;
-	String boardName;
+	String boardKindId;
 	String userId;
 	String groupId;
 	String nickName;

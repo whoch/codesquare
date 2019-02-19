@@ -1,6 +1,8 @@
 package com.bit.codesquare.controller.room;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,7 +13,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.codesquare.dto.room.Reservation;
 import com.bit.codesquare.dto.room.Room;
@@ -83,7 +88,18 @@ public class ReservationController {
 		Logger.info("와야됨:"+reservation.getNo());
 		return "redirect:companyList";
 	}
+	
+	@PostMapping("/room/date")
+	@ResponseBody
+	public List<Reservation> getReserve(@RequestBody Map<String, String> data) throws Exception {
+		List<Reservation> reservation = reservationMapper.getReserve(data);
+		for(Reservation list : reservation) {
+			Logger.info("여기에용11111"+list.toString()); // 날짜 선택 시 선택한 방의 예약된 날짜(reservationdate)를 뿌려준다 
+		}
+		return reservationMapper.getReserve(data);
+	}
 }
+
 //	@RequestMapping("/roomView")
 //	public String roomView(Model model, String id) throws Exception {
 //		model.addAttribute("list", roomMapper.getroom(id));

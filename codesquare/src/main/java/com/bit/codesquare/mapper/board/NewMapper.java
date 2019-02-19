@@ -12,6 +12,7 @@ public interface NewMapper {
 
 
 //	public List<Board> getAllNew() throws Exception;
+	Board getboardKindId(String boardKindId) throws Exception;
 	Board getid(int id) throws Exception;
 	void insert(Board board) throws Exception;
 	void updateCount(int id) throws Exception;
