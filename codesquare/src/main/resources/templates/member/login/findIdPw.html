@@ -3,27 +3,60 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
-
-<title>Insert title here</title>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<title>아이디 비밀번호 찾기</title>
 </head>
 <body>
 
 <div class="container" layout:fragment="content">
-아이디 비밀번호 찾기
-<br />
-<div id="bar">
-<span id="findIdBar">아이디 찾기   </span> <span id="findPwBar">비밀번호 찾기</span>
-</div>
-<br />
-<br />
-<br />
-<div id="content" >
+<div class="contentcontainer mt-3">
+  <h2>아이디/ 비밀번호 찾기</h2>
+  <br>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" href="#findIdTab">아이디찾기</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#findPwTab">비밀번호 찾기</a>
+    </li>
+  </ul>
 
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div id="findIdTab" class="contentcontainer tab-pane active"><br>
+    <form id="findIdForm">
+      <h3>아이디 찾기</h3>
+      <p>이메일을 입력해주세요<br />
+      <span id="findIdMsg"></span> </p>
+      <input type="text" name="email" id="email"><BR />
+      <input type="button" value="찾기" id="findIdValidate">
+    </form>
+    </div>
+    <div id="findPwTab" class="contentcontainer tab-pane fade"><br>
+     <form id="findPwForm">
+      <h3>비밀번호 찾기</h3>
+      <p>아이디, 이메일을 입력해주세요<br />
+      <span id="findIdPwMsg"></span> </p>
+      <p>아이디 : <input type="text" name="userId"  id="userId" >
+      <br />
+      이메일 : <input type="text" name="email2" id="email2"> </p>
+      <input type="button" value="찾기" id="findPwValidate">
+    </form>
+    </div>
+    
+
+  </div>
 </div>
+
+
 <th:block layout:fragment="script">
 <script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
 <script th:src="@{/static/js/member/find.js}"></script> 
 </th:block>
+
 </div>
 
 </body>

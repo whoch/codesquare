@@ -11,5 +11,5 @@ public interface RoomMapper {
 	
 	public List<Room> getAllRoom() throws Exception;
 	public List<Room> getid(String companyid) throws Exception;
-	public List<Room> getroom(String id) throws Exception;
+	public Room getroom(String id) throws Exception;
 }

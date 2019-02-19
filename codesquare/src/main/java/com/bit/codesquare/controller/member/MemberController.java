@@ -1,12 +1,10 @@
 package com.bit.codesquare.controller.member;
 
+import java.io.File;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -23,10 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.member.InstructorInfo;
-import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
 import com.bit.codesquare.dto.member.Member;
 import com.bit.codesquare.mapper.member.MemberMapper;
 import com.bit.codesquare.service.MemberService;
@@ -43,6 +40,8 @@ public class MemberController {
 	@Autowired
 	CodesquareUtil csu;
 
+	@Autowired
+	MemberService ms;
 
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request) {
@@ -69,36 +68,13 @@ public class MemberController {
 		return "member/login/signUpDone";
 	}
 
-	@PostMapping("/idCheck")
+	@PostMapping("idCheck")
 	@ResponseBody
 	public int idCheck(@RequestBody String userId) {
-
 		int count = 0;
 		count = mm.idCheck(userId);
-		logger.info(count + "count");
 		return count;
 	}
-
-	@PostMapping("/emailCheck")
-	@ResponseBody
-	public int emailCheck(@RequestBody String email) {
-
-		int count = 0;
-		count = mm.emailCheck(email);
-		logger.info(email);
-		return count;
-	}
-
-	@PostMapping("/nickCheck")
-	@ResponseBody
-	public int nickCheck(@RequestBody String nickName) {
-
-		int count = 0;
-		count = mm.nickCheck(nickName);
-
-		return count;
-	}
-	
 
 	@GetMapping("/changeNick")
 	public String changeNick(Model model, Principal principal) {
@@ -116,8 +92,7 @@ public class MemberController {
 		// 다른정보 가지고올때
 //		SecurityMember sm = (SecurityMember) auth.getPrincipal();
 //		sm.getNickName();
-		
-		
+
 		int count = 0;
 		count = mm.nickCheck(nickName);
 
@@ -161,162 +136,130 @@ public class MemberController {
 		return "member/login/findIdPw";
 	}
 
-	@GetMapping("/findId")
-	public String findId() {
-		return "member/login/findId";
-	}
-
-	@PostMapping("/findId")
-	public String findIdDone(HttpServletResponse response, @RequestParam String email, Model model) {
-		model.addAttribute("findIdDone", mm.findId(email));
-		return "findId";
-	}
-
-	@GetMapping("/findPw")
-	public String findPw() {
-		return "member/login/findPw";
-	}
-
-	@PostMapping("/findPw")
-	public String findPw(@RequestParam String email) {
-		return "member/login/findPw";
-	}
-
-
-
-	@RequestMapping("/myPage")
-	public String myPage(Authentication auth, HttpSession session) {
-		csu.getSession(auth, session);
-		return "member/myPage/myPage";
-	}
-
-	@GetMapping("/modifyMyInfo")
-	public String ModifyMyInfo(Model model, Authentication auth) {
-		model.addAttribute("user", mm.getUser(auth.getName()));
-		return "member/myPage/modifyMyInfo";
-	}
-
-	@GetMapping("/changePw")
-	public String changePw(Model model, Authentication auth) {
-		
-		model.addAttribute("user", mm.getUser(auth.getName()));
-		// logger.info(userId);
-		return "member/myPage/changePw";
-	}
-
-	@PostMapping("/changePw")
+	@PostMapping("/emailCheck")
 	@ResponseBody
-	public int changePwDone(@ModelAttribute Member user, @RequestBody Map<String, String> data) {
+	public int emailCheck(@RequestBody String email) {
+
 		int count = 0;
-		String password = data.get("password");
-		String userId = data.get("userId");
-//		logger.info(userId);
-//		logger.info(password);
-		user.setPassword(new BCryptPasswordEncoder().encode(password));
-		user.setUserId(userId);
-		count = mm.changePw(user);
+		count = mm.emailCheck(email);
 
 		return count;
 	}
 
-	@GetMapping("/toInstructor")
-	public String toInstructor(Model model, Authentication auth, @ModelAttribute InstructorInfo instructorInfo) {
-		
-		model.addAttribute("user", mm.getUser(auth.getName()));
-		model.addAttribute("instructorInfo", mm.getInstructorInfo(auth.getName()));
-		
+	@PostMapping("findId")
+	@ResponseBody
+	public String findId(@RequestBody String email) {
+		return mm.findId(email);
+	}
+
+	@PostMapping("findPw")
+	@ResponseBody
+	public int findPw(@RequestBody Map<String, String> data) {
+		String userId = data.get("userId");
+		String email = data.get("email");
 		int count = 0;
-		count = mm.checkInstructor(auth.getName());
-		if (count == 0) {
-			return "member/myPage/toInstructor";
-		}
-		return "member/myPage/instructorPending";
+		count = mm.findPw(userId, email);
+
+		return count;
+	}
+
+	@PostMapping("/findPwMail")
+	@ResponseBody
+	public void mailSending(@RequestBody String userId) {
+		ms.mailSending(userId);
+
+	}
+
+	@GetMapping("/myPage")
+	public String myPage(Model model, Authentication auth, HttpSession session) {
+		csu.getSession(auth, session);
+		String userId = auth.getName();
+		model.addAttribute("user", mm.getUser(userId));
+		model.addAttribute("rlist", mm.getReservedList(userId));
+		model.addAttribute("alist", mm.getAppliedList(userId));
+		model.addAttribute("wlist", ms.getWantedList(userId));
+		model.addAttribute("blist", mm.getMyBoardList(userId));
+		model.addAttribute("count", mm.getMyCount(userId));
+		model.addAttribute("instructorInfo", mm.getInstructorInfo(userId));
+
+		return "member/myPage/myPage";
+	}
+
+	@PostMapping("/changePw")
+	@ResponseBody
+	public int changePwDone(@ModelAttribute Member member, @RequestBody Map<String, String> data) {
+		String userId = data.get("userId");
+		String password = data.get("password");
+		int count = 0;
+		member.setPassword(new BCryptPasswordEncoder().encode(password));
+		member.setUserId(userId);
+		count = mm.changePw(member);
+
+		return count;
 	}
 
 	@PostMapping("/toInstructor")
-	public String toInstructor(Authentication auth, @ModelAttribute InstructorInfo instructorInfo,
-			@RequestBody String introContent) {
+	@ResponseBody
+	public String toInstructor(@ModelAttribute InstructorInfo instructorInfo, @RequestBody Map<String, String> data) {
 
-		// model.addAttribute("user", mm.getUser(userId));
-		// logger.info(userId);
-		// logger.info(introContent);
-
-		instructorInfo.setUserId(auth.getName());
-		instructorInfo.setIntroContent(introContent);
+		instructorInfo.setUserId(data.get("userId"));
+		instructorInfo.setIntroContent(data.get("introContent"));
 		mm.toInstructor(instructorInfo);
 
-		return "redirect:toInstructor";
-	}
-
-	@GetMapping("/modifyInstructorInfo")
-	public String modifyInstructorInfo(Model model,  Authentication auth,
-			@ModelAttribute InstructorInfo instructorInfo) {
-		
-		model.addAttribute("user", mm.getUser(auth.getName()));
-		// logger.info(mm.getUser(userId).toString());
-		model.addAttribute("instructorInfo", mm.getInstructorInfo(auth.getName()));
-		// logger.info(mm.getInstructorInfo(userId).toString());
-		return "member/myPage/modifyInstructorInfo";
+		return "redirect:myPage";
 	}
 
 	@PostMapping("/modifyInstructorInfo")
-	public String modifyInstructorInfo(Model model,  @ModelAttribute InstructorInfo instructorInfo,
+	public String modifyInstructorInfo(@ModelAttribute InstructorInfo instructorInfo,
 			@RequestBody Map<String, String> data) {
+
 		String userId = data.get("userId");
 		String introContent = data.get("introContent");
 		String history = data.get("history");
-//		logger.info(data.toString());
-		model.addAttribute("userId", mm.getUser(userId));
-//		logger.info(userId);
 
 		instructorInfo.setUserId(userId);
 		instructorInfo.setIntroContent(introContent);
 		instructorInfo.setHistory(history);
 		mm.modifyInstructorInfo(instructorInfo);
 
-		return "redirect:modifyInstructorInfo";
+		return "redirect:myPage" + "#modifyInstructorInfoForm";
 	}
 
-	@GetMapping("/myReservedList")
-	public String myReservedList(Model model, Authentication auth) {
-		
-		// model.addAttribute("user", us.getUser(userId));
-
-		model.addAttribute("list", mm.getReservedList(auth.getName()));
-		return "member/myPage/myReservedList";
+	@GetMapping("/upload")
+	public String upload( Authentication auth, HttpSession session) {
+		csu.getSession(auth, session);
+		return "member/myPage/upload";
 	}
-
-	@GetMapping("/myAppliedList")
-	public String myAppliedList(Model model, Authentication auth) {
-		logger.info(mm.getAppliedList(auth.getName()).toString());
-		model.addAttribute("list", mm.getAppliedList(auth.getName()));
-		return "member/myPage/myAppliedList";
-	}
-
-	@Autowired
-	MemberService ms;
 	
-	@GetMapping("/myWantedList")
-	public String myWantedList(Model model, Authentication auth) {
-		
-		//logger.info(ms.getWantedList(auth.getName()).toString());
-		logger.info(ms.getWantedList(auth.getName()).toString());
-		 model.addAttribute("list", ms.getWantedList(auth.getName()));
+	
+	
+    @PostMapping("/uploadProfile")
+    @ResponseBody
+    public String uploadForm(@RequestBody MultipartFile[] uploadForm, Authentication auth) {
 
-		
-		return "member/myPage/myWantedList";
-	}
+    	String userId = auth.getName();
+    	String uploadFolder = "/Users/jiyeon/git/codesquare/codesquare/src/main/resources/static/codesquareDB/UserThumbnail/"+userId;
+    	//db에 저장할 상대경로
+    	//String uploadRelativeDirectory = "/static/codesquareDB/UserThumbnail/"+userId;
+    	
+    	File uploadPath= new File(uploadFolder); //안에 여러개 쓰면 합쳐짐
+    	
+    	if (!uploadPath.exists()) {
+    		uploadPath.mkdirs(); //존재하지 않으면 경로를 만든다
+        }
+    	
+    	String uploadFileName = userId+"_Thumbnail.jpg"; //+multipartFile.getOriginalFilename()하면 업로드한 파일네임으로 들어감
 
-	@GetMapping("/myBoardList")
-	public String myBoardList() {
-//		String userId = principal.getName();
-//		model.addAttribute("list",us.getWantedList(userId));
-		return "member/myPage/myBoardList";
-	}
+        try {
+        	File saveFile = new File(uploadPath, uploadFileName);
+        	uploadForm[0].transferTo(saveFile); //실제저장되는단계. savefile:경로랑 파일명 합친거
+        } catch (Exception e) {
+        	e.getMessage();
+        }
 
-//	@RequestMapping("/logout")
-//	public void logout() {
-//
-//	}
+        return "redirect:upload";
+    }
+
+  
 
 }

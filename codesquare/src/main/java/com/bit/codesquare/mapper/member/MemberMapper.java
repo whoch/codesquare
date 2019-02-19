@@ -44,4 +44,8 @@ public interface MemberMapper {
 	public List <JoiningAndRecruitmentLog> getWantedPList(int boardId);
 	
 	public InstructorInfo getInstructorInfo (String userId);
+	
+	public List <Board> getMyBoardList(String userId);
+	
+	public Member getMyCount(String userId);
 }

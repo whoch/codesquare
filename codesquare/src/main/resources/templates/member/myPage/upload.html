@@ -1,41 +1,32 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout/mainLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <title>Upload Multiple Files</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<meta charset="UTF-8">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 </head>
- 
+
 <body>
-	<div class="container h-100">
-	<div class="h-100">
-		<div class="row h-100 justify-content-center align-items-center">
-			<div class="col-sm-5">
-				<h3>Upload Multiple Files to MySQL</h3>
-				<form method="POST" enctype="multipart/form-data" id="fileUploadForm">
-					<div class="form-group">
-						<label class="control-label" for="files">Upload Multiple Files:</label>
-						<input type="file" class="form-control" id="files" 
-								placeholder="Upload Multiple Files"  name="files" multiple></input>
-					</div>
-					<button type="submit" class="btn btn-default" id="btnSubmit">Upload</button>
-					<a href="/files" class="btn btn-default" role="button">Files</a>
-				</form>
-				<div th:if="${message}">
-					<strong><span th:text="${message}"></span></strong>
-					<hr>
-				</div>
-				<ul th:each="filename: ${files}">
-					<li><span th:text="${filename}"></span></li>
-				</ul>
-			</div>
-		</div>
-	</div>
+
+<div class="container" layout:fragment="content">
+
+<form name ="uploadProfileForm" method="post" enctype="multipart/form-data" >
+<input type="file" id="uploadProfile" name="uploadProfile">
+<input type="button" id="uploadDone" value="변경">
+
+<img th:src="@{'/static/codesquareDB/UserThumbnail/'+${session.userId}+'/'+${session.userId}+'_Thumbnail.jpg'}" id="profileImg" style="width:100px; height:100px" />
+</form>
+
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+		<script th:src="@{/static/js/member/upload.js}"></script>
+	</th:block>
 	</div>
 </body>
 </html>

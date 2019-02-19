@@ -7,7 +7,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
 <div class="container" layout:fragment="content">
@@ -66,7 +68,7 @@
 <br /> <br /> <br /> <br />
 <th:block layout:fragment="script">
 <script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
-<script th:src="@{/static/js/member/myPage.js}"></script> 
+<script th:src="@{/static/js/member/myPage2.js}"></script> 
 </th:block>
 </div>
 <!-- 사용자 스크립트 추가 -->

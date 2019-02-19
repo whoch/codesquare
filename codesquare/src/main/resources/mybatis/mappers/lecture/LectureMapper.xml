@@ -35,8 +35,8 @@
 	
 	<!-- 강의글의 상태(처음강의, 마지막강의, 노말상태)조회 쿼리 -->
 	<select id="getLectureStatus" parameterType="int" resultType="String">
-		SELECT CASE WHEN #{boardId}=(SELECT b2.Id FROM Board b2 WHERE	b2.ParentId=(SELECT b.ParentId FROM Board b WHERE b.Id=#{id}) AND b2.BoardKindId='LrnVo' ORDER BY b2.Id LIMIT 1) THEN 'first'
-		 	        WHEN #{boardId}=(SELECT b2.Id FROM Board b2 WHERE	b2.ParentId=(SELECT b.ParentId FROM Board b WHERE b.Id=#{id}) AND b2.BoardKindId='LrnVo' ORDER BY b2.Id DESC LIMIT 1) THEN 'last'
+		SELECT CASE WHEN #{boardId}=(SELECT b2.Id FROM Board b2 WHERE	b2.ParentId=(SELECT b.ParentId FROM Board b WHERE b.Id=#{boardId}) AND b2.BoardKindId='LrnVo' ORDER BY b2.Id LIMIT 1) THEN 'first'
+		 	        WHEN #{boardId}=(SELECT b2.Id FROM Board b2 WHERE	b2.ParentId=(SELECT b.ParentId FROM Board b WHERE b.Id=#{boardId}) AND b2.BoardKindId='LrnVo' ORDER BY b2.Id DESC LIMIT 1) THEN 'last'
 		 			ELSE 'nomal' END
 	</select>
 	
@@ -58,14 +58,14 @@
 		#유저가 강의를 봤던 경우 마지막으로 봤던 강좌 글번호 반환
 	 -->
 	<select id="getLectureBoardIdno" parameterType="map" resultType="int">
-		SELECT IF((SELECT COUNT(*) FROM UserLearningLog WHERE UserId=#{userId} AND ParentId=#{boardId})=0,
+		SELECT IF((SELECT COUNT(*) FROM UserLearningLog WHERE UserId=#{userId} AND ParentId=#{parentId})=0,
 			 	(SELECT b2.Id
 				 FROM Board b2
-				 WHERE	b2.ParentId=#{boardId} AND b2.BoardKindId='LrnVo'
+				 WHERE	b2.ParentId=#{parentId} AND b2.BoardKindId='LrnVo'
 				 ORDER BY b2.Id LIMIT 1),
 				(SELECT ul.BoardId
-				 FROM UserLearningLog ul
-				 WHERE ul.ParentId=#{boardId} AND ul.UserId=#{userId} AND ul.IsRecent=1
+				 FROM  (SELECT * FROM UserLearningLog WHERE ParentId=22 AND UserId=#{userId} 
+				 ORDER BY HearingDate DESC LIMIT 1)AS ul
 				));
 	</select>
 	<!-- 강의 찜하기 쿼리 -->
@@ -75,12 +75,113 @@
 		WHERE NOT EXISTS(SELECT UserId FROM BookmarkList WHERE UserId=#{userId} AND BoardId=#{boardId})
 	</insert>
 	
+	<!-- 유저 강의 수강 로그 저장 쿼리 -->
+	<insert id="saveLearningLog" parameterType="map"> 
+		INSERT INTO UserLearningLog(UserId,ParentId,BoardId)
+		VALUES(#{userId},#{parentId},#{boardId})
+		ON DUPLICATE KEY UPDATE HearingDate=CURRENT_TIMESTAMP
+	</insert>
+	
+	<!-- 강의 마지막으로 본시간 & 영상 끝까지 봤는지 여부 업데이트 -->
+	<update id="updateLearningLogInfo" parameterType="LearningLogInfo">
+		UPDATE UserLearningLog
+		<set>
+			<if test="currentTime != null">CurrentTime=#{currentTime},</if>
+			<if test="duration != null">Duration=#{duration},</if>
+			<if test="isClear != 'ING'">IsClear=#{isClear}</if>
+		</set>
+		<!-- SET CurrentTime=#{currentTime},Duration=#{currentTime},IsClear=#{isClear} -->
+		WHERE BoardId=#{boardId} AND UserId=#{userId} AND ParentId=#{parentId}
+	</update>
+	
+	<!-- 강의 영상 저장 쿼리 -->
+	<insert id="saveLectureVideo" parameterType="map">
+		INSERT INTO LectureVideo(Id, VideoUrl)
+		VALUES (#{id}, #{videoUrl})
+        ON DUPLICATE KEY UPDATE VideoUrl=#{videoUrl}
+	</insert>
+	
 	<!-- 필기 저장 쿼리  -->
 	<insert id="saveNoteContent" parameterType="map">
 		INSERT INTO LectureHandWriting(Id,UserId,BoardId,NoteContent)
 		VALUES ((SELECT l.Id FROM LectureHandWriting l WHERE l.UserId=#{userId} AND l.BoardId=#{boardId}),#{userId}, #{boardId}, #{content})
         ON DUPLICATE KEY UPDATE NoteContent=#{content}
 	</insert>
+	
+	<!-- 강의 수정(업데이트)쿼리 -->
+	<update id="updateLectureContent" parameterType="Lecture">
+		UPDATE Board
+		<set>
+			<if test="title != null">Title=#{title},</if>
+			<if test="content != null">Content=#{content},</if>
+			<if test="nickname != null">Nickname=#{nickname}</if>
+		</set>
+		WHERE Id=#{id}
+	</update>
+	
+	<!-- 강의 입력  쿼리 -->
+	<insert id="insertLectureContent"   parameterType="Lecture">
+	
+		INSERT INTO Board(BoardKindId,UserId,Nickname,Title,Content,ParentId)
+		VALUES(#{boardKindId},#{userId},#{nickname},#{title},#{content},#{parentId})
+	<selectKey resultType="int" keyProperty="id" order="AFTER">
+        SELECT MAX(Id) AS id FROM Board
+    </selectKey>  
+	</insert>
+	
+	<!-- 조회수 증가 쿼리 -->
+	<update id="updateLectureHit" parameterType="int">
+		UPDATE Board
+		SET Hit=Hit+1
+		WHERE Id=#{boardId}
+	</update>
+	
+	<!-- 강의수강내역 조회 쿼리 -->
+	<select id="getLearningLog" parameterType="map" resultType="map">
+		SELECT CurrentTime as'currentTime', Duration as'duration'
+		FROM UserLearningLog
+		WHERE UserId=#{userId} AND ParentId=#{parentId} AND BoardId=#{boardId}
+	</select>
+	
+	<!-- 프로그래밍 언어 태그 조회쿼리 -->
+	<select id="getLectureTag" resultType="LectureTag">
+		SELECT Content, ContentKr, LangKind
+		FROM LectureTag;
+	</select>
+	
+	<!-- 강의소개글 board insert 쿼리 -->
+	<insert id="insertLectureIntroContent" parameterType="map">
+		INSERT INTO Board(BoardKindId,UserId,Nickname,Title,Content) 
+		VALUES(#{boardKindId},#{userId},#{nickname},#{title},#{content})
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+      	  SELECT MAX(Id) AS id FROM Board
+    	</selectKey> 
+	</insert>
+	
+	<!-- 강의소개 상세보기 insert 쿼리 -->
+	<insert id="insertLectureDetailContent" parameterType="map">
+		INSERT INTO LectureDetailInfo(Id,TagId,UserId,IntroContent,PriceInfo) 
+		VALUES(#{id},(SELECT Id FROM LectureTag WHERE Content=#{tagId}),#{userId},#{introContent},#{priceInfo})
+	</insert>
+	
+	<!-- 강의 언어 종류 태그 조회 쿼리 -->
+	<select id="getAllLectureTag" resultType="String">
+		SELECT DISTINCT LangKind FROM LectureTag
+	</select>
+	
+	
+	<!-- 강의목록 검색 쿼리 -->
+	<select id="searchLectureIntro" parameterType="map" resultType="LectureIntroContent">
+		SELECT *
+		FROM v_LectureIntroContent
+		<where>
+			<if test="searchKind == 0">AND Title LIKE CONCAT('%',#{keyword},'%')</if>
+			<if test="searchKind == 1">AND NickName LIKE #{keyWord}</if>
+			<if test="langKind =='All'">AND LangKind IN(SELECT DISTINCT LangKind FROM LectureTag)</if>
+			<if test="langKind != null and langKind != 'All'">AND LangKind = #{langKind}</if>
+		</where>
+		
+	</select>
 	
 	
 </mapper>
