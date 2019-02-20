@@ -10,6 +10,10 @@
 		SELECT * FROM codesquare.Board where id=#{id}
 	</select>
 	
+	<select id="boardkindid" resultType="Board">
+		SELECT * FROM codesquare.Board where BoardKindid=#{boardkindid}
+	</select>
+	
 	<select id="insert" resultType="Board" parameterType="Board">
 		INSERT INTO codesquare.Board (boardkindid, userId, nickname, title, content, Hit) VALUES 
 		('NewNt', 'test112', #{nickName}, #{title}, #{content}, 0)
@@ -24,7 +28,7 @@
 	</delete>
 	
 	<update id="update" parameterType="Board">
-		update codesquare.Board set nickname=#{nickname}, title=#{title}, content=#{content} where id=#{id}
+		update codesquare.Board set title=#{title}, content=#{content} where id=#{id}
 	</update>
 	
 	
@@ -51,8 +55,8 @@
 			select
 				count(id)
 			from
-				codesquare.Board
-			where id > 0
+				Board
+			where Board.BoardKindId='NewNt' > 0
 		]]>
 	</select>
 	

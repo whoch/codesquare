@@ -6,10 +6,7 @@ layout:decorator="layout/mainLayout">
 <meta charset="utf-8">
 <head>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link href="static/styles/room/datepicker.min.css" rel="stylesheet" type="text/css">
-<script src="static/js/room/datepicker.min.js"></script>
-<script src="static/js/room/i18n/datepicker.en.js"></script>
+
   <style type="text/css">
   input {
   border: 1px solid #542672;
@@ -22,25 +19,7 @@ layout:decorator="layout/mainLayout">
 }
 </style>
 
-  <script>
-  $(function() {
-	    $( "#testDatepicker" ).datepicker({
-	    	language: 'en',
-	    	dateFormat: 'yyyy-mm-dd',
-	        minDate: new Date()
-	    });
-	});
-  $(document).ready(function () {
-      // 콤보박스가 변경될 때 
-      $('#lstFavorites').change(function () {
-          // 드롭다운리스트에서 선택된 값을 텍스트박스에 출력
-          var selectedText = // $("#lstFavorites option:selected").text();
-              // $("option:selected").text();
-              $(":selected").text();  // 드롭다운리스트가 하나밖에 없다면 이렇게 써도 됨
-          $('#txtFavorite').val(selectedText);
-      });
-  });
-  </script>
+  
 </head>
 <body>
 <div class="container" layout:fragment="content">
@@ -74,7 +53,8 @@ layout:decorator="layout/mainLayout">
           <div class="row" >
             <div class="col-md-4" th:each="Company:${list}">
               <div class="card mb-4 box-shadow">
-                <a th:href="@{'/getid?companyid=' + ${Company.id}}"><img data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"></a>
+                <a th:href="@{'/getid?companyid=' + ${Company.id}}">
+                <img data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"></a>
                 <div class="card-body">
      			<a th:href="@{'/getid?companyid=' + ${Company.id}}"><p th:text="${Company.companyname}"></p></a>
                   <p class="card-text"><!-- <span th:text="${Company.companyinfo}"></span></p> -->
@@ -88,7 +68,31 @@ layout:decorator="layout/mainLayout">
             </div>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.6/holder.min.js"></script>
 		</div>
-
 </div>
+<th:block layout:fragment="script">
+<script>
+  $(function() {
+	    $( "#testDatepicker" ).datepicker({
+	    	language: 'en',
+	    	dateFormat: 'yyyy-mm-dd',
+	        minDate: new Date()
+	    });
+	});
+  $(document).ready(function () {
+      // 콤보박스가 변경될 때 
+      $('#lstFavorites').change(function () {
+          // 드롭다운리스트에서 선택된 값을 텍스트박스에 출력
+          var selectedText = // $("#lstFavorites option:selected").text();
+              // $("option:selected").text();
+              $(":selected").text();  // 드롭다운리스트가 하나밖에 없다면 이렇게 써도 됨
+          $('#txtFavorite').val(selectedText);
+      });
+  });
+  </script>
+	<link href="static/styles/room/datepicker.min.css" rel="stylesheet" type="text/css">
+<script src="static/js/room/datepicker.min.js"></script>
+<script src="static/js/room/i18n/datepicker.en.js"></script>
+</th:block>
+
 </body>
 </html>

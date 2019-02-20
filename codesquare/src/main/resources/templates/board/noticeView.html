@@ -10,34 +10,20 @@ layout:decorator="layout/mainLayout">
 </head>
 <body>
 <div class="container" layout:fragment="content">
-	<h1 align="left"><a href="home">Thymeleaf</a></h1>
-	<table width="500" cellpadding="0" cellspacing="0" border="1" class="table table-hover">
-			<tr th:each="Board:${list}">
-				<td> 번호 </td>
-				<td th:text="${Board.id}"></td>
-			</tr>
-			<tr th:each="Board:${list}">
-				<td> 조회수 </td>
-				<td th:text="${Board.hit}"></td>
-			</tr>
-			<tr th:each="Board:${list}">
-				<td> 작성자 </td>
-				<td> <ul th:text="${Board.nickName}"></ul>
-			</tr>
-			<tr th:each="Board:${list}">
-				<td> 제목 </td>
-				<td> <ul th:text="${Board.title}"></ul>
-			</tr>
-			<tr th:each="Board:${list}">
-				<td> 내용 </td>
-				<td> <ul th:text="${Board.content}"></ul>
-			</tr>
-			<tr th:each="Board:${list}">
-				<td colspan="2"> <a th:href="@{'/modifygo?id=' + ${Board.id}}">수정</a> &nbsp;&nbsp; <a href="noticeBoard">목록보기</a> &nbsp;&nbsp; <a th:href="@{'delete?id='+${Board.id}}">삭제</a></td>
-			</tr>
-	       </table>
-
-  <br/>
-  </div>
+	<div style="border-bottom: 2px solid;"><h1 align="left"><a href="javascript:history.go(-1)">CodeSquare</a></h1></div>
+	
+	<div style="border-bottom: 2px solid; border-bottom-color: gray;">
+	<a style="float: right;"><span th:text="${list.hit}" style="float: right;"></span>조회수 &nbsp;</a>
+	<h2><span th:text="${list.title}" class="article__title"></span></h2></div>
+				<section class="article__data">
+				<div class="fr-view">
+				<p th:utext="${list.content}" style="color: gray; font-size: 17px;"></p>
+				</div>
+				</section>
+				
+				<a th:href="@{'/modifygo?id=' + ${list.id}}" type="button" class="btn btn-success">수정</a> &nbsp;&nbsp;
+				<a href="javascript:history.go(-1)" type="button" class="btn btn-primary">목록보기</a> &nbsp;&nbsp;
+				<a th:href="@{'delete?id='+${list.id}}" type="button" class="btn btn-danger">삭제</a>
+	</div>
 </body>
 </html>
