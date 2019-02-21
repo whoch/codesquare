@@ -21,8 +21,7 @@
 <script type="text/javascript" th:inline="javascript">
 
 	$(function(){
-		var testArr = /*[[${test}]]*/;
-		$('#reservationtime option[value="01:00:00"]').attr('disabled',true);
+		$('#reservationtime option[value=3]').attr('disabled',true);
 	});
 
 </script>
@@ -41,9 +40,9 @@
 </head>
 <body>
 	<div class="container" layout:fragment="content">
-		<div th:each="item:${list}">
-			<a th:text="${item.roomname}" class="a"></a><br>
-			<a><img th:src="@{static/}+${item.thumbnailPath}" style="height: 280px"/></a>
+		
+			<label th:text="${item.roomname}" class="a"></label><br>
+			<img th:src="@{static/}+${item.thumbnailPath}" style="height: 280px"/>
 <form action="/reserve">
 <table>
 	<tbody>
@@ -75,42 +74,42 @@
 			<th>이용 시간</th>
 			<th><select id="reservationtime" name="reservationtime">
 				<option>선택</option>
-				<option value="00:00:00">00</option>
-				<option value="01:00:00">01</option>
-				<option value="02:00:00">02</option>
-				<option value="03:00:00">03</option>
-				<option value="04:00:00">04</option>
-				<option value="05:00:00">05</option>
-				<option value="06:00:00">06</option>
-				<option value="07:00:00">07</option>
-				<option value="08:00:00">08</option>
-				<option value="09:00:00">09</option>
-				<option value="10:00:00">10</option>
-				<option value="11:00:00">11</option>
-				<option value="12:00:00">12</option>
-				<option value="13:00:00">13</option>
-				<option value="14:00:00">14</option>
-				<option value="15:00:00">15</option>
-				<option value="16:00:00">16</option>
-				<option value="17:00:00">17</option>
-				<option value="18:00:00">18</option>
-				<option value="19:00:00">19</option>
-				<option value="20:00:00">20</option>
-				<option value="21:00:00">21</option>
-				<option value="22:00:00">22</option>
-				<option value="23:00:00">23</option>
+				<option value="0" disabled="disabled">00</option>
+				<option value="1">01</option>
+				<option value="2">02</option>
+				<option value="3">03</option>
+				<option value="4" disabled="disabled">04</option>
+				<option value="5">05</option>
+				<option value="6">06</option>
+				<option value="7">07</option>
+				<option value="8">08</option>
+				<option value="9">09</option>
+				<option value="10">10</option>
+				<option value="11">11</option>
+				<option value="12">12</option>
+				<option value="13">13</option>
+				<option value="14">14</option>
+				<option value="15">15</option>
+				<option value="16">16</option>
+				<option value="17">17</option>
+				<option value="18">18</option>
+				<option value="19">19</option>
+				<option value="20">20</option>
+				<option value="21">21</option>
+				<option value="22">22</option>
+				<option value="23">23</option>
 			</select>
 			<a>시에 시작하여</a>
 				<select name="usetime">
-				<option value="02:00:00">2시간</option>
-				<option value="03:00:00">3시간</option>
-				<option value="04:00:00">4시간</option>
-				<option value="05:00:00">5시간</option>
-				<option value="06:00:00">6시간</option>
-				<option value="07:00:00">7시간</option>
-				<option value="08:00:00">8시간</option>
-				<option value="09:00:00">9시간</option>
-				<option value="10:00:00">10시간</option>
+				<option value="2">2시간</option>
+				<option value="3">3시간</option>
+				<option value="4">4시간</option>
+				<option value="5">5시간</option>
+				<option value="6">6시간</option>
+				<option value="7"  disabled="disabled">7시간</option>
+				<option value="8" disabled="disabled">8시간</option>
+				<option value="9">9시간</option>
+				<option value="10">10시간</option>
 				</select>
 			<a>동안 이용</a>
 			</th>
@@ -128,6 +127,6 @@
 </select>
 
 </div>
-</div>
+
 </body>
 </html>

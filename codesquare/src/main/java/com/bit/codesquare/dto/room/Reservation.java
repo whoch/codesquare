@@ -1,7 +1,6 @@
 package com.bit.codesquare.dto.room;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 import lombok.Data;
@@ -16,8 +15,8 @@ public class Reservation {
 	Date reservationdate;
 	Timestamp paymentdate;
 	int payamount;
-	Time reservationtime;
-	Time usetime;
+	int reservationtime;
+	int usetime;
 	int person;
 	Date enddate;
 	
