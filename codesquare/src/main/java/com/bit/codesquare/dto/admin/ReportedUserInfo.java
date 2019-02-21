@@ -1,17 +1,19 @@
 package com.bit.codesquare.dto.admin;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
 @Data
-public class RepotedInfo {
-	int iD;
+public class ReportedUserInfo {
+	int id;
 	String reportingUserId;
 	String reportedUserId;
 	int commentId;
 	int boardId;
-	Date reportedDate;
+	LocalDateTime reportedDate;
 	String content;
 	String status;
+	int reportedCount;
+	int rowNum;
 }
