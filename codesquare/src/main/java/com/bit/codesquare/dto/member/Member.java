@@ -9,12 +9,14 @@ public class Member {
 	
 	private String userId;
 	private int authorId;
+	private String authorName;
 	private int restrictId;
+	private String restrictName;
 	private String nickName;
 	private String password;
 	private String email;
 	private String name;
-	private String dateOfBirth;
+	private Date dateOfBirth;
 	private Date signUpDate;
 	private int point;
 	private String profileImagePath;

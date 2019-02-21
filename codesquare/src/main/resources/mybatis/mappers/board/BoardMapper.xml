@@ -9,7 +9,7 @@
 		ORDER BY B.WriteDate LIMIT 2;
 	</select>
 	<select id="getQuickBoardList" parameterType="String" resultType="Board">
-		select id, BoardKindId, title, writeDate, hit,commentCount
+		select id, BoardKindId, title, writeDate, hit,commentCount,nickName
 		from v_QuickBoard
 		where BoardKindId=#{tag};
 	</select>

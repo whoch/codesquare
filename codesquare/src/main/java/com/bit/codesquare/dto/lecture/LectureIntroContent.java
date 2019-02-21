@@ -15,5 +15,6 @@ public class LectureIntroContent {
 	String priceInfo;
 	int studentCount;
 	int completeCount;
+	int hit;
 	String thumbnailPath;
 }
