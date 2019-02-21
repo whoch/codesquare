@@ -13,6 +13,7 @@ public interface NewMapper {
 
 //	public List<Board> getAllNew() throws Exception;
 	public List<Board> getkind() throws Exception;
+	Board getboardKindId(String boardKindId) throws Exception;
 	Board getid(int id) throws Exception;
 	Board boardkindid(String boardkindid) throws Exception;
 	void insert(Board board) throws Exception;

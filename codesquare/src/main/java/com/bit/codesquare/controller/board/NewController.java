@@ -41,6 +41,7 @@ public class NewController {
 		int id = Integer.parseInt(request.getParameter("id"));
 		newMapper.updateCount(id);
 		model.addAttribute("list", newMapper.getid(id));
+		
 		return "board/noticeView";
 	}
 	
