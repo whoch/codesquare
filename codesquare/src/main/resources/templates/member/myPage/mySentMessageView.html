@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout/messageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+
+
+<title>내 쪽지함</title>
+</head>
+<body>
+
+	<div id="messageContent" layout:fragment="messageContent">
+
+		<div id="sentMessageView" class="small">
+
+			<br />
+			<div class="row py-2">
+				<div class="col-3">
+					<span>받는 사람</span>
+				</div>
+				<div class="col-9">
+
+					<span id="recipientNickName"
+						th:text="${sentRead.recipientNickName}"></span> (<span
+						id="recipient" th:text="${sentRead.recipient}"></span>)
+
+
+				</div>
+			</div>
+
+			<div class="row py-2">
+				<div class="col-3">
+					<span>받은 시간</span>
+				</div>
+				<div class="col-9"
+					th:text="${#dates.format(sentRead.sendDate, 'yy-MM-dd HH:mm:ss')}"></div>
+			</div>
+			<div class="row py-2">
+				<div class="col-3">
+					<span>읽은 시간</span>
+				</div>
+				<div class="col-9">
+					<span th:text="${sentRead.readStatus}"></span> <span
+						th:text="${#dates.format(sentRead.readDate, 'yy-MM-dd HH:mm:ss')}"></span>
+				</div>
+			</div>
+			<div class="row py-2">
+
+				<div class="col-11 border p-3 m-3"
+					th:text="${sentRead.messageContent}"></div>
+			</div>
+			<div class="row py-2">
+				<div class="col-12 text-right">
+				 <input
+						class="mybtn mx-1" type="button" name="toSListMessageBtn"
+						value="목록으로">
+				</div>
+			</div>
+
+
+		</div>
+
+
+	</div>
+
+
+
+</body>
+</html>

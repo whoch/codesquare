@@ -113,6 +113,7 @@ public class CodesquareUtil {
         try {
         	File saveFile = new File(uploadPath, uploadFileName);
         	uploadForm[0].transferTo(saveFile); //실제저장되는단계. savefile:경로랑 파일명 합친거
+        	mm.updateProfile(userId, uploadFileName);
         } catch (Exception e) {
         	e.getMessage();
         }

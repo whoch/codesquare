@@ -23,6 +23,7 @@ public interface MemberMapper {
 	public int changeNick(Member member);
 	public int changeEmail(Member member);
 	
+	public int updateProfile(String userId, String uploadFileName);
 	public int idCheck(String userId);
 	public int emailCheck(String email);
 	public int nickCheck(String nickName);

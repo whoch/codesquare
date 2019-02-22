@@ -5,11 +5,6 @@ font-family: 'Nanum Gothic', sans-serif;
 color:#321956;
 }
 
-.sidebar {
-	position: fixed;
-}
-
-
 .mybtn {
 	border-radius: 50px;
 	border: 1px solid #552796;
@@ -42,6 +37,8 @@ color:#321956;
 	padding:15px;
 }
 
-
+.sidebar {
+	position: fixed;
+}
 
 
