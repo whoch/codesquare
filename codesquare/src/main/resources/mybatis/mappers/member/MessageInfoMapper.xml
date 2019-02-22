@@ -48,26 +48,42 @@
 	
 	
 	
-	<select id="getReceivedMessageList" resultType="MessageInfo">
+	<select id="getReceivedMessageList"  resultType="MessageInfo">
 		select * from
 		MessageInfo where Recipient =#{recipient} and ShowStatus = '정상' 
-		
+		<if test ="cri.keyword != null">
+		and (MessageContent like CONCAT('%',#{cri.keyword},'%') or Sender like CONCAT('%',#{cri.keyword},'%') or SenderNickName like CONCAT('%',#{cri.keyword},'%') )
+		</if>
 			order by SendDate DESC
 			limit #{cri.pageStart}, #{cri.perPageNum}
 	
 	</select>
+<!-- 	<select id="getSearchedReceivedMessageList" resultType="MessageInfo">
+		select * from
+		MessageInfo where Sender = #{recipient} and ShowStatus = '정상' and MessageContent like '%' #{keyword} '%' order by SendDate DESC
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select> -->
+	
+	
 		<select id="countRPaging" resultType="int">
 			select
 				count(id)
 			from
 				MessageInfo
 				 where Recipient = #{recipient}  and ShowStatus = '정상' 
+				 <if test ="cri.keyword != null">
+				 and (MessageContent like CONCAT('%',#{cri.keyword},'%') or Sender like CONCAT('%',#{cri.keyword},'%') or SenderNickName like CONCAT('%',#{cri.keyword},'%') )
+				 </if>
 	</select>
 	
 
 	<select id="getSentMessageList" resultType="MessageInfo">
 		select * from
-		MessageInfo where Sender = #{sender} order by SendDate DESC
+		MessageInfo where Sender = #{sender} 
+		<if test ="keyword != null">
+		and (MessageContent like CONCAT('%',#{cri.keyword},'%') or Recipient like CONCAT('%',#{cri.keyword},'%') or RecipientNickName like CONCAT('%',#{cri.keyword},'%') )
+		</if>
+		order by SendDate DESC
 		limit #{cri.pageStart}, #{cri.perPageNum}
 	</select>
 	
@@ -79,20 +95,7 @@
 				 where Recipient = #{sender}  and ShowStatus = '정상' 
 	</select>
 	
-	<select id="getSearchedReceivedMessageList" resultType="MessageInfo">
-		select * from
-		MessageInfo where Sender = #{recipient} and ShowStatus = '정상' and MessageContent like '%' #{keyword} '%' order by SendDate DESC
-		limit #{cri.pageStart}, #{cri.perPageNum}
-	</select>
-	<select id="searchCountPaging" resultType="int">
-			select
-				count(id)
-			from
-				MessageInfo
-				 where Recipient = #{recipient} and 
-				 (MessageContent like '%' #{keyword} '%' or Sender like '%' #{keyword} '%' or SenderNickName like'%' #{keyword} '%')
-				and ShowStatus = '정상' 
-	</select>
+
 <!-- 	
 	
 	<select id="listCriteria" resultType="Board">
