@@ -50,7 +50,8 @@ function idCheck() {
 				$("#idCheckMsg").html("<i class='fas fa-info-circle'></i> 이미 존재하는 아이디 입니다.");
 
 			} else {
-				("#idCheckMsg").("");
+				$("#idCheckMsg").("");
+
 				// 아이디가 중복하지 않으면 
 				idck = 1
 

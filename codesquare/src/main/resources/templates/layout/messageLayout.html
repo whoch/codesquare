@@ -6,10 +6,17 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="CodeSquare Project">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 <link rel="stylesheet" type="text/css" href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
 <link rel="stylesheet" type="text/css" href="/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css" th:href="@{/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css}">
 <link rel="stylesheet" type="text/css"	href="/webjars/font-awesome/5.7.1/css/all.css"	th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}"/>
 <link rel="stylesheet" type="text/css" href="/static/styles/responsive.css" th:href="@{/static/styles/responsive.css}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic">
+<link rel="stylesheet" type="text/css" th:href="@{/static/styles/member/message.css}">
+er
 
 </head>
 <body>

@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bit.codesquare.dto.member.InstructorInfo;
 import com.bit.codesquare.dto.member.Member;
 import com.bit.codesquare.mapper.member.MemberMapper;
+import com.bit.codesquare.mapper.member.MessageInfoMapper;
 import com.bit.codesquare.service.MemberService;
 import com.bit.codesquare.util.CodesquareUtil;
 
@@ -42,6 +43,9 @@ public class MemberController {
 
 	@Autowired
 	MemberService ms;
+	
+	@Autowired
+	MessageInfoMapper mim;
 
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request) {
@@ -212,15 +216,18 @@ public class MemberController {
 		instructorInfo.setHistory(history);
 		mm.modifyInstructorInfo(instructorInfo);
 
-		return "redirect:myPage" + "#modifyInstructorInfoForm";
+		return "redirect:myPage#modifyInstructorInfoForm";
 	}
 
 	@PostMapping("/uploadProfile")
 	@ResponseBody
-	public String uploadProfile(@RequestBody MultipartFile[] uploadForm, Authentication auth) {
+	public String uploadProfile(@RequestBody MultipartFile[] uploadForm, Authentication auth, HttpSession session) {
 
 		csu.uploadProfile(uploadForm, auth);
-		return "redirect:myPage" + "#modifyMyInfoForm";
+		String userId = auth.getName();
+		Member member = mm.getUser(userId);
+		session.setAttribute("profileImagePath", member.getProfileImagePath());
+		return "redirect:myPage";
 
 	}
 
@@ -263,36 +270,5 @@ public class MemberController {
 		count=mm.declineMo(applyUserId, boardId, declineContent);
 		return count;
 	}
-
-
-	
-    @PostMapping("/uploadProfile")
-    @ResponseBody
-    public String uploadForm(@RequestBody MultipartFile[] uploadForm, Authentication auth) {
-
-    	String userId = auth.getName();
-    	String uploadFolder = "/Users/jiyeon/git/codesquare/codesquare/src/main/resources/static/codesquareDB/UserThumbnail/"+userId;
-    	//db에 저장할 상대경로
-    	//String uploadRelativeDirectory = "/static/codesquareDB/UserThumbnail/"+userId;
-    	
-    	File uploadPath= new File(uploadFolder); //안에 여러개 쓰면 합쳐짐
-    	
-    	if (!uploadPath.exists()) {
-    		uploadPath.mkdirs(); //존재하지 않으면 경로를 만든다
-        }
-    	
-    	String uploadFileName = userId+"_Thumbnail.jpg"; //+multipartFile.getOriginalFilename()하면 업로드한 파일네임으로 들어감
-
-        try {
-        	File saveFile = new File(uploadPath, uploadFileName);
-        	uploadForm[0].transferTo(saveFile); //실제저장되는단계. savefile:경로랑 파일명 합친거
-        } catch (Exception e) {
-        	e.getMessage();
-        }
-
-        return "redirect:upload";
-    }
-
-  
 
 }

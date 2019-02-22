@@ -22,9 +22,8 @@ $(function() {
 			$("#checkId").css("color", "#A7070B");
 			$("#checkId").html(
 					"<i class='fas fa-info-circle'></i> 유효하지 않은 아이디 형식입니다.");
-		} else {
-			$("#checkId").text("");
-		}
+
+		} 
 	});
 	
 	

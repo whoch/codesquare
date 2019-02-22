@@ -512,7 +512,10 @@ $(function() {
 	 $('[data-toggle="popover"]').popover();   
 	 
 	 $("#myMessage").click(function(){
-		window.open('/message/receivedMessage', '내 쪽지함', 'width=555, height=555, menubar=no, status=no, toolbar=no, location=no, scrollbars=yes, resizable=no');
+		 var popupX = (window.screen.width / 2) - (555 / 2);
+		 var popupY= (window.screen.height /2) - (570 / 2);
+		window.open('/message/receivedMessage', '내 쪽지함', 'width=555, height=555, status=no, location=no, scrollbars=yes, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+
 	 });
 
 	
