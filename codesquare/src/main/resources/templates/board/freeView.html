@@ -1,0 +1,47 @@
+<html>
+<html xmlns:th="http://www.typeleaf.org" 
+xmlns:sd="http://www.thymeleaf.org/spring-data"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorator="layout/mainLayout">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<style>
+	#a{
+	transition: background-color .2s;
+    display: inline-block;
+    position: relative;
+    height: 50px;
+    background-color: #222;
+    box-sizing: border-box;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
+    width: 100px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+}
+</style>
+</head>
+<body>
+<div class="container" layout:fragment="content"><br>
+		<div class="lecture_header_item d-flex justify-content-between"
+				style="border-bottom: 5px solid black; margin-bottom: 25px;">
+		<h1 align="center"><a href=getfree style="color: black;">자유게시판</a></h1>
+</div>
+<span th:text=${list.title} style="font-weight: bold; font-size: 27px;"></span>
+<a style="float: right;"><span th:text="${list.hit}" style="float: right;"></span>조회수 &nbsp;</a>
+
+<span th:text="${list.writeDateBoard}"></span>
+
+<div style="margin-top: 25px; border-bottom: 1px solid gray;"></div>
+<div style="margin-top: 40px; border-bottom: 1px solid gray;"> <span th:utext=${list.content}></span>
+</div>
+				<div align="right" style="margin-top: 20px;">
+				<a th:href="@{'/freemodifygo?id=' + ${list.id}}" type="button" id=a>수정</a> &nbsp;
+				<a href="javascript:history.go(-1)" type="button" id=a>목록보기</a> &nbsp;
+				<a th:href="@{'freedelete?id='+${list.id}}" type="button" id=a>삭제</a>
+				</div>
+</div>
+</body>
+</html>

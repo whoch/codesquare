@@ -1,14 +1,16 @@
 package com.bit.codesquare.dto.board;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
+import com.bit.codesquare.util.ComparableDateTime;
 
 import lombok.Data;
 
 @Data
-public class Board {
+public class Board implements ComparableDateTime {
 	int id;
 	String boardName;
 	String userId;
@@ -16,7 +18,7 @@ public class Board {
 	String nickName;
 	String title;
 	String content;
-	Date writeDate;
+	LocalDateTime writeDate;
 	Date modifyDate;
 	int hit;
 	int fileCount;
@@ -26,6 +28,22 @@ public class Board {
 	int parentId;
 	int status;
 	
+	String searchOption;
+	String keyword;
+	
+	String writeDateBoard;
 	List <JoiningAndRecruitmentLog> wantedPlist;
+
+	@Override
+	public LocalDateTime getDateTimeCompare() {
+		// TODO Auto-generated method stub
+		return writeDate;
+	}
+
+	@Override
+	public void setDateTimeCompare(String format) {
+		this.writeDateBoard=format;
+		
+	}
 	
 }

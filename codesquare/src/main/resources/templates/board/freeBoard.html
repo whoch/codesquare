@@ -28,6 +28,15 @@ layout:decorator="layout/mainLayout">
 </head>
 <body>
 <div class="container" layout:fragment="content"><br>
+<form action="freeSearch" align="right">
+		<select name="searchOption">
+			<option value="title">제목</option>
+			<option value="all">제목+내용</option>
+			<option value="nickname">작성자</option>
+		</select> <input type="text" name="keyword" value="" size="30"
+			placeholder="검색어를 입력하세요."> <input type="submit" value="검색">
+</form>
+
 		<div class="lecture_header_item d-flex justify-content-between"
 			style="border-bottom: 5px solid black;">
 	<h1 align="center"><a href=getfree style="color: black;">자유게시판</a></h1>
@@ -36,17 +45,33 @@ layout:decorator="layout/mainLayout">
 	<div class="container">
 		<table class="table table-hover">
 			<tr th:each="Board:${list}">
-	             <td><a th:href="@{'/noticeView?id=' + ${Board.id}}"><span th:text="${Board.title}" style="color: black; font-weight: bold;"></span></a></td>
+	             <td><a th:href="@{'/freeView?id=' + ${Board.id}}"><span th:text="${Board.title}" style="color: black; font-weight: bold;"></span></a></td>
 	             <td th:text="${Board.nickName}" ></td>
 	             <td><img th:src="@{/static/images/eye.jpg}"></td>
 	             <td th:text="${Board.hit}" ></td>
-	             <td th:text="${Board.writeDate}" ></td>
+	             <td th:text="${Board.writeDateBoard}" ></td>
 	        </tr>
 		</table>
 		<div align="right">
 		<a href="freeWrite" type="button" style="margin-top: 10px" id="button1">글쓰기</a>
 		</div>
 	</div>
-</div>
+<div align="center">
+              <ul class="pagination justify-content-center  no-margin pull-right">
+              <li class="page-item" th:if="${pageMaker.prev} == true">
+              	<a class="page-link" style="background-color: #BDA1BB; border-color: #ffffff;" th:href="@{/getfree(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum})}">&laquo;</a>
+              </li>
+
+              <li class="page-item" th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"  th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
+                <a class="page-link" style="background-color: #BDA1BB; border-color: #ffffff" th:href="@{/getfree(page=${idx},perPageNum=${pageMaker.cri.perPageNum})}" th:text="${idx}"></a>
+              </li>
+                
+              <li class="page-item" th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
+              	<a class="page-link" style="background-color: #BDA1BB; border-color: #ffffff" th:href="@{/getfree(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum})}">&raquo;</a>
+              </li>
+              </ul>
+        </div>
+        
+   </div>
 </body>
 </html>

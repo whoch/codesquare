@@ -111,7 +111,7 @@ public class CodesquareUtil {
 	 * @return String 문자열 반환(ex: 방금 전, 1분 전, 1시간 전, 7일 전)
 	 * @see 차이가 1분 이하일 땐 방금 전, 최대 7일까지만 텍스트로 반환 나머지는 yyyy.MM.dd의 문자열
 	 */
-	public String compareDateTime(LocalDateTime dateTime) {
+	public static String compareDateTime(LocalDateTime dateTime) {
 		LocalDate compareDate = dateTime.toLocalDate();
 		LocalTime compareTime = dateTime.toLocalTime();
 		LocalDate currentDate = LocalDate.now();
@@ -204,7 +204,7 @@ public class CodesquareUtil {
 	 * @see writeDateformat을 set함
 	 * @param impl ComparebleDateTime 인터페이스를 구현한 객체의 List
 	 */
-	public List<? extends ComparableDateTime> getDateTimeCompareObject(List<? extends ComparableDateTime> impl) {
+	public static List<? extends ComparableDateTime> getDateTimeCompareObject(List<? extends ComparableDateTime> impl) {
 		List<? extends ComparableDateTime> result = impl;
 		for(ComparableDateTime list : result) {
 			list.setDateTimeCompare(compareDateTime(list.getDateTimeCompare()));

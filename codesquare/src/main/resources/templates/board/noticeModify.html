@@ -9,7 +9,6 @@ layout:decorator="layout/mainLayout">
 <body>
 <div class="container" layout:fragment="content">
 <form action="update">
-<input type="hidden" name="id" th:value="${list.id}">
 	<div style="border-bottom: 2px solid;"><h1 align="left"><a href="javascript:history.go(-1)">CodeSquare</a></h1></div>
 	<div style="border-bottom: 2px solid; border-bottom-color: gray;">
 	<a style="float: right;"><span th:text="${list.hit}" style="float: right;"></span>조회수 &nbsp;</a>

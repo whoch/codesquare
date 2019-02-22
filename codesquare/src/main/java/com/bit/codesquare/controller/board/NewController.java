@@ -28,10 +28,10 @@ public class NewController {
 	
 	@RequestMapping(value="/home", method=RequestMethod.GET)
 	public String noticeBoard(@ModelAttribute("cri") Criteria cri, Model model) throws Exception {
-		model.addAttribute("list", newService.listCriteria(cri)); // 글리스트
+		model.addAttribute("list", newMapper.listCriteria(cri)); // 글리스트
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(newService.listCountCriteria(cri));
+		pageMaker.setTotalCount(newMapper.countPaging(cri));
 		model.addAttribute("pageMaker", pageMaker);
 		return "board/noticeBoard";
 	}

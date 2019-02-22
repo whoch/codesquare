@@ -1,5 +1,8 @@
 package com.bit.codesquare.dto.paging;
 
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
 public class PageMaker {
 	private int totalCount;     // 게시판 전체 데이터 개수
 	private int displayPageNum = 10;   // 게시판 화면에서 한번에 보여질 페이지 번호의 개수 ( 1,2,3,4,5,6,7,9,10)
@@ -21,19 +24,26 @@ public class PageMaker {
 		calcData();
 	}
 	
+	public String makeSearch(Integer page) {
+		
+		UriComponents uriComponents =
+			UriComponentsBuilder.newInstance()
+			.queryParam("page", page)
+			.queryParam("perPageNum", cri.getPerPageNum())
+			.queryParam("searchOption", ((SearchCriteria)cri).getSearchOption())
+			.queryParam("keyword", ((SearchCriteria)cri).getKeyword())
+			.build();
+		return uriComponents.toUriString();
+	}
+	
 	private void calcData() {
 		endPage = (int) (Math.ceil(cri.getPage() / (double) displayPageNum) * displayPageNum);
-		
 		startPage = (endPage - displayPageNum) + 1;
-		
 		int tempEndPage = (int) (Math.ceil(totalCount / (double) cri.getPerPageNum()));
-		
 		if(endPage > tempEndPage) {
 			endPage = tempEndPage;
 		}
-		
 		prev = startPage == 1 ? false : true;
-		
 		next = endPage * cri.getPerPageNum() >= totalCount ? false : true;
 	}
 
