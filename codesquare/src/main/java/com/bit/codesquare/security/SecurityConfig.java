@@ -71,9 +71,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 
 				.authorizeRequests() /* 인증 요청 선언?????? */
-				.antMatchers("/", "/member/emailCheck").permitAll() // 모든사람에게 권한 허용=
+				.antMatchers("/", "/member/emailCheck", "/member/idCheck").permitAll() // 모든사람에게 권한 허용=
 				.antMatchers("/","/member/upload","/cFile/**","learn/cFile/**").permitAll() //모든사람에게 권한 허용
-				.antMatchers("/member/signUp", "/member/login", "/member/signUp", "/member/idCheck",
+				.antMatchers("/member/signUp", "/member/login", "/member/signUp",
 						"/member/emailCheck", "/member/findId", "/member/findPw", "/member/findIdPw", "/member/findPwMail")
 				.anonymous() //로그인 안한 사람만
 				.antMatchers("/member/modifyInstructorInfo").hasAnyRole("2") // 특정 권한 지정
