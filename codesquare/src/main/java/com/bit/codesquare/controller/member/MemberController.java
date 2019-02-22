@@ -1,6 +1,5 @@
 package com.bit.codesquare.controller.member;
 
-import java.io.File;
 import java.security.Principal;
 import java.util.Map;
 
@@ -75,6 +74,8 @@ public class MemberController {
 	@PostMapping("idCheck")
 	@ResponseBody
 	public int idCheck(@RequestBody String userId) {
+		logger.info("called");
+		logger.info(userId);
 		int count = 0;
 		count = mm.idCheck(userId);
 		return count;

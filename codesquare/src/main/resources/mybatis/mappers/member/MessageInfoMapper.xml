@@ -82,8 +82,8 @@
 
 	<select id="getSentMessageList" resultType="MessageInfo">
 		select * from
-		MessageInfo where Sender = #{sender} 
-		<if test ="keyword != null">
+		MessageInfo where Sender = #{sender} and ShowStatus = '정상'
+		<if test ="cri.keyword != null">
 		and (MessageContent like CONCAT('%',#{cri.keyword},'%') or Recipient like CONCAT('%',#{cri.keyword},'%') or RecipientNickName like CONCAT('%',#{cri.keyword},'%') )
 		</if>
 		order by SendDate DESC
@@ -95,7 +95,10 @@
 				count(id)
 			from
 				MessageInfo
-				 where Recipient = #{sender}  and ShowStatus = '정상' 
+				 where sender = #{sender}  and ShowStatus = '정상' 
+				  <if test ="cri.keyword != null">
+				  and (MessageContent like CONCAT('%',#{cri.keyword},'%') or Recipient like CONCAT('%',#{cri.keyword},'%') or RecipientNickName like CONCAT('%',#{cri.keyword},'%') )
+				 </if>
 	</select>
 	
 

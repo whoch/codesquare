@@ -141,7 +141,7 @@ public class MessageController {
 	
 	@PostMapping("sendMessage")
 	@ResponseBody
-	public int sendMessage(@ModelAttribute MessageInfo messageInfo, @RequestBody Map<String, String> data) {
+	public int sendMessage(@RequestBody Map<String, String> data) {
 		String sender = data.get("sender");
 		String senderNickName = data.get("senderNickName");
 		String recipient = data.get("recipient");
