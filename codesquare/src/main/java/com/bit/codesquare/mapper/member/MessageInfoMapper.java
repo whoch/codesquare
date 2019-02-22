@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
 import com.bit.codesquare.dto.member.MessageInfo;
 import com.bit.codesquare.dto.paging.Criteria;
+
 @Mapper
 public interface MessageInfoMapper {
 
@@ -29,6 +29,7 @@ public interface MessageInfoMapper {
 	public int changeToRead(int id);
 
 	public int deleteMessage(int[] ids);
+
 
 
 }

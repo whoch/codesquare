@@ -10,6 +10,7 @@
 	namespace="com.bit.codesquare.mapper.member.MessageInfoMapper">
 
 
+
 	<insert id="sendMessage" parameterType="MessageInfo">
 		insert into MessageInfo
 		(Recipient, RecipientNickName, Sender, SenderNickName, 
@@ -27,11 +28,13 @@
 		select * from MessageInfo
 		where id= #{id}
 	</select>
+
 	<update id="setUnreadMessageCount">
 		update UserInfo set MessageCount = (
 		select count(*) from MessageInfo where Recipient = #{recipient} and
 		ReadStatus = '읽지않음' and ShowStatus='정상' ) where UserId = #{recipient};
 	</update>
+
 
 	<update id="changeToRead">
 		update MessageInfo set ReadDate = CURRENT_TIMESTAMP,
@@ -116,4 +119,5 @@
 	
 	</select>
 	 -->
+
 </mapper>

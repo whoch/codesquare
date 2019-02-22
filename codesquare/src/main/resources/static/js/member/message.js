@@ -12,6 +12,7 @@ $(function() {
 		});
 	});
 
+
 	if (location.pathname.indexOf('receivedMessage') != -1) {
 		// receivedMessage 가 들어갈
 		} else {
@@ -195,6 +196,7 @@ $(function() {
 			}
 		});
 
+
 	});
 	
 	
@@ -280,12 +282,14 @@ $(function() {
 						history.go(-1);
 					});
 					
+
 				}
 
 			},
 			error : function(data) {
 			}
 		});
+
 		} else {
 			$("#done-dialog").toggle();
 			$("#done-dialog-content").css("color", "#A7070B");
@@ -349,6 +353,5 @@ $(function() {
 	});
 
 	
-
 }); // end function
 

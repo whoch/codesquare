@@ -166,6 +166,7 @@ public class MemberController {
 	public String myPage(Model model, Authentication auth, HttpSession session) {
 		csu.getSession(auth, session);
 		String userId = auth.getName();
+
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("rlist", mm.getReservedList(userId));
 		model.addAttribute("alist", mm.getAppliedList(userId));
@@ -269,9 +270,5 @@ public class MemberController {
 		count=mm.declineMo(applyUserId, boardId, declineContent);
 		return count;
 	}
-
-
-
-  
 
 }

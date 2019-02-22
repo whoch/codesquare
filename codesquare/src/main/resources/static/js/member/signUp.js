@@ -51,6 +51,7 @@ function idCheck() {
 
 			} else {
 				$("#idCheckMsg").("");
+
 				// 아이디가 중복하지 않으면 
 				idck = 1
 

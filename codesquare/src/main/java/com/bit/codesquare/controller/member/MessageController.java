@@ -1,6 +1,5 @@
 package com.bit.codesquare.controller.member;
 
-
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.bit.codesquare.dto.member.MessageInfo;
 import com.bit.codesquare.dto.paging.Criteria;
 import com.bit.codesquare.dto.paging.PageMaker;
@@ -148,6 +147,10 @@ public class MessageController {
 		String recipient = data.get("recipient");
 		String recipientNickName = mm.getUser(recipient).getNickName();
 		String messageContent = data.get("messageContent");
+
+
+		MessageInfo messageInfo = new MessageInfo();
+		
 
 		messageInfo.setSender(sender);
 		messageInfo.setSenderNickName(senderNickName);
