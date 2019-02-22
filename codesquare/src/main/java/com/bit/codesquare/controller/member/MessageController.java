@@ -61,20 +61,7 @@ public class MessageController {
 		return "member/myPage/myReceivedMessage";
 	}
 	
-	@GetMapping("receivedMessage/{keyword}")
-	public String searchedReceivedMessage(Model model, Authentication auth, HttpSession session, @ModelAttribute Criteria cri, @PathVariable String keyword) throws Exception {
-		csu.getSession(auth, session);
-		String recipient = auth.getName();
-		cri.setPerPageNum(4);
-		model.addAttribute("received", mim.getSearchedReceivedMessageList(recipient, keyword, cri));
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setDisplayPageNum(5);
-		pageMaker.setTotalCount(mim.searchCountRPaging(recipient, keyword, cri));
-		model.addAttribute("pageMaker", pageMaker);
 
-		return "member/myPage/myReceivedMessage";
-	}
 
 
 	@GetMapping("sentMessage")
@@ -109,21 +96,21 @@ public class MessageController {
 //		return "member/myPage/mySentMessage";
 //	}
 	
-//	@GetMapping("receivedMessage/{id}")
-//	public String readMessage(Model model, @PathVariable int id) {
-//
-//		String readStatus = mim.readMessage(id).getReadStatus();
-//	
-//		if (!readStatus.equals("읽음")) {
-//			//읽지 않음이면
-//			mim.changeToRead(id);
-//			mim.setUnreadMessageCount(mim.readMessage(id).getRecipient());
-//		}
-//		
-//		model.addAttribute("receivedRead", mim.readMessage(id));
-//
-//		return "member/myPage/myReceivedMessageView";
-//	}
+	@GetMapping("receivedMessage/{id}")
+	public String readMessage(Model model, @PathVariable int id) {
+
+		String readStatus = mim.readMessage(id).getReadStatus();
+	
+		if (!readStatus.equals("읽음")) {
+			//읽지 않음이면
+			mim.changeToRead(id);
+			mim.setUnreadMessageCount(mim.readMessage(id).getRecipient());
+		}
+		
+		model.addAttribute("receivedRead", mim.readMessage(id));
+
+		return "member/myPage/myReceivedMessageView";
+	}
 
 
 	@GetMapping("sentMessage/{id}")

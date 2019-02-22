@@ -17,16 +17,6 @@ public interface MessageInfoMapper {
 	public List <MessageInfo> getSentMessageList(String sender, @Param("cri")Criteria cri);
 	int countSPaging(String sender, @Param("cri") Criteria cri);
 	
-	public List <MessageInfo> getSearchedReceivedMessageList(String recipient, String keyword, @Param("cri") Criteria cri);
-	int searchCountRPaging(String recipient, String keyword, @Param("cri") Criteria cri);
-	
-	
-	public List <MessageInfo> getSearchedSentMessageList(String sender, String keyword, @Param("cri")Criteria cri);
-	int searchCountSPaging(String sender, String keyword, @Param("cri") Criteria cri);
-	
-	
-	
-	
 	
 	public int sendMessage(MessageInfo messageInfo);
 	public int messageCountUp(String recipient);

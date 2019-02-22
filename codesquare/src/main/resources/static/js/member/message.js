@@ -297,8 +297,7 @@ $(function() {
 	});
 
 	$("input[name='searhBtn']").click(function(){
-		var keyword = $("input[name='keyword'").val();
-		location.href = '/message/receivedMessage/search/'+keyword;
+		$("#recdivedMessageForm").attr('action', 'receivedMessage');
 	});
 	
 	// 삭제 모달창
