@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 
-
 <title>내 쪽지함</title>
 </head>
 <body>
@@ -14,7 +13,7 @@
 	<div id="messageContent" layout:fragment="messageContent">
 		<div id="receivedMessage" class="small">
 
-			<form th:action="@{/message/receivedMessage/}">
+			<form th:action="@{/message/receivedMessage}">
 				<div class="row py-3">
 					<div class="col-4 input-group-prepend">
 						<input type="button" class="mybtn mx-1" id="deleteMsg" value="삭제">
@@ -114,10 +113,12 @@
 
 
 
+
 		</div>
 
 
 	</div>
+
 
 
 

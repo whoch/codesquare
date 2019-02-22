@@ -1,6 +1,5 @@
 package com.bit.codesquare.controller.member;
 
-import java.io.File;
 import java.security.Principal;
 import java.util.Map;
 
@@ -75,6 +74,8 @@ public class MemberController {
 	@PostMapping("idCheck")
 	@ResponseBody
 	public int idCheck(@RequestBody String userId) {
+		logger.info("called");
+		logger.info(userId);
 		int count = 0;
 		count = mm.idCheck(userId);
 		return count;
@@ -166,6 +167,7 @@ public class MemberController {
 	public String myPage(Model model, Authentication auth, HttpSession session) {
 		csu.getSession(auth, session);
 		String userId = auth.getName();
+
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("rlist", mm.getReservedList(userId));
 		model.addAttribute("alist", mm.getAppliedList(userId));
@@ -269,9 +271,5 @@ public class MemberController {
 		count=mm.declineMo(applyUserId, boardId, declineContent);
 		return count;
 	}
-
-
-
-  
 
 }

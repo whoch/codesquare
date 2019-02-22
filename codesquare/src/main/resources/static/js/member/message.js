@@ -171,7 +171,7 @@ $(function() {
 	$("input[name='recipient']").blur(function() {
 
 		var userId = $("input[name='recipient']").val();
-		
+		console.log(userId);
 		$.ajax({
 			type : "post",
 			data : userId,
@@ -190,6 +190,7 @@ $(function() {
 				}
 			},
 			error : function(error) {
+				
 				$("#idCheckMsg").css("color", "black");
 				$("#idCheckMsg").html("<i class='fas fa-info-circle'></i> 유효하지 않은 형식의 아이디입니다.");
 			}
@@ -297,7 +298,8 @@ $(function() {
 	});
 
 	$("input[name='searhBtn']").click(function(){
-		$("#recdivedMessageForm").attr('action', 'receivedMessage');
+		var keyword = $("input[name='keyword'").val();
+		location.href = '/message/receivedMessage/';
 	});
 	
 	// 삭제 모달창

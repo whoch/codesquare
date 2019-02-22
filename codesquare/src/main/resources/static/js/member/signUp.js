@@ -41,7 +41,7 @@ function idCheck() {
 	$.ajax({
 		type : "post",
 		data : userId,
-		url : "idCheck",
+		url : "/member/idCheck",
 		contentType : "application/json; charset=UTF-8",
 		success : function(response) {
 			if ( response > 0) {
@@ -50,7 +50,8 @@ function idCheck() {
 				$("#idCheckMsg").html("<i class='fas fa-info-circle'></i> 이미 존재하는 아이디 입니다.");
 
 			} else {
-				$("#idCheckMsg").("");
+				$("#idCheckMsg").text("");
+
 				// 아이디가 중복하지 않으면 
 				idck = 1
 
