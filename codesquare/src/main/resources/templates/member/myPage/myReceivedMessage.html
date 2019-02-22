@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout/messageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
+
+<title>내 쪽지함</title>
+</head>
+<body>
+
+	<div class="messageContent container-fluid m-3 p-3 "
+		layout:fragment="messageContent">
+
+		<div id="receivedMessage" class="small">
+			받은쪽지함 <br />
+			<form>
+				<button>삭제</button>
+				<div class="row shadow-sm text-center py-2">
+					<div class="col-1">
+						<input id="selectAll" type="checkbox">
+					</div>
+					<div class="col-3">보낸사람</div>
+					<div class="col-4">쪽지 제목</div>
+					<div class="col-2">받은 날짜</div>
+					<div class="col-2">읽은 날짜</div>
+
+				</div>
+				<div class="row border-bottom text-center py-2"
+					th:each="received : ${received}">
+
+					<div class="col-1">
+						<input type="checkbox">
+					</div>
+					<div class="col-3">
+						<div class="dropright ">
+							<a class=" dropdown-toggle" data-toggle="dropdown"> 
+							<span id="senderNickName" th:text="${received.senderNickName}"></span><br /> 
+							(<span id="senderId" th:text="${received.sender}"></span>)
+							</a>
+							<div class="dropdown-menu">
+								<a id="toSendMessage" class="dropdown-item" >쪽지보내기</a>
+								<a class="dropdown-item" href="#">쪽지보내기</a> <a
+									class="dropdown-item" href="#">쪽지보내기</a>
+							</div>
+						</div>
+
+
+					</div>
+					<div class="col-4">
+						<a th:href="@{'/message/receivedMessage/'+${received.id}}"><span
+							th:text="${received.messageTitle}"></span></a>
+					</div>
+					<div class="col-2"
+						th:text="${#dates.format(received.sendDate, 'yy-MM-dd')}"></div>
+					<div class="col-2">
+						<span th:text="${received.readStatus}"></span><br /> <span
+							th:text="${#dates.format(received.readDate, 'yy-MM-dd')}"></span>
+					</div>
+				</div>
+
+			</form>
+
+
+
+		</div>
+
+
+
+		<th:block layout:fragment="css">
+			<link rel="stylesheet" type="text/css"
+				th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
+			<link rel="stylesheet" type="text/css"
+				th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}" />
+			<link rel="stylesheet" type="text/css"
+				th:href="@{/static/styles/member/message.css}">
+			<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic"
+				rel="stylesheet">
+		</th:block>
+
+
+
+	</div>
+</body>
+</html>

@@ -90,7 +90,7 @@
 	</update>
 
 	<select id="getReservedList" parameterType="String"
-		resultType="ReservationInfo">
+		resultType="Reservation">
 		select a.UserId, a.ReservationDate, a.RoomId, b.RoomName, a.PayAmount,
 		a.PaymentDate, a.ReservationTime from ReservationInfo a join RoomInfo
 		b on a.RoomId = b.id where UserId =#{userId}
@@ -98,7 +98,7 @@
 
 	<select id="getAppliedList" parameterType="String"
 		resultType="JoiningAndRecruitmentLog">
-		select a.ApplyUserId, a.ApplyDate, b.BoardKindId, a.BoardId, b.Title,
+		select a.ApplyUserId, a.Nickname, a.ApplyDate, b.BoardKindId, a.BoardId, b.Title,
 		a.ApplyContent, a. DeclineContent, a.Status from
 		JoiningAndRecruitmentLog a join Board b on a.BoardId = b.Id where
 		a.ApplyUserId=#{userId}
@@ -106,13 +106,13 @@
 
 	<select id="getWantedList" parameterType="String"
 		resultType="Board">
-		select Id, WriteDate, Title, Status from Board where UserId= #{userId} AND
+		select Id, BoardKindId, Title,  WriteDate, Status from Board where UserId= #{userId} AND
 		(BoardKindId='SmnMo' or BoardKindId='StdMo')
 	</select>
 
 	<select id="getWantedPList"
 		resultType="JoiningAndRecruitmentLog">
-		select a.BoardId, a.ApplyUserId, a.ApplyDate, b.Title, b.WriteDate,
+		select a.BoardId, b.BoardKindId, a.NickName, a.ApplyUserId, a.ApplyDate, b.Title, b.WriteDate,
 		a.ApplyContent, a. DeclineContent, a.Status from
 		JoiningAndRecruitmentLog a join Board b on a.BoardId = b.Id where
 		b.Id=#{boardId}
@@ -137,4 +137,17 @@
 	<select id="getMyCount" resultType="Member">
 		select UserId, MessageCount, ReservationCount, MyStudyCount, MyPostCount from UserInfo where UserId=#{userId}
 	</select>
+	
+	<update id="cancelApply" >
+		update JoiningAndRecruitmentLog set Status = '신청취소' where ApplyUserId = #{applyUserId} and BoardId = #{boardId};
+	</update>
+	
+	<update id="acceptMo">
+		update JoiningAndRecruitmentLog set Status = '수락' where ApplyUserId = #{applyUserId} and BoardId = #{boardId};
+	</update>
+	
+	<update id="declineMo">
+		update JoiningAndRecruitmentLog set Status = '거절', DeclineContent= #{declineContent} where ApplyUserId = #{applyUserId} and BoardId = #{boardId};
+	</update>
+	
 </mapper>

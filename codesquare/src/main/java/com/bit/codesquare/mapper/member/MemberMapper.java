@@ -9,7 +9,7 @@ import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.member.InstructorInfo;
 import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
 import com.bit.codesquare.dto.member.Member;
-import com.bit.codesquare.dto.member.ReservationInfo;
+import com.bit.codesquare.dto.room.Reservation;
 
 @Mapper
 public interface MemberMapper {
@@ -37,7 +37,7 @@ public interface MemberMapper {
 	
 	public int modifyInstructorInfo(InstructorInfo instructorInfo);
 	
-	public List <ReservationInfo> getReservedList(String userId);
+	public List <Reservation> getReservedList(String userId);
 	public List <JoiningAndRecruitmentLog> getAppliedList(String userId);
 	
 	public List <Board> getWantedList(String userId);
@@ -48,4 +48,8 @@ public interface MemberMapper {
 	public List <Board> getMyBoardList(String userId);
 	
 	public Member getMyCount(String userId);
+	
+	public int cancelApply (String applyUserId, int boardId);
+	public int acceptMo (String applyUserId, int boardId);
+	public int declineMo (String applyUserId, int boardId, String declineContent);
 }
