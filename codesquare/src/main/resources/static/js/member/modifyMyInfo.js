@@ -9,6 +9,9 @@ $(function(){
 	    });
 	});
 	
+
+	
+	
 	//비밀번호 변경 버튼 클릭 시
 	$("#pwValidate").click(function() {
 	
@@ -73,17 +76,16 @@ $(function(){
 	}
 
 
-$("#changeNickContent").hide();
-
-$("#changeNick").click(
-		function() {
-			$("#changeNickContent").not(
-					$(this).next("#changeNickContent").slideToggle())
-					.hide();
-			$("#changeNick").not($(this).next("#changeNick")).hide();
-			// var a = '<a onclick="nickChange()"> 수정하기 </a>'
-			// $("#nickChange").html(a);
-		});
+//$("#changeNickBox").hide();
+//
+//$("#changeNick").click(
+//		function() {
+//			$("#changeNickBox").not(
+//					$(this).next("#changeNickBox").slideToggle())
+//					.toggle();
+//			// var a = '<a onclick="nickChange()"> 수정하기 </a>'
+//			// $("#nickChange").html(a);
+//		});
 
 // 닉네임 변경 버튼
 
@@ -122,8 +124,8 @@ function nickChange() {
 			} else {
 				// var a=nickName;
 				// '<a onclick="changeNick(' + data + ');">수정</a>';
-				$("#changeNickContent").hide();
-				$("#changeNick").show();
+//				$("#changeNickContent").hide();
+//				$("#changeNick").show();
 				// location.reload();
 				$("#nickCheckMsg").text("");
 				$("#headerNickName").html(nickName);

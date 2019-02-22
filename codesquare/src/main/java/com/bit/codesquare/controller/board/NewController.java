@@ -63,7 +63,7 @@ public class NewController {
 		model.addAttribute("list", newService.listCountCriteria(cri));
 		return "redirect:home";
 	}
-	
+
 	@RequestMapping("/modifygo")
 	public String modifygo(HttpServletRequest request, Model model) throws Exception {
 		int id = Integer.parseInt(request.getParameter("id"));

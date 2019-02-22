@@ -121,7 +121,6 @@
 	
 	<!-- 강의 입력  쿼리 -->
 	<insert id="insertLectureContent"   parameterType="Lecture">
-	
 		INSERT INTO Board(BoardKindId,UserId,Nickname,Title,Content,ParentId)
 		VALUES(#{boardKindId},#{userId},#{nickname},#{title},#{content},#{parentId})
 	<selectKey resultType="int" keyProperty="id" order="AFTER">

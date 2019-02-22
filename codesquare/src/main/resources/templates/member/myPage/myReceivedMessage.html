@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout/messageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+
+<title>내 쪽지함</title>
+</head>
+<body>
+
+	<div id="messageContent" layout:fragment="messageContent">
+		<div id="receivedMessage" class="small">
+
+			<form th:action="@{/message/receivedMessage/}">
+				<div class="row py-3">
+					<div class="col-4 input-group-prepend">
+						<input type="button" class="mybtn mx-1" id="deleteMsg" value="삭제">
+						<input type="button" class="mybtn" id="newMessageBtn" value="쪽지쓰기">
+					</div>
+
+					<!-- 삭제 모달 -->
+
+					<div id="delete-dialog" class="jumbotron">
+						<div id="delete-close" class="text-right">
+							<i class="fas fa-times  align-top "></i>
+						</div>
+						<div id="delete-dialog-content" class="text-center"></div>
+					</div>
+					<div class="col-1"></div>
+
+					<div class="col-7 input-group-prepend ">
+						<input class="form-control input-group-sm mx-1" type="text"
+							placeholder="Search" name="keyword"
+							th:value="${pageMaker.cri.keyword}"> <input
+							name="searhBtn" class="mybtn " type="submit" value="찾기">
+					</div>
+				</div>
+			</form>
+
+			<div class="row shadow-sm text-center py-2">
+				<br />
+				<div class="col-1">
+					<input id="selectAll" type="checkbox">
+				</div>
+				<div class="col-3">보낸사람</div>
+				<div class="col-4">내용</div>
+				<div class="col-2">받은 날짜</div>
+				<div class="col-2">읽은 날짜</div>
+
+			</div>
+			<div class="row border-bottom text-center py-2"
+				th:each="received : ${received}">
+
+				<div class="col col-1">
+					<span hidden name="recipient" th:text="${received.recipient}"></span>
+					<input name="checkboxes" type="checkbox" th:value="${received.id}">
+				</div>
+				<div class="col col-3">
+					<div class="dropright ">
+						<a class=" dropdown-toggle" data-toggle="dropdown"> <span
+							id="senderNickName" th:text="${received.senderNickName}"></span><br />
+							(<span id="senderId" th:text="${received.sender}"></span>)
+						</a>
+						<div class="dropdown-menu">
+							<a class="dropdown-item "
+								th:href="@{'/message/sendMessage/'+${received.sender}}">쪽지보내기</a>
+							<a class="dropdown-item" href="#">쪽지보내기</a> <a
+								class="dropdown-item" href="#">쪽지보내기</a>
+						</div>
+					</div>
+
+
+				</div>
+				<div class="col col-4 text-left">
+					<a th:href="@{'/message/receivedMessage/'+${received.id}}"><span
+						th:text="${#strings.abbreviate(received.messageContent, 20)}"></span></a>
+
+				</div>
+				<div class="col col-2"
+					th:text="${#dates.format(received.sendDate, 'yy-MM-dd')}"></div>
+				<div class="col col-2">
+					<span th:text="${received.readStatus}"></span><br /> <span
+						th:text="${#dates.format(received.readDate, 'yy-MM-dd')}"></span>
+				</div>
+			</div>
+			<!-- 페이징  -->
+			<div class="row pt-2 ">
+				<div class="col-12">
+					<ul class="pagination justify-content-center">
+						<li class="page-item" th:if="${pageMaker.prev} == true"><a
+							class="page-link"
+							th:href="@{/message/receivedMessage(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum}, keyword=${pageMaker.cri.keyword})}">&laquo;</a>
+						</li>
+
+						<li class="page-item"
+							th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"
+							th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
+							<a class="page-link"
+							th:href="@{/message/receivedMessage(page=${idx},perPageNum=${pageMaker.cri.perPageNum},  keyword=${pageMaker.cri.keyword})}"
+							th:text="${idx}" th:if="${idx}"></a>
+						</li>
+
+						<li class="page-item"
+							th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
+							<a class="page-link"
+							th:href="@{/message/receivedMessage(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum}, keyword=${pageMaker.cri.keyword})}">&raquo;</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+
+
+		</div>
+
+
+	</div>
+
+
+
+
+
+</body>
+</html>

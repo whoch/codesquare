@@ -1,63 +1,110 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout/mainLayout"
+<html xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="layout/mainLayout"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
-<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
 <!-- default header name is X-CSRF-TOKEN -->
-<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 <title>아이디 비밀번호 찾기</title>
 </head>
 <body>
 
-<div class="container" layout:fragment="content">
-<div class="contentcontainer mt-3">
-  <h2>아이디/ 비밀번호 찾기</h2>
-  <br>
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link active" href="#findIdTab">아이디찾기</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#findPwTab">비밀번호 찾기</a>
-    </li>
-  </ul>
+	<div class="container" layout:fragment="content">
+		<br /> <br />
+		<div class="col-md-5 py-3 mx-auto">
+			<div class="myform form ">
+				<div class="logo mb-3 ">
 
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div id="findIdTab" class="contentcontainer tab-pane active"><br>
-    <form id="findIdForm">
-      <h3>아이디 찾기</h3>
-      <p>이메일을 입력해주세요<br />
-      <span id="findIdMsg"></span> </p>
-      <input type="text" name="email" id="email"><BR />
-      <input type="button" value="찾기" id="findIdValidate">
-    </form>
-    </div>
-    <div id="findPwTab" class="contentcontainer tab-pane fade"><br>
-     <form id="findPwForm">
-      <h3>비밀번호 찾기</h3>
-      <p>아이디, 이메일을 입력해주세요<br />
-      <span id="findIdPwMsg"></span> </p>
-      <p>아이디 : <input type="text" name="userId"  id="userId" >
-      <br />
-      이메일 : <input type="text" name="email2" id="email2"> </p>
-      <input type="button" value="찾기" id="findPwValidate">
-    </form>
-    </div>
-    
+						<div class="switch switch-custom center">
+							<input type="radio" class="switch-input" name="find"  id="id"  checked> 
+							<label for="id" class="switch-label switch-label-off">아이디 찾기</label>
+							<input type="radio" class="switch-input " name="find" id="pw"> 
+							<label for="pw" class="switch-label switch-label-on" >비밀번호 찾기</label> 
+							<span class="switch-selection"></span>
+						</div>
 
-  </div>
-</div>
+				</div>
 
 
-<th:block layout:fragment="script">
-<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
-<script th:src="@{/static/js/member/find.js}"></script> 
-</th:block>
+				<div class="tab-content">
+					<div id="findIdTab" class="text-center tab-pane active">
+					
+						<form id="findIdForm">
+							<p>
+								가입 시 입력했던 이메일을 입력해주세요. <br /> 
+								
+								<span class="small" id="findIdMsg"></span>
+							</p>
+							<input class="form-control" type="text" name="email" id="email"><BR /> 
+							<input  type="button" class="mybtn " value="찾기" id="findIdValidate">
+							<div id="findId-dialog" class="jumbotron">
+									<div id="findId-close" class="text-right">
+										<i class="fas fa-times small align-top "></i>
+									</div>
+									<div id="findId-dialog-content" class="text-center">
+										<br /> 
+									</div>
+								</div>
+						</form>
+					</div>
+					<div id="findPwTab" class="text-center tab-pane hide">
+						<form id="findPwForm">
+							<p>
+								아이디와 가입 시 입력했던 이메일을 입력해주세요.<br /> <span class="small" id="findPwMsg"></span>
+							</p>
+							<div class="row py-1 text-right">
+								<div class="col-3 py-1 align-middle">아이디</div>
+								<div class="col-9 py-1"> <input class="form-control" type="text" name="userId" id="userId"> </div>
+							</div>
+							<div class="row py-1 text-right">
+								<div class="col-3 py-1">이메일</div>
+								<div class="col-9 py-1"> <input class="form-control" type="text" name="email2" id="email2"></div>
+							</div>
+							<br />
+							<input type="button" class="mybtn" value="찾기" id="findPwValidate">
+						
+						<div id="findPw-dialog" class="jumbotron">
+									<div id="findPw-close" class="text-right">
+										<i class="fas fa-times small align-top "></i>
+									</div>
+									<div id="findPw-dialog-content" class="text-center">
+										<br /> 
+									</div>
+								</div>
+						</form>
+					</div>
 
-</div>
+
+				</div>
+
+
+
+
+
+			</div>
+		</div>
+
+
+
+
+		<th:block layout:fragment="script">
+			<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+			<script th:src="@{/static/js/member/find.js}"></script>
+		</th:block>
+		<th:block layout:fragment="css">
+			<link rel="stylesheet" type="text/css"
+				th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
+			<link rel="stylesheet" type="text/css"
+				th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}" />
+			<link rel="stylesheet"
+				href="https://fonts.googleapis.com/css?family=Nanum+Gothic">
+			<link rel="stylesheet" type="text/css"
+				th:href="@{/static/styles/member/find.css}">
+		</th:block>
+	</div>
 
 </body>
 </html>

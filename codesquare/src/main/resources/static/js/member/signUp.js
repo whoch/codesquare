@@ -19,7 +19,7 @@ var idck = 0;
 var emailck = 0;
 var pwck = 0;
 
-$("#idValidate").click(function() {
+$("#userId").blur(function() {
 
 	var userId = $("#userId").val();
 	var regExp = /^[a-z0-9]{4,15}$/;
@@ -27,9 +27,9 @@ $("#idValidate").click(function() {
 	if (regExp.test(userId)) {
 		idCheck();
 	} else {
-		$("#idCheckMsg").css("color", "red");
-		$("#idCheckMsg").text("아이디는 영문자,숫자로 이루어진 4자이상 15자 미만");
-		$("#userId").focus();
+		$("#idCheckMsg").css("color", "#A7070B");
+		$("#idCheckMsg").html("<i class='fas fa-info-circle'></i> 아이디는 영문자, 숫자 이루어진 4자이상 15자 미만");
+		
 	}
 
 });
@@ -46,13 +46,11 @@ function idCheck() {
 		success : function(response) {
 			if ( response > 0) {
 
-				$("#idCheckMsg").css("color", "red");
-				$("#idCheckMsg").text("이미 존재하는 아이디 입니다.");
-				$("#userId").focus();
+				$("#idCheckMsg").css("color", "#A7070B");
+				$("#idCheckMsg").html("<i class='fas fa-info-circle'></i> 이미 존재하는 아이디 입니다.");
 
 			} else {
-				$("#idCheckMsg").css("color", "blue");
-				$("#idCheckMsg").text("사용가능한 아이디입니다.");
+				$("#idCheckMsg").("");
 
 				// 아이디가 중복하지 않으면 
 				idck = 1
@@ -69,17 +67,16 @@ function idCheck() {
 
 
 
-$("#emailValidate").click(function() {
+$("input[name='email'").blur(function() {
 
-	var email = $("#email").val();
-	var regExp = /[a-zA-Z0-9-_]{2,}@[a-zA-Z0-9]{2,}.[a-zA-Z0-9]{2,}/i;
+	var email = $("input[name='email'").val();
+	var regExp = /^[a-zA-Z0-9-_.]{2,}@[a-zA-Z0-9]{2,}.[a-zA-Z0-9]{2,}$/i;
 
 	if (regExp.test(email)) {
 		emailCheck();
 	} else {
-		$("#emailCheckMsg").css("color", "red");
-		$("#emailCheckMsg").text("올바르지않은 이메일 양식입니다.");
-		$("#email").focus();
+		$("#emailCheckMsg").css("color", "#A7070B");
+		$("#emailCheckMsg").html("<i class='fas fa-info-circle'></i> 올바르지 않은 이메일 양식입니다.");
 	}
 
 });
@@ -87,7 +84,7 @@ $("#emailValidate").click(function() {
 function emailCheck() {
 
 	
-	var email = $("#email").val();
+	var email = $("input[name='email'").val();
 	
 	
 	$.ajax({
@@ -96,25 +93,20 @@ function emailCheck() {
 		url : "emailCheck",
 		contentType : "application/json; charset=UTF-8",
 		success : function(response) {
-
 			if (response > 0) {
 
-				alert(response);
-				$("#emailCheckMsg").css("color", "red");
-				$("#emailCheckMsg").text("이미 존재하는 이메일 입니다.");
-				$("#email").focus();
+				$("#emailCheckMsg").css("color", "#A7070B");
+				$("#emailCheckMsg").html("<i class='fas fa-info-circle'></i> 이미 존재하는 이메일 입니다.");
 
 			} else {
-
-				$("#emailCheckMsg").css("color", "blue");
-				$("#emailCheckMsg").text("사용 가능한 이메일 입니다.");
+				$("#emailCheckMsg").text("");
 				emailck = 1;
 
 			}
 		},
 		error : function(error) {
 			$("#emailCheckMsg").css("color", "black");
-			$("#emailCheckMsg").text("error");
+			$("#emailCheckMsg").html("<i class='fas fa-info-circle'></i>error");
 		}
 	});
 
@@ -125,14 +117,13 @@ function emailCheck() {
 $("#password").blur(function() {
 	
 	var password = $("#password").val();
-	var regExp = /^[a-zA_Z0-9]{4,15}$/;
+	var regExp = /^[a-zA_Z0-9]{6,15}$/;
 	
-	if (regExp.test(rePassword)) {
+	if (regExp.test(password)) {
 		$("#pwCheckMsg").text("");
 	} else {
-		$("#pwCheckMsg").css("color", "red");
-		$("#pwCheckMsg").text("비밀번호는 영 대, 소문자, 숫자 로 이루어진 4자 이상 15자 미만");
-		$("#password").focus();
+		$("#pwCheckMsg").css("color", "#A7070B");
+		$("#pwCheckMsg").html("<i class='fas fa-info-circle'></i> 비밀번호는 영문자, 숫자를 포함한 6자 이상 15자 미만");
 	}
 
 });
@@ -146,9 +137,8 @@ $("#rePassword").blur(function() {
 		$("#pwCheckMsg").text("");
 		pwck = 1;
 	} else {
-		$("#pwCheckMsg").css("color", "red");
-		$("#pwCheckMsg").text("비밀번호를 확인해주세요.");
-		$("#rePassword").focus();
+		$("#pwCheckMsg").css("color", "#A7070B");
+		$("#pwCheckMsg").html("<i class='fas fa-info-circle'></i> 비밀번호가 일치하지 않습니다.");
 	}
 });
 
@@ -156,15 +146,32 @@ $("#rePassword").blur(function() {
 $("#signUp").click(function() {
 
 	if (idck == 1 && emailck == 1 && pwck == 1) {
-		if ($("#agree").is(":checked")) {
+
 			$("#signUpForm").attr('action', "signUp").submit();
-		} else {
-			alert("체크해주세요.");
-		}
+
+	} else if (idck != 1){
+		$("input[name='userId'").focus();
+		$("#idCheckMsg").css("color", "#A7070B");
+		$("#idCheckMsg").html("<i class='fas fa-info-circle'></i> 아이디를 입력해주세요.");
+
+	} else if (emailck != 1){
+		$("input[name='email'").focus();
+		$("#emailCheckMsg").css("color", "#A7070B");
+		$("#emailCheckMsg").html("<i class='fas fa-info-circle'></i> 이메일을 입력해주세요.");
+//		$('body').scrollTo("input[name='email'"); 
+		
+	} else if (pwck != 1 ){
+		$("input[name='rePassword'").focus();
+		$("#emailCheckMsg").css("color", "#A7070B");
+		$("#emailCheckMsg").html("<i class='fas fa-info-circle'></i> 비밀번호를 입력해주세요.");
+//		$('body').scrollTo("input[name='rePassword'"); 
 	} else {
-		alert(idck+","+emailck+","+pwck);
-		alert("입력한 정보를 확인해주세요.");
+		$("#signUpCheckMsg").css("color", "#A7070B");
+		$("#signUpCheckMsg").html("<i class='fas fa-exclamation-triangle'></i> error");
 	}
 });
+
+
+
 
 

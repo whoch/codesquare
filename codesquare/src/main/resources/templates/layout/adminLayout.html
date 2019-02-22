@@ -16,6 +16,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/f`ont-awesome/latest/css/font-awesome.min.css"> -->
   <!-- Material Kit CSS -->
  	 <link th:href="@{/static/assets/css/material-dashboard.css?v=2.1.1}" rel="stylesheet" />
+ 	 <th:block layout:fragment="adminCss"></th:block>
 </head>
 <body>
 <!-- 페이지의 헤더부분 -->
@@ -34,5 +35,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <script th:src="@{/webjars/bootstrap-select/1.13.3/js/bootstrap-select.js}"></script>
 <script th:src="@{/webjars/jquery-serialize-object/2.1.0/jquery.serialize-object.js}"></script>
 <script th:src="@{/static/js/admin/adminSideCustom.js}"></script>
+<th:block layout:fragment="script"></th:block>
 </body>
 </html>

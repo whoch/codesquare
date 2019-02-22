@@ -44,7 +44,7 @@ function uploadProfile() {
 	//
 	$.ajax({
 		type : 'post',
-		url : 'upload',
+		url : 'uploadProfile',
 		data : formData,
 		processData : false,
 		contentType : false,

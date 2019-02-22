@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout/messageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+
+
+<title>내 쪽지함</title>
+</head>
+<body>
+
+	<div id="messageContent" layout:fragment="messageContent">
+
+		<div id="sentMessage" class="small mx-auto">
+			<div class="row py-2">
+				<div class="col-2 input-group-prepend"></div>
+				<div class="col-3 input-group-prepend"></div>
+
+				<div class="col-7 input-group-prepend ">
+					<input class="form-control input-group-sm mx-1" type="text"
+						placeholder="Search"> <input class="mybtn " type="button"
+						value="찾기">
+				</div>
+
+			</div>
+			<div class="row shadow-sm text-center py-2">
+				<div class="col-3">받는 사람</div>
+				<div class="col-5">내용</div>
+				<div class="col-2">보낸 날짜</div>
+				<div class="col-2">상태</div>
+
+			</div>
+
+			<div class="row border-bottom text-center py-2"
+				th:each="sent : ${sent}">
+				<div class="col-3">
+					<span th:text="${sent.recipientNickName}"></span><br /> (<span
+						th:text="${sent.recipient}"></span>)
+				</div>
+
+				<div class="col-5 text-left">
+					<a th:href="@{'/message/sentMessage/'+${sent.id}}"><span
+						th:text="${#strings.abbreviate(sent.messageContent,20)}"></span></a>
+
+				</div>
+
+				<div class="col-2"
+					th:text="${#dates.format(sent.sendDate, 'yy-MM-dd')}"></div>
+				<div class="col-2">
+					<span th:text="${sent.readStatus}"></span> <br />
+					<span th:text="${#dates.format(sent.readDate, 'yy-MM-dd')}"></span>
+				</div>
+			</div>
+
+			<!-- 페이징  -->
+			<div class="row pt-2 ">
+				<div class="col-12">
+					<ul class="pagination justify-content-center">
+						<li class="page-item" th:if="${pageMaker.prev} == true"><a
+							class="page-link"
+							th:href="@{/message/sentMessage(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum})}">&laquo;</a>
+						</li>
+
+						<li class="page-item"
+							th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"
+							th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
+							<a class="page-link"
+							th:href="@{/message/sentMessage(page=${idx},perPageNum=${pageMaker.cri.perPageNum})}"
+							th:text="${idx}"></a>
+						</li>
+
+						<li class="page-item"
+							th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
+							<a class="page-link"
+							th:href="@{/message/sentMessage(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum})}">&raquo;</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+
+
+</body>
+</html>

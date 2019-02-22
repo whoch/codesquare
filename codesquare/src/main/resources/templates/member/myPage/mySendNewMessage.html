@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout/messageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+
+
+<title>내 쪽지함</title>
+</head>
+<body>
+
+	<div id="messageContent" layout:fragment="messageContent">
+
+		<div id="sendMessage" class="py-2">
+			<form name="sendMessage" method="post">
+				
+				<div class="row">
+					<div class="col-3">
+						<span>보내는 사람</span>
+					</div>
+					<div class="col-9">
+						<span id="senderNickName" th:text="${session.nickName}"></span> (<span
+							id="sender" th:text="${session.userId}"></span>)
+					</div>
+				</div>
+
+				<div class="row py-2">
+					<div class="col-3">
+						<span>받는 사람</span>
+					</div>
+					<div class="col-9">
+						<!-- <span id="recipientNickName" th:text = "${recipientNickName}"></span> 
+						  (<span id="recipient" th:text = "${recipient}"></span>) -->
+						<input class="form-control" type="text" name="recipient">
+						<span id="idCheckMsg" class="small"></span>
+					</div>
+				</div>
+
+				<div class="row py-2">
+
+					<div class="col-12">
+						<textarea class="form-control" name="messageContent" cols="30"
+							rows="7"></textarea>
+					</div>
+				</div>
+				<div class="row py-2">
+					<div class="col">
+						<input type="button" class="mybtn float-right"
+							name="sendNewMessageBtn" value="쪽지보내기">
+					</div>
+					
+				<!-- 완료 모달 -->
+				<div id="done-dialog" class="jumbotron">
+					<div id="done-close" class="text-right">
+						<i class="fas fa-times  align-top "></i>
+					</div>
+					<div id="done-dialog-content" class="text-center">
+					  <i class="far fa-check-circle fa-3x"></i> <br /><br />완료 <br />
+						<br />
+					</div>
+				</div>
+				</div>
+			</form>
+		</div>
+
+
+
+
+	</div>
+
+
+</body>
+</html>

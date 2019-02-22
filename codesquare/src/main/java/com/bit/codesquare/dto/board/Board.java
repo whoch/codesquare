@@ -13,6 +13,7 @@ import lombok.Data;
 public class Board implements ComparableDateTime {
 	int id;
 	String boardName;
+	String boardKindId;
 	String userId;
 	String groupId;
 	String nickName;
