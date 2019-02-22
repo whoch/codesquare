@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout/messageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
+
+<title>내 쪽지함</title>
+</head>
+<body>
+
+	<div class="messageContent m-5" layout:fragment="messageContent">
+
+
+		<div id="readMessage">
+			<form name="message" method="post">
+				<div class="row">
+					<div class="col">
+						<span>보낸 사람</span>
+					</div>
+					<div class="col">
+					
+					
+						<span id="senderNickName" th:text="${read.senderNickName}"></span>
+						(<span id="sender" th:text="${read.sender}"></span>)
+
+
+						
+  		
+ 	
+					
+					
+					
+					
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col">
+						<span>제목</span>
+					</div>
+					<div class="col" th:text="${read.messageTitle}"></div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<span>받은 시간</span>
+					</div>
+					<div class="col" th:text="${read.sendDate}"></div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<span>읽은 시간</span>
+					</div>
+					<div class="col" th:text="${read.readDate}"></div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<span>내용</span>
+					</div>
+					<div class="col" th:text="${read.messageContent}"></div>
+				</div>
+				<div class="row">
+					<input type="button" name="replyMessageBtn" value="답장">
+					<input type="button" name="deleteMessageBtn" value="삭제">
+					<input type="button" name="toListMessageBtn" value="목록으로">
+				</div>
+			</form>
+	
+	
+		</div>
+
+		<th:block layout:fragment="css">
+			<link rel="stylesheet"
+				href="https://fonts.googleapis.com/css?family=Nanum+Gothic">
+			<link rel="stylesheet" type="text/css"
+				th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
+			<link rel="stylesheet" type="text/css"
+				th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}" />
+			<link rel="stylesheet" type="text/css"
+				th:href="@{/static/styles/member/message.css}">
+		</th:block>
+
+
+	</div>
+
+
+</body>
+</html>

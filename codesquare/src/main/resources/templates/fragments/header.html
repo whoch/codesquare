@@ -70,8 +70,8 @@
 			<input type="hidden" id="userId" th:value="@{${session.userId}}">
 				<ul>
 					
-					<li> <img th:src="@{'/static/codesquareDB/UserThumbnail/'+${session.userId}+'/'+${session.userId}+'_Thumbnail.jpg'}"
-									id="profileImg" style="width: 20px; height: 20px" /> <span id="headerNickName" th:text="${session.nickName}"></span> 님! 안녕하세요.</li>
+					<li> <img th:src="@{${session.profileImagePath}}"
+									class="profileImg" style="width: 20px; height: 20px" /> <span id="headerNickName" th:text="${session.nickName}"></span></li>
 					<li><a th:href="@{/member/myPage}">마이페이지</a></li>
 					<li><a th:href="@{/logout}">로그아웃</a></li>
 

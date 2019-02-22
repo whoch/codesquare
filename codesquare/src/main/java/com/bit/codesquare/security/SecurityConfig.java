@@ -71,12 +71,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 
 				.authorizeRequests() /* 인증 요청 선언?????? */
+				.antMatchers("/", "/member/emailCheck").permitAll() // 모든사람에게 권한 허용=
 				.antMatchers("/","/member/upload","/cFile/**","learn/cFile/**").permitAll() //모든사람에게 권한 허용
 				.antMatchers("/member/signUp", "/member/login", "/member/signUp", "/member/idCheck",
 						"/member/emailCheck", "/member/findId", "/member/findPw", "/member/findIdPw", "/member/findPwMail")
 				.anonymous() //로그인 안한 사람만
 				.antMatchers("/member/modifyInstructorInfo").hasAnyRole("2") // 특정 권한 지정
-				.antMatchers( "/logout").authenticated() // 로그인 하면 다 가능
+				
+				.antMatchers("/logout").authenticated() // 로그인 하면 다 가능
 //				.and()
 //				.oauth2Login()
 
@@ -88,10 +90,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/member/login") /* 내가 만든 로그인 페이지 */
 				.usernameParameter("userId") /* username 을 대체할 아이디 param default username */
 				.successHandler(successHandler()) /* 모두 오픈 ( 반대는 denyAll() ) */
-				.failureUrl("/member/login?error").and().logout().invalidateHttpSession(true).clearAuthentication(true)
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
-
-				.logoutSuccessUrl("/"); /* 로그아웃 성공시 리다이렉트 url */
+				.failureUrl("/member/login?error").and().logout().invalidateHttpSession(true).clearAuthentication(
+						true)
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll().logoutSuccessUrl("/") /*
+																												 * 로그아웃
+																												 * 성공시
+																												 * 리다이렉트
+																												 * url
+																												 */
+				.and().exceptionHandling().accessDeniedPage("/");
 		// Naver Smarteditor2.9.1 을 사용하기위해 framoption 변경
 		http.headers().frameOptions().sameOrigin();
 

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout/messageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
+
+<title>내 쪽지함</title>
+</head>
+<body>
+
+<div class="messageContent m-5" layout:fragment="messageContent">
+
+
+	<div id="sendMessage">
+		쪽지 보내기
+
+		<div class="row">
+			<div class="col">
+				<span>보내는 사람</span>
+			</div>
+			<div class="col">
+				<span id="senderNickName" th:text="${session.nickName}"></span> (<span
+					id="sender" th:text="${session.userId}"></span>)
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col">
+				<span>받는 사람</span>
+			</div>
+			<div class="col">
+				<input type="text" name="recipient">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<span>제목</span>
+			</div>
+			<div class="col">
+				<input type="text" name="messageTitle">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<span>내용</span>
+			</div>
+			<div class="col">
+				<textarea name="messageContent" cols="30" rows="10"></textarea>
+			</div>
+		</div>
+		<div class="row">
+			<button name="sendMessageBtn">쪽지보내기</button>
+		</div>
+	</div>
+<th:block layout:fragment="css">
+			<link rel="stylesheet" type="text/css"  th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
+			<link rel="stylesheet" type="text/css"  th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}" />
+			<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic">
+			<link rel="stylesheet" type="text/css" th:href="@{/static/styles/member/message.css}">
+</th:block>
+
+
+
+</div>
+
+
+</body>
+</html>

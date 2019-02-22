@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+body {
+	width: 520px;
+	height: 520px;
+}
+
+#layerPop {
+	width: 600px;
+	height: 200px;
+	position: absolute;
+	display: none;
+	border: 1px solid #ccc;
+	padding: 10px;
+}
+
+#layerPop .close {
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+}

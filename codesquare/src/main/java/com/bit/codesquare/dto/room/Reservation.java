@@ -19,5 +19,5 @@ public class Reservation {
 	int usetime;
 	int person;
 	Date enddate;
-	
+	String roomname;
 }

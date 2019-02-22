@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="layout/mainLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
+<style>
+#accept-dialog-background, #decline-dialog-background{
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, .2);
+	z-index: 10;
+}
+
+#accept-dialog {
+	display: none;
+	position: fixed;
+	left: calc(50% - 160px);
+	top: calc(50% - 70px);
+	width: 320px;
+	height: 140px;
+	background: #fff;
+	z-index: 11;
+	padding: 10px;
+}
+
+#decline-dialog {
+	display: none;
+	position: fixed;
+	left: calc(50% - 160px);
+	top: calc(50% - 70px);
+	width: 320px;
+	height: 200px;
+	background: #fff;
+	z-index: 11;
+	padding: 10px;
+}
+
+
+</style>
+
+</head>
+<body>
+
+
+
+
+	<div class="container" layout:fragment="content">
+
+
+
+
+		<button id="acceptMo" class="mybtn px-2 py-1 small">수락</button>
+
+		<button id="declineMo" class="mybtn px-2 py-1 small">거절</button>
+
+		<div id="accept-dialog" class="jumbotron">
+			<div id="accept-close" class="text-right"><i class="fas fa-times small align-top " ></i></div>
+			<div class="text-center">
+			ㅇㅇ님의 ㅇㅇㅇ 신청을 수락하시겠습니까?<br /><br />
+			<div class="small"><button> 수락</button>&nbsp; &nbsp; </div> 
+			</div>
+		</div>
+	<div id="accept-dialog-background"></div>
+
+
+
+
+
+		<div id="decline-dialog" class="jumbotron">
+			<div  id="decline-close" class="text-right"><i class="fas fa-times small align-top"></i></div>
+			<div class="text-center">
+			ㅇㅇ님의 ㅇㅇㅇ 신청을 거절하시겠습니까?<br /><br />
+			거절사유: <input type="text" name="declineContent">
+			<br /><br />
+			<div class="small"><button> 거절</button></div> 
+			</div>
+		</div>
+		<div id="decline-dialog-background"></div>
+		
+
+
+
+		<th:block layout:fragment="script">
+			<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+			<script>
+				$(function() {
+				    $( "#dacceptMo" ).dialog({
+				        resizable: false,
+				        height: "auto",
+				        width: 400,
+				        modal: true,
+				        buttons: {
+				          "수락": function() {
+				            $( this ).dialog( "close" );
+				          },
+				          #accept-close : function() {
+				            $( this ).dialog( "close" );
+				          }
+				        }
+				      });
+
+				});
+			</script>
+		</th:block>
+	</div>
+
+
+</body>
+</html>
+

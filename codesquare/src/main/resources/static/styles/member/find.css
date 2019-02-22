@@ -1,0 +1,138 @@
+.form-control {
+	border-width: 1px;
+	border-color: #ACA2B6;
+}
+
+.form-control:focus {
+	border-color: #ACA2B6;
+	border-width: 2px;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+#codesquare {
+	font-family: 'Nanum Gothic', sans-serif;
+}
+
+.myform {
+	font-family: 'Nanum Gothic', sans-serif;
+	color: #321956;
+	position: relative;
+	display: -ms-flexbox;
+	display: flex;
+	padding: 1rem;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	width: 100%;
+	pointer-events: auto;
+	background-clip: padding-box;
+	border: 1px solid #ACA2B6;
+	border-radius: 1.1rem;
+	outline: 0;
+	max-width: 500px;
+}
+
+.mybtn {
+	border-radius: 50px;
+	border: 1px solid #552796;
+	color: #552796;
+}
+
+.mybtn:hover {
+	background: #552796;
+	color: white;
+}
+
+form .error {
+	color: #ff0000;
+}
+
+
+
+#findId-dialog, #findPw-dialog  {
+	display: none;
+	position: fixed;
+	left: calc(50% - 160px);
+	top: calc(50% - 70px);
+	width: 320px;
+	height: auto;
+	background: #fff;
+	border-radius:20px;
+	border: 1px #552796 solid;
+	padding: 20px;
+	z-index: 11;
+	padding: 10px;
+}
+
+#findId-dialog-content,  #findPw-dialog-content{
+	padding:15px;
+}
+
+
+
+.switch {
+  position: relative;
+  height: 40px;
+  width: 100%;
+  margin: 20px auto;
+  background: #DDCFE2;
+  border-radius: 6px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.switch-label {
+  position: relative;
+  z-index: 2;
+  float: left;
+  width: 50%;
+  line-height: 26px;
+  font-size: 18px;
+  color: #AE8CBA;
+  text-align: center;
+  padding-top : 7px;
+
+}
+.switch-label:active {
+  font-weight: bold;
+  transition: .4s;
+}
+
+.switch-label-off {
+  padding-left: 2px;
+}
+
+.switch-label-on {
+  padding-right: 2px;
+}
+
+
+.switch-input {
+  display: none;
+}
+.switch-input:checked + .switch-label {
+  font-weight: bold;
+  color: white;
+  
+}
+.switch-input:checked + .switch-label-on ~ .switch-selection {
+  left: 50%;
+  /* Note: left: 50%; doesn't transition in WebKit */
+}
+
+/* 바 길이, 사이즈, 위치*/
+.switch-selection {
+  position: absolute;
+  z-index: 1;
+  top: 2px;
+  left: 3px;
+  display: block;
+  width: 49%;
+  height: 36px;
+  border-radius: 5px;
+
+}
+
+.switch-custom .switch-selection {
+  background-color: #7F4A92;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout/messageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
+
+<title>내 쪽지함</title>
+</head>
+<body>
+
+<div class="messageContainer mx-5" layout:fragment="messageContent">
+
+	<div id="sentMessage">
+		보낸쪽지함
+		<div class="row shadow-sm text-center py-2">
+			<div class="col">받은 사람</div>
+			<div class="col">쪽지 제목</div>
+			<div class="col">쪽지 내용</div>
+			<div class="col">보낸 날짜</div>
+			<div class="col">상태</div>
+
+		</div>
+
+		<div class="row border-bottom text-center py-2"
+			th:each="sent : ${sent}">
+			<div class="col">
+				<span th:text="${sent.recipientNickName}"></span> (<span
+					th:text="${sent.recipient}"></span>)
+			</div>
+			<div class="col" th:text="${sent.messageTitle}"></div>
+			<div class="col" th:text="${sent.messageContent}"></div>
+			<div class="col" th:text="${sent.sendDate}"></div>
+			<div class="col">
+				<span th:text="${sent.readStatus}"></span> <span
+					th:text="${sent.readDate}"></span>
+			</div>
+		</div>
+	</div>
+
+	<th:block layout:fragment="css">
+			<link rel="stylesheet" type="text/css"  th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
+			<link rel="stylesheet" type="text/css"  th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}" />
+			<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic">
+			<link rel="stylesheet" type="text/css" th:href="@{/static/styles/member/message.css}">
+	</th:block>
+
+</div>
+
+
+</body>
+</html>
