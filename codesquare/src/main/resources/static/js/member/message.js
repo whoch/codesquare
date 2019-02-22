@@ -12,7 +12,6 @@ $(function() {
 		});
 	});
 
-
 	if (location.pathname.indexOf('receivedMessage') != -1) {
 		// receivedMessage 가 들어갈
 		} else {
@@ -172,7 +171,7 @@ $(function() {
 	$("input[name='recipient']").blur(function() {
 
 		var userId = $("input[name='recipient']").val();
-		
+		console.log(userId);
 		$.ajax({
 			type : "post",
 			data : userId,
@@ -191,11 +190,11 @@ $(function() {
 				}
 			},
 			error : function(error) {
+				
 				$("#idCheckMsg").css("color", "black");
 				$("#idCheckMsg").html("<i class='fas fa-info-circle'></i> 유효하지 않은 형식의 아이디입니다.");
 			}
 		});
-
 
 	});
 	
@@ -282,14 +281,12 @@ $(function() {
 						history.go(-1);
 					});
 					
-
 				}
 
 			},
 			error : function(data) {
 			}
 		});
-
 		} else {
 			$("#done-dialog").toggle();
 			$("#done-dialog-content").css("color", "#A7070B");
@@ -301,7 +298,8 @@ $(function() {
 	});
 
 	$("input[name='searhBtn']").click(function(){
-		$("#recdivedMessageForm").attr('action', 'receivedMessage');
+		var keyword = $("input[name='keyword'").val();
+		location.href = '/message/receivedMessage/';
 	});
 	
 	// 삭제 모달창
@@ -353,5 +351,6 @@ $(function() {
 	});
 
 	
+
 }); // end function
 

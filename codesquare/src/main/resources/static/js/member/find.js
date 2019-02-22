@@ -141,7 +141,7 @@ $(function() {
 			success : function(response) {
 				if (response > 0) {
 					$("#findPw-dialog").toggle();
-					$("#findPw-dialog-content").html("가입 시 입력했던 이메일로 <br />초기화된 비밀번호가 전송되었습니다. <br /> <a href='/member/login'>로그인</a><br />");
+					$("#findPw-dialog-content").html("가입 시 입력했던 이메일로 <br />초기화된 비밀번호가 전송되었습니다. <br /> <br /><a href='/member/login'>로그인</a><br />");
 					$("#findPw-close").click(function(){
 						$("#findPw-dialog").toggle();
 					});
