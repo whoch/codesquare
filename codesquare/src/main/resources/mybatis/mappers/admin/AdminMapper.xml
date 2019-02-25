@@ -19,7 +19,8 @@
 		VALUES(#{userId},#{content})
 		<selectKey resultType="hashmap" keyProperty="id,writeDate"
 			order="AFTER">
-			SELECT Id AS 'id', WriteDate AS 'writeDate' FROM ToDoList ORDER BY Id DESC
+			SELECT Id AS 'id', WriteDate AS 'writeDate' FROM ToDoList ORDER
+			BY Id DESC
 			LIMIT 1
 		</selectKey>
 	</insert>
@@ -107,7 +108,7 @@
          LIMIT #{pageStart}, #{perPageNum}
    ]]>
 	</select>
-	
+
 	<!-- ID순서 정렬 -->
 	<select id="getSortIdMemberInfo" resultType="Member">
    <![CDATA[
@@ -120,7 +121,7 @@
          LIMIT #{pageStart}, #{perPageNum}
    ]]>
 	</select>
-	
+
 	<!-- point순서정렬 -->
 	<select id="getSortPointMemberInfo" resultType="Member">
    <![CDATA[
@@ -133,7 +134,7 @@
          LIMIT #{pageStart}, #{perPageNum}
    ]]>
 	</select>
-	
+
 	<!-- ban순서정렬 -->
 	<select id="getSortBanMemberInfo" resultType="Member">
    <![CDATA[
@@ -147,31 +148,44 @@
    ]]>
 	</select>
 
+	<!-- countPaging -->
 	<select id="countPaging" parameterType="map" resultType="int">
  	  <![CDATA[
          SELECT COUNT(@rownum)
          FROM (SELECT @rownum:=@rownum+1 AS'rowNum', u.* FROM ${tName} AS u, (SELECT @rownum:=0) r)AS b
          WHERE @rownum >0 
       ]]>
-      <if test="content !=null">AND UserId like CONCAT('%',#{content},'%') OR NickName like  CONCAT('%',#{content},'%')</if>
+		<if test="content !=null">AND UserId like CONCAT('%',#{content},'%') OR NickName
+			like CONCAT('%',#{content},'%')</if>
+		<if test="tag !=null">AND LangKind = #{tag}</if>
+		<if test="keyword !=null">
+			AND Title=#{keyword} OR NickName=#{keyword} OR Tag=#{keyword}
+		</if>
 	</select>
-	
-	<!-- 회원 아이디 닉네임 검색 쿼리 -->	
-	<select id="getSearchMember" parameterType="String" resultType="Member">
-		SELECT u.UserId, u.AuthorId, u.RestrictId, u.NickName, u.SignUpDate, u.BanCount, u.`POINT`, rs.Content 'restrictName', ai.Content 'authorName'
-		 FROM UserInfo u INNER JOIN RestrictStatusInfo rs ON u.RestrictId=rs.Id
-		 				 INNER JOIN AuthorInfo ai ON ai.Id=u.AuthorId
-		 WHERE UserId like CONCAT('%',#{content},'%') OR NickName like CONCAT('%',#{content},'%')
+
+	<!-- 회원 아이디 닉네임 검색 쿼리 -->
+	<select id="getSearchMember" parameterType="String"
+		resultType="Member">
+		SELECT u.UserId, u.AuthorId, u.RestrictId, u.NickName,
+		u.SignUpDate, u.BanCount, u.`POINT`, rs.Content 'restrictName',
+		ai.Content 'authorName'
+		FROM UserInfo u INNER JOIN RestrictStatusInfo rs ON u.RestrictId=rs.Id
+		INNER JOIN AuthorInfo ai ON ai.Id=u.AuthorId
+		WHERE UserId like CONCAT('%',#{content},'%') OR NickName like
+		CONCAT('%',#{content},'%')
 	</select>
-	
+
 	<!-- 회원정보 상세보기 쿼리 -->
-	<select id="getSelectMemberInfo" parameterType="String" resultType="Member">
-		SELECT u.UserId,u.`Name`,u.Email, u.AuthorId, u.RestrictId, u.NickName, u.SignUpDate, u.DateOfBirth ,u.BanCount, u.`POINT`, rs.Content 'restrictName', ai.Content 'authorName'
-		 FROM UserInfo u INNER JOIN RestrictStatusInfo rs ON u.RestrictId=rs.Id
-		 				 INNER JOIN AuthorInfo ai ON ai.Id=u.AuthorId
-		 WHERE UserId=#{userId}
-		
-	</select>	
+	<select id="getSelectMemberInfo" parameterType="String"
+		resultType="Member">
+		SELECT u.UserId,u.`Name`,u.Email, u.AuthorId, u.RestrictId,
+		u.NickName, u.SignUpDate, u.DateOfBirth ,u.BanCount, u.`POINT`,
+		rs.Content 'restrictName', ai.Content 'authorName'
+		FROM UserInfo u INNER JOIN RestrictStatusInfo rs ON u.RestrictId=rs.Id
+		INNER JOIN AuthorInfo ai ON ai.Id=u.AuthorId
+		WHERE UserId=#{userId}
+
+	</select>
 	<!-- 회원 정보 삭제 쿼리 -->
 	<delete id="deleteUserInfo" parameterType="String">
 		DELETE FROM UserInfo
@@ -180,22 +194,25 @@
 
 	<!-- 등급&권한정보 조회 쿼리 -->
 	<select id="getAllAuthorInfo" resultType="map">
-		SELECT Id AS 'id', Content AS 'content'
+		SELECT Id AS 'id',
+		Content AS 'content'
 		FROM AuthorInfo
 	</select>
-	
+
 	<!-- 제한정보 조회 쿼리 -->
 	<select id="getAllRestrictInfo" resultType="map">
-		SELECT Id AS 'id', Content AS 'content'
+		SELECT Id AS 'id',
+		Content AS 'content'
 		FROM RestrictStatusInfo
 	</select>
-	
+
 	<!-- 등급&제한정보 조회 쿼리 -->
-	<select id="getAllSelectboxInfo" parameterType="string" resultType="SelectBasket">
+	<select id="getAllSelectboxInfo" parameterType="string"
+		resultType="SelectBasket">
 		SELECT Id AS 'id', Content AS 'content'
-		<if test="value!=null">FROM ${value}</if>		
+		<if test="value!=null">FROM ${value}</if>
 	</select>
-	
+
 	<update id="updateUserInfo" parameterType="Member">
 		UPDATE UserInfo
 		<set>
@@ -205,29 +222,125 @@
 		</set>
 		WHERE UserId=#{userId}
 	</update>
-	
+
 	<!-- 유저들 등급 조정 쿼리 -->
-	<update id="updateUsersAuthor" parameterType="java.util.ArrayList">
-		<foreach item="item" collection="list" separator=";" index="index">
+	<update id="updateUsersAuthor"
+		parameterType="java.util.ArrayList">
+		<foreach item="item" collection="list" separator=";"
+			index="index">
 			UPDATE UserInfo
 			SET AuthorId=#{item.id}
-			WHERE UserId=#{item.strId}
+			WHERE
+			UserId=#{item.strId}
 		</foreach>
 	</update>
 	<!-- 유저들 제한 조절 쿼리 -->
-	<update id="updateUsersRestrict" parameterType="java.util.ArrayList">
-		<foreach item="item" collection="list" separator=";" index="index">
+	<update id="updateUsersRestrict"
+		parameterType="java.util.ArrayList">
+		<foreach item="item" collection="list" separator=";"
+			index="index">
 			UPDATE UserInfo
 			SET RestrictId=#{item.id}
-			WHERE UserId=#{item.strId}
+			WHERE
+			UserId=#{item.strId}
+		</foreach>
+	</update>
+	<select id="getAllLectureList" resultType="LectureIntroContent">
+   <![CDATA[
+        SELECT *
+		FROM
+		v_LectureIntroContent
+   ]]>
+   <![CDATA[   
+         ORDER BY Title
+         LIMIT #{pageStart}, #{perPageNum}
+   ]]>
+	</select>
+	<!-- 태그별 강의 검색 쿼리 -->
+	<select id="getSortbyTagLectureIntro" parameterType="map"
+		resultType="LectureIntroContent">
+   <![CDATA[
+        SELECT *
+		FROM v_LectureIntroContent
+   ]]>
+		<where>
+			<if test="tag !='All' and tag !=null">LangKind=(SELECT LangKind FROM LanguageKindInfo WHERE
+				LangKindEn=#{tag})</if>
+			<if test="tag =='All'">AND LangKind IN(SELECT DISTINCT LangKind FROM LectureTag)
+			</if>
+		</where>
+		<![CDATA[   
+         ORDER BY Title
+         LIMIT #{cri.pageStart}, #{cri.perPageNum}
+  	 ]]>
+	</select>
+
+	<!-- 강의 태그 조회 쿼리 -->
+	<select id="getAllLectureTag" resultType="map">
+		SELECT LangKind,
+		LangKindEn FROM LanguageKindInfo
+	</select>
+
+	<!-- 강의 검색 쿼리(강사명,제목,태그 검색) -->
+	<select id="getSearchLectureIntroConent" parameterType="map"
+		resultType="LectureIntroContent">
+		<![CDATA[
+	        SELECT *
+			FROM v_LectureIntroContent
+	   ]]>
+		<where>
+			<if test="keyword !=null">
+				Title LIKE CONCAT('%',#{keyword},'%') OR NickName LIKE CONCAT('%',#{keyword},'%') OR Tag LIKE CONCAT('%',#{keyword},'%')
+			</if>
+		</where>
+	   <![CDATA[   
+	         ORDER BY Title
+	         LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	   ]]>
+
+	</select>
+	<!-- 선택된 강의들 삭제 쿼리 -->
+	<delete id="deleteLectureList" parameterType="java.util.ArrayList">
+		<foreach item="item" collection="list" separator=";" index="index">
+			DELETE FROM Board
+			WHERE Id=${item.boardId}
+		</foreach>
+	</delete>
+	
+	<!-- 선택된 강의들 보류상태 변경 쿼리 -->
+	<update id="updateLecturePendingStatus" parameterType="java.util.ArrayList">
+		<foreach collection="list" item="item" separator=";" index="index">
+			UPDATE LectureDetailInfo
+			SET LectureStatus=${item.status}
+			WHERE Id=${item.boardId}
 		</foreach>
 	</update>
 	
-	<insert id="insertFileInfo" parameterType="codesquareFile">
-		INSERT INTO
-		FileInfo(BoardId,Extension,OriginalName,ChangedName,Size, IsImage)
-		VALUES(#{boardId},#{extension},#{originalName},#{changedName},#{size},(SELECT
-		IF(#{extension} IN ('JPG','jpeg','jpg','png','JPEG','PNG'), 1,0)))
+	<select id="getAllBlackKeyword" resultType="map">
+		SELECT Id 'id', Content 'content'
+		FROM BlackKeyword
+	</select>
+	<insert id="insertBlackKeyword" parameterType="java.util.ArrayList">
+		<foreach collection="list" item="item" separator=";" index="index">
+		INSERT INTO BlackKeyword(Content)
+		(SELECT #{item}
+				FROM DUAL
+				WHERE NOT EXISTS (
+								SELECT *
+								FROM BlackKeyword
+								WHERE Content=#{item}))
+		</foreach>
 	</insert>
+	
+	<delete id="deleteBlackKeyword" parameterType="java.util.ArrayList">
+		<foreach collection="list" item="item" separator=";">
+			DELETE FROM BlackKeyword
+			WHERE Id=${item.id}
+		</foreach>
+	</delete>
 
+	<select id="getAllBoard" resultType="Board">
+		SELECT 
+	</select>
+	
 </mapper>

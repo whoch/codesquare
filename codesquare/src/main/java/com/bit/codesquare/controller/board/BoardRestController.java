@@ -36,4 +36,23 @@ public class BoardRestController {
 		}
 		return board;
 	}
+	@GetMapping("/filter/data")
+	@ResponseBody
+	public List<String> checkFilterContent(@RequestParam String content){
+		List<String> list=new ArrayList<>();
+		List<String> basketList=new ArrayList<>();
+		try {
+			list=boardMapper.getAllBlackKeyword();
+			for(String str:list) {
+				if(content.contains(str)) {
+					basketList.add(str);
+				}
+			}
+			logger.info(basketList.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return basketList;
+	}
 }

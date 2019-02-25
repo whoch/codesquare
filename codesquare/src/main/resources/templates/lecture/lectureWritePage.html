@@ -22,10 +22,10 @@
 					
 					<input type="text" name="title" placeholder="제목을 입력해 주세요"	style="background: #F2F2F2; border: 2px solid gray; margin: 5px 0 5px 0"value="" >
 				</div>
-				<div class="col-sm-12 lecture-thumbnail" ondrop="drop(event)" ondragover="allowDrop(event)">
-				<div id="player" class="col-sm-12 " style="display:none" data-videoId="none" th:attr="data-modify-videoId=''"></div>
-					<i class=" fas fa-image  fa-lg" style="font-size: 100px;"></i> <span>
-						<h5>강의 썸네일을 등록해 주세요.</h5>
+				<div class="col-sm-12 lecture-video" ondragover="allowDrop(event)">
+				<div id="player" class="col-sm-12 " style="display:none" data-videoId="none" ></div>
+					<i class="fab fa-youtube  fa-lg" style="font-size:100px;"></i><span>
+						<h5>강의 주소를 입력해 주세요.</h5>
 						<br> <span>
 						<input type="url" id="url"  placeholder="https://example.com"  pattern="https://.*" size="30"  required>
 						<button type="button" id="btn-video-regist" class="btn btn-secondary btn-block">등록</button>

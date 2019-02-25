@@ -9,6 +9,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="CodeSquare Project">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 	<link rel="stylesheet" type="text/css" href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
 	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css" th:href="@{/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css}">
  	 <link rel="stylesheet" type="text/css"	href="/webjars/font-awesome/5.7.1/css/all.css"	th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}"/>
@@ -16,9 +19,27 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/f`ont-awesome/latest/css/font-awesome.min.css"> -->
   <!-- Material Kit CSS -->
  	 <link th:href="@{/static/assets/css/material-dashboard.css?v=2.1.1}" rel="stylesheet" />
+ 	 <link rel="stylesheet" type="text/css" href="@{/static/styles/admin/adminLectureCustom.css}" th:href="@{/static/styles/admin/adminLectureCustom.css}">
  	 <th:block layout:fragment="adminCss"></th:block>
+
 </head>
 <body>
+ <div sec:authorize="isAnonymous()">
+ 	<script>
+		alert("비 로그인 상태입니다.");
+		location.href="/";
+	</script>
+ </div>
+ <div sec:authorize="isAuthenticated()">
+ 	<input sec:authorize="hasAnyRole('ROLE_3')" type="hidden" id="admin" class="auth">
+ 	<div sec:authorize="hasAnyRole('ROLE_1','ROLE_2')">
+ 		<script>
+ 			alert("관리자권한이 없습니다.");
+ 			location.href="/";
+ 		</script>
+ 	</div>
+ </div>
+
 <!-- 페이지의 헤더부분 -->
 <header th:replace="fragments/adminSide :: sideFragment"></header>
 
@@ -31,10 +52,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
 <script th:src="@{/webjars/popper.js/1.14.6/umd/popper.min.js}"></script>
+<!-- <script th:src="@{/static/assets/js/core/popper.min.js}" type="text/javascript"></script> -->
 <script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.js}"></script>
 <script th:src="@{/webjars/bootstrap-select/1.13.3/js/bootstrap-select.js}"></script>
 <script th:src="@{/webjars/jquery-serialize-object/2.1.0/jquery.serialize-object.js}"></script>
 <script th:src="@{/static/js/admin/adminSideCustom.js}"></script>
+<script type="text/javascript" th:src="@{/static/js/admin/utilCustom.js}"></script>
+<script th:src="@{/static//assets/js/core/bootstrap-material-design.min.js}" type="text/javascript"></script>
+<script th:src="@{/static//assets/js/plugins/perfect-scrollbar.jquery.min.js}" type="text/javascript"></script>
+<!-- <script th:src="@{/static/assets/js/material-dashboard.js?v=2.1.1}" type="text/javascript"></script> -->
 <th:block layout:fragment="script"></th:block>
+
 </body>
 </html>

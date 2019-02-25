@@ -215,3 +215,24 @@ $(document).ready(function()
 
 
 });
+//비동기적 단어 필터링 메서드
+function checkKeywordFilter(content){
+	var arr=new Array();
+	$.ajax({
+		url : '/Board/filter/data',
+		type: 'GET',
+		contentType : "application/json; charset=utf-8",
+		async:false,
+		data : {"content":content}
+	}).done(function(data) {
+		$.each(data,function(index,item){
+			arr[index]=item;
+		})
+		
+	}).fail(function(data) {
+		alert("Keyword Load Failed");
+	})
+	return arr;
+}
+
+

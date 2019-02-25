@@ -6,7 +6,11 @@
 	<select id="getAllLecture" resultType="LectureIntroContent">
 		SELECT *
 		FROM
-		v_LectureIntroContent;
+		v_LectureIntroContent
+		<where>
+			<if test="status!=null"> LectureStatus=#{status}</if>
+		</where>
+		
 	</select>
 	
 	<!-- 강의소개페이지 조회 쿼리 -->
@@ -165,7 +169,7 @@
 	
 	<!-- 강의 언어 종류 태그 조회 쿼리 -->
 	<select id="getAllLectureTag" resultType="String">
-		SELECT DISTINCT LangKind FROM LectureTag
+		SELECT LangKind FROM LanguageKindInfo
 	</select>
 	
 	
@@ -181,6 +185,8 @@
 		</where>
 		
 	</select>
+	
+
 	
 	
 </mapper>
