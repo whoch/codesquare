@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>내 쪽지함</title>
+<meta charset="utf-8"> 
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="CodeSquare Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
+<link rel="stylesheet" type="text/css" href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}" th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" href="/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css" th:href="@{/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css}">
+<link rel="stylesheet" type="text/css"	href="/webjars/font-awesome/5.7.1/css/all.css"	th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}"/>
+<link rel="stylesheet" type="text/css" href="/static/styles/responsive.css" th:href="@{/static/styles/responsive.css}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic">
+<link rel="stylesheet" type="text/css" th:href="@{/static/styles/member/message.css}">
+
+</head>
+<body>
+<!-- 페이지의 헤더부분 -->
+<div th:replace="fragments/messageHeader :: messageHeader"></div>
+
+
+<!-- 페이지의 content -->
+<div layout:fragment="messageContent" ></div>
+
+<!-- 페이지의 푸터부분 -->
+<div  th:replace="fragments/messageFooter :: messageFooter"></div> 
+
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+<script th:src="@{/webjars/popper.js/1.14.6/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.js}"></script>
+<script th:src="@{/webjars/bootstrap-select/1.13.3/js/bootstrap-select.js}"></script>
+<script th:src="@{/static/js/member/message.js}"></script>
+
+
+
+</body>
+</html>

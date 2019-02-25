@@ -1,6 +1,5 @@
 package com.bit.codesquare.controller.member;
 
-import java.io.File;
 import java.security.Principal;
 import java.util.Map;
 
@@ -26,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bit.codesquare.dto.member.InstructorInfo;
 import com.bit.codesquare.dto.member.Member;
 import com.bit.codesquare.mapper.member.MemberMapper;
+import com.bit.codesquare.mapper.member.MessageInfoMapper;
 import com.bit.codesquare.service.MemberService;
 import com.bit.codesquare.util.CodesquareUtil;
 
@@ -42,6 +42,9 @@ public class MemberController {
 
 	@Autowired
 	MemberService ms;
+	
+	@Autowired
+	MessageInfoMapper mim;
 
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request) {
@@ -71,17 +74,11 @@ public class MemberController {
 	@PostMapping("idCheck")
 	@ResponseBody
 	public int idCheck(@RequestBody String userId) {
+		logger.info("called");
+		logger.info(userId);
 		int count = 0;
 		count = mm.idCheck(userId);
 		return count;
-	}
-
-	@GetMapping("/changeNick")
-	public String changeNick(Model model, Principal principal) {
-		String userId = principal.getName();
-		model.addAttribute("user", mm.getUser(userId));
-		// logger.info(userId);
-		return "member/myPage/changeNick";
 	}
 
 	@PostMapping("/nickChange")
@@ -102,7 +99,6 @@ public class MemberController {
 			Member member = mm.getUser(userId);
 			member.setNickName(nickName);
 			// us.changeNick(user);
-			logger.info(member.toString());
 			mm.changeNick(member);
 			session.setAttribute("nickName", member.getNickName());
 		}
@@ -160,26 +156,25 @@ public class MemberController {
 		int count = 0;
 		count = mm.findPw(userId, email);
 
+		if(count > 0) {
+			ms.mailSending(userId);
+		}
 		return count;
 	}
 
-	@PostMapping("/findPwMail")
-	@ResponseBody
-	public void mailSending(@RequestBody String userId) {
-		ms.mailSending(userId);
-
-	}
 
 	@GetMapping("/myPage")
 	public String myPage(Model model, Authentication auth, HttpSession session) {
 		csu.getSession(auth, session);
 		String userId = auth.getName();
+
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("rlist", mm.getReservedList(userId));
 		model.addAttribute("alist", mm.getAppliedList(userId));
 		model.addAttribute("wlist", ms.getWantedList(userId));
 		model.addAttribute("blist", mm.getMyBoardList(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
+		model.addAttribute("checkInstructor", mm.checkInstructor(userId));
 		model.addAttribute("instructorInfo", mm.getInstructorInfo(userId));
 
 		return "member/myPage/myPage";
@@ -200,13 +195,13 @@ public class MemberController {
 
 	@PostMapping("/toInstructor")
 	@ResponseBody
-	public String toInstructor(@ModelAttribute InstructorInfo instructorInfo, @RequestBody Map<String, String> data) {
+	public int toInstructor(@ModelAttribute InstructorInfo instructorInfo, @RequestBody Map<String, String> data) {
 
 		instructorInfo.setUserId(data.get("userId"));
 		instructorInfo.setIntroContent(data.get("introContent"));
 		mm.toInstructor(instructorInfo);
 
-		return "redirect:myPage";
+		return mm.checkInstructor(data.get("userId"));
 	}
 
 	@PostMapping("/modifyInstructorInfo")
@@ -222,44 +217,59 @@ public class MemberController {
 		instructorInfo.setHistory(history);
 		mm.modifyInstructorInfo(instructorInfo);
 
-		return "redirect:myPage" + "#modifyInstructorInfoForm";
+		return "redirect:myPage#modifyInstructorInfoForm";
 	}
 
-	@GetMapping("/upload")
-	public String upload( Authentication auth, HttpSession session) {
-		csu.getSession(auth, session);
-		return "member/myPage/upload";
+	@PostMapping("/uploadProfile")
+	@ResponseBody
+	public String uploadProfile(@RequestBody MultipartFile[] uploadForm, Authentication auth, HttpSession session) {
+
+		csu.uploadProfile(uploadForm, auth);
+		String userId = auth.getName();
+		Member member = mm.getUser(userId);
+		session.setAttribute("profileImagePath", member.getProfileImagePath());
+		return "redirect:myPage";
+
 	}
+
 	
-	
-	
-    @PostMapping("/uploadProfile")
-    @ResponseBody
-    public String uploadForm(@RequestBody MultipartFile[] uploadForm, Authentication auth) {
+	@PostMapping("cancelApply")
+	@ResponseBody
+	public int cancelApply(@RequestBody Map<String, String> data) {
+		
+		String applyUserId= data.get("applyUserId");
+		int boardId =  Integer.parseInt(data.get("boardId"));
+		
+		int count = 0 ;
+		count = mm.cancelApply(applyUserId, boardId);
+		logger.info(mm.cancelApply(applyUserId, boardId)+"durl");
+		return count;
+	}
 
-    	String userId = auth.getName();
-    	String uploadFolder = "/Users/jiyeon/git/codesquare/codesquare/src/main/resources/static/codesquareDB/UserThumbnail/"+userId;
-    	//db에 저장할 상대경로
-    	//String uploadRelativeDirectory = "/static/codesquareDB/UserThumbnail/"+userId;
-    	
-    	File uploadPath= new File(uploadFolder); //안에 여러개 쓰면 합쳐짐
-    	
-    	if (!uploadPath.exists()) {
-    		uploadPath.mkdirs(); //존재하지 않으면 경로를 만든다
-        }
-    	
-    	String uploadFileName = userId+"_Thumbnail.jpg"; //+multipartFile.getOriginalFilename()하면 업로드한 파일네임으로 들어감
+	@PostMapping("acceptMo")
+	@ResponseBody
+	public int acceptMo(@RequestBody Map<String, String> data) {
+		logger.info("acceptMo called");
+		String applyUserId= data.get("applyUserId");
+		int boardId =  Integer.parseInt(data.get("boardId"));
+		
+		int count = 0 ;
+		count = mm.acceptMo(applyUserId, boardId);
+		
+		logger.info(applyUserId+","+boardId+"여기");
+		return count;
+	}
 
-        try {
-        	File saveFile = new File(uploadPath, uploadFileName);
-        	uploadForm[0].transferTo(saveFile); //실제저장되는단계. savefile:경로랑 파일명 합친거
-        } catch (Exception e) {
-        	e.getMessage();
-        }
-
-        return "redirect:upload";
-    }
-
-  
+	@PostMapping("declineMo")
+	@ResponseBody
+	public int declineMo(@RequestBody Map<String, String> data) {
+		String applyUserId= data.get("applyUserId");
+		int boardId =  Integer.parseInt(data.get("boardId"));
+		String declineContent = data.get("declineContent");
+		logger.info(mm.declineMo(applyUserId, boardId, declineContent)+"durl");
+		int count = 0 ;
+		count=mm.declineMo(applyUserId, boardId, declineContent);
+		return count;
+	}
 
 }

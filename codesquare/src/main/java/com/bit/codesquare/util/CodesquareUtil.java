@@ -1,5 +1,6 @@
 package com.bit.codesquare.util;
 
+import java.io.File;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -20,12 +21,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bit.codesquare.dto.member.Member;
-import com.bit.codesquare.dto.planner.UserBookmarkList;
 import com.bit.codesquare.mapper.member.MemberMapper;
 import com.bit.codesquare.security.SecurityMember;
 
-import ch.qos.logback.classic.Logger;
-import lombok.Getter;
 
 @Component
 public class CodesquareUtil {
@@ -96,8 +94,35 @@ public class CodesquareUtil {
 	
 	
 
-	private String extraField;
-	private MultipartFile[] files;
+	
+    public void uploadProfile(MultipartFile[] uploadForm, Authentication auth) {
+
+    	String userId = auth.getName();
+    	String uploadFolder = "/Users/jiyeon/git/codesquare/codesquare/src/main/resources/static/codesquareDB/UserThumbnail/"+userId;
+    	//db에 저장할 상대경로
+    	//String uploadRelativeDirectory = "/static/codesquareDB/UserThumbnail/"+userId;
+    	
+    	File uploadPath= new File(uploadFolder); //안에 여러개 쓰면 합쳐짐
+    	
+    	if (!uploadPath.exists()) {
+    		uploadPath.mkdirs(); //존재하지 않으면 경로를 만든다
+        }
+    	
+    	String uploadFileName = userId+"_Thumbnail.jpg"; //+multipartFile.getOriginalFilename()하면 업로드한 파일네임으로 들어감
+
+        try {
+        	File saveFile = new File(uploadPath, uploadFileName);
+        	uploadForm[0].transferTo(saveFile); //실제저장되는단계. savefile:경로랑 파일명 합친거
+
+        	mm.updateProfile(userId, uploadFileName);
+
+        } catch (Exception e) {
+        	e.getMessage();
+        }
+
+    }
+    
+
 
 	
 	

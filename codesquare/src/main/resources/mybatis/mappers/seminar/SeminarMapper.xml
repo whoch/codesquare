@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit.codesquare.mapper.seminar.SeminarMapper">
+
+<select id="seminarList" resultType="Board">
+	SELECT * FROM codesquare.Board where BoardKindid='Smnmo' order by id
+</select>
+
+<select id="getid" resultType="Board">
+	SELECT * FROM codesquare.Board where id=#{id}
+</select>
+
+<select id="insert" resultType="Board" parameterType="Board">
+	INSERT INTO codesquare.Board (boardkindid, userId, nickname, title, content, Hit) VALUES 
+	('SmnMo', 'test112', #{nickName}, #{title}, #{content}, 0)
+</select>
+</mapper>

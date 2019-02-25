@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.typeleaf.org"
+xmlns:sd="http://www.thymeleaf.org/spring-data"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorator="layout/mainLayout">
+<meta charset="utf-8">
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding" rel="stylesheet">
+<style>
+	#button1 {
+	transition: background-color .2s;
+    display: inline-block;
+    position: relative;
+    height: 50px;
+    background-color: #222;
+    box-sizing: border-box;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
+    width: 165px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+}
+</style>
+<title>자유게시판</title>
+</head>
+<body>
+<div class="container" layout:fragment="content"><br>
+		<div class="lecture_header_item d-flex justify-content-between"
+			style="border-bottom: 5px solid black;">
+	<h1 align="center"><a href=getfree style="color: black;">자유게시판</a></h1>
+</div>
+
+	<div class="container">
+		<table class="table table-hover">
+			<tr th:each="Board:${list}">
+	             <td><a th:href="@{'/noticeView?id=' + ${Board.id}}"><span th:text="${Board.title}" style="color: black; font-weight: bold;"></span></a></td>
+	             <td th:text="${Board.nickName}" ></td>
+	             <td><img th:src="@{/static/images/eye.jpg}"></td>
+	             <td th:text="${Board.hit}" ></td>
+	             <td th:text="${Board.writeDate}" ></td>
+	        </tr>
+		</table>
+		<div align="right">
+		<a href="freeWrite" type="button" style="margin-top: 10px" id="button1">글쓰기</a>
+		</div>
+	</div>
+</div>
+</body>
+</html>

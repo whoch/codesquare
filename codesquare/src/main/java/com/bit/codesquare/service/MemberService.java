@@ -1,6 +1,8 @@
 package com.bit.codesquare.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -11,19 +13,23 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
 import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.member.Member;
+import com.bit.codesquare.dto.member.MessageInfo;
 import com.bit.codesquare.mapper.member.MemberMapper;
+import com.bit.codesquare.mapper.member.MessageInfoMapper;
 
 @Service
 public class MemberService {
 
 	@Autowired
-	private MemberMapper mm;
+	MemberMapper mm;
 
 	@Autowired
 	JavaMailSender mailsender;
+
+	@Autowired
+	MessageInfoMapper mim;
 
 	public List<Board> getWantedList(String userId) {
 
@@ -55,12 +61,12 @@ public class MemberService {
 
 		member.setPassword(new BCryptPasswordEncoder().encode(buf));
 		mm.changePw(member);
-		
+
 		String setfrom = "info@codesquare.com";
 		String tomail = member.getEmail();
-		String title = "[NO-REPLY]CodeSquare"+userId+"님의 초기화 된 비밀번호";
+		String title = "[NO-REPLY]CodeSquare" + userId + "님의 초기화 된 비밀번호";
 		String content = userId + "님의 초기화된 비밀 번호는 " + buf + " 입니다. ";
-		
+
 		try {
 			MimeMessage message = mailsender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
@@ -76,5 +82,6 @@ public class MemberService {
 			System.out.println(e);
 		}
 	}
+
 
 }

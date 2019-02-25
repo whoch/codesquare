@@ -31,7 +31,7 @@
             <li class="nav-item">
                <a class="nav-link" href="#">세미나</a>
                <ul class="csnav-dropdown">
-                  <li><a class="nav-link" href="#">세미나모집</a>
+                  <li><a class="nav-link" href="/seminarList">세미나모집</a>
                   <li><a class="nav-link" href="#">세미나후기</a>
                   <li><a class="nav-link" href="/companyList">세미나룸</a>
                </ul>
@@ -39,7 +39,7 @@
             <li class="nav-item">
                <a class="nav-link" href="#">커뮤니티</a>
           <ul class="csnav-dropdown">
-                  <li><a class="nav-link" href="#">자유게시판</a>
+                  <li><a class="nav-link" href="/getfree">자유게시판</a>
                   <li><a class="nav-link" href="#">질문있어요</a>
             <li><a class="nav-link" href="#">IT Forum</a>
                </ul>
@@ -72,9 +72,14 @@
 			<input type="hidden" id="userId" th:value="@{${session.userId}}">
 				<ul>
 					
+<<<<<<< HEAD
 					<li> <img th:src="@{'/static/codesquareDB/UserThumbnail/'+${session.userId}+'/'+${session.userId}+'_Thumbnail.jpg'}"
 									id="profileImg" style="width: 20px; height: 20px" /> <span id="headerNickName" th:text="${session.nickName}"></span> 님! 안녕하세요.</li>
 					<li sec:authorize="hasAnyRole('ROLE_3')"><a th:href="@{/admin}">관리자 페이지</a></li>
+=======
+					<li> <img th:src="@{${session.profileImagePath}}"
+									class="profileImg" style="width: 20px; height: 20px" /> <span id="headerNickName" th:text="${session.nickName}"></span></li>
+>>>>>>> refs/heads/master
 					<li><a th:href="@{/member/myPage}">마이페이지</a></li>
 					<li><a th:href="@{/logout}">로그아웃</a></li>
 
