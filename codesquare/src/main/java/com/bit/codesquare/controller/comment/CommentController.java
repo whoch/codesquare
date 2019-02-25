@@ -90,12 +90,14 @@ public class CommentController {
 			path+=cUtil.getPath(c.getUserId(),c.getProfileImagePath());
 			c.setProfileImagePath(path);
 		}
+		logger.info(cList.toString()+"hansol qna list");
 		return cList;
 	}
 	
 	@RequestMapping(value="qna/insert" , method=RequestMethod.POST)
 	@ResponseBody
 	private int insertQNAComment(@ModelAttribute Comment comment)throws Exception {
+		logger.info("hansol qna:"+comment.toString());
 		int result = cMapper.insertQNAComment(comment);
 		return result;
 	}
@@ -157,6 +159,7 @@ public class CommentController {
 			String path= userThumbPath;
 			path+=cUtil.getPath(c.getUserId(),c.getProfileImagePath());
 			c.setProfileImagePath(path);
+			logger.info("완성된 썸네일"+c.getProfileImagePath());
 		}
 		return cList;
 	}

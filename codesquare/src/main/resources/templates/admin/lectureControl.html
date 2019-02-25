@@ -13,14 +13,14 @@
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
 	name="viewport" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <th:block layout:fragment="adminCss">
 	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css" th:href="@{/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css}">
 	<link rel="stylesheet" type="text/css" href="/webjars/font-awesome/5.7.1/css/all.css" th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}" />
 	<link rel="stylesheet" type="text/css" href="/static/styles/responsive.css" th:href="@{/static/styles/responsive.css}">
-	<link rel="stylesheet" type="text/css" href="@{/static/styles/hansolCustom.css}" th:href="@{/static/styles/hansolCustom.css}">
-	<link rel="stylesheet" type="text/css" href="@{/static/styles/admin/adminLectureCustom.css}" th:href="@{/static/styles/admin/adminLectureCustom.css}">
-	
+	<!-- <link rel="stylesheet" type="text/css" href="@{/static/styles/hansolCustom.css}" th:href="@{/static/styles/hansolCustom.css}"> -->
 </th:block>
 </head>
 
@@ -29,6 +29,73 @@
 		<div class="main-panel">
 			<div class="content">
 				<div class="container-fluid">
+				<!-- Modal-alert -->
+					<div class="modal fade" id="modal-lecture-alert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="modal-alert-title">Warning</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+							<div class="modal-body" >
+								<i class="fas fa-exclamation-triangle fa-x4"></i><label id="modal-alert-area"></label>
+					      </div>
+					      <div class="modal-footer">
+					        <button id="btn-delete-cancel" type="button" class="btn btn-warning" data-dismiss="modal">확인</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>					
+					<!-- End Of Modal-alert -->
+					<!-- Modal-Control-LectureDelete -->
+					<div class="modal fade" id="modal-lecture-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="modal-title">강의 삭제</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+							<div class="modal-body" >
+						      	<ul id="modal-checked-lecturelist" class="list-group" style="border-bottom:2px dashed #dddddd;height: 200px;overflow-y: scroll;">
+								</ul>
+								<i class="material-icons">ondemand_video</i><label id="modal-lecture-title"></label>강의를(을) 삭제하시겠습니까?
+					      </div>
+					      <div class="modal-footer">
+					        <button id="btn-delete-cancel" type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					        <button id="btn-delete-yes" type="button" class="btn btn-primary">삭제</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>					
+					<!-- End Of Modal-Control-LectureDelete -->
+					<!-- Modal-Control-LecturePendig -->
+					<div class="modal fade" id="modal-lecture-pending" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="modal-title">강의 보류 설정</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+							<div class="modal-body" >
+								<i class="material-icons">ondemand_video</i><label id="modal-lecture-title"></label>선택된 강의
+						      	<ul id="modal-checked-pendinglecturelist" class="list-group" style="border-bottom:2px dashed #dddddd;height: 200px;overflow-y: scroll;">
+								</ul>
+					      </div>
+					      <div class="modal-footer">
+					        <button id="btn-pending-cancel" type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					        <button id="btn-pending-clear" type="button" class="btn btn-primary">해제하기</button>
+					        <button id="btn-pending-yes" type="button" class="btn btn-primary">보류하기</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>					
+					<!-- End Of Modal-Control-LecturePendig -->
 					<div class="row">
 						<div class="col-md-12">
 							<div class="card">
@@ -37,13 +104,12 @@
 									<div class="row">
 										<div class="col-lg-3 btn-category">
 											<form class="form-inline ml-auto"
-												action="/admin/member/search" method="get">
+												action="/admin/lecture/search" method="get">
 												<div class="form-group no-border">
 													<input id="input-searchbox" type="text"
 														class="form-control" name="content" placeholder="Search">
 												</div>
-												<button id="btn-search" type="submit"
-													class="btn btn-neutral btn-icon btn-round">
+												<button id="btn-search" type="submit" class="btn btn-neutral btn-icon btn-round">
 													<i class="material-icons">search</i>
 												</button>
 											</form>
@@ -53,22 +119,44 @@
 										</div>
 										<div id="sort-categorybox" class="col-lg-7"	style="text-align: right;">
 											<div class="btn-group btn-group-toggle" data-toggle="buttons">
-												<label class="btn btn-lang-kind btn-secondary btn-sm active" style="margin:auto;">
-												<input type="radio" name="options" id="all" autocomplete="off"  >All</label>
-												<label th:each="tag:${tagList}"	class="btn btn-lang-kind btn-secondary btn-sm" style="margin:auto;">
-												<input type="radio" name="options" th:id="@{${tag}}" th:value="@{${tag}}" th:text="@{${tag}}" autocomplete="off"  /></label>
+												<label id="All" class="btn btn-lang-kind btn-secondary btn-sm" style="margin:auto;">
+												<input type="radio" name="options"  autocomplete="off"  >All</label>
+												<label th:each="tag:${tagList}"	th:id="@{${tag.LangKindEn}}" class="btn btn-lang-kind btn-secondary btn-sm" style="margin:auto;">
+												<input type="radio" name="options" th:value="@{${tag.LangKind}}" th:text="@{${tag.LangKind}}" autocomplete="off"  /></label>
 											</div>
 										</div>
 									</div>
 								</div>
-								</ div>
 								<div class="card-body">
 									<div class="table-responsive">
-										<table id="table-memberinfo" class="table"
+									<div class="row" style="border-bottom: 1px solid #dddddd;">
+											<div class="col-md-6 ">
+											<button id="btn-allcheck" class="btn btn-warning btn-round btn-sm" data-status="off">
+											  <i class="far fa-check-square"></i> All Check
+											</button>
+											<span class="switch">
+												<input type="checkbox" class="switch" id="switch-sm"  value="">
+												<label for="switch-sm" >보류상태 강의 보기</label>
+											</span>
+											</div>
+											<div class="d-flex col-md-6 justify-content-end">
+												<button id="btn-lectureStatus-change" class="btn btn-warning btn-round btn-sm" data-toggle="modal" >
+												  <i class="fas fa-exchange-alt"></i> 보류&해제
+												</button>	
+												<button id="btn-lecture-delete" class="btn btn-warning btn-round btn-sm" data-toggle="modal">
+												  <i class="fas fa-exchange-alt"></i> 강의 삭제
+												</button>	
+												<!-- <button id="btn-lecture-modify" class="btn btn-warning btn-round btn-sm" data-toggle="modal">
+												  <i class="fas fa-exchange-alt"></i> 강의 수정
+												</button> -->
+													
+											</div>
+										</div>
+										<table id="table-lectureinfo" class="table"
 											style="text-align: center">
 											<thead class=" text-primary">
 												<th>Check</th>
-												<th colspan="2" class="text-left">Thumbnail</th>
+												<th class="text-left">Thumbnail</th>
 												<th colspan="2" class="text-left">Title</th>
 												<th>Tag</th>
 												<th>Author</th>
@@ -78,19 +166,19 @@
 												<th>CompleteCount</th>
 											</thead>
 											<tbody>
-												<tr th:each="item:${lectureList}"  th:id="@{lectureId-}+${item.id}">
+												<tr th:each="item:${lectureList}" th:classappend="${item.lectureStatus}==1? invisible: visible"  th:id="@{lectureId-}+${item.id}" class="tr-lectureInfo" th:attr="data-isPending=${item.lectureStatus}">
 													<td>
 														<div class="form-check">
 															<label class="form-check-label"> 
-																<input	class="form-check-input" type="checkbox" value="">
+																<input name="form-check-list"	class="form-check-input" type="checkbox" value="">
 																	<span class="form-check-sign"><span class="check"></span></span>
 															</label>
 														</div>
 													</td>
-													<td colspan="2" class="text-left">
+													<td  class="text-left">
 														<img class="lecture-thumbnail" th:src="@{${item.thumbnailPath}}" />
 													</td>
-													<td colspan="2" class="text-left" th:text="@{${item.title}}">제목</td>
+													<td colspan="2" class="text-left" ><a class="lecture-link"  th:href="@{/admin/lecture/intro/}+${item.id}" th:text="@{${item.title}}"></a></td>
 													<td th:text="@{${item.tag}}">태그</td>
 													<td th:text="@{${item.nickName}}">작성자</td>
 													<td th:text="@{${item.priceInfo}}">가격정보</td>
@@ -132,8 +220,8 @@
 					</div>
 					<th:block layout:fragment="script">
 						<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
-						<script type="text/javascript"
-							th:src="@{/static/js/lecture/lectureSearchCustom.js}"></script>
+						<script type="text/javascript" th:src="@{/static/js/admin/utilCustom.js}"></script>
+						<script type="text/javascript" th:src="@{/static/js/admin/adminLectureCustom.js}"></script>
 					</th:block>
 				</div>
 			</div>

@@ -18,7 +18,7 @@ import groovyjarjarpicocli.CommandLine.ExecutionException;
 @Mapper
 public interface LectureMapper {
 	
-	public List<LectureIntroContent> getAllLecture() throws Exception;
+	public List<LectureIntroContent> getAllLecture(Map<String, Object> map) throws Exception;
 	public List<String>getAllLectureTag()throws Exception;
 	public LectureIntro getLecture(int id) throws Exception;
 	public List<Board> getRecommandLecture(int id) throws Exception;
