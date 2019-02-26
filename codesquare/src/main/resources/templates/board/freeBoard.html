@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.typeleaf.org"
 xmlns:sd="http://www.thymeleaf.org/spring-data"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorator="layout/mainLayout"
+layout:decorator="layout/mainLayout2"
 xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <meta charset="utf-8">
 <head>
@@ -64,12 +64,12 @@ appearance: none;
 	<div class="container">
 		<table class="table table-hover">
 			<tr th:each="Board:${list}">
-	             <td><a th:href="@{'/freeView?id=' + ${Board.id}}"><span th:text="${Board.title}" style="color: black; font-weight: bold;"></span></a></td>
-	             <td th:text="${Board.nickName}" ></td>
-	             <td style="padding-right: 1px; width: 30px;"><img th:src="@{/static/images/likeCount.png}" style="padding-right: 1px;"></td>
-	             <td th:text="${Board.likeCount}" style="padding-right: 7px; padding-left: 1px;"></td>
-	             <td style="padding-right: 1px; width: 30px;"><img th:src="@{/static/images/eye.png}"></td>
+	             <td><a th:href="@{'/freeView?id=' + ${Board.id}}"><span th:text="${Board.title}" style="color: black; font-weight: bold; padding-right: 150px;"></span></a></td>
+	             <td th:text="${Board.nickName}" style="padding-left: 100px;"></td>
+	             <td style="padding-right: 1px; width: 30px;"><i class="far fa-eye"></i></td>
 	             <td style="padding-left: 1px;" th:text="${Board.hit}" ></td>
+	             <td style="padding-right: 1px; width: 30px;"><i class="fas fa-heart"></i></td>
+	             <td th:text="${Board.likeCount}" style="padding-right: 7px; padding-left: 1px;"></td>
 	             <td th:text="${Board.writeDateBoard}" style="padding-right: 1px; padding-left: 1px;"></td>
 	        </tr>
 		</table>

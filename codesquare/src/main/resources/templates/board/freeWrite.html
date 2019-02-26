@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.typeleaf.org" 
 xmlns:sd="http://www.thymeleaf.org/spring-data"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorator="layout/mainLayout">
+layout:decorator="layout/mainLayout2">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style>
@@ -44,6 +44,8 @@ layout:decorator="layout/mainLayout">
 		<h1 align="center"><a href=getfree style="color: black;">자유게시판</a></h1>
 	</div>
 		<div style="margin-top: 10px; border-bottom: 5px solid black;">
+		<input type="hidden" name="userId" id="userId" th:value="${session.userId}">
+		<input type="hidden" name="nickName" id="nickName" th:value="${session.nickName}">
 			<input type="text" name="title" placeholder="제목을입력해주세요." style="margin-bottom: 10px; width: 1110px; height: 50px" autocomplete="off">
 	</div>
 <textarea name="content" id="content" style="width: 1110px; height:400px;"  autocomplete="off"></textarea>

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.typeleaf.org"
 	xmlns:sd="http://www.thymeleaf.org/spring-data"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/mainLayout"
+	layout:decorator="layout/mainLayout2"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	<meta charset="utf-8">
 <head>
@@ -77,6 +77,21 @@
 	});
   
   $(function() {
+	  $("#reserveRoomBtn").click(function() {
+		  var userId=$("#userId").val();
+		  var p = document.box;
+		  if (p.person.value=="선택") {
+			  alert("인원수를 선택해주세요.");
+		  } else if (userId != null) { 
+			  $("#box").submit();
+			  return false;
+		  } else {
+			  $("#myModal").modal();
+		  }
+	});
+});
+  
+/*   $(function() {
 		$("#reserveRoomBtn").click(function() {
 		 var userId=$("#userId").val();
 		 var p = document.box;
@@ -84,14 +99,14 @@
 			$("#box").submit();
 			if (p.person.value=="선택")
 				alert("인원수를 선택해주세요.");
-				return location.reload();
+				return $("#box").submit();
 		}else {
 			$("#myModal").modal();
 			/* location.href="/member/login"; */
-		}
+/* 		}
 	});
 });
-
+ */
 </script>
 
 <style>
@@ -160,7 +175,7 @@ select {
 				<option th:each="item:${list}" th:text="${item.roomname}" th:value="${item.id}"></option>
 			</select>
 			</label><br>
-		
+			
 			<label>이용 인원</label>
 			<select name="person" id="person">
 				<option value="선택">선택</option>
@@ -221,7 +236,6 @@ select {
 				<option value=10>10시간</option>
 				</select>
 			<label>동안 이용</label>
-			
 <input type="button" id="reserveRoomBtn" value="예약하기" class="btn btn-outline-light btn-block" style="font-weight: bolder; background-color:#8B7D9F;">
 </div>
 </form>
