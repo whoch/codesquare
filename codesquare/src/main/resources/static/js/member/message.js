@@ -14,7 +14,10 @@ $(function() {
 
 	if (location.pathname.indexOf('receivedMessage') != -1) {
 		// receivedMessage 가 들어갈
-		} else {
+		$('#receivedMessageListH').addClass('active');
+		$('#sentMessageListH').removeClass('active');	
+	
+	} else {
 			$('#sentMessageListH').addClass('active');
 			$('#receivedMessageListH').removeClass('active');
 			
@@ -223,7 +226,7 @@ $(function() {
 					if (response > 0) {
 						$("#done-dialog").toggle();
 						$("#done-dialog-content").css("color", "#552796");
-						$("#done-dialog-content").html(" <i class='far fa-check-circle fa-3x'></i> <div class='small'> <br /><br />완료 <br /></div>")
+						$("#done-dialog-content").html(" <i class='far fa-check-circle fa-3x'></i>  <br /><br /><div class='small'>완료 </div><br />")
 						$("#done-close").click(function(){
 							location.href = '/message/receivedMessage';
 						})
@@ -296,11 +299,32 @@ $(function() {
 		
 
 	});
-
-	$("input[name='searhBtn']").click(function(){
+	
+	//받은 쪽지함 검색
+	$("input[name='searhRBtn']").click(function(){
 		var keyword = $("input[name='keyword'").val();
-		location.href = '/message/receivedMessage/';
+		if(keyword.length > 0 ) {
+			$("form[name='rSearch']").submit();
+		} else {
+			$("#delete-dialog").toggle();
+			$("#delete-dialog-content").css("color", "#A7070B");
+			$("#delete-dialog-content").html("<i class='fas fa-exclamation-triangle fa-3x'></i> <br /> <br />키워드를 입력해주세요.");
+		}
 	});
+	
+	//보낸 쪽지함 검색
+	$("input[name='searchSBtn']").click(function(){
+		var keyword = $("input[name='keyword'").val();
+		if(keyword.length > 0 ) {
+			$("form[name='sSearch']").submit();
+		} else {
+			$("#delete-dialog").toggle();
+			$("#delete-dialog-content").css("color", "#A7070B");
+			$("#delete-dialog-content").html("<i class='fas fa-exclamation-triangle fa-3x'></i> <br /> <br />키워드를 입력해주세요.");
+		}
+			
+	});
+	
 	
 	// 삭제 모달창
 	$("#deleteMsg").click(function() {

@@ -18,8 +18,9 @@ body {
 
 footer {
 	font-family: 'Lobster', cursive;
+	color : white;
 	font-size : 20px;
-	background : #D8BFD8;
+	background : #5b2e7d;
 	height : 40px;
 }
 
@@ -125,4 +126,6 @@ a:hover {
 }
 
 
-
+#messageContainer{
+	overflow : scroll;
+}

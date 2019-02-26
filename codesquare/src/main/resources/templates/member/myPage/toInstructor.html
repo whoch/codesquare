@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout/myPageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -8,24 +10,44 @@
 
 </head>
 <body>
+	<div class="container" layout:fragment="myPageContent">
+		<div id="toInstructorForm" class="container">
+			<br />
+			<h3>강사 전환 신청하기</h3>
+			<br />
+			<div class="row py-2">
+				<div class="col-3 small text-right">신청 내역</div>
+				<div class="col-6 ">
+					<div id="appliedIC" style="display: none;">
+						<input type="hidden" id="checkInstructor"
+							th:value="${checkInstructor}">
+						<div
+							th:text="${checkInstructor} == 0 ? '' : ${instructorInfo.introContent}"></div>
+						<h4>
+							<br />심사중<br /> <br />
+						</h4>
+					</div>
 
-	<h2>강사 전환 신청하기</h2>
+					<!-- 모달창 -->
 
+					<div id="done-dialog" class="jumbotron">
+						<div id="done-close" class="text-right">
+							<i class="fas fa-times align-top "></i>
+						</div>
+						<div id="done-dialog-content" class="text-center"></div>
+					</div>
 
-	<form id="toInstructorForm" method="post">
+					<div id="applyIC" style="display: none;">
 
-		<div>
-			<input type="hidden" name="userId" th:value="${user.userId}">
+						<textarea name="introContent" rows="10" cols="40"> </textarea>
+						<br />
+						<div class="small text-right py-2">
+							<button class="mybtn px-3 py-1" id="toInstructorDone">신청하기</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div>
-		신청사유:<br />
-		<textarea name="introContent" id="introContent"  rows="10" cols="30" >
-		</textarea>
-		<span id="toInstructorDone">신청하기</span>
-		<br /> <br /> <br /> <br />
-		</div>
-	</form>
-<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
-<script th:src="@{/static/js/member/myPage.js}"></script>
+	</div>
 </body>
 </html>

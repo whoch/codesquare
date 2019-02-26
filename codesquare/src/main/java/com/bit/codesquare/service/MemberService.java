@@ -7,6 +7,7 @@ import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.member.Member;
 import com.bit.codesquare.dto.member.MessageInfo;
+import com.bit.codesquare.dto.paging.Criteria;
 import com.bit.codesquare.mapper.member.MemberMapper;
 import com.bit.codesquare.mapper.member.MessageInfoMapper;
 
@@ -31,9 +33,9 @@ public class MemberService {
 	@Autowired
 	MessageInfoMapper mim;
 
-	public List<Board> getWantedList(String userId) {
+	public List<Board> getWantedList(String userId, @Param("cri") Criteria cri) {
 
-		List<Board> list = mm.getWantedList(userId);
+		List<Board> list = mm.getWantedList(userId, cri);
 		for (Board item : list) {
 			item.setWantedPlist(mm.getWantedPList(item.getId()));
 		}

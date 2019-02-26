@@ -1,8 +1,45 @@
- @charset "UTF-8";
+@charset "UTF-8";
 
 body {
-font-family: 'Nanum Gothic', sans-serif;
-color:#321956;
+	color: #321956;
+}
+
+main {
+	position: fixed;
+	padding-left: 20px;
+	background: white;
+	margin-right: 10%;
+	
+}
+
+.topMenubar {
+	background: white;
+	margin-left: 7%;
+	z-index: 3;
+	
+}
+
+#myPageContent {
+	margin-left: 3%;
+	padding-bottom: 50px;
+	
+}
+
+#myPageContent a {
+	color: #552796;
+	text-decoration: none;
+}
+
+.container {
+	color: #552796;
+}
+
+.container .nav-link {
+	color: #552796;
+}
+
+.container .nav-link:hover {
+	color: #716386;
 }
 
 .mybtn {
@@ -16,29 +53,32 @@ color:#321956;
 	color: white;
 }
 
-
-#accept-dialog, #decline-dialog, #cancel-dialog   {
+#accept-dialog, #decline-dialog, #cancel-dialog, #done-dialog {
 	display: none;
 	position: fixed;
 	left: calc(50% - 160px);
-	top: calc(50% - 70px);
+	top: calc(50%);
 	width: 320px;
 	height: auto;
 	background: #fff;
-	border-radius:20px;
+	border-radius: 20px;
 	border: 1px #552796 solid;
 	padding: 20px;
-	z-index: 11;
+	z-index: 20;
 	padding: 10px;
 }
 
-#accept-dialog-content,  #decline-dialog-content, #cancel-dialog-content{
-	
-	padding:15px;
+#accept-dialog-content, #decline-dialog-content, #cancel-dialog-content,
+	#done-dialog-content {
+	padding: 15px;
 }
 
 .sidebar {
 	position: fixed;
+	margin-left: 10%;
+	background: white;
+	z-index: 1;
+	height: auto;
+	margin-bottom: 100px;
+	padding-bottom: 50px;
 }
-
-

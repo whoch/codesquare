@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-	layout:decorator="layout/mainLayout2"
+	layout:decorator="layout/myPageLayout"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
@@ -13,76 +13,8 @@
 
 </head>
 <body>
-	<div class="container" layout:fragment="content">
-
-		<div class="container-fluid">
-			<div class="row">
-				<nav class="col-md-3 d-none d-md-block">
-					<div class="sidebar">
-						<br /> <br /> <br />
-						<ul class="nav flex-column">
-							<li class="nav-item">
-								<div class="profile px-2 text-center">
-									<img th:src="@{${session.profileImagePath}}"
-										class="profileImg " style="width: 100px; height: 100px" /> <br />
-									<br /> <span id="myNickName" th:text="${session.nickName}">
-									</span> 님<br /> 안녕하세요!
-								</div>
-							</li>
-
-						</ul>
-
-						<h6
-							class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-						</h6>
-						<ul class="nav flex-column mb-2">
-
-							<li class="nav-item"><a id="myMessageInbox" class="nav-link"><i
-									class="far fa-envelope"></i> 내쪽지함 [<span
-									th:text="${count.messageCount}"></span>] </a></li>
-							<li class="nav-item"><a class="nav-link"
-								href="#myReservedList"> <i
-									class="fas fa-file-invoice-dollar"></i> 나의 예약 및 결제 내역 [<span
-									th:text="${count.reservationCount}"></span>]
-							</a></li>
-							<li class="nav-item" sec:authorize="hasRole('ROLE_2')"><a
-								class="nav-link" href="#modifyInstructorInfoForm"> <i
-									class="fas fa-chalkboard-teacher"></i> 강사정보수정하기
-							</a></li>
-							<li class="nav-item"
-								sec:authorize="hasAnyRole('ROLE_1','ROLE_4','ROLE_5', 'ROLE_6') ">
-								<a class="nav-link" href="#toInstructorForm"><i
-									class="fas fa-user-tie"></i> 강사전환신청하기</a>
-							</li>
-							<li class="nav-item social" style="display: none;"><a
-								class="nav-link" href="#changePwForm"><i class="fas fa-key"></i>
-									비밀번호바꾸기 </a></li>
-
-						</ul>
-					</div>
-				</nav>
-				<main class="col h-100">
-				<div class="row">
-					<div class="col-12 py-4">
-						<ul class="nav">
-							<li class="nav-item"><a class="nav-link"
-								href="#myReservedList"><i class="fas fa-file-invoice-dollar"></i>
-									나의 예약 및 결제 내역</a></li>
-							<li class="nav-item"><a class="nav-link"
-								href="#myAppliedList"><i class="far fa-calendar"></i> 나의 신청
-									내역</a></li>
-							<li class="nav-item"><a class="nav-link"
-								href="#myWantedList"><i class="far fa-calendar-check"></i>
-									나의 모집 내역</a></li>
-							<li class="nav-item"><a class="nav-link" href="#myBoardList"><i
-									class="fas fa-clipboard-list"></i> 내가 쓴 글</a></li>
-							<li class="nav-item"><a class="nav-link"
-								href="#modifyMyInfoForm"><i class="far fa-address-card"></i>
-									내 정보 수정</a></li>
-
-						</ul>
-					</div>
-				</div>
+	<div class="container" layout:fragment="myPageContent">
+<!-- 
 				<div class="tab-content">
 					<div id="myReservedList" class="container tab-pane active">
 						<br />
@@ -103,7 +35,7 @@
 							<div class="col-2" th:text="${rlist.paymentdate}"></div>
 							<div class="col-2" th:text="${rlist.reservationtime}"></div>
 						</div>
-<!-- 						페이징 
+						페이징 
 			<div class="row pt-2 ">
 				<div class="col-12">
 					<ul class="pagination justify-content-center">
@@ -127,7 +59,7 @@
 						</li>
 					</ul>
 				</div>
-			</div> -->
+			</div>
 					</div>
 					<div id="myAppliedList" class="container tab-pane fade">
 						<br />
@@ -150,7 +82,7 @@
 							<div class="col-md-2" th:if="${alist.status} ==''">
 								<button id="cancelApply" class="mybtn px-3 py-1 small">취소</button>
 
-								<!-- 취소 모달창 -->
+								취소 모달창
 
 								<div id="cancel-dialog" class="jumbotron">
 									<div id="cancel-close" class="text-right">
@@ -216,7 +148,7 @@
 									th:aria-labelledby="'heading'+${wlist.id}"
 									data-parent="#wantedList">
 
-									<!-- 스터디 모집인 경우-->
+									스터디 모집인 경우
 
 									<div th:if="${wlist.boardKindId} == 'StdMo'">
 										<div class="row text-center small py-1">
@@ -244,7 +176,7 @@
 
 												<button id="acceptMo" class="mybtn px-2 py-1 small">수락</button>
 												<button id="declineMo" class="mybtn px-2 py-1 small">거절</button>
-												<!-- 수락모달창 -->
+												수락모달창
 												<div id="accept-dialog" class="jumbotron">
 													<div id="accept-close" class="text-right">
 														<i class="fas fa-times small align-top "></i>
@@ -260,7 +192,7 @@
 													</div>
 												</div>
 
-												<!-- 거절모달창 -->
+												거절모달창
 												<div id="decline-dialog" class="jumbotron">
 													<div id="decline-close" class="text-right">
 														<i class="fas fa-times small align-top"></i>
@@ -282,7 +214,7 @@
 											</div>
 										</div>
 									</div>
-									<!-- 세미나 모집인 경우 -->
+									세미나 모집인 경우
 									<div th:unless="${wlist.boardKindId} == 'StdMo'">
 										<div class="row text-center small py-1">
 											<div class="col-md-3">신청자</div>
@@ -310,14 +242,14 @@
 
 
 								</div>
-								<!-- accordian body -->
+								accordian body
 							</div>
-							<!-- end wlist   -->
+							end wlist  
 
 						</div>
-						<!-- end accordian   -->
+						end accordian  
 					</div>
-					<!-- end myWantedList div -->
+					end myWantedList div
 
 
 					<div id="myBoardList" class="container tab-pane fade">
@@ -544,7 +476,7 @@
 						</div>
 					</div>
 
-				<!-- 모달창 -->
+				모달창
 
 				<div id="done-dialog" class="jumbotron">
 					<div id="done-close" class="text-right">
@@ -555,13 +487,10 @@
 				</div>
 
 				</div>
-
-
-				</main>
+ -->
+마이페이지2
 			</div>
-		</div>
-	</div>
-
+	
 	<th:block layout:fragment="script">
 		<script th:src="@{/static/js/member/myPage.js}"></script>
 
