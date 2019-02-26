@@ -46,7 +46,8 @@ public class MessageController {
 	MemberMapper mm;
 
 	@GetMapping("receivedMessage")
-	public String receivedMessage(Model model, Authentication auth, HttpSession session, @ModelAttribute Criteria cri) throws Exception {
+	public String receivedMessage(Model model, Authentication auth, HttpSession session, @ModelAttribute Criteria cri)
+			throws Exception {
 		csu.getSession(auth, session);
 		String recipient = auth.getName();
 		cri.setPerPageNum(4);
@@ -59,12 +60,10 @@ public class MessageController {
 
 		return "member/myPage/myReceivedMessage";
 	}
-	
-
-
 
 	@GetMapping("sentMessage")
-	public String sentMessage(Model model, Authentication auth, HttpSession session, @ModelAttribute Criteria cri) throws Exception {
+	public String sentMessage(Model model, Authentication auth, HttpSession session, @ModelAttribute Criteria cri)
+			throws Exception {
 		csu.getSession(auth, session);
 		String sender = auth.getName();
 		cri.setPerPageNum(4);
@@ -78,39 +77,21 @@ public class MessageController {
 		return "member/myPage/mySentMessage";
 	}
 
-	
-//
-//	@GetMapping("sentMessage/{keyword}")
-//	public String searchedSentMessage(Model model, Authentication auth, HttpSession session, @ModelAttribute Criteria cri) throws Exception {
-//		csu.getSession(auth, session);
-//		String sender = auth.getName();
-//		cri.setPerPageNum(4);
-//		model.addAttribute("sent", mim.getSentMessageList(sender, cri));
-//		PageMaker pageMaker = new PageMaker();
-//		pageMaker.setCri(cri);
-//		pageMaker.setDisplayPageNum(5);
-//		pageMaker.setTotalCount(mim.countPaging(sender, cri));
-//		model.addAttribute("pageMaker", pageMaker);
-//
-//		return "member/myPage/mySentMessage";
-//	}
-	
 	@GetMapping("receivedMessage/{id}")
 	public String readMessage(Model model, @PathVariable int id) {
 
 		String readStatus = mim.readMessage(id).getReadStatus();
-	
+
 		if (!readStatus.equals("읽음")) {
-			//읽지 않음이면
+			// 읽지 않음이면
 			mim.changeToRead(id);
 			mim.setUnreadMessageCount(mim.readMessage(id).getRecipient());
 		}
-		
+
 		model.addAttribute("receivedRead", mim.readMessage(id));
 
 		return "member/myPage/myReceivedMessageView";
 	}
-
 
 	@GetMapping("sentMessage/{id}")
 	public String sentMessage(Model model, @PathVariable int id) {
@@ -122,12 +103,10 @@ public class MessageController {
 	@GetMapping("sendMessage")
 	public String sendNew(Authentication auth, HttpSession session) {
 		csu.getSession(auth, session);
-		
+
 		return "member/myPage/mySendNewMessage";
 	}
-	
-	
-	
+
 	@GetMapping("sendMessage/{recipient}")
 	public String send(Model model, @PathVariable String recipient) {
 
@@ -137,8 +116,6 @@ public class MessageController {
 		return "member/myPage/mySendMessage";
 	};
 
-	
-	
 	@PostMapping("sendMessage")
 	@ResponseBody
 	public int sendMessage(@RequestBody Map<String, String> data) {
@@ -148,9 +125,7 @@ public class MessageController {
 		String recipientNickName = mm.getUser(recipient).getNickName();
 		String messageContent = data.get("messageContent");
 
-
 		MessageInfo messageInfo = new MessageInfo();
-		
 
 		messageInfo.setSender(sender);
 		messageInfo.setSenderNickName(senderNickName);
@@ -166,7 +141,7 @@ public class MessageController {
 	@PostMapping("deleteMessage")
 	@ResponseBody
 	public int deleteMessage(@RequestBody int[] ids) {
-		logger.info(ids[0]+"ids0");
+		logger.info(ids[0] + "ids0");
 		int count = 0;
 
 		count = mim.deleteMessage(ids);

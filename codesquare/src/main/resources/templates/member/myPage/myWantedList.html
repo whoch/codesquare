@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout/myPageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 
@@ -7,56 +10,158 @@
 
 </head>
 <body>
+<div class="container" layout:fragment="myPageContent">
+	<div id="myWantedList" >
+		<br />
+		<h3>나의 모집 내역</h3>
+		<br />
+		<div class="accordion" id="wantedList">
 
-
-
-	<div class="accordion" id="wantedList">
-	
-	<div class="card-header"> 
-	모집 글번호  모집 글 제목   모집글 작성일   상태
-	</div>
-		
-		<div class="card" th:each="list : ${list}">
-			<div class="card-header" id="'heading'+${list.id}">
-				<h5 class="mb-0">
-
-
-					<button class="btn btn-link" type="button" data-toggle="collapse"
-						th:data-target="'#body'+${list.id}" aria-expanded="true"
-						aria-controls="'body'+${list.id}">
-						<span th:text="${list.id}"></span>  <span th:text="${list.title}"></span> <span
-							th:text="${list.writeDate}"></span>
-						<span th:if="${list.status} == 1 " th:text="모집중"></span> <span
-							th:unless="${list.status} == 1" th:text="모집완료"></span>
-
-
-					</button>
-				</h5>
+			<div class="row text-center small shadow-sm py-2">
+				<div class="col-md-6">글제목</div>
+				<div class="col-md-4">작성일</div>
+				<div class="col-md-2">상태</div>
 			</div>
 
-			<div th:id="'body'+${list.id}" class="collapse"
-				th:aria-labelledby="'heading'+${list.id}" data-parent="#wantedList">
-				<div class="card-body">
+			<div th:each="wlist : ${wlist}" id="'heading'+${wlist.id}">
+				<div class="row text-center border-bottom  py-2"
+					data-toggle="collapse" th:data-target="'#body'+${wlist.id}"
+					aria-expanded="true" aria-controls="'body'+${wlist.id}">
+					<div class="col-md-6" th:text="${wlist.title}"></div>
+					<div class="col-md-4"
+						th:text="${#dates.format(wlist.writeDate, 'yy-MM-dd')}"></div>
+					<div class="col-md-2"
+						th:text="${wlist.status} == 0 ? '모집중' : '모집완료'"></div>
+
+				</div>
+
+				<div th:id="'body'+${wlist.id}" class="collapse"
+					th:aria-labelledby="'heading'+${wlist.id}"
+					data-parent="#wantedList">
+
+					<!-- 스터디 모집인 경우 -->
+
+					<div th:if="${wlist.boardKindId} == 'StdMo'">
+						<div class="row text-center small py-1">
+							<div class="col-md-3">신청자</div>
+							<div class="col-md-4">신청내역</div>
+							<div class="col-md-2">신청일</div>
+							<div class="col-md-3">상태</div>
+						</div>
 
 
+						<div class="row text-center py-1"
+							th:each="plist : ${wlist.wantedPlist}">
+							<div class="col-md-3">
+								<span th:text="${plist.nickName}"></span><br />
+								<div class="small">
+									(<span th:text="${plist.applyUserId}"></span>)
+								</div>
+							</div>
+							<div class="col-md-4 " th:text="${plist.applyContent}"></div>
 
-					<div th:each="plist : ${list.wantedPlist}">
-						신청자 : <span th:text="${plist.ApplyUserId}"></span> 신청일: <span
-							th:text="${plist.applyDate}"> </span> 신청메세지: <span
-							th:text="${plist.applyContent}"></span>
+							<div class="col-md-2"
+								th:text="${#dates.format(plist.applyDate, 'yy-MM-dd')}"></div>
+							<div class="col-md-3" id="moStaus" th:if="${plist.status} =='' ">
+
+								<button id="acceptMo" class="mybtn px-2 py-1 small">수락</button>
+								<button id="declineMo" class="mybtn px-2 py-1 small">거절</button>
+								<!-- 수락모달창 -->
+								<div id="accept-dialog" class="jumbotron">
+									<div id="accept-close" class="text-right">
+										<i class="fas fa-times small align-top "></i>
+									</div>
+									<div id="accept-dialog-content" class="text-center">
+										<span hidden id="pBoardId" th:text="${plist.boardId}"></span>
+										<span hidden id="pApplyUserId" th:text="${plist.applyUserId}"></span>
+										<span id="pApplyUserNick" th:text="${plist.nickName}"></span>님의
+										<span th:text="${plist.applyContent}"></span> <br /> <br />신청을
+										수락하시겠습니까?<br /> <br />
+										<button id="acceptMoBtn" class="mybtn small">수락</button>
+									</div>
+								</div>
+
+								<!-- 거절모달창 -->
+								<div id="decline-dialog" class="jumbotron">
+									<div id="decline-close" class="text-right">
+										<i class="fas fa-times small align-top"></i>
+									</div>
+									<div id="decline-dialog-content" class="text-center">
+										<span th:text="${plist.nickName}"></span>님의 <span
+											th:text="${plist.applyContent}"></span> <br /> 신청을 거절하시겠습니까?<br />
+										<span id="declineMsg" class="small"></span> <br /> 거절사유: <input
+											type="text" name="declineContent"> <br /> <br />
+										<button id="declineMoBtn" class="mybtn small">거절</button>
+									</div>
+								</div>
+
+
+							</div>
+							<div class="col-md-3" th:unless="${plist.status} =='' ">
+								<div th:text="${plist.status}"></div>
+							</div>
+						</div>
+					</div>
+					<!-- 세미나 모집인 경우 -->
+					<div th:unless="${wlist.boardKindId} == 'StdMo'">
+						<div class="row text-center small py-2">
+							<div class="col-md-3">신청자</div>
+							<div class="col-md-5">신청내역</div>
+							<div class="col-md-2">신청일</div>
+							<div class="col-md-2">상태</div>
+						</div>
+
+						<div class="row text-center py-1"
+							th:each="plist : ${wlist.wantedPlist}">
+							<div class="col-md-3">
+								<span id="applyUserNick" th:text="${plist.nickName}"></span><br />
+								<div class="small">
+									(<span th:text="${plist.applyUserId}"></span>)
+								</div>
+							</div>
+							<div class="col-md-5" th:text="${plist.applyContent}"></div>
+
+							<div class="col-md-2"
+								th:text="${#dates.format(plist.applyDate, 'yy-MM-dd')}"></div>
+							<div class="col-md-2" th:text="${plist.status}"></div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		
+				<!-- 페이징  -->
+			<div class="row pt-2 ">
+				<div class="col-12">
+					<ul class="pagination justify-content-center">
+						<li class="page-item" th:if="${pageMakerWL.prev} == true"><a
+							class="page-link"
+							th:href="@{/myPage/myWantedList(page=${pageMakerWL.startPage}-1,perPageNum=${pageMakerWL.cri.perPageNum}, keyword=${pageMakerWL.cri.keyword})}">&laquo;</a>
+						</li>
 
+						<li class="page-item"
+							th:each="idx,iterStat : ${#numbers.sequence(pageMakerWL.startPage,pageMakerWL.endPage)}"
+							th:classappend="${pageMakerWL.cri.page} == ${idx} ? active : null">
+							<a class="page-link"
+							th:href="@{/myPage/myWantedList(page=${idx},perPageNum=${pageMakerWL.cri.perPageNum},  keyword=${pageMakerWL.cri.keyword})}"
+							th:text="${idx}" th:if="${idx}"></a>
+						</li>
+
+						<li class="page-item"
+							th:if="${pageMakerWL.next} == true and ${pageMakerWL.endPage > 0}">
+							<a class="page-link"
+							th:href="@{/myPage/myWantedList(page=${pageMakerWL.endPage}+1,perPageNum=${pageMakerWL.cri.perPageNum}, keyword=${pageMakerWL.cri.keyword})}">&raquo;</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		
+		
+		
+		
+		
 	</div>
+</div>
 
-
-	<br />
-	<br />
-	<br />
-	<br />
-	<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
-	<!-- <script th:src="@{/static/js/member/myPage.js}"></script> -->
 </body>
 </html>

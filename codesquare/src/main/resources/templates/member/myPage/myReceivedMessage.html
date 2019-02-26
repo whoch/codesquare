@@ -13,7 +13,7 @@
 	<div id="messageContent" layout:fragment="messageContent">
 		<div id="receivedMessage" class="small">
 
-			<form th:action="@{/message/receivedMessage}">
+			<form name="rSearch" th:action="@{/message/receivedMessage}">
 				<div class="row py-3">
 					<div class="col-4 input-group-prepend">
 						<input type="button" class="mybtn mx-1" id="deleteMsg" value="삭제">
@@ -28,13 +28,14 @@
 						</div>
 						<div id="delete-dialog-content" class="text-center"></div>
 					</div>
+					
 					<div class="col-1"></div>
 
 					<div class="col-7 input-group-prepend ">
 						<input class="form-control input-group-sm mx-1" type="text"
 							placeholder="Search" name="keyword"
 							th:value="${pageMaker.cri.keyword}"> <input
-							name="searhBtn" class="mybtn " type="submit" value="찾기">
+							name="searhRBtn" class="mybtn " type="button" value="찾기">
 					</div>
 				</div>
 			</form>

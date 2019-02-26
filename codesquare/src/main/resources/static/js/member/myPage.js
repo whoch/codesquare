@@ -34,8 +34,9 @@ $(function() {
 
 		var data = {
 			introContent : $("textarea[name='introContent']").val(),
-			userId : $("input[name='userId']").val()
+			userId : $("#userId").val()
 		}
+		console.log(data);
 
 		$.ajax({
 			type : 'post',
@@ -44,9 +45,14 @@ $(function() {
 			contentType : "application/json; charset=UTF-8",
 			async : false,
 			success : function(response) {
-				// 고쳐야함
-				$('#toInstructorForm').html(data);
-
+				if(response > 0) {
+				$("#done-dialog").toggle();
+				$("#done-dialog-content").css("color", "#552796");
+				$("#done-dialog-content").html("<i class='far fa-check-circle fa-3x'></i><br /><br /> <div class='small'>강사 전환 신청완료</div><br />")
+				$("#done-close").click(function(){
+					location.reload();
+				});
+				}
 			},
 			error : function(data) {
 			}
@@ -69,7 +75,14 @@ $(function() {
 			contentType : 'application/json; charset=UTF-8',
 			async : false
 		}).done(function(response) {
-			// 수정해야함
+			if(response > 0) {
+				$("#done-dialog").toggle();
+				$("#done-dialog-content").css("color", "#552796");
+				$("#done-dialog-content").html("<i class='far fa-check-circle fa-3x'></i><br /><br /> <div class='small'>강사 정보 수정 완료</div><br />")
+				$("#done-close").click(function(){
+					location.href = '/member/myPage';
+				});
+				}
 		}).fail(function(response) {
 		})
 
@@ -122,13 +135,14 @@ $(function() {
 			contentType : "application/json; charset=UTF-8",
 			success : function(response) {
 
-				if (response > 0) {
-					// 수정해ㅑ함
-					location.reload();
-					// $("#pwMsg").css("color", "black");
-					// $("#pwMsg").text("비밀번호 변경 완료");
-
-				} else {
+				if(response > 0) {
+					$("#done-dialog").toggle();
+					$("#done-dialog-content").css("color", "#552796");
+					$("#done-dialog-content").html("<i class='far fa-check-circle fa-3x'></i><br /><br /> <div class='small'>비밀번호 변경완료</div><br />")
+					$("#done-close").click(function(){
+						location.reload();
+					});
+					} else {
 
 					$("#pwMsg").css("color", "#A7070B");
 					$("#pwMsg").html(
@@ -192,14 +206,20 @@ $(function() {
 							// $("#changeNickContent").hide();
 							// $("#changeNick").show();
 							// location.reload();
-							$("#nickCheckMsg").text("");
-							$("#openCN").show();
-							$("#changeNickForm").hide();
-							$("#headerNickName").html(nickName);
-							$("#nickField").html(nickName);
-							$("#myNickName").html(nickName);
-
-							// 아이디가 중복하지 않으면 idck = 1
+							
+								$("#done-dialog").toggle();
+								$("#done-dialog-content").css("color", "#552796");
+								$("#done-dialog-content").html("<i class='far fa-check-circle fa-3x'></i><br /><br /> <div class='small'>닉네임 변경 완료</div><br />")
+								$("#done-close").click(function(){
+									$("#done-dialog").toggle();
+									$("#nickCheckMsg").text("");
+									$("#openCN").show();
+									$("#changeNickForm").hide();
+									$("#headerNickName").html(nickName);
+									$("#nickField").html(nickName);
+									$("#myNickName").html(nickName);
+								});
+							
 
 						}
 					},
@@ -253,10 +273,17 @@ $(function() {
 							$("#email").focus();
 
 						} else {
+
+							$("#done-dialog").toggle();
+							$("#done-dialog-content").css("color", "#552796");
+							$("#done-dialog-content").html("<i class='far fa-check-circle fa-3x'></i><br /><br /> <div class='small'>이메일 변경 완료</div><br />")
+							$("#done-close").click(function(){
+							$("#done-dialog").toggle();
 							$("#openCE").show();
 							$("#changeEmailForm").hide();
 							$("#emailCheckMsg").text("");
 							$("#emailField").html(email);
+							});
 						}
 					},
 					error : function(error) {
@@ -303,8 +330,16 @@ $(function() {
 			data : formData,
 			processData : false,
 			contentType : false,
-			success : function(result) {
-				location.reload();
+			success : function(response) {
+				if(response > 0 ) {
+					$("#done-dialog").toggle();
+				$("#done-dialog-content").css("color", "#552796");
+				$("#done-dialog-content").html("<i class='far fa-check-circle fa-3x'></i><br /><br /> <div class='small'>프로필 변경 완료</div><br />")
+				$("#done-close").click(function(){
+					$("#done-dialog").hide();
+					location.reload();
+				});
+				}
 			},
 			error : function(error) {
 				// location.reload();
@@ -402,7 +437,7 @@ $(function() {
 													.html("<br /><i class='far fa-check-circle'></i> "
 																	+ data.applyUserNick
 																	+ " 님의 <br /> 신청 수락 완료<br /><br />");
-											 //$("#moStaus").html('수락');
+											 // $("#moStaus").html('수락');
 										} else {
 										}
 									},
@@ -415,9 +450,9 @@ $(function() {
 					});
 
 	// 거절 모달창
-	$("#declineMo, #decline-close").click(
+	$("#declineMo, #decline-close", "#done-close").click(
 			function() {
-				$("#decline-dialog").toggle();
+				$("#decline-dialog", "#done-dialog").toggle();
 			});
 
 	// 거절버튼 클릭시
@@ -473,7 +508,7 @@ $(function() {
 	}
 	
 	
-	//취소 모달창   
+	// 취소 모달창
 	$("#cancelApply,  #cancel-close").click(function() {
 		$("#cancel-dialog").toggle();
 	});
@@ -496,9 +531,9 @@ $(function() {
 			contentType : "application/json; charset=UTF-8",
 			success : function(response) {
 				if (response > 0) {
-					//alert(response);
+					// alert(response);
 					$("#cancel-dialog-content").html("<i class='far fa-check-circle'></i> "+data.title+"<br />"+data.applyContent+"<br /> 신청 취소 완료<br /><br />");
-					//$("#moStaus").html('수락');
+					// $("#moStaus").html('수락');
 				} else {
 				}
 			},
@@ -508,10 +543,10 @@ $(function() {
 		});
 	})
 	;
-	//거절 팝오버
+	// 거절 팝오버
 	 $('[data-toggle="popover"]').popover();   
 	 
-	 $("#myMessage").click(function(){
+	 $("#myMessageInbox").click(function(){
 		 var popupX = (window.screen.width / 2) - (555 / 2);
 		 var popupY= (window.screen.height /2) - (570 / 2);
 		window.open('/message/receivedMessage', '내 쪽지함', 'width=555, height=555, status=no, location=no, scrollbars=yes, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);

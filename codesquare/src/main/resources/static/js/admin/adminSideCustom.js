@@ -24,6 +24,9 @@ function selectSideTab(){
 	case 'lecture':
 		$("#lecture").addClass('active');
 		break;
+	case 'intro':
+		$("#lecture").addClass('active');
+		break;
 	case 'keyword':
 		$("#keyword").addClass('active');
 		break;

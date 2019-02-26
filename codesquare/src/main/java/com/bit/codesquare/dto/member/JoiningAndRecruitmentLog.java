@@ -14,7 +14,7 @@ public class JoiningAndRecruitmentLog  extends Member{
 	private String boardKindId;
 	private String applyUserId;
 	private String title;
-	private String nickName;
+	private String nickname;
 	private Date applyDate;
 	private Date writeDate;
 	private String applyContent;

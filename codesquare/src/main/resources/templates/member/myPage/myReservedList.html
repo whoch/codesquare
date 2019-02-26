@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="layout/myPageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 
@@ -7,21 +9,52 @@
 
 </head>
 <body>
+	<div class="container"  layout:fragment="myPageContent">
+		<div class="container px-3" id="myReservedList">
+			<br />
+			<h3>나의 예약 및 결제 내역</h3>
+			<br />
+			<div class="row text-center p-2 shadow-sm">
+				<div class="col-2">예약날짜</div>
+				<div class="col-4">예약내역</div>
+				<div class="col-2">결제금액</div>
+				<div class="col-2">결제일</div>
+				<div class="col-2">예약시간</div>
+			</div>
+			<div class="row text-center border-bottom  py-2"
+				th:each="rlist : ${rlist}">
+				<div class="col-2" th:text="${rlist.reservationdate}"></div>
+				<div class="col-4" th:text="${rlist.roomname}"></div>
+				<div class="col-2" th:text="${rlist.payamount}"></div>
+				<div class="col-2" th:text="${rlist.paymentdate}"></div>
+				<div class="col-2" th:text="${rlist.reservationtime}"></div>
+			</div>
+			<!-- 페이징  -->
+			<div class="row pt-2 ">
+				<div class="col-12">
+					<ul class="pagination justify-content-center">
+						<li class="page-item" th:if="${pageMakerRL.prev} == true"><a
+							class="page-link"
+							th:href="@{/myPage/myReservedList(page=${pageMakerRL.startPage}-1,perPageNum=${pageMakerRL.cri.perPageNum}, keyword=${pageMakerRL.cri.keyword})}">&laquo;</a>
+						</li>
 
-	나의 예약 및 결제 내역
-	<input type="hidden" id="userId" th:value="${userId}">
+						<li class="page-item"
+							th:each="idx,iterStat : ${#numbers.sequence(pageMakerRL.startPage,pageMakerRL.endPage)}"
+							th:classappend="${pageMakerRL.cri.page} == ${idx} ? active : null">
+							<a class="page-link"
+							th:href="@{/myPage/myReservedList(page=${idx},perPageNum=${pageMakerRL.cri.perPageNum},  keyword=${pageMakerRL.cri.keyword})}"
+							th:text="${idx}" th:if="${idx}"></a>
+						</li>
 
-	<div>예약날짜 예약내역 결제금액 결제일 예약시간 </div>
-	<div th:each="list : ${list}">
-		<span th:text="${list.reservationDate}"></span>
-		<span th:text="${list.roomName}"></span>
-		<span th:text="${list.payAmount}"></span>
-		<span th:text="${list.paymentDate}"></span>
-		<span th:text="${list.reservationTime}"></span>
-
-
+						<li class="page-item"
+							th:if="${pageMakerRL.next} == true and ${pageMakerRL.endPage > 0}">
+							<a class="page-link"
+							th:href="@{/myPage/myReservedList(page=${pageMakerRL.endPage}+1,perPageNum=${pageMakerRL.cri.perPageNum}, keyword=${pageMakerRL.cri.keyword})}">&raquo;</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 	</div>
-	
-	<br /> <br /> <br /> <br />
-	</body>
-	</html>
+</body>
+</html>

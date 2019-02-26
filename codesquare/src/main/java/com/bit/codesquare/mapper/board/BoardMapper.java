@@ -11,6 +11,6 @@ public interface BoardMapper {
 	
 	public List<Board> getRecommandList() throws Exception;
 	public List<Board> getQuickBoardList(String tag) throws Exception;
-
+	public List<String> getAllBlackKeyword()throws Exception;
 	
 }

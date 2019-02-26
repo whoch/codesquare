@@ -1,41 +1,103 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="layout/myPageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
 </head>
 <body>
+	<div class="container" layout:fragment="myPageContent">
+		<div id="myAppliedList">
+			<br />
+			<h3>나의 신청 내역</h3>
+			<br /><br />
+			<div class="row text-center small p-2 shadow-sm">
+				<div class="col-2">신청날짜</div>
+				<div class="col-5">신청내역</div>
+				<div class="col-3">신청메세지</div>
+				<div class="col-2">상태</div>
+			</div>
+			<div class="row border-bottom text-center py-2"
+				th:each="alist : ${alist}">
+				<span hidden id="aApplyUserId" th:text="${alist.applyUserId}"></span>
 
-	나의 신청내역
+				<div class="col-md-2"
+					th:text="${#dates.format(alist.applyDate, 'yy-MM-dd')}"></div>
+				<div class="col-md-5" th:text="${alist.title}"></div>
+				<div class="col-md-3" th:text="${alist.applyContent}"></div>
+				<div class="col-md-2" th:if="${alist.status} ==''">
+					<button id="cancelApply" class="mybtn px-3 py-1 small">취소</button>
 
-	<div th:each="list : ${list}">
-		<ul class="list-group list-group-flush">
-			<li class="list-group-item">
-			<span th:text="${list.applyDate}"></span>
-			<span th:text="${list.title}"></span> 
-			<span th:text="${list.status} =='' ? '없을무' : ''"></span>
-			 <span th:text="${list.applyContent}"></span>
-			 </li>
-		</ul>
+					<!-- 취소 모달창 -->
+
+					<div id="cancel-dialog" class="jumbotron">
+						<div id="cancel-close" class="text-right">
+							<i class="fas fa-times small align-top "></i>
+						</div>
+						<div id="cancel-dialog-content" class="text-center">
+							<span hidden id="aNickName" th:text="${alist.nickName}"></span> <span
+								hidden id="aBoardId" th:text="${alist.boardId}"></span> <span
+								id="aTitle" th:text="${alist.title}"></span><br /> <span
+								id="aApplyContent" th:text="${alist.applyContent}"></span> <br />
+							<br /> 신청을 취소하시겠습니까?<br /> <br />
+							<button class="mybtn small cancelAppBtn">신청취소</button>
+							<br />
+						</div>
+					</div>
+
+
+				</div>
+				<div class="col-md-2" th:unless="${alist.status} =='' ">
+
+					<div th:if="${alist.status} == '거절'">
+						<span th:text="${alist.status}"></span> <a data-toggle="popover"
+							title="거절 사유" th:data-content="${alist.declineContent}"><i
+							class="fas fa-info-circle"></i></a>
+					</div>
+
+					<div th:unless="${alist.status} == '거절'">
+						<span th:text="${alist.status}"></span>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- 페이징  -->
+			<div class="row mt-2 ">
+				<div class="col-12">
+					<ul class="pagination justify-content-center">
+						<li class="page-item" th:if="${pageMakerAL.prev} == true"><a
+							class="page-link"
+							th:href="@{/myPage/myAppliedList(page=${pageMakerAL.startPage}-1,perPageNum=${pageMakerAL.cri.perPageNum}, keyword=${pageMakerAL.cri.keyword})}">&laquo;</a>
+						</li>
+
+						<li class="page-item"
+							th:each="idx,iterStat : ${#numbers.sequence(pageMakerAL.startPage,pageMakerAL.endPage)}"
+							th:classappend="${pageMakerAL.cri.page} == ${idx} ? active : null">
+							<a class="page-link"
+							th:href="@{/myPage/myAppliedList(page=${idx},perPageNum=${pageMakerAL.cri.perPageNum},  keyword=${pageMakerAL.cri.keyword})}"
+							th:text="${idx}" th:if="${idx}"></a>
+						</li>
+
+						<li class="page-item"
+							th:if="${pageMakerAL.next} == true and ${pageMakerAL.endPage > 0}">
+							<a class="page-link"
+							th:href="@{/myPage/myAppliedList(page=${pageMakerAL.endPage}+1,perPageNum=${pageMakerAL.cri.perPageNum}, keyword=${pageMakerAL.cri.keyword})}">&raquo;</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+
+
+		</div>
+
+
+
+
 	</div>
-
-	<div>신청날짜 신청내역 상태 신청메세지</div>
-	<div th:each="list : ${list}">
-		<span th:text="${list.applyDate}"></span> <span
-			th:text="${list.title}"></span> <span
-			th:text="${list.status} =='' ? '없을무' : ''"></span> <span
-			th:text="${list.applyContent}"></span>
-
-	</div>
-	
-	
-	
-	
-	<br />
-	<br />
-	<br />
-	<br />
-	<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
 </body>
 </html>
