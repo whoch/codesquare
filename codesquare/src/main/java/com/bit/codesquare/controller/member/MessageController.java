@@ -102,7 +102,6 @@ public class MessageController {
 
 	@GetMapping("sendMessage")
 	public String sendNew(Authentication auth, HttpSession session) {
-		csu.getSession(auth, session);
 
 		return "member/myPage/mySendNewMessage";
 	}
