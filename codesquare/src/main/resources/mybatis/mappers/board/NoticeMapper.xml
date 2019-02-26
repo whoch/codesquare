@@ -32,7 +32,7 @@
 	</update>
 	
 	
-		<select id="listCriteria" resultType="Board">
+<select id="listCriteria" resultType="Board">
 	<![CDATA[
 			select
 				id, userid, nickname, title, content, writedate, modifydate, hit

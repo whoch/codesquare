@@ -16,7 +16,5 @@ public class Comment {
 	Date writeDate;
 	String profileImagePath;
 	int deleteStatus;
-	
-	
-	
+
 }

@@ -2,14 +2,13 @@
 <html xmlns:th="http://www.typeleaf.org" 
 xmlns:sd="http://www.thymeleaf.org/spring-data"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorator="layout/mainLayout">
+layout:decorator="layout/mainLayout2">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
 <div class="container" layout:fragment="content">
 <form action="update">
-<input type="hidden" name="id" th:value="${list.id}">
 	<div style="border-bottom: 2px solid;"><h1 align="left"><a href="javascript:history.go(-1)">CodeSquare</a></h1></div>
 	<div style="border-bottom: 2px solid; border-bottom-color: gray;">
 	<a style="float: right;"><span th:text="${list.hit}" style="float: right;"></span>조회수 &nbsp;</a>

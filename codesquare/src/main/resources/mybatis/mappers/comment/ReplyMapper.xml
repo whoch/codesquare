@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bit.codesquare.mapper.comment.ReplyMapper">
+
+	<select id="commentList" resultType="ReplyDto">
+		select * from fcomment where bno = #{bno} order by cno desc
+	</select>
+	
+	<insert id="commentInsert" parameterType="ReplyDto">
+        INSERT INTO
+        fcomment (CNO, BNO, WRITER, CONTENT, REG_DATE)
+        VALUES(#{cno},#{bno},#{writer}, #{content},now()) 
+    </insert>
+    
+    <delete id="commentDelete" parameterType="int">
+        DELETE FROM codesquare.fcomment WHERE CNO = #{cno}
+    </delete>
+    
+    <update id="commentUpdate" parameterType="ReplyDto">
+        UPDATE codesquare.fcomment
+            SET
+            CONTENT = #{content}
+        WHERE CNO = #{cno}
+    </update>
+	
+	<select id="commentCount" parameterType="int">
+		select count(cno) from fcomment where bno=#{bno}
+	</select>
+</mapper>

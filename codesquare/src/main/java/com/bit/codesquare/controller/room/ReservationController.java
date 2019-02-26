@@ -67,7 +67,6 @@ public class ReservationController {
 				String thumbPath=path;
 				thumbPath+=l.getId()+"/Thumbnail."+l;
 				l.setThumbnailPath(thumbPath);
-//		int[] test = new int[] {8,9,11,15,16};
 		String[] test = new String[] {"3","08:00:00"};
 		model.addAttribute("test", test);
 		model.addAttribute("item", l);
