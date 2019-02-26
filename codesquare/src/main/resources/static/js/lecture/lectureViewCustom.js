@@ -90,7 +90,7 @@ function onPlayerReady(event) {
 	if(videoCurrentTime!=0){
 		btnContent+="<button type=\"button\" id=\"btn-continue\"class=\"btn btn-lg btn-secondary btn-yt\">이어보기</button>";
 	}
-	btnContent+="<button type=\"button\" id=\"btn-begin\"class=\"btn btn-lg btn-secondary btn-yt\">처음분터보기</button>";
+	btnContent+="<button type=\"button\" id=\"btn-begin\"class=\"btn btn-lg btn-secondary btn-yt\">처음부터보기</button>";
 	$("#modal-container").html(btnContent);
 }
 
@@ -200,17 +200,14 @@ function getLectureListInfo(){
 
 //목록 토글 기능
 $("#btn-lectureList").click(function(){
-	var status=$(".lecture-list-container").data('status');
+	var lContainer=$(".lecture-list-container");
+	var status=lContainer.data('status');
 	if(status=='invisible'){
-	  $(".lecture-list-container").animate({
-	    left:'-50%'
-	  },"slow")
-	  $(".lecture-list-container").data('status','visible');
+		lContainer.slideDown(1000);
+		lContainer.data('status','visible');
 	}else{
-		$(".lecture-list-container").animate({
-		    left:'100%'
-		  },"slow")
-		  $(".lecture-list-container").data('status','invisible');
+		lContainer.slideUp(1000);
+		lContainer.data('status','invisible');
 	}
 
 })
@@ -233,8 +230,9 @@ $('#top').click(function() {            // When arrow is clicked
 $(document).on('click','#lecture-content-modify',function(){
 	location.href="/learn/intro/"+parentId+"/course/post/"+boardId;
 })
-//$(window).on("beforeunload",function(){
-$("#btn-nextLecture").click(function(){
+
+//$("#btn-nextLecture").click(function(){
+$(window).on("beforeunload",function(){
 	getDuration();
 	var llInfo=new Object()
 	llInfo.userId=userId;
@@ -250,7 +248,7 @@ function updateLearningLogInfo(llInfo){
 		type:'PUT',
 		data:llInfo
 	}).done(function(data){
-		alert("로그저장완료");
+		console.log("로그저장완료");
 		return;
 	}).fail(function(data){
 			alert("Log Save Fail");

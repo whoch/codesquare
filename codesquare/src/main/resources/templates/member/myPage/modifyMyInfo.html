@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout/myPageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 
@@ -10,48 +12,98 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 
 </head>
 <body>
+	<div class="container" layout:fragment="myPageContent">
+		<div id="modifyMyInfo" class="container">
+			<br />
+			<h3>내 정보 수정</h3>
+			<br />
+			<div id="modifyMyInfoForm">
+				<div class="social" style="display: none;">
+					<div class="row py-2">
+						<div class="col-md-2 small text-right">아이디</div>
+						<div class="col-md-2 small" th:text="${user.userId}"></div>
+					</div>
+					<div class="row py-2">
+						<div class="col-md-2 small  text-right">이름</div>
+						<div class="col-md-2 small " th:text="${user.name}"></div>
+					</div>
 
-	<h2>회원정보 수정</h2>
-	<form id="modifyMyInfo">
-	<div>
-		아이디:<input type="hidden" name="userId" th:value="${user.userId}">
-		<span th:text="${user.userId}"> </span>
-	</div>
+					<div class="row py-2">
+						<div class="col-md-2 small  text-right">생년월일</div>
+						<div class="col-md-2 small " th:text="${user.dateOfBirth}">
+						</div>
+					</div>
+				</div>
+				<div class="row py-2">
+					<div class="col-md-2 small  text-right">닉네임</div>
+					<div class="col-md-4 small" id="nickField"
+						th:text="${user.nickName}"></div>
+					<div class="col-md-2 small">
+						<span id="openCN"><i class="fas fa-chevron-down"></i></span>
+					</div>
+				</div>
 
-	<div>
-		이름: <span th:text="${user.name}"></span>
-	</div>
-	
-	<div>생년월일:
-	<span th:text="${user.dateOfBirth}"></span>
-	</div>
+				<div class="row py-2" id="changeNickForm">
 
-	<div>
-	닉네임:
-		<span id="nickField" th:text="${user.nickName}"></span>
+					<div class="col-md-2 px-3 small text-right"></div>
+					<div class="col-md-6 small">
+						<input type="text" id="nickName" name="nickName">
+						<button class=" mybtn px-3 py-1" id="nickValidate">변경하기</button>
+						<br />
+						<div class="py-2" id="nickCheckMsg">
+							<i class='fas fa-info-circle'></i> 닉네임은 한글,영문자, 숫자를 포함한 2자 이상 10자
+							이하
+						</div>
+					</div>
+				</div>
+				<div class="social row py-2" style="display: none;">
+					<div class="col-md-2 small  text-right">이메일</div>
+					<div class="col-md-4 small" id="emailField" th:text="${user.email}"></div>
+					<div class="col-md-2 small">
+						<span id="openCE"> <i class="fas fa-chevron-down"></i></span>
+					</div>
+				</div>
 
-		<span id="changeNick"> 변경하기 </span>
-			<div id="changeNickContent">
-				<input type="text" id="nickName" name="nickName"> <span
-					id="nickValidate">변경하기</span><br /> <div
-					id="nickCheckMsg">닉네임은 한글,영문자, 숫자를 포함한 2자 이상 10자 이하</div>
+				<div class="row py-2" id="changeEmailForm">
+
+					<div class="col-md-2 px-3 small text-right"></div>
+					<div class="col-md-6 small">
+						<input type="text" id="email" name="email">
+						<button class="mybtn px-3 py-1" id="emailValidate">변경하기</button>
+						<br />
+						<div class="py-2" id="emailCheckMsg"></div>
+					</div>
+				</div>
 			</div>
-	</div>
-	<div>
-		이메일:
-		<span id="emailField" th:text="${user.email}"></span>
-		<span id="changeEmail"> 변경하기 </span>
-			<div id="changeEmailContent">
-				<input type="text" id="email" name="email"> <span
-					id="emailValidate" >변경하기</span><br />
-				<span id="emailCheckMsg"></span>
-			</div>
-			<br /> <br /> <br /> <br />
-	</div>
 
-</form>
-<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
-<script th:src="@{/static/js/member/modifyMyInfo.js}"></script> 
+		<!-- 모달창 -->
 
+				<div id="done-dialog" class="jumbotron">
+					<div id="done-close" class="text-right">
+						<i class="fas fa-times align-top "></i>
+					</div>
+					<div id="done-dialog-content" class="text-center">
+					</div>
+				</div>
+
+			<form id="uploadProfileForm" method="post"
+				enctype="multipart/form-data">
+				<div class="row py-2">
+					<div class="col-md-2 small  text-right">프로필</div>
+					<div class="col-md-8">
+						<img th:src="@{${session.profileImagePath}}" class="profileImg"
+							id="profileImg" style="width: 100px; height: 100px" /> <br /> <br />
+						<input type="file" id="uploadProfile" name="uploadProfile" accept=".jpg, .jpeg, .png, .bmp, .gif">
+						<input type="button" class="small mybtn px-3 py-1 "
+							id="uploadDone" value="변경하기">
+					</div>
+
+
+				</div>
+				<input type="hidden" th:name="${_csrf.parameterName}"
+					th:value="${_csrf.token}" />
+			</form>
+		</div>
+	</div>
 </body>
 </html>

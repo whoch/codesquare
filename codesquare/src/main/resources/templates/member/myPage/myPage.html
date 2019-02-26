@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-	layout:decorator="layout/mainLayout"
+	layout:decorator="layout/mainLayout2"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
@@ -9,7 +9,7 @@
 <!-- default header name is X-CSRF-TOKEN -->
 <meta id="_csrf_header" name="_csrf_header"
 	th:content="${_csrf.headerName}" />
-<title>Insert title here</title>
+<title>마이페이지</title>
 
 </head>
 <body>
@@ -25,8 +25,8 @@
 								<div class="profile px-2 text-center">
 									<img th:src="@{${session.profileImagePath}}"
 										class="profileImg " style="width: 100px; height: 100px" /> <br />
-									<span id="myNickName" th:text="${session.nickName}"> </span> 님<br />
-									안녕하세요!
+									<br /> <span id="myNickName" th:text="${session.nickName}">
+									</span> 님<br /> 안녕하세요!
 								</div>
 							</li>
 
@@ -37,7 +37,7 @@
 						</h6>
 						<ul class="nav flex-column mb-2">
 
-							<li class="nav-item"><a id="myMessage" class="nav-link"><i
+							<li class="nav-item"><a id="myMessageInbox" class="nav-link"><i
 									class="far fa-envelope"></i> 내쪽지함 [<span
 									th:text="${count.messageCount}"></span>] </a></li>
 							<li class="nav-item"><a class="nav-link"
@@ -88,37 +88,63 @@
 						<br />
 						<h3>나의 예약 및 결제 내역</h3>
 						<br />
-						<div class="row text-center small p-2 shadow-sm">
-							<div class="col-md-2">예약날짜</div>
-							<div class="col-md-4">예약내역</div>
-							<div class="col-md-2">결제금액</div>
-							<div class="col-md-2">결제일</div>
-							<div class="col-md-2">예약시간</div>
+						<div class="row text-center p-2 shadow-sm">
+							<div class="col-2">예약날짜</div>
+							<div class="col-4">예약내역</div>
+							<div class="col-2">결제금액</div>
+							<div class="col-2">결제일</div>
+							<div class="col-2">예약시간</div>
 						</div>
-						<div class="row text-center border-bottom  py-1 "
+						<div class="row text-center border-bottom  "
 							th:each="rlist : ${rlist}">
-							<div class="col-md-2" th:text="${rlist.reservationdate}"></div>
-							<div class="col-md-2" th:text="${rlist.roomname}"></div>
-							<div class="col-md-2" th:text="${rlist.payamount}"></div>
-							<div class="col-md-2" th:text="${rlist.paymentdate}"></div>
-							<div class="col-md-2" th:text="${rlist.reservationtime}"></div>
+							<div class="col-2" th:text="${rlist.reservationdate}"></div>
+							<div class="col-2" th:text="${rlist.roomname}"></div>
+							<div class="col-2" th:text="${rlist.payamount}"></div>
+							<div class="col-2" th:text="${rlist.paymentdate}"></div>
+							<div class="col-2" th:text="${rlist.reservationtime}"></div>
 						</div>
+<!-- 						페이징 
+			<div class="row pt-2 ">
+				<div class="col-12">
+					<ul class="pagination justify-content-center">
+						<li class="page-item" th:if="${pageMaker.prev} == true"><a
+							class="page-link"
+							th:href="@{/member/receivedMessage(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum}, keyword=${pageMaker.cri.keyword})}">&laquo;</a>
+						</li>
+
+						<li class="page-item"
+							th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"
+							th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
+							<a class="page-link"
+							th:href="@{/message/receivedMessage(page=${idx},perPageNum=${pageMaker.cri.perPageNum},  keyword=${pageMaker.cri.keyword})}"
+							th:text="${idx}" th:if="${idx}"></a>
+						</li>
+
+						<li class="page-item"
+							th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
+							<a class="page-link"
+							th:href="@{/message/receivedMessage(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum}, keyword=${pageMaker.cri.keyword})}">&raquo;</a>
+						</li>
+					</ul>
+				</div>
+			</div> -->
 					</div>
 					<div id="myAppliedList" class="container tab-pane fade">
 						<br />
 						<h3>나의 신청 내역</h3>
 						<br />
 						<div class="row text-center small p-2 shadow-sm">
-							<div class="col-md-2">신청날짜</div>
-							<div class="col-md-5">신청내역</div>
-							<div class="col-md-3">신청메세지</div>
-							<div class="col-md-2">상태</div>
+							<div class="col-2">신청날짜</div>
+							<div class="col-5">신청내역</div>
+							<div class="col-3">신청메세지</div>
+							<div class="col-2">상태</div>
 						</div>
 						<div class="row border-bottom text-center py-2"
 							th:each="alist : ${alist}">
 							<span hidden id="aApplyUserId" th:text="${alist.applyUserId}"></span>
-							
-							<div class="col-md-2" th:text="${#dates.format(alist.applyDate, 'yy-MM-dd')}"></div>
+
+							<div class="col-md-2"
+								th:text="${#dates.format(alist.applyDate, 'yy-MM-dd')}"></div>
 							<div class="col-md-5" th:text="${alist.title}"></div>
 							<div class="col-md-3" th:text="${alist.applyContent}"></div>
 							<div class="col-md-2" th:if="${alist.status} ==''">
@@ -133,10 +159,10 @@
 									<div id="cancel-dialog-content" class="text-center">
 										<span hidden id="aNickName" th:text="${alist.nickName}"></span>
 										<span hidden id="aBoardId" th:text="${alist.boardId}"></span>
-										<span id="aTitle" th:text="${alist.title}"></span><br /> 
-										<span id="aApplyContent" th:text="${alist.applyContent}"></span> <br />
+										<span id="aTitle" th:text="${alist.title}"></span><br /> <span
+											id="aApplyContent" th:text="${alist.applyContent}"></span> <br />
 										<br /> 신청을 취소하시겠습니까?<br /> <br />
-										<button class="mybtn small cancelAppBtn" >신청취소</button>
+										<button class="mybtn small cancelAppBtn">신청취소</button>
 										<br />
 									</div>
 								</div>
@@ -144,15 +170,18 @@
 
 							</div>
 							<div class="col-md-2" th:unless="${alist.status} =='' ">
-							
-							<div th:if="${alist.status} == '거절'">
-								<span th:text="${alist.status}"></span> <a data-toggle="popover" title="거절 사유" th:data-content="${alist.declineContent}"><i class="fas fa-info-circle"></i></a>
-							</div>
-							
-							<div th:unless="${alist.status} == '거절'">
-								<span th:text="${alist.status}"></span>
-							</div>
-							
+
+								<div th:if="${alist.status} == '거절'">
+									<span th:text="${alist.status}"></span> <a
+										data-toggle="popover" title="거절 사유"
+										th:data-content="${alist.declineContent}"><i
+										class="fas fa-info-circle"></i></a>
+								</div>
+
+								<div th:unless="${alist.status} == '거절'">
+									<span th:text="${alist.status}"></span>
+								</div>
+
 							</div>
 						</div>
 
@@ -176,7 +205,8 @@
 									data-toggle="collapse" th:data-target="'#body'+${wlist.id}"
 									aria-expanded="true" aria-controls="'body'+${wlist.id}">
 									<div class="col-md-6" th:text="${wlist.title}"></div>
-									<div class="col-md-4" th:text="${#dates.format(wlist.writeDate, 'yy-MM-dd')}"></div>
+									<div class="col-md-4"
+										th:text="${#dates.format(wlist.writeDate, 'yy-MM-dd')}"></div>
 									<div class="col-md-2"
 										th:text="${wlist.status} == 0 ? '모집중' : '모집완료'"></div>
 
@@ -200,49 +230,52 @@
 										<div class="row text-center py-1"
 											th:each="plist : ${wlist.wantedPlist}">
 											<div class="col-md-3">
-												<span  th:text="${plist.nickName}"></span><br />
+												<span th:text="${plist.nickName}"></span><br />
 												<div class="small">
 													(<span th:text="${plist.applyUserId}"></span>)
 												</div>
 											</div>
 											<div class="col-md-4 " th:text="${plist.applyContent}"></div>
-											
-											<div class="col-md-2" th:text="${#dates.format(plist.applyDate, 'yy-MM-dd')}"></div>
-											<div class="col-md-3" id="moStaus" th:if="${plist.status} =='' ">
-												
-													<button id="acceptMo" class="mybtn px-2 py-1 small">수락</button>
-													<button id="declineMo" class="mybtn px-2 py-1 small">거절</button>
-													<!-- 수락모달창 -->
-													<div id="accept-dialog" class="jumbotron">
-														<div id="accept-close" class="text-right">
-															<i class="fas fa-times small align-top "></i>
-														</div>
-														<div id="accept-dialog-content" class="text-center">
+
+											<div class="col-md-2"
+												th:text="${#dates.format(plist.applyDate, 'yy-MM-dd')}"></div>
+											<div class="col-md-3" id="moStaus"
+												th:if="${plist.status} =='' ">
+
+												<button id="acceptMo" class="mybtn px-2 py-1 small">수락</button>
+												<button id="declineMo" class="mybtn px-2 py-1 small">거절</button>
+												<!-- 수락모달창 -->
+												<div id="accept-dialog" class="jumbotron">
+													<div id="accept-close" class="text-right">
+														<i class="fas fa-times small align-top "></i>
+													</div>
+													<div id="accept-dialog-content" class="text-center">
 														<span hidden id="pBoardId" th:text="${plist.boardId}"></span>
-														<span hidden id="pApplyUserId" th:text="${plist.applyUserId}"></span>
-															<span id="pApplyUserNick" th:text="${plist.nickName}"></span>님의 <span
-																th:text="${plist.applyContent}"></span> <br /> <br />신청을
-															수락하시겠습니까?<br /> <br />
-															<button id="acceptMoBtn" class="mybtn small">수락</button>
-														</div>
+														<span hidden id="pApplyUserId"
+															th:text="${plist.applyUserId}"></span> <span
+															id="pApplyUserNick" th:text="${plist.nickName}"></span>님의
+														<span th:text="${plist.applyContent}"></span> <br /> <br />신청을
+														수락하시겠습니까?<br /> <br />
+														<button id="acceptMoBtn" class="mybtn small">수락</button>
 													</div>
-													
-													 <!-- 거절모달창 -->
-													<div id="decline-dialog" class="jumbotron">
-														<div id="decline-close" class="text-right">
-															<i class="fas fa-times small align-top"></i>
-														</div>
-														<div id="decline-dialog-content" class="text-center">
-															<span th:text="${plist.nickName}"></span>님의 <span
-																th:text="${plist.applyContent}"></span> <br /> 신청을
-															거절하시겠습니까?<br /> <span id="declineMsg" class="small"></span>
-															<br /> 거절사유: <input type="text" name="declineContent">
-															<br /> <br />
-															<button id="declineMoBtn" class="mybtn small" >거절</button>
-														</div>
+												</div>
+
+												<!-- 거절모달창 -->
+												<div id="decline-dialog" class="jumbotron">
+													<div id="decline-close" class="text-right">
+														<i class="fas fa-times small align-top"></i>
 													</div>
-													
-													
+													<div id="decline-dialog-content" class="text-center">
+														<span th:text="${plist.nickName}"></span>님의 <span
+															th:text="${plist.applyContent}"></span> <br /> 신청을
+														거절하시겠습니까?<br /> <span id="declineMsg" class="small"></span>
+														<br /> 거절사유: <input type="text" name="declineContent">
+														<br /> <br />
+														<button id="declineMoBtn" class="mybtn small">거절</button>
+													</div>
+												</div>
+
+
 											</div>
 											<div class="col-md-3" th:unless="${plist.status} =='' ">
 												<div th:text="${plist.status}"></div>
@@ -267,8 +300,9 @@
 												</div>
 											</div>
 											<div class="col-md-5" th:text="${plist.applyContent}"></div>
-											
-											<div class="col-md-2" th:text="${#dates.format(plist.applyDate, 'yy-MM-dd')}"></div>
+
+											<div class="col-md-2"
+												th:text="${#dates.format(plist.applyDate, 'yy-MM-dd')}"></div>
 											<div class="col-md-2" th:text="${plist.status}"></div>
 										</div>
 									</div>
@@ -294,15 +328,25 @@
 
 						<div class="row border-bottom text-center py-2"
 							th:each="blist : ${blist}">
-							<div class="col-md-2 small"><span th:text="${blist.boardName}"></span></div>
+							<div class="col-md-2 small">
+								<span th:text="${blist.boardName}"></span>
+							</div>
 							<div class="col-md-4">
 								<span th:text="${blist.title}"></span> [<span class="small"
 									th:text="${blist.commentCount}"></span>]
+								<span th:if="${blist.imageCount} != 0"><i class="far fa-image"></i></span>
 							</div>
-							<div class="col-md-2 small"> <span th:text="${blist.nickName}"></span></div>
-							<div class="col-md-2 small" th:text="${#dates.format(blist.writeDate, 'yy-MM-dd')}"></div>
-							<div class="col-md-1 small"><i class="far fa-eye"></i> <span th:text="${blist.hit}"></span></div>
-							<div class="col-md-1 small"><i class="fas fa-heart"></i> <span th:text="${blist.likeCount}"></span></div>
+							<div class="col-md-2 small">
+								<span th:text="${blist.nickName}"></span>
+							</div>
+							<div class="col-md-2 small"
+								th:text="${#dates.format(blist.writeDate, 'yy-MM-dd')}"></div>
+							<div class="col-md-1 small">
+								<i class="far fa-eye"></i> <span th:text="${blist.hit}"></span>
+							</div>
+							<div class="col-md-1 small">
+								<i class="fas fa-heart"></i> <span th:text="${blist.likeCount}"></span>
+							</div>
 
 						</div>
 					</div>
@@ -381,7 +425,7 @@
 										id="profileImg" style="width: 100px; height: 100px" /> <br />
 									<br /> <input type="file" id="uploadProfile"
 										name="uploadProfile">
-									<button class="small mybtn px-3 py-1 " id="uploadDone">변경하기</button>
+									<input type="button" class="small mybtn px-3 py-1 " id="uploadDone" value="변경하기">
 								</div>
 
 
@@ -500,25 +544,35 @@
 						</div>
 					</div>
 
+				<!-- 모달창 -->
+
+				<div id="done-dialog" class="jumbotron">
+					<div id="done-close" class="text-right">
+						<i class="fas fa-times align-top "></i>
+					</div>
+					<div id="done-dialog-content" class="text-center">
+					</div>
+				</div>
 
 				</div>
+
+
 				</main>
 			</div>
 		</div>
 	</div>
 
-		<th:block layout:fragment="script">
-			<script th:src="@{/static/js/member/myPage.js}"></script>
-		
-		</th:block>
-		<th:block layout:fragment="css">
+	<th:block layout:fragment="script">
+		<script th:src="@{/static/js/member/myPage.js}"></script>
 
-			<link rel="stylesheet" type="text/css"  th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
-			<link rel="stylesheet" type="text/css"  th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}" />
+	</th:block>
+	<th:block layout:fragment="css">
 
-			<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic">
-			<link rel="stylesheet" type="text/css" th:href="@{/static/styles/member/myPage.css}">
-		</th:block>
+		<link rel="stylesheet" type="text/css"
+			th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
+		<link rel="stylesheet" type="text/css"
+			th:href="@{/static/styles/member/myPage.css}">
+	</th:block>
 	<!-- 사용자 스크립트 추가 -->
 
 

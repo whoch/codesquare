@@ -13,9 +13,7 @@
 </head>
 <body>
 <div class="container" layout:fragment="content">
-<th:block layout:fragment="css">
-<link rel="stylesheet" th:href="@{/static/styles/member/myPage.css}">
-</th:block> 
+
 
 	<div class="inner" >
 		<nav>
@@ -66,13 +64,16 @@
 
 <br /> <br /> <br /> <br />
 <br /> <br /> <br /> <br />
+
+</div>
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="css">
+<link rel="stylesheet" th:href="@{/static/styles/member/myPage.css}">
+</th:block> 
 <th:block layout:fragment="script">
 <script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
 <script th:src="@{/static/js/member/myPage2.js}"></script> 
 </th:block>
-</div>
-<!-- 사용자 스크립트 추가 -->
-
 
 
 </body>

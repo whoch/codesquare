@@ -35,21 +35,6 @@ $(function() {
 	})
 }*/
 
-function getId(content,index){
-	return content.attr('id').split('-')[index];
-}
-//이벤트 처리 메세지 출력 메서드
-function alertMessage(msg){
-	$("#div-alert-area").text(msg);
-}
-//유저정보 상세보기 모달창 닫기
-function userModalHide(){
-	$(".main-panel .modal").modal('hide')
-	setTimeout(function() {
-		location.reload();
-		alertMessage('');
-	}, 2000);
-}
 //1.정렬
 $(document).on('click','#btn-category-UserId,#btn-category-BanCount,#btn-category-Point',function(){
 	var id=getId($(this),2)
@@ -154,16 +139,16 @@ function banMemberModal(userId){
 //5.모든 항목 체크
 $("#btn-allcheck").click(function(){
 	var self=$("#btn-allcheck");
-	var status=$("#btn-allcheck").data('status')	
-	if(status=='true'){
-		$("[type=checkbox]").attr("checked",false);
-		self.data('status','false');
-	}else{
-		$("[type=checkbox]").attr("checked",true);
-		self.data('status','true');
+	var status=self.data('status')	
+	if(status=='on'){
+		$("input[name=form-check-list]:checkbox").prop("checked","");
+		self.data('status','off');
+	}
+	if(status=='off'){
+		$("input[name=form-check-list]:checkbox").prop("checked", "checked");
+		self.data('status','on');
 	}
 })
-
 function getCheckedIds(){
 	var obj=new Array();
 	var count=0;

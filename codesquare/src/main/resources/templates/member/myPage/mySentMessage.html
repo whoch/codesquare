@@ -14,16 +14,26 @@
 	<div id="messageContent" layout:fragment="messageContent">
 
 		<div id="sentMessage" class="small mx-auto">
-			<form th:action="@{/message/sentMessage}">
-				<div class="row py-2">
+			<form name="sSearch" th:action="@{/message/sentMessage}">
+				<div class="row py-3">
 					<div class="col-2 input-group-prepend"></div>
 					<div class="col-3 input-group-prepend"></div>
 
 					<div class="col-7 input-group-prepend ">
 						<input class="form-control input-group-sm mx-1" type="text"
-							placeholder="Search" th:value="${pageMaker.cri.keyword}" > <input class="mybtn " type="button"
+							placeholder="Search" name="keyword" th:value="${pageMaker.cri.keyword}" > <input class="mybtn " type="button" name="searchSBtn"
 							value="찾기">
 					</div>
+					
+							<!-- 삭제 모달 -->
+
+					<div id="delete-dialog" class="jumbotron">
+						<div id="delete-close" class="text-right">
+							<i class="fas fa-times  align-top "></i>
+						</div>
+						<div id="delete-dialog-content" class="text-center"></div>
+					</div>
+					
 				</div>
 			</form>
 			<div class="row shadow-sm text-center py-2">
@@ -69,7 +79,7 @@
 						th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
 						<a class="page-link"
 						th:href="@{/message/sentMessage(page=${idx},perPageNum=${pageMaker.cri.perPageNum}, keyword=${pageMaker.cri.keyword})}"
-						th:text="${idx}"></a>
+						th:text="${idx}" th:if="${idx}"></a>
 					</li>
 
 					<li class="page-item"
