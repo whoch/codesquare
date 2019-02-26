@@ -98,16 +98,21 @@
 	    margin: 0 auto;
 	}
 	
-	.comment-div, .groupContent {
-		border-top: 1px solid rgba(0,0,0,.125);
+	.comment-div {
+		border-top: 1px solid r`ba(0,0,0,.125);
 	}
 	
 	.board-content {
 		padding: 50px 0px;
+	    margin-bottom: 20px;
 	}
 	
 	.groupContent {
+		border-top: 1px solid rgba(0,0,0,.125);
 		padding: 50px 30px;
+		position: absolute;
+	    bottom: 0;
+	    width: 100%;
 	}
 	
 	.group-detail dt {
@@ -124,6 +129,7 @@
 		grid-column-gap : repeat(2, 10px);
 		grid-row-gap: 7px;
      	grid-template-columns: 15% 25% 10% 20% 10% 20%;
+     	width: 100%;
 	}
 	
 	.group-member-cnt {
@@ -410,7 +416,6 @@
 	    margin-bottom: 0;
 	    font-size: larger;
 	}
-	
 
 	.m-btm20 {
 		margin-bottom: 20px;
