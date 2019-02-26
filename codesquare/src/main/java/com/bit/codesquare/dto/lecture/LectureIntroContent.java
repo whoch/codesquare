@@ -6,6 +6,7 @@ import lombok.Data;
 public class LectureIntroContent {
 	int id;
 	String boardNameEn;
+	String langKind;
 	String title;
 	String nickName;
 	String changedName;
@@ -15,5 +16,7 @@ public class LectureIntroContent {
 	String priceInfo;
 	int studentCount;
 	int completeCount;
+	int hit;
+	int lectureStatus;
 	String thumbnailPath;
 }

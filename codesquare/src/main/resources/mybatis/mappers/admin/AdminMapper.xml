@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit.codesquare.mapper.admin.AdminMapper">
+
+	<!-- 신고내역 조회 쿼리 -->
+	<select id="getFiveRepotedInfo" resultType="ReportedUserInfo">
+		SELECT * FROM
+		ReportedInfo ORDER BY ID DESC LIMIT 5
+	</select>
+	<!-- todolist -->
+	<select id="getTodoList" parameterType="String"
+		resultType="UserTodoList">
+		SELECT * FROM ToDoList WHERE UserId=#{id};
+	</select>
+
+	<!-- todolist 추가 쿼리 -->
+	<insert id="insertTodoList" parameterType="map">
+		INSERT INTO ToDoList(UserId, Content)
+		VALUES(#{userId},#{content})
+		<selectKey resultType="hashmap" keyProperty="id,writeDate"
+			order="AFTER">
+			SELECT Id AS 'id', WriteDate AS 'writeDate' FROM ToDoList ORDER
+			BY Id DESC
+			LIMIT 1
+		</selectKey>
+	</insert>
+
+	<!-- todolist 삭제 쿼리 -->
+	<delete id="deleteTodoList" parameterType="int">
+		DELETE FROM ToDoList
+		WHERE Id=#{id}
+	</delete>
+
+	<!-- 관리자 메모 조회 쿼리 -->
+	<select id="getAdminMemo" resultType="AdminMemo">
+		SELECT * FROM AdminMemo
+	</select>
+
+	<!-- 관리자 메모 업데이트 쿼리 -->
+	<update id="updateAdminMemo" parameterType="map">
+		UPDATE AdminMemo
+		<set>
+			<if test="author !=null">Author=#{author},</if>
+			<if test="content !=null">Content=#{content},</if>
+		</set>
+		,WriteDate=CURRENT_TIMESTAMP
+	</update>
+
+	<!-- 일주일 가입 회원 조회 -->
+	<select id="getWeekSignupMember" resultType="int">
+	 	<![CDATA[
+			SELECT COUNT(*)
+			FROM UserInfo
+			WHERE SignUpDate >= DATE_ADD(NOW(),INTERVAL -7 DAY)
+		]]>
+	</select>
+
+	<!-- 일주일 새글 갯수 조회 -->
+	<select id="getNewPost" resultType="int">
+	 	<![CDATA[
+			SELECT COUNT(*)
+			FROM Board
+			WHERE WriteDate >= DATE_ADD(NOW(),INTERVAL -7 DAY)
+		]]>
+	</select>
+
+	<!-- 강사인원 조회 -->
+	<select id="getInstroduction" resultType="int">
+	 	<![CDATA[
+			SELECT COUNT(*)
+			FROM InstructorInfo
+		]]>
+	</select>
+
+	<!-- 최근 3일 올라온 강의 조회 -->
+	<select id="getRecentLecture" resultType="int">
+	 	<![CDATA[
+			SELECT COUNT(*)
+			FROM Board
+			WHERE BoardKindId='LrnPr' AND WriteDate >= DATE_ADD(NOW(),INTERVAL -3 DAY)
+		]]>
+	</select>
+
+	<!-- 최근 3일 신고 카운트 랭킹 조회 -->
+	<select id="getThreeDayRepotedUserRanking"
+		resultType="ReportedUserInfo">
+	 	<![CDATA[
+			SELECT @rownum:=@rownum+1 AS 'rowNum', COUNT(*)AS 'ReportedCount', b.ReportedUserId
+			FROM (SELECT * FROM ReportedInfo a WHERE a.ReportedDate >= DATE_ADD(NOW(),INTERVAL -3 DAY)) AS b,(SELECT @rownum:=0)AS r
+			GROUP BY b.ReportedUserId
+			ORDER BY ReportedCount DESC LIMIT 5
+		]]>
+	</select>
+
+	<!-- 회원 조회 쿼리 -->
+	<!-- <select id="getAllMemberInfo" resultType="Member"> SELECT u.UserId, 
+		u.AuthorId, u.RestrictId, u.NickName, u.SignUpDate, u.BanCount, u.`POINT`, 
+		rs.Content FROM UserInfo u INNER JOIN RestrictStatusInfo rs ON u.RestrictId=rs.Id 
+		ORDER BY UserId </select> -->
+	<select id="getAllMemberInfo" resultType="Member">
+   <![CDATA[
+         SELECT u.UserId, u.AuthorId, u.RestrictId, u.NickName, u.SignUpDate, u.BanCount, u.`POINT`, rs.Content 'restrictName', ai.Content 'authorName'
+		 FROM UserInfo u INNER JOIN RestrictStatusInfo rs ON u.RestrictId=rs.Id
+		 INNER JOIN AuthorInfo ai ON ai.Id=u.AuthorId
+   ]]>
+   <![CDATA[   
+         ORDER BY u.UserId
+         LIMIT #{pageStart}, #{perPageNum}
+   ]]>
+	</select>
+
+	<!-- ID순서 정렬 -->
+	<select id="getSortIdMemberInfo" resultType="Member">
+   <![CDATA[
+         SELECT u.UserId, u.AuthorId, u.RestrictId, u.NickName, u.SignUpDate, u.BanCount, u.`POINT`, rs.Content 'restrictName', ai.Content 'authorName'
+		 FROM UserInfo u INNER JOIN RestrictStatusInfo rs ON u.RestrictId=rs.Id
+		 INNER JOIN AuthorInfo ai ON ai.Id=u.AuthorId
+   ]]>
+   <![CDATA[   
+         ORDER BY u.UserId 
+         LIMIT #{pageStart}, #{perPageNum}
+   ]]>
+	</select>
+
+	<!-- point순서정렬 -->
+	<select id="getSortPointMemberInfo" resultType="Member">
+   <![CDATA[
+         SELECT u.UserId, u.AuthorId, u.RestrictId, u.NickName, u.SignUpDate, u.BanCount, u.`POINT`, rs.Content 'restrictName', ai.Content 'authorName'
+		 FROM UserInfo u INNER JOIN RestrictStatusInfo rs ON u.RestrictId=rs.Id
+		 INNER JOIN AuthorInfo ai ON ai.Id=u.AuthorId
+   ]]>
+   <![CDATA[   
+         ORDER BY u.Point DESC
+         LIMIT #{pageStart}, #{perPageNum}
+   ]]>
+	</select>
+
+	<!-- ban순서정렬 -->
+	<select id="getSortBanMemberInfo" resultType="Member">
+   <![CDATA[
+         SELECT u.UserId, u.AuthorId, u.RestrictId, u.NickName, u.SignUpDate, u.BanCount, u.`POINT`, rs.Content 'restrictName', ai.Content 'authorName'
+		 FROM UserInfo u INNER JOIN RestrictStatusInfo rs ON u.RestrictId=rs.Id
+		 INNER JOIN AuthorInfo ai ON ai.Id=u.AuthorId
+   ]]>
+   <![CDATA[   
+         ORDER BY u.BanCount DESC
+         LIMIT #{pageStart}, #{perPageNum}
+   ]]>
+	</select>
+
+	<!-- countPaging -->
+	<select id="countPaging" parameterType="map" resultType="int">
+ 	  <![CDATA[
+         SELECT COUNT(@rownum)
+         FROM (SELECT @rownum:=@rownum+1 AS'rowNum', u.* FROM ${tName} AS u, (SELECT @rownum:=0) r)AS b
+         WHERE @rownum >0 
+      ]]>
+		<if test="content !=null">AND UserId like CONCAT('%',#{content},'%') OR NickName
+			like CONCAT('%',#{content},'%')</if>
+		<if test="tag !=null">AND LangKind = #{tag}</if>
+		<if test="keyword !=null">
+			AND Title=#{keyword} OR NickName=#{keyword} OR Tag=#{keyword}
+		</if>
+	</select>
+
+	<!-- 회원 아이디 닉네임 검색 쿼리 -->
+	<select id="getSearchMember" parameterType="String"
+		resultType="Member">
+		SELECT u.UserId, u.AuthorId, u.RestrictId, u.NickName,
+		u.SignUpDate, u.BanCount, u.`POINT`, rs.Content 'restrictName',
+		ai.Content 'authorName'
+		FROM UserInfo u INNER JOIN RestrictStatusInfo rs ON u.RestrictId=rs.Id
+		INNER JOIN AuthorInfo ai ON ai.Id=u.AuthorId
+		WHERE UserId like CONCAT('%',#{content},'%') OR NickName like
+		CONCAT('%',#{content},'%')
+	</select>
+
+	<!-- 회원정보 상세보기 쿼리 -->
+	<select id="getSelectMemberInfo" parameterType="String"
+		resultType="Member">
+		SELECT u.UserId,u.`Name`,u.Email, u.AuthorId, u.RestrictId,
+		u.NickName, u.SignUpDate, u.DateOfBirth ,u.BanCount, u.`POINT`,
+		rs.Content 'restrictName', ai.Content 'authorName'
+		FROM UserInfo u INNER JOIN RestrictStatusInfo rs ON u.RestrictId=rs.Id
+		INNER JOIN AuthorInfo ai ON ai.Id=u.AuthorId
+		WHERE UserId=#{userId}
+
+	</select>
+	<!-- 회원 정보 삭제 쿼리 -->
+	<delete id="deleteUserInfo" parameterType="String">
+		DELETE FROM UserInfo
+		<if test="value!=null">WHERE UserId=#{userId}</if>
+	</delete>
+
+	<!-- 등급&권한정보 조회 쿼리 -->
+	<select id="getAllAuthorInfo" resultType="map">
+		SELECT Id AS 'id',
+		Content AS 'content'
+		FROM AuthorInfo
+	</select>
+
+	<!-- 제한정보 조회 쿼리 -->
+	<select id="getAllRestrictInfo" resultType="map">
+		SELECT Id AS 'id',
+		Content AS 'content'
+		FROM RestrictStatusInfo
+	</select>
+
+	<!-- 등급&제한정보 조회 쿼리 -->
+	<select id="getAllSelectboxInfo" parameterType="string"
+		resultType="SelectBasket">
+		SELECT Id AS 'id', Content AS 'content'
+		<if test="value!=null">FROM ${value}</if>
+	</select>
+
+	<update id="updateUserInfo" parameterType="Member">
+		UPDATE UserInfo
+		<set>
+			<if test="nickName !=null">NickName=#{nickName},</if>
+			<if test="authorId !=null">AuthorId=#{authorId},</if>
+			<if test="restrictId !=null">RestrictId=#{restrictId}</if>
+		</set>
+		WHERE UserId=#{userId}
+	</update>
+
+	<!-- 유저들 등급 조정 쿼리 -->
+	<update id="updateUsersAuthor"
+		parameterType="java.util.ArrayList">
+		<foreach item="item" collection="list" separator=";"
+			index="index">
+			UPDATE UserInfo
+			SET AuthorId=#{item.id}
+			WHERE
+			UserId=#{item.strId}
+		</foreach>
+	</update>
+	<!-- 유저들 제한 조절 쿼리 -->
+	<update id="updateUsersRestrict"
+		parameterType="java.util.ArrayList">
+		<foreach item="item" collection="list" separator=";"
+			index="index">
+			UPDATE UserInfo
+			SET RestrictId=#{item.id}
+			WHERE
+			UserId=#{item.strId}
+		</foreach>
+	</update>
+	<select id="getAllLectureList" resultType="LectureIntroContent">
+   <![CDATA[
+        SELECT *
+		FROM
+		v_LectureIntroContent
+   ]]>
+   <![CDATA[   
+         ORDER BY Title
+         LIMIT #{pageStart}, #{perPageNum}
+   ]]>
+	</select>
+	<!-- 태그별 강의 검색 쿼리 -->
+	<select id="getSortbyTagLectureIntro" parameterType="map"
+		resultType="LectureIntroContent">
+   <![CDATA[
+        SELECT *
+		FROM v_LectureIntroContent
+   ]]>
+		<where>
+			<if test="tag !='All' and tag !=null">LangKind=(SELECT LangKind FROM LanguageKindInfo WHERE
+				LangKindEn=#{tag})</if>
+			<if test="tag =='All'">AND LangKind IN(SELECT DISTINCT LangKind FROM LectureTag)
+			</if>
+		</where>
+		<![CDATA[   
+         ORDER BY Title
+         LIMIT #{cri.pageStart}, #{cri.perPageNum}
+  	 ]]>
+	</select>
+
+	<!-- 강의 태그 조회 쿼리 -->
+	<select id="getAllLectureTag" resultType="map">
+		SELECT LangKind,
+		LangKindEn FROM LanguageKindInfo
+	</select>
+
+	<!-- 강의 검색 쿼리(강사명,제목,태그 검색) -->
+	<select id="getSearchLectureIntroConent" parameterType="map"
+		resultType="LectureIntroContent">
+		<![CDATA[
+	        SELECT *
+			FROM v_LectureIntroContent
+	   ]]>
+		<where>
+			<if test="keyword !=null">
+				Title LIKE CONCAT('%',#{keyword},'%') OR NickName LIKE CONCAT('%',#{keyword},'%') OR Tag LIKE CONCAT('%',#{keyword},'%')
+			</if>
+		</where>
+	   <![CDATA[   
+	         ORDER BY Title
+	         LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	   ]]>
+
+	</select>
+	<!-- 선택된 강의들 삭제 쿼리 -->
+	<delete id="deleteLectureList" parameterType="java.util.ArrayList">
+		<foreach item="item" collection="list" separator=";" index="index">
+			DELETE FROM Board
+			WHERE Id=${item.boardId}
+		</foreach>
+	</delete>
+	
+	<!-- 선택된 강의들 보류상태 변경 쿼리 -->
+	<update id="updateLecturePendingStatus" parameterType="java.util.ArrayList">
+		<foreach collection="list" item="item" separator=";" index="index">
+			UPDATE LectureDetailInfo
+			SET LectureStatus=${item.status}
+			WHERE Id=${item.boardId}
+		</foreach>
+	</update>
+	
+	<select id="getAllBlackKeyword" resultType="map">
+		SELECT Id 'id', Content 'content'
+		FROM BlackKeyword
+	</select>
+	<insert id="insertBlackKeyword" parameterType="java.util.ArrayList">
+		<foreach collection="list" item="item" separator=";" index="index">
+		INSERT INTO BlackKeyword(Content)
+		(SELECT #{item}
+				FROM DUAL
+				WHERE NOT EXISTS (
+								SELECT *
+								FROM BlackKeyword
+								WHERE Content=#{item}))
+		</foreach>
+	</insert>
+	
+	<delete id="deleteBlackKeyword" parameterType="java.util.ArrayList">
+		<foreach collection="list" item="item" separator=";">
+			DELETE FROM BlackKeyword
+			WHERE Id=${item.id}
+		</foreach>
+	</delete>
+
+	<select id="getAllBoard" resultType="Board">
+		SELECT 
+	</select>
+	
+</mapper>

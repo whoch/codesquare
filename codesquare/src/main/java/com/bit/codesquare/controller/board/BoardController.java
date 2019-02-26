@@ -28,7 +28,6 @@ public class BoardController {
 	@Autowired
 	CodesquareUtil csu;
 	
-//	@RequestMapping(value= {"/","index","main"})
 	@RequestMapping(method=RequestMethod.GET)
 	public String start(Model model, Authentication auth, HttpSession session) {
 		
@@ -43,9 +42,25 @@ public class BoardController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "index";
+		return "index3";
 	}
-
+//
+//	@RequestMapping("new")
+//	public String main2(Model model, Authentication auth, HttpSession session) {
+//		
+//		csu.getSession(auth, session);
+//		
+//		try {
+//			board= boardMapper.getRecommandList();
+//			model.addAttribute("riList",board);
+//			
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		return "index3";
+//	}
 	
 	
 }

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout/myPageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 
@@ -9,29 +11,61 @@
 
 </head>
 <body>
+<div class="container"  layout:fragment="myPageContent">
+	<div id="modifyInstructorInfo" class="container">
+		<br />
+		<h3>강사 정보 수정하기</h3>
+		<br />
 
-	<h2>강사 정보 수정하기</h2>
-
-	<form id="modifyInstructorInfoForm" method="post">
-
-
-		<div>
-
-
-			강사 소개글:<br />
-			<textarea id="introContent" name="introContent" rows="10" cols="30"
-				th:text="${instructorInfo.introContent}">
-		
-		</textarea>
-			<br /> <br /> 강사 이력:<br />
-			<textarea id="history" name="history"
-				th:text="${instructorInfo.history}" rows="10" cols="30">
-		</textarea>
-			<span id="modifyInstructorInfoDone">수정하기</span>
-			<br /> <br /> <br /> <br />
+		<div class="row py-2">
+			<div class="col-3 small text-right">강사 소개글</div>
+			<div class="col-7" th:text="${instructorInfo.introContent} "></div>
+			<div class="col-2">
+				<i id="openIC" class="fas fa-chevron-down"></i>
+			</div>
 		</div>
-	</form>
-	<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
-	<script th:src="@{/static/js/member/myPage.js}"></script>
+		<div class="row py-2" id="introContentForm">
+			<div class="col-3"></div>
+			<div class="col-7">
+				<textarea id="introContent" name="introContent" rows="10" cols="40"
+					th:text="${instructorInfo.introContent}">
+								</textarea>
+			</div>
+		</div>
+		<div class="row ">
+			<div class="col-3 text-right small py-2">강사 이력</div>
+			<div class="col-7" th:text="${instructorInfo.history}"></div>
+			<div class="col-2">
+				<i id="openHS" class="fas fa-chevron-down"></i>
+			</div>
+		</div>
+		<div class="row  py-2" id="instructorHistoryForm">
+			<div class="col-3 text-center small py-2">강사 이력</div>
+			<div class="col-7 py-2">
+				<textarea id="history" name="history"
+					th:text="${instructorInfo.history}" rows="10" cols="40">
+								</textarea>
+			</div>
+		</div>
+		
+		<!-- 모달창 -->
+
+				<div id="done-dialog" class="jumbotron">
+					<div id="done-close" class="text-right">
+						<i class="fas fa-times align-top "></i>
+					</div>
+					<div id="done-dialog-content" class="text-center">
+					</div>
+				</div>
+				
+		<div class="row py-2">
+			<br /> <br />
+			<div class="col-md-12 small text-right ">
+				<br />
+				<button class="mybtn px-3 py-1" id="modifyInstructorInfoDone">수정하기</button>
+			</div>
+		</div>
+	</div>
+	</div>
 </body>
 </html>

@@ -46,9 +46,9 @@ public class FacebookFilter extends OAuth2ClientAuthenticationProcessingFilter {
 	        Member member = new Member();
 	       
 	        member.setAuthorId(6);
-	        member.setUserId(map.get("email"));
+	        member.setUserId(map.get("name")+ranNum);
 	        member.setNickName(map.get("name")+ranNum);
-	        member.setEmail(map.get("email"));
+	        member.setEmail(map.get("name")+ranNum);
 	        member.setName(map.get("name"));
 	        member.setPassword("socialMember");
 	       

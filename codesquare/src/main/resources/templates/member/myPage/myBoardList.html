@@ -1,13 +1,78 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="layout/myPageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
 </head>
 <body>
+	<div class="container" layout:fragment="myPageContent">
+		<div id="myBoardList" class="container">
+			<br />
+			<h3>내가 쓴 글</h3>
+			<br />
 
-내가 쓴 글
+			<div class="row border-bottom text-center py-2"
+				th:each="blist : ${blist}">
+				<div class="col-md-2 small">
+					<span th:text="${blist.boardName}"></span>
+				</div>
+				<div class="col-md-4">
+					<span th:text="${blist.title}"></span> [<span class="small"
+						th:text="${blist.commentCount}"></span>] <span
+						th:if="${blist.imageCount} != 0"><i class="far fa-image"></i></span>
+				</div>
+				<div class="col-md-2 small">
+					<span th:text="${blist.nickName}"></span>
+				</div>
+				<div class="col-md-2 small"
+					th:text="${#dates.format(blist.writeDate, 'yy-MM-dd')}"></div>
+				<div class="col-md-1 small">
+					<i class="far fa-eye"></i> <span th:text="${blist.hit}"></span>
+				</div>
+				<div class="col-md-1 small">
+					<i class="fas fa-heart"></i> <span th:text="${blist.likeCount}"></span> 
+				</div>
+
+			</div>
+		
+			<!-- 페이징  -->
+			<div class="row pt-2 ">
+				<div class="col-12">
+					<ul class="pagination justify-content-center">
+						<li class="page-item" th:if="${pageMakerBL.prev} == true"><a
+							class="page-link"
+							th:href="@{/myPage/myBoardList(page=${pageMakerBL.startPage}-1,perPageNum=${pageMakerBL.cri.perPageNum}, keyword=${pageMakerBL.cri.keyword})}">&laquo;</a>
+						</li>
+
+						<li class="page-item"
+							th:each="idx,iterStat : ${#numbers.sequence(pageMakerBL.startPage,pageMakerBL.endPage)}"
+							th:classappend="${pageMakerBL.cri.page} == ${idx} ? active : null">
+							<a class="page-link"
+							th:href="@{/myPage/myBoardList(page=${idx},perPageNum=${pageMakerBL.cri.perPageNum},  keyword=${pageMakerBL.cri.keyword})}"
+							th:text="${idx}" th:if="${idx}"></a>
+						</li>
+
+						<li class="page-item"
+							th:if="${pageMakerBL.next} == true and ${pageMakerBL.endPage > 0}">
+							<a class="page-link"
+							th:href="@{/myPage/myBoardList(page=${pageMakerBL.endPage}+1,perPageNum=${pageMakerBL.cri.perPageNum}, keyword=${pageMakerBL.cri.keyword})}">&raquo;</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		
+		
+		
+		
+		
+		
+		
+		</div>
+		
+	</div>
 
 </body>
 </html>

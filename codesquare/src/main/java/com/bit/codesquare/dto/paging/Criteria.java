@@ -1,8 +1,14 @@
 package com.bit.codesquare.dto.paging;
 
+import lombok.Data;
+
+@Data
 public class Criteria {
 	private int page;  		    // 보여줄 페이지 번호
 	private int perPageNum;   // 페이지당 보여줄 게시글의 개수
+	
+	private String keyword;
+	private String searchOption;
 	
 	public Criteria() {
 		//최초 게시판에 진입할 때를 위해서 기본 값을 설정 해야 한다.
@@ -10,9 +16,7 @@ public class Criteria {
 		this.perPageNum = 10;
 	}
 
-	public int getPage() {
-		return page;
-	}
+	
 
 	public void setPage(int page) {
 		if(page <= 0) {
@@ -23,9 +27,6 @@ public class Criteria {
 		this.page = page;
 	}
 
-	public int getPerPageNum() {
-		return perPageNum;
-	}
 
 	public void setPerPageNum(int perPageNum) {
 		

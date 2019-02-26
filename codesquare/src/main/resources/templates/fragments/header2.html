@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
+<header th:fragment="headerFragment2">
+
+	<!--  최상단 로그인/회원가입 -->
+	<div class="row py-2 secbar">
+		<div sec:authorize="isAuthenticated()">
+			<input type="hidden" id="userId" th:value="@{${session.userId}}">
+
+			<div class="dropdown px-2">
+				<div class="dropdown-toggle" data-toggle="dropdown">
+					<img th:src="@{${session.profileImagePath}}" class="profileImg" />
+					<span id="headerNickName" class="px-3"
+						th:text="${session.nickName}"></span>
+				</div>
+				<div class="dropdown-menu text-center dropdown-menu-right">
+					<a class="dropdown-item" th:href="@{/member/myPage}">마이페이지</a> <a
+						class="dropdown-item" id="myMessage" href="#">내 쪽지함</a> <a
+						class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+				</div>
+			</div>
+
+		</div>
+		<div sec:authorize="isAnonymous()">
+			<ul>
+				<li><a th:href="@{/member/login}">로그인</a></li>
+				<li><a th:href="@{/member/signUp}">회원가입</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- 로고 -->
+	<br /> <br />
+
+	<div class="row logo">
+		<div class="col codesquare py-0">
+			<a th:href="@{/}"><img th:src="@{/static/images/logo.png}"
+				alt="noimg" /> 코드스퀘어</a>
+		</div>
+	</div>
+
+
+	<!-- 메뉴 -->
+	<nav class="nav justify-content-center">
+		<div class="col ">
+			<span class="dropmenu"><a href="#"> 새소식</a> </span>
+			<ul class="dropdown">
+				<li><a href="/home">공지사항</a></li>
+				<li><a href="#">IT NEWS</a></li>
+			</ul>
+		</div>
+
+
+		<div class="col">
+			<span class="dropmenu"> <a href="#">스터디 / 세미나</a>
+			</span>
+			<ul class="dropdown">
+				<li><a href="#">스터디 모집</a></li>
+				<li><a href="/seminarList">세미나 모집</a></li>
+				<li><a href="#">스터디 / 세미나 후기</a></li>
+				<li><a href="/companyList">공간예약</a></li>
+			</ul>
+		</div>
+
+		<div class="col">
+			<span class="dropmenu"> <a href="#">커뮤니티</a>
+			</span>
+			<ul class="dropdown">
+				<li><a href="/getfree">자유게시판</a></li>
+				<li><a href="#">질문있어요</a></li>
+			</ul>
+		</div>
+
+
+		<div class="col">
+			<span class="dropmenu"> <a href="#">프로그래밍 강의</a>
+			</span>
+
+		</div>
+
+		<div class="col">
+			<span class="dropmenu"> <a href="#">플래너</a>
+			</span>
+
+		</div>
+	</nav>
+</header>
+
+</html>

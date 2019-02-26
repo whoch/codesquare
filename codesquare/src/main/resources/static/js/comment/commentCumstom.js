@@ -106,8 +106,15 @@ $(document).ready(function() {
 	
 	//댓글 등록버튼 클릭
 	$(".btn-comment-regist").click(function(){
-		var comment=$("[name=commentForm]").serialize();
-		insertComment(comment);
+		var cContent=$(".comment-content>[name=content]").val();
+		var result=checkKeywordFilter(cContent);
+		console.log(result);
+		if(result.length==0){
+			var comment=$("[name=commentForm]").serialize();
+			insertComment(comment);
+		}else if(result.length>0){
+			alert(result+" 단어는 적절치 못합니다. 바르고 고운말을 작성해 주세요.");
+		}
 	})
 	
 	/**
@@ -169,6 +176,6 @@ $(document).ready(function() {
 		}
 		
 	})
-	
+
 	
 })

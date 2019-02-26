@@ -5,14 +5,17 @@
 <insert id="insert" parameterType="Reservation">
 		INSERT INTO codesquare.ReservationInfo
 		(RoomId, BoardId, UserId, ReservationDate, PayAmount, ReservationTime, UseTime, Person, EndDate) 
-		values (#{roomid}, null, #{userid}, #{reservationdate}, #{payamount}, #{reservationtime}, #{usetime}, #{person}, #{enddate})
+		values (#{roomid}, null, #{userId}, #{reservationdate}, #{payamount}, #{reservationtime}, #{usetime}, #{person}, #{enddate})
 <selectKey resultType="int" keyProperty="no" order="AFTER">
 	SELECT LAST_INSERT_ID()
 </selectKey>
 </insert>
 
 <update id="enddate" parameterType="Reservation">
-		UPDATE codesquare.ReservationInfo SET EndDate=ADDTIME(ReservationDate, ADDTIME(usetime,reservationtime)) WHERE no=#{no}
+		UPDATE codesquare.ReservationInfo SET ENDDATE=DATE_ADD(RESERVATIONDATE, INTERVAL (RESERVATIONTIME + USETIME) HOUR) WHERE NO=#{NO}
 </update>
 
+<select id="getReserve" parameterType="java.util.Map" resultType="Reservation">
+	select * from ReservationInfo where roomid=#{roomid} and reservationDate=#{reservationDate}
+</select>
 </mapper>

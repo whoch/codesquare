@@ -16,7 +16,6 @@
 <link rel="stylesheet" type="text/css"	href="/static/styles/main_styles.css"	th:href="@{/static/styles/main_styles.css}">
 <link rel="stylesheet" type="text/css"	href="/static/styles/responsive.css"	th:href="@{/static/styles/responsive.css}">
 <link rel="stylesheet" type="text/css"	href="/webjars/font-awesome/5.7.1/css/all.css"	th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}"/>
-<link rel="stylesheet" type="text/css"	th:href="@{/static/styles/lecture/lectureCustom.css}">
 
 </head>
 <body>
@@ -34,18 +33,23 @@
 					<button id="btn-prevLecture" type="button" class="btn btn-secondary" th:if="${lecture.lectureStatus}!='first'"><i class="fas fa-chevron-left"></i> 이전강의</button>
 					<button id="btn-lectureList" type="button" class="btn btn-secondary">목록</button>
 					<div class="lecture-list-container list-group" data-status="invisible"><!-- boardId+"/course/"+parentId; -->
-					<a th:each="list:${lectureList}" th:href="${list.id}" class="list-group-item list-group-item-action"><span th:text="@{${list.title}}"></span></a>
+					
 					</div>
 					<button id="btn-nextLecture" type="button" class="btn btn-secondary" th:if="${lecture.lectureStatus}!='last'">다음강의 <i class="fas fa-chevron-right"></i></button>
 				</div>
 				
 			</div>
-			<div class="lecture-view-body">
-				<input type="hidden" id="currentTime" name="currentTime" th:value="@{${vLogInfo.currentTime}}">
-				<div id="player" class="col-sm-12" th:attr="data-modify-videoId=${lecture.videoUrl}"></div>
-				<div class="video-overaybox" style="display: none;position: absolute;width: 100%;height: 100%;margin-top: 68px;margin-left: 15px;">
-					<div class="modal-overay-wrap" style="margin: auto; width: 100%"></div><div id="modal-container"></div>
-					
+			<div class="col-sm-12">
+					<div class="lecture-list-container list-group" data-status="invisible" style="right:1%;display:none;"><!-- boardId+"/course/"+parentId; -->
+						<a th:each="list:${lectureList}" th:href="${list.id}" class="list-group-item list-group-item-action"><span th:text="@{${list.title}}"></span></a>
+					</div>
+				<div class="lecture-view-body">
+					<input type="hidden" id="currentTime" name="currentTime" th:value="@{${vLogInfo.currentTime}}">
+					<div id="player"  th:attr="data-modify-videoId=${lecture.videoUrl}" style="width:100%"></div>
+					<div class="video-overaybox " style="display: block; width:100%;">
+						<div class="modal-overay-wrap" ></div><div id="modal-container"></div>
+						
+					</div>
 				</div>
 			</div>
 			<div id="lecture-content" class="col-sm-12 container">
@@ -73,8 +77,8 @@
 						</div>
 						<div id="collapseTwo" class="collapse" data-parent="#accordion">
 							<div class="card-body container">
-								<ul class="review-regist-container list-group">
-									<li class="list-group-item regist-container" style="border: none;">
+								<ul class="qna-regist-container list-group">
+									<li class="list-group-item regist-container" style="border: none;" sec:authorize="isAuthenticated()">
 										<form name="commentForm">
 											<div class="row">
 											<!-- 글번호(boardid),글종류(boardKindid),댓글작성자이름(userid),댓글작성자닉네임(nickname),댓글내용(content),부모댓글번호(parentId)-->
@@ -99,7 +103,7 @@
 										</form>
 									</li>
 								</ul>
-								<div class="comments-container"></div>
+								<div class="comments-container lecctureview-comments-container"></div>
 							</div>
 						</div>
 					</div>
@@ -133,6 +137,7 @@
 	<script src="https://www.youtube.com/player_api"></script>
 	<script type="text/javascript"	th:src="@{/static/js/smarteditor2/dist/js/service/HuskyEZCreator.js}"></script>
 	<script th:src="@{/static/js/lecture/lectureViewCustom.js}"></script>
+	<script th:src="@{/static/js/custom.js}"></script>
 	<script th:src="@{/static/js/comment/commentCumstom.js}"></script>
 
 

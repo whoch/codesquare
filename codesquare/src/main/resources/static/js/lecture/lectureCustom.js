@@ -108,7 +108,7 @@ function qnaCommentList(){
 			if(!value.parentId){
 		        cContent+="<li id=\"lrnQa-"+value.id+"\"><!--메인 댓글--><div class=\"comment-main-level\">";
 			}else{
-				cContent+="<li id=\"lrnQa-"+value.id+"\"><!--메인 댓글--><div class=\"comment-main-level reply-list\">";
+				cContent+="<li id=\"lrnQa-"+value.id+"\"data-parentId=\""+value.parentId+"\"><!--메인 댓글--><div class=\"comment-main-level reply-list\">";
 			}
 		        cContent+="<!-- Avatar --><div class=\"comment-avatar\"><img src=\""+value.profileImagePath+"\" alt=\"유저썸네일\"></div>";
 		        cContent+="<div class=\"comment-box\">";
@@ -119,7 +119,7 @@ function qnaCommentList(){
 		        }
 		        cContent+="\"><a href=\"member/"+value.id+"\">"+value.nickName+"</a></h6><span>"+value.writeDate+"</span>";
 		        if(value.deleteStatus==0){
-		        	cContent+="<span class=\"comment-icon\"><i class=\"fa fa-reply\" title=\"댓글달기\"></i>";
+		        	cContent+="<span class=\"comment-icon\"><i class=\"fa fa-reply\" data-status=\"true\" title=\"댓글달기\"></i>";
 		        	if(value.userId==userId){
 		        		cContent+="<i class=\"fas fa-edit\" title=\"수정하기\"></i><i class=\"fa fa-trash\" title=\"삭제하기\"></i>";
 		        	}
@@ -244,16 +244,27 @@ $(document).ready(function() {
 	
 	//댓글 등록버튼 클릭
 	$(".btn-comment-regist").click(function(){
-		var comment=$("[name=commentForm]").serialize();
-		insertQNAComment(comment);
+		/*var comment=$("[name=commentForm]").serialize();
+		insertQNAComment(comment);*/
+		var cContent=$(".comment-content>[name=content]").val();
+		var result=checkKeywordFilter(cContent);
+		if(result.length==0){
+			var comment=$("[name=commentForm]").serialize();
+			insertQNAComment(comment);
+		}else if(result.length>0){
+			alert(result+" 단어는 적절치 못합니다. 바르고 고운말을 작성해 주세요.");
+		}
 	})
+	
 	/**
 	 * 대댓글 작성(fa-reply),수정(fa-edit),삭제(fa-trash) 감지 이벤트 리스너 
 	 */
 	$(document).on('click','.fa-edit,.fa-trash, .fa-reply',function(){
-		var obj=$(this).closest('.comment-box').children('.comment-content');
-		var objClass=$(this).attr('class');
-		var id=$(this).closest('li').attr('id').split('-')[1];
+		var self=$(this);
+		var obj=self.closest('.comment-box').children('.comment-content');
+		var objClass=self.attr('class');
+		var id=self.closest('li').attr('id').split('-')[1];
+		
 		if(objClass.indexOf('fa-edit')!=-1){//수정
 			var txt=obj.children('p').text();
 			var txtarea="<textarea rows=\"3\" cols=\"20\" name=\"modify-content\" maxlength=\"300\" required=\"required\" placeholder=\"바르고 고운말을 사용해요!!\">"+txt+"</textarea>";
@@ -265,6 +276,7 @@ $(document).ready(function() {
 			deleteQNAComment(id);
 		}
 		if(objClass.indexOf('fa-reply')!=-1){//리플
+			
 			var replyContent="";
 			replyContent+="<li id=\"reply\"><!--메인 댓글--><form name=\"comment-reply-form\"><div class=\"comment-main-level reply-list\">";
 			replyContent+="<input type=\"hidden\" name=\"boardId\" value=\""+boardId+"\" />";
@@ -280,6 +292,7 @@ $(document).ready(function() {
 	        replyContent+="<div class=\"comment-content\"><textarea rows=\"3\" cols=\"20\" name=\"content\" maxlength=\"300\" required=\"required\" placeholder=\"바르고 고운말을 사용해요!!\"></textarea></div></div></div>";
 	        replyContent+="</form></li>";
 	        $(this).closest("li").append(replyContent);
+	        self.remove();
 		}
 
 	})
@@ -322,8 +335,10 @@ $(document).ready(function() {
 				data:{"userId":userId, "parentId":boardId}
 			}).done(function(data){
 				if(data!=null){
-					parentId=data;
-					location.href=boardId+"/course/"+parentId;
+					childId=data;
+					var pathKind=window.location.pathname.split('/')[1]
+					/*location.href="/learn/intro/"+boardId+"/course/"+childId;*/
+					location.href="/"+pathKind+"/intro/"+boardId+"/course/"+childId;
 				}
 				
 			}).fail(function(data){

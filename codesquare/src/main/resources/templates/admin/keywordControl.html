@@ -1,0 +1,156 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:sd="http://www.thymeleaf.org/spring-data"
+	layout:decorator="layout/adminLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+  <title>AdminPage by CodeSquare</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+
+<body>
+  <div class="wrapper" layout:fragment="content">
+    <div class="main-panel">
+      
+      <div class="content">
+        <div class="container-fluid">
+        <!-- Modal-Control-LectureDelete -->
+					<div class="modal fade" id="modal-keyword-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="modal-title">금칙어 삭제</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+							<div class="modal-body" >
+						      	<ul id="modal-checked-keywordlist" class="list-group" style="border-bottom:2px dashed #dddddd;height: 200px;overflow-y: scroll;">
+								</ul>
+								<i class="material-icons">spellcheck</i> 해당 금칙어를 삭제 하시겠습니까?
+					      </div>
+					      <div class="modal-footer">
+					        <button id="btn-delete-cancel" type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					        <button id="btn-delete-yes" type="button" class="btn btn-primary">삭제</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>					
+					<!-- End Of Modal-Control-LectureDelete -->
+					<!-- Modal-Control-LectureDelete -->
+					<div class="modal fade" id="modal-keyword-insert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="modal-title">금칙어 추가</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+							<div class="modal-body" >
+								<div class="form-group">
+									<input type="text" class="form-control" id="input-blackKeyword" aria-describedby="keywordHelp" placeholder="Enter keyword">
+								    <small id="keywordlHelp" class="form-text text-muted">추가할 금칙어를 입력한 뒤 'Enter'를 입력해주세요.</small>
+								</div>
+								<ul class="input-keyword-container list-group">
+								</ul>
+								<i class="material-icons">spellcheck</i> 해당 금칙어를 추가 하시겠습니까?  	
+					      </div>
+					      <div class="modal-footer">
+					        <button id="btn-insert-clear" type="button" class="btn btn-secondary" >모두 비우기</button>
+					        <button id="btn-insert-cancel" type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					        <button id="btn-insert-yes" type="button" class="btn btn-primary">추가</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>					
+					<!-- End Of Modal-Control-LectureDelete -->
+        	<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header card-header-primary">
+									<h3 class="card-title">금칙어 관리</h3>
+									<div class="row">
+										<div class="col-lg-4 btn-category">
+											<form class="form-inline ml-auto"	action="/admin/keyword/search" method="get">
+												<div class="form-group no-border">
+													<input id="input-searchbox" type="text"	class="form-control" name="content" placeholder="Search">
+												</div>
+												<button id="btn-search" type="submit" class="btn btn-neutral btn-icon btn-round">
+													<i class="material-icons">search</i>
+												</button>
+											</form>
+										</div>
+										<div  class="col-lg-3 h4">
+											<label id="div-alert-area"></label>
+										</div>
+										
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<div class="row" style="border-bottom: 1px solid #dddddd;">
+											<div class="col-md-6 ">
+											<button id="btn-allcheck" class="btn btn-warning btn-round btn-sm" data-status="off">
+											  <i class="far fa-check-square"></i> All Check
+											</button>
+											</div>
+											<div class="d-flex col-md-6 justify-content-end">
+												<button id="btn-keyword-delete" class="btn btn-warning btn-round btn-sm" data-toggle="modal"	data-target="#modal-keyword-delete">
+												  <i class="fas fa-exchange-alt"></i> 선택 삭제
+												</button>
+												<button id="btn-keyword-insert" class="btn btn-warning btn-round btn-sm" data-toggle="modal"	data-target="#modal-keyword-insert">
+												  <i class="fas fa-exchange-alt"></i> 금칙어 추가
+												</button>	
+											</div>
+										</div>
+										<div class="row container-keyword-group" style="margin:auto;">
+											<span th:each="keyword:${keywordList}" class="col-sm-3 shadow-sm action keyword-item border" th:id="@{${keyword.id}}"
+											th:attr="data-status='unchecked'" th:text="@{${keyword.content}}">keyword</span>
+										</div>
+									</div>
+									<!-- <div align="center">
+										<ul
+											class="pagination justify-content-center  no-margin pull-right ">
+											<li class="page-item" th:if="${pageMaker.prev} == true">
+												<a class="page-link"
+												th:href="@{/admin/member(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum})}">&laquo;</a>
+											</li>
+											<li class="page-item"
+												th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"
+												th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
+												<a class="page-link"
+												th:href="@{/admin/member(page=${idx},perPageNum=${pageMaker.cri.perPageNum})}"
+												th:text="${idx}"></a>
+											</li>
+											<li class="page-item"
+												th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
+												<a class="page-link"
+												th:href="@{/admin/member(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum})}">&raquo;</a>
+											</li>
+										</ul>
+									</div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+        
+        </div>
+      </div>
+      
+    </div>
+    <th:block layout:fragment="script">
+		<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+		<script type="text/javascript" th:src="@{/static/js/admin/utilCustom.js}"></script>
+		<script type="text/javascript" th:src="@{/static/js/admin/adminKeywordControlCustom.js}"></script>
+	</th:block>
+  </div>
+</body>
+</html>

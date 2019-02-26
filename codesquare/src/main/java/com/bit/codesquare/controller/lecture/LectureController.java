@@ -76,9 +76,11 @@ public class LectureController {
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView learnList(Model model) {
 		List<?> list=new ArrayList<>();
+		map=new HashMap<String,Object>();
 		try {
+			map.put("status", 0);
 			list=lectureMapper.getAllLectureTag();
-			licList= lectureMapper.getAllLecture();
+			licList= lectureMapper.getAllLecture(map);
 			for(LectureIntroContent l: licList) {
 				String thumbPath=lectureIntropath;
 				thumbPath+=cUtil.getPath(l.getId(), l.getChangedName(),l.getExtension());

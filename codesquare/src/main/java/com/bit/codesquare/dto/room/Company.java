@@ -9,10 +9,12 @@ public class Company {
 	String localeid;
 	String companyname;
 	String coordinates;
-	String companyinfo;
+	String companycontent;
 	String address;
-	String extension;
 	
 	String searchOption;
 	String keyword;
+	
+	String extension;
+	String thumbnailPath;
 }

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout/messageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>내 쪽지함</title>
+</head>
+<body>
+
+	<div id="messageContent" layout:fragment="messageContent">
+
+
+		<div id="receivedMessageView" class="small py-2">
+			<br />
+			<div class="row py-2">
+				<div class="col-3">
+					<span>보낸 사람</span>
+				</div>
+				<div class="col-9">
+					<span hidden id="messageId" th:text="${receivedRead.id}"></span> <span
+						id="senderNickName" th:text="${receivedRead.senderNickName}"></span>
+					(<span id="sender" th:text="${receivedRead.sender}"></span>)
+
+
+
+
+				</div>
+			</div>
+
+			<div class="row py-2">
+				<div class="col-3">
+					<span>받은 시간</span>
+				</div>
+				<div class="col-9"
+					th:text="${#dates.format(receivedRead.sendDate, 'yy-MM-dd HH:mm:ss')}"></div>
+			</div>
+			<div class="row py-2">
+				<div class="col-3">
+					<span>읽은 시간</span>
+				</div>
+				<div class="col-9"
+					th:text="${#dates.format(receivedRead.readDate, 'yy-MM-dd HH:mm:ss')}"></div>
+			</div>
+			<div class="row py-2">
+
+				<div class="col-11 border p-3 m-3"
+					th:text="${receivedRead.messageContent}"></div>
+			</div>
+			<div class="row py-2">
+				<div class="col-12 text-right">
+					<input class="mybtn mx-1" type="button" name="replyMessageBtn"
+						value="답장"> <input class="mybtn mx-1" type="button"
+						id="deleteMsgMo" value="삭제"> <input
+						class="mybtn mx-1" type="button" name="toListMessageBtn"
+						value="목록으로">
+				</div>
+				
+					<!-- 삭제 모달 -->
+
+				<div id="delete-dialog" class="jumbotron">
+					<div id="delete-close" class="text-right">
+						<i class="fas fa-times  align-top "></i>
+					</div>
+					<div id="delete-dialog-content" class="text-center">
+					   <i class="far fa-trash-alt fa-3x"></i><br /> <br />삭제하시겠습니까?<br /> <br />
+						<input id="deleteMessageBtn" class="mybtn text-center" value="삭제">
+						<br />
+					</div>
+				</div>
+				
+				
+			</div>
+
+
+		</div>
+	</div>
+
+
+</body>
+</html>

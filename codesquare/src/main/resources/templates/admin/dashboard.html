@@ -1,0 +1,300 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:sd="http://www.thymeleaf.org/spring-data"
+	layout:decorator="layout/adminLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+  <title>AdminPage by CodeSquare</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+
+<body>
+  <div class="wrapper" layout:fragment="content">
+    <div class="main-panel">
+      <div class="content">
+        <div class="container-fluid">
+        <div class="row chart-area">
+          	<div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-success card-header-icon">
+                  <div class="card-icon">
+                    <i class="fas fa-user-plus"></i>
+                  </div>
+                  <p class="card-category">가입 회원 통계</p>
+                  <h3 class="card-title" th:text="@{${wsuMemberCount}}"></h3>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">date_range</i> 최근 7일간 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                  <div class="card-icon">
+                    <i class="fas fa-newspaper"></i>
+                  </div>
+                  <p class="card-category">최근 게시글 통계</p>
+                  <h3 class="card-title" th:text="@{${newPostCount}}"></h3>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">date_range</i> 최근 7일간 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-danger card-header-icon">
+                  <div class="card-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                  </div>
+                  <p class="card-category">강사</p>
+                  <h3 class="card-title" th:text="@{${insCount}}"></h3>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">date_range</i> 전체 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                <div class="card-header card-header-info card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">library_books</i>
+                  </div>
+                  <p class="card-category">새로운 강의</p>
+                  <h3 class="card-title" th:text="@{${recentLectureCount}}"></h3>
+                </div>
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">date_range</i> 최근 3일간 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+          <!-- 업무목록 리스트 -->
+            <div class="col-lg-6 col-md-12">
+              <div class="card">
+                <div class="card-header card-header-tabs card-header-primary">
+                  <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                      <span class="nav-tabs-title">업무목록:</span>
+                      <ul class="nav nav-tabs" data-tabs="tabs">
+                      	<!-- 신고내역 -->
+                        <li class="nav-item">
+                          <a class="nav-link active" href="#repoted" data-toggle="tab">
+                            <i class="material-icons">bug_report</i> 신고내역
+                            <div class="ripple-container"></div>
+                          </a>
+                        </li>
+                        <!-- 강사신청 -->
+                        <li class="nav-item">
+                          <a class="nav-link" href="#teacher-apply" data-toggle="tab">
+                            <i class="fas fa-chalkboard-teacher fa-lg"></i> 강사신청
+                            <div class="ripple-container"></div>
+                          </a>
+                        </li>
+                        <!-- todolist -->
+                        <li class="nav-item">
+                          <a class="nav-link" href="#todolist" data-toggle="tab">
+                            <i class="fas fa-clipboard-list fa-lg"></i> Todo-List
+                            <div class="ripple-container"></div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body" style="height:400px;">
+                  <div class="tab-content">
+                  	<!-- 신고내역 -->
+                    <div class="tab-pane active" id="repoted">
+                      <table class="table">
+                        <tbody>
+                          <tr th:each="rList:${repotedList}">
+						    <td>
+						      <div class="form-check">
+						        <label class="form-check-label">
+						          <input class="form-check-input" type="checkbox" value="">
+						          <span class="form-check-sign">
+						            <span class="check"></span>
+						          </span>
+						        </label>
+						      </div>
+						    </td>
+						    <td th:text="${rList.reportedUserId}"></td>
+						    <td th:text="${rList.content}"></td>
+						    <td class="td-actions text-right">
+						      <button type="button" rel="tooltip" title="상세보기" class="btn btn-primary btn-link btn-sm">
+						        <i class="fas fa-address-card fa-lg"></i>
+						      </button>
+						      <button type="button" rel="tooltip" title="거절하기" class="btn btn-danger btn-link btn-sm">
+						        <i class="fas fa-user-times fa-lg"></i>
+						      </button>
+						    </td>
+						  </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- 강사신청 -->
+                    <div class="tab-pane" id="teacher-apply">
+                      <table class="table">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <div class="form-check">
+                                <label class="form-check-label">
+                                  <input class="form-check-input" type="checkbox" value="" checked>
+                                  <span class="form-check-sign">
+                                    <span class="check"></span>
+                                  </span>
+                                </label>
+                              </div>
+                            </td>
+                            <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
+                            </td>
+                            <td class="td-actions text-right">
+                              <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">edit</i>
+                              </button>
+                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                                <i class="material-icons">close</i>
+                              </button>
+                            </td>
+                          </tr>                          
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- todolist -->
+                    <div class="tab-pane" id="todolist" style="overflow:auto;height: 381px;">
+                      <table class="table" >
+                        <tbody id="todolist-tbody" >
+                        	<div class="form-group">
+							    <input type="text" class="form-control" id="todoContent"  placeholder="Enter Context">
+							    <small id="todoHelp" class="form-text text-muted">해야할 업무를 추가 해 주세요. 그리고 'Enter'를 눌러 주세요</small>
+							  </div>
+                          <tr th:each="list:${todolist}" th:id="@{td-}+${list.id}">
+                            <td>
+                              <div class="form-check">
+                                <label class="form-check-label">
+                                  <input class="form-check-input" type="checkbox" value="">
+                                  <span class="form-check-sign">
+                                    <span class="check"></span>
+                                  </span>
+                                </label>
+                              </div>
+                            </td>
+                            <!-- <input type="hidden" class="todolist-id" th:value="${list.id}"/> -->
+                            <td th:text="${list.content}"></td>
+                            <td th:text="${list.writeDateFormat}"></td>
+                            <td class="td-actions text-right">
+                              <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">edit</i>
+                              </button>
+                              <button type="button" rel="tooltip" title="Remove" th:attr="data-id=${list.id}" class="btn btn-danger btn-link btn-sm">
+                                <i class="material-icons">close</i>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+             <div class="memo-btn-container d-flex">
+             	<p class="h2 p-2">관리자 노트 </p><i class="material-icons p-2" style="margin-top: auto;margin-bottom: auto;">watch_later<span class="h4" th:text="@{${adminMemo.writeDateFomat}}"></span></i><button id="btn-memo-save" type="button" style="width:20%;" class="col-md-offset-10 btn btn-primary p-2 ml-auto h4">저장</button>
+             </div>
+             <textarea name="content" id="content" style="width: 100%; height: 350px; min-width: 610px; overflow: visible;"	rows="25" th:utext="@{${adminMemo.content}}"></textarea> 
+            </div>
+          </div>
+          <div class="row">
+          	<div class="col-lg-6 col-md-offset-2 col-md-4">
+              <div class="card" style="height: 420px;">
+                <div class="card-header card-header-warning">
+                  <h4 class="card-title">최다 신고대상 유저</h4>
+                  <p class="card-category">최근 1달 신고누적 최다 회원</p>
+                </div>
+                <div class="card-body table-responsive">
+                  <table class="table table-hover" style="text-align: center;">
+                    <thead class="text-warning">
+                      <th>Ranking</th>
+                      <th>ID</th>
+                      <th colspan='2'>ReportedCount</th>
+                      <th><i class="fas fa-search-plus"></i>Detail</th>
+                    </thead>
+                    <tbody>
+                      <tr th:each="item:${ruiList}">
+                        <td th:text="@{${item.rowNum}}"></td>
+                        <td th:text="@{${item.reportedUserId}}"></td>
+                        <td colspan='2' th:text="@{${item.reportedCount}}" ></td>
+                        <td><button type="button" rel="tooltip" class="btn btn-info">
+                        		<i class="material-icons">search</i>
+                        	</button>
+                       	</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-offset-2 col-md-4">
+              <div class="card"  style="height: 420px;">
+                <div class="card-header card-header-info">
+                  <h4 class="card-title">분류별 게시판</h4>
+                  <ul class="nav nav-tabs" role="tablist">
+						<li id="ComFr" class="quickBoard nav-item"><a
+							class="nav-link active" data-toggle="tab" href="#home">자유</a></li>
+						<li id="ComQa" class="quickBoard nav-item"><a
+							class="nav-link" data-toggle="tab" href="#home">질문</a></li>
+						<li id="ComIt" class="quickBoard nav-item"><a
+							class="nav-link" data-toggle="tab" href="#home">IT Forum</a></li>
+						<li id="StdMo" class="quickBoard nav-item"><a
+							class="nav-link" data-toggle="tab" href="#home">스터디모집</a></li>
+						<li id="SmmMo" class="quickBoard nav-item"><a
+							class="nav-link" data-toggle="tab" href="#home">세미나모집</a></li>
+					</ul>
+                </div>
+                <div class="card-body table-responsive">
+                <!-- Tab panes -->
+					<div 	class="list-group list-group-flush container tab-pane active">
+               			<table class="table table-hover" style="text-align: center;">
+						    <tbody id="pane">
+						    </tbody>
+                  		</table>
+                  </div>
+                </div>
+              </div>
+            </div>           
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <th:block layout:fragment="script">
+    	<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+    	<script th:src="@{/static/js/admin/dashboardCustom.js}"></script>
+    	<!-- <script th:src="@{/static/js/mainCustom.js}"></script> -->
+    	<script type="text/javascript"	th:src="@{/static/js/smarteditor2/dist/js/service/HuskyEZCreator.js}"></script>
+    	
+    </th:block>
+  </div>
+</body>
+</html>

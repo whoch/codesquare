@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper
+	namespace="com.bit.codesquare.mapper.member.MessageInfoMapper">
+
+
+
+	<insert id="sendMessage" parameterType="MessageInfo">
+		insert into MessageInfo
+		(Recipient, RecipientNickName, Sender, SenderNickName,
+		MessageContent)
+		VALUES (#{recipient}, #{recipientNickName}, #{sender},
+		#{senderNickName},
+		#{messageContent})
+	</insert>
+
+	<update id="messageCountUp">
+		update UserInfo set MessageCount = MessageCount+1
+		where UserId =
+		#{recipient}
+	</update>
+
+	<select id="readMessage" resultType="MessageInfo">
+		select * from MessageInfo
+		where id= #{id}
+	</select>
+
+	<update id="setUnreadMessageCount">
+		update UserInfo set MessageCount = (
+		select count(*)
+		from MessageInfo where Recipient = #{recipient} and
+		ReadStatus = '읽지않음'
+		and ShowStatus='정상' ) where UserId = #{recipient};
+	</update>
+
+
+	<update id="changeToRead">
+		update MessageInfo set ReadDate = CURRENT_TIMESTAMP,
+		ReadStatus = '읽음' where id = #{id}
+	</update>
+
+	<update id="deleteMessage">
+		update MessageInfo set ShowStatus = '삭제' where id in
+		<foreach collection="array" item="array" index="index"
+			open="(" close=")" separator=",">
+			#{array}
+		</foreach>
+
+	</update>
+
+
+
+	<select id="getReceivedMessageList" resultType="MessageInfo">
+		select * from
+		MessageInfo where Recipient =#{recipient} and ShowStatus
+		= '정상'
+		<if test="cri.keyword != null">
+			and (MessageContent like CONCAT('%',#{cri.keyword},'%') or
+			Sender like
+			CONCAT('%',#{cri.keyword},'%') or SenderNickName like
+			CONCAT('%',#{cri.keyword},'%') )
+		</if>
+		order by SendDate DESC
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+
+	<select id="countRPaging" resultType="int">
+		select
+		count(id)
+		from
+		MessageInfo
+		where Recipient = #{recipient} and ShowStatus = '정상'
+		<if test="cri.keyword != null">
+			and (MessageContent like CONCAT('%',#{cri.keyword},'%') or Sender like
+			CONCAT('%',#{cri.keyword},'%') or SenderNickName like
+			CONCAT('%',#{cri.keyword},'%') )
+		</if>
+	</select>
+
+
+	<select id="getSentMessageList" resultType="MessageInfo">
+		select * from
+		MessageInfo where Sender = #{sender} and ShowStatus = '정상'
+		<if test="cri.keyword != null">
+			and (MessageContent like CONCAT('%',#{cri.keyword},'%') or Recipient
+			like CONCAT('%',#{cri.keyword},'%') or RecipientNickName like
+			CONCAT('%',#{cri.keyword},'%') )
+		</if>
+		order by SendDate DESC
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+
+	<select id="countSPaging" resultType="int">
+		select
+		count(id)
+		from
+		MessageInfo
+		where sender = #{sender} and ShowStatus = '정상'
+		<if test="cri.keyword != null">
+			and (MessageContent like CONCAT('%',#{cri.keyword},'%') or Recipient
+			like CONCAT('%',#{cri.keyword},'%') or RecipientNickName like
+			CONCAT('%',#{cri.keyword},'%') )
+		</if>
+	</select>
+
+
+	<!-- <select id="listCriteria" resultType="Board"> <![CDATA[ select id, 
+		userid, nickname, title, content, writedate, modifydate, hit from codesquare.Board 
+		where BoardKindid='NewNt' and id > 0 ]]> <![CDATA[ order by id desc, writedate 
+		desc limit #{pageStart}, #{perPageNum} ]]> </select> -->
+
+</mapper>

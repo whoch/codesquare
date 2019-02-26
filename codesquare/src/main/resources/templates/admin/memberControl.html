@@ -1,0 +1,329 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:sd="http://www.thymeleaf.org/spring-data"
+	layout:decorator="layout/adminLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<title>AdminPage by CodeSquare</title>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+	name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+
+<body>
+	<div class="wrapper" layout:fragment="content">
+		<div class="main-panel">
+			<div class="content">
+				<div class="container-fluid">
+					<!-- Modal-MemberInfo -->
+					<div class="modal fade" id="modal-detail-info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"	aria-hidden="true">
+						<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">유저정보 상세보기</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<div class="card card-profile">
+										<div class="card-avatar">
+											<img class="img" name="profileImagePath" src="/static/codesquareDB/UserThumbnail/hansol/hansol_Thumbnail.jpg"alt="noImg" />
+										</div>
+										<div class="card-body">
+											<div class="row">
+												<div class="col-md-12">
+													<label id="modal-detail-userId" class="h3">아이디</label>&nbsp&nbsp
+													<label id="modal-detail-point">70</label><label><i class="fas fa-star"></i></label>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="bmd-label-floating">username</label> 
+														<input id="modail-detail-username" type="text" class="form-control text-center" disabled value="이름">
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="bmd-label-floating">nickname</label> 
+														<input id="modail-detail-nickname" type="text" class="form-control text-center" value="닉네임">
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group authorbox">
+														<label class="bmd-label-floating">등급</label> 
+														<select class="form-control selectpicker" data-style="btn btn-link" id="authorSelector">
+															<option th:each="aItem:${authorInfo}" th:value="@{${aItem.id}}" th:text="@{${aItem.content}}"/>
+													    </select>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group restrictbox">
+														<label class="bmd-label-floating">제약</label> 
+														<select  class="form-control selectpicker" data-style="btn btn-link" id="restrictSelector">
+															<option th:each="rItem:${restrictInfo}"th:value="@{${rItem.id}}" th:text="@{${rItem.content}}"/>
+													    </select>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12">
+													<div class="form-group">
+														<label class="bmd-label-floating">Email Adress</label> 
+														<input id="modal-detail-email" type="email" class="form-control" placeholder="name@example.com" value="" disabled>
+													</div>
+												</div>
+
+											</div>
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="bmd-label-floating">가입날짜</label> 
+														<input id="modal-detail-signupdate" type="datetime" class="form-control" disabled>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label class="bmd-label-floating">생년월일</label> 
+														<input id="modal-detail-birth" type="datetime" class="form-control" disabled>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button id="btn-modal-close" type="button" class="btn btn-secondary"	data-dismiss="modal"><i class="fas fa-times-circle"></i>&nbspClose</button>
+									<button id="btn-modal-save" type="button" class="btn btn-primary"><i class="fas fa-save"></i>&nbspSave	changes</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end of Modal-MemberInfo -->
+					<!-- Modal-Control-Restrict -->
+					<div class="modal fade" id="modal-user-out" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="modal-userout-title">회원 추방</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body">
+					      	<i class="material-icons">face</i><label id="modal-userId"></label>를(을) 추방하시겠습니까?
+					      </div>
+					      <div class="modal-footer">
+					        <button id="btn-userout-cancel" type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					        <button id="btn-userout-yes" type="button" class="btn btn-primary">추방</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>					
+					<!-- End Of Modal-Control-Restrict -->
+						
+					<!-- Modal checkedUser Author change -->
+						<div class="modal fade" id="modal-change-author" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="modal-restrict-title">회원 등급 변경</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body row" >
+					      	<ul id="modal-checked-authorlist" class="list-group col-md-7" style="border-right: 2px dashed #dddddd; height: 250px;overflow-y: scroll;">
+							</ul>
+							<div class="form-group col-md-5" style="margin:auto;">
+								<label for="exampleFormControlSelect1">Exchange Author</label>
+							    <select class="form-control selectpicker" data-style="btn btn-link" id="selectAuthor">
+							    	<option th:each="aItem:${authorInfo}" th:value="@{${aItem.id}}" th:text="@{${aItem.content}}"/>  
+							    </select>
+							</div>
+					      </div>
+					      <div class="modal-footer">
+					        <button id="btn-changeauthor-cancel" type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					        <button id="btn-changeauthor-yes" type="button" class="btn btn-primary">변경</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+					<!-- End Of Modal checkedUser Author change -->
+					
+					<!-- Modal checkedUser Restrict change -->
+					<div class="modal fade" id="modal-change-restrict" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" id="modal-restrict-title">회원 제약 변경</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body row">
+					      	<div class="col-md-7">
+						      	<ul id="modal-checked-restrcitlist" class="list-group" style="border-right: 2px dashed #dddddd;height: 200px;overflow-y: scroll;">
+								</ul>
+							</div>
+							<div class="form-group col-md-5" style="margin:auto;">
+								<label for="exampleFormControlSelect1">Exchange Restrict</label>
+							    <select class="form-control selectpicker" data-style="btn btn-link" id="selectRestrict">
+							    	<option th:each="rItem:${restrictInfo}"th:value="@{${rItem.id}}" th:text="@{${rItem.content}}"/>  
+							    </select>
+							</div>
+					      </div>
+					      <div class="modal-footer">
+					        <button id="btn-changerestrict-cancel" type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					        <button id="btn-changerestrict-yes" type="button" class="btn btn-primary">변경</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+					<!-- End Of Modal checkedUser Rectrict change -->
+									
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header card-header-primary">
+									<h3 class="card-title">회원관리</h3>
+									<div class="row">
+										<div class="col-lg-4 btn-category">
+											<form class="form-inline ml-auto"
+												action="/admin/member/search" method="get">
+												<div class="form-group no-border">
+													<input id="input-searchbox" type="text"	class="form-control" name="content" placeholder="Search">
+												</div>
+												<button id="btn-search" type="submit" class="btn btn-neutral btn-icon btn-round">
+													<i class="material-icons">search</i>
+												</button>
+											</form>
+										</div>
+										<div  class="col-lg-3 h4">
+											<label id="div-alert-area"></label>
+										</div>
+										<div id="sort-categorybox" class="col-lg-5"
+											style="text-align: right;">
+											<span><label class="h3"
+												style="vertical-align: middle;">Sort Kind </label></span>
+											<button id="btn-category-UserId" type="button"
+												class="btn btn-warning">ID</button>
+											<button id="btn-category-Point" type="button"
+												class="btn btn-warning">Point</button>
+											<button id="btn-category-BanCount" type="button"
+												class="btn btn-warning">Ban</button>
+										</div>
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<div class="row" style="border-bottom: 1px solid #dddddd;">
+											<div class="col-md-6 ">
+											<button id="btn-allcheck" class="btn btn-warning btn-round btn-sm" data-status="off">
+											  <i class="far fa-check-square"></i> All Check
+											</button>
+											</div>
+											<div class="d-flex col-md-6 justify-content-end">
+												<button id="btn-change-author" class="btn btn-warning btn-round btn-sm" data-toggle="modal"	data-target="#modal-change-author">
+												  <i class="fas fa-exchange-alt"></i> 등급 변경
+												</button>	
+												<button id="btn-change-restrict" class="btn btn-warning btn-round btn-sm" data-toggle="modal"	data-target="#modal-change-restrict">
+												  <i class="fas fa-exchange-alt"></i> 제한 변경
+												</button>	
+											</div>
+										</div>
+										<table id="table-memberinfo" class="table" style="text-align: center">
+											<thead class=" text-primary">
+												<th>Check</th>
+												<th colspan="2" class="text-left">ID</th>
+												<th colspan="2" class="text-left">Nickname</th>
+												<th>Point</th>
+												<th>Author</th>
+												<th>Restrict</th>
+												<th>Signup Date</th>
+												<th>BanCount</th>
+												<th>Action</th>
+											</thead>
+											<tbody>
+												<tr th:each="member:${mList}"
+													th:id="@{memberId-}+${member.userId}">
+													<td>
+														<div class="form-check">
+															<label class="form-check-label"> 
+															<input name="form-check-list" class="form-check-input" type="checkbox" value="">
+																<span class="form-check-sign"> 
+																<span class="check"></span>
+															</span>
+															</label>
+														</div>
+													</td>
+													<td colspan="2" class="text-left"
+														th:text="@{${member.userId}}"></td>
+													<td colspan="2" class="text-left"
+														th:text="@{${member.nickName}}"></td>
+													<td th:text="@{${member.point}}"></td>
+													<td th:text="@{${member.authorName}}"></td>
+													<td th:text="@{${member.restrictName}}"></td>
+													<td th:text="@{${member.signUpDate}}"></td>
+													<td th:text="@{${member.banCount}}"></td>
+													<td class="td-actions ">
+														<button id="btn-control-detail" title="상세보기" type="button"	rel="tooltip" class="btn btn-info" data-toggle="modal"	data-target="#modal-detail-info">
+															<i class="material-icons">person</i>
+														</button>
+														<!-- <button id="btn-control-modify" title="권한수정" type="button" rel="tooltip" class="btn btn-success">
+															<i class="material-icons">edit</i>
+														</button> -->
+														<button id="btn-control-ban" title="탈퇴" type="button" rel="tooltip" class="btn btn-danger" data-toggle="modal"	data-target="#modal-user-out">
+															<i class="material-icons">close</i>
+														</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div align="center">
+										<ul
+											class="pagination justify-content-center  no-margin pull-right ">
+											<li class="page-item" th:if="${pageMaker.prev} == true">
+												<a class="page-link"
+												th:href="@{/admin/member(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum})}">&laquo;</a>
+											</li>
+											<li class="page-item"
+												th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"
+												th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
+												<a class="page-link"
+												th:href="@{/admin/member(page=${idx},perPageNum=${pageMaker.cri.perPageNum})}"
+												th:text="${idx}"></a>
+											</li>
+											<li class="page-item"
+												th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
+												<a class="page-link"
+												th:href="@{/admin/member(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum})}">&raquo;</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<th:block layout:fragment="script">
+			<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+			<script th:src="@{/static/js/admin/utilCustom.js}"></script>
+			<script th:src="@{/static/js/admin/adminMemberCustom.js}"></script>
+			<!-- <script th:src="@{/static/js/mainCustom.js}"></script> -->
+		</th:block>
+	</div>
+</body>
+</html>

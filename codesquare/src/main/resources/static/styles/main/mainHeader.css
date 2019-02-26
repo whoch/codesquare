@@ -1,0 +1,132 @@
+@charset "UTF-8";
+
+html {
+	height: 100%;
+}
+
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+	height: 100%;
+}
+
+header {
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0px;
+	z-index: 100;
+	width: 100%;
+	background: white;
+}
+
+.container{
+	min-width:100%;
+	position: relative;
+	padding-bottom: 19px; 
+}
+
+/* footer {
+	position: fixed-bottom;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	color: white;
+	background-color: red;
+} */
+
+.secbar {
+	color: #5b2e7d;
+	vertical-algin: middle;
+	float: right;
+	margin-right: 5px;
+}
+
+.secbar a {
+	color: #5b2e7d;
+	margin-right: 5px;
+	padding: 5px;
+	text-decoration: none;
+}
+
+.secbar  li {
+	float: left;
+	list-style: none;
+	pading: 5px;
+}
+
+.secbar .dropdown a {
+	color: #5b2e7d;
+}
+
+.secbar .dropdown a:hover {
+	background: #5b2e7d;
+	color: white;
+}
+
+.profileImg {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+}
+
+.codesquare {
+	font-family: 'Do Hyeon', sans-serif;
+	text-align: center;
+	font-size: 65px;
+	margin: 25px;
+	color: #5b2e7d;
+}
+
+.codesquare a {
+	color: #5b2e7d;
+	text-decoration: none;
+}
+.codesquare a:hover {
+	text-decoration: none;
+	color: #D8BFD8;
+}
+
+.codesquare img {
+	width: 60px;
+	height: 60px;
+	padding: 0px;
+	vertical-align: middle;
+}
+
+.nav {
+	width: 100%;
+	margin: 10px;
+	overflow: hidden;
+}
+
+.nav a {
+	color: white;
+	text-decoration: none;
+}
+
+.nav a:hover {
+	color: #dfdbe5;
+}
+
+.nav .dropmenu {
+	font-size: 18px;
+}
+
+.nav .col {
+	text-align: center;
+	diplay: block;
+	background: #5b2e7d;
+	padding: 20px 40px;
+}
+
+.nav .col .dropdown {
+	background: none;
+	text-align: center;
+	padding-top: 20px;
+	display: none;
+	border: none;
+}
+
+.col ul.dropdown {
+	list-style: none;
+	padding-left: 0px;
+}

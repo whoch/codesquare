@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.typeleaf.org"
+xmlns:sd="http://www.thymeleaf.org/spring-data"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorator="layout/mainLayout2">
+<meta charset="utf-8">
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" th:href="@{/static/styles/seminar/seminar.css}">
+<title>세미나 모집</title>
+</head>
+<body>
+
+<div class="container" layout:fragment="content" >
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-6" th:each="item:${list}">
+			<h3 class="text-center text-muted">
+			<span th:text="${item.title}"></span>
+			</h3>
+			<dl>
+				<dt>
+					강사님
+				</dt>
+				<dd>
+					<span th:text="${item.nickName}"></span>
+				</dd>
+				<dt>
+					세미나 한줄
+				</dt>
+				<dd>
+					<span th:text="${item.content}"></span>
+				</dd>
+				<dd>
+				</dd>
+
+			</dl><img alt="Bootstrap Image Preview" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg"  style="width: auto; height: auto;" /><br><br>
+			<button type="button" class="btn btn-md btn-outline-danger btn-block">참여할래요.</button><br>
+		</div>
+	</div>
+</div>
+</div>
+<!-- 
+	<div class="col-md-3 col-sm-3 col-xs-6">
+	<div class="container" th:each="item:${list}">
+	 <a class="btn btn-sm animated-button victoria-three" data-toggle="collapse" th:data-target="'#body'+${item.id}" th:href="@{'/seminarView?id='+${item.id}}" style="width: 1000px;">
+	 <span th:text="${item.title}" style="color: black;"></span></a><br>
+  	<div th:id="'body'+${item.id}" class="collapse">
+	<div style="width: auto; height: 100px;">
+    <span th:text="${item.Content}"></span><br><br><br>
+    
+    <button id="createBtn" type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">신청하기</button>
+    
+  			</div>
+	    </div>
+	</div> -->
+
+
+</body>
+</html>

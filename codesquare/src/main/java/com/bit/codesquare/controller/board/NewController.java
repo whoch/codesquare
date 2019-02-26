@@ -26,21 +26,22 @@ public class NewController {
 	@Autowired
 	NewService newService;
 	
-	@RequestMapping(value="/home")
+	@RequestMapping(value="/home", method=RequestMethod.GET)
 	public String noticeBoard(@ModelAttribute("cri") Criteria cri, Model model) throws Exception {
-		model.addAttribute("list", newService.listCriteria(cri)); // 글리스트
+		model.addAttribute("list", newMapper.listCriteria(cri)); // 글리스트
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(newService.listCountCriteria(cri));
+		pageMaker.setTotalCount(newMapper.countPaging(cri));
 		model.addAttribute("pageMaker", pageMaker);
 		return "board/noticeBoard";
 	}
 	
 	@RequestMapping("/noticeView")
-	public String noticeView(Model model, HttpServletRequest request) throws Exception {
+	public String noticeView(Model model, HttpServletRequest request, Criteria cri) throws Exception {
 		int id = Integer.parseInt(request.getParameter("id"));
 		newMapper.updateCount(id);
 		model.addAttribute("list", newMapper.getid(id));
+		
 		return "board/noticeView";
 	}
 	
@@ -52,22 +53,22 @@ public class NewController {
 	@RequestMapping("/writego")
 	public String writego(Model model, @ModelAttribute Criteria cri, Board board) throws Exception {
 		newMapper.insert(board);
-		model.addAttribute("list", newMapper.listCountCriteria(cri));
+		model.addAttribute("list", newService.listCountCriteria(cri));
 		return "redirect:home";
 	}
 	@RequestMapping("/delete")
 	public String delete(HttpServletRequest request, Model model, Criteria cri) throws Exception {
 		int id = Integer.parseInt(request.getParameter("id"));
 		newMapper.delete(id);
-		model.addAttribute("list", newMapper.listCountCriteria(cri));
+		model.addAttribute("list", newService.listCountCriteria(cri));
 		return "redirect:home";
 	}
-	
+
 	@RequestMapping("/modifygo")
 	public String modifygo(HttpServletRequest request, Model model) throws Exception {
 		int id = Integer.parseInt(request.getParameter("id"));
 		model.addAttribute("list", newMapper.getid(id));
-		return "board/home";
+		return "board/noticeModify";
 	}
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request, Model model, @ModelAttribute Board board) throws Exception {

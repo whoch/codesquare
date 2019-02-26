@@ -8,16 +8,14 @@
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
 <!-- default header name is X-CSRF-TOKEN -->
 <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
-<link rel="stylesheet" type="text/css"
-	th:href="@{/static/styles/lecture/lectureCustom.css}">
+<link rel="stylesheet" type="text/css"	th:href="@{/static/styles/lecture/lectureCustom.css}">
 </head>
 <body>
 	<div class="container" layout:fragment="content">
 		<div class="row lecture-show-container">
 			<div class="col-sm-9 lecture-content">
-				<nav
-					class="lecture-navbar navbar navbar-expand-md navbar-light bg-light sticky-top"
-					style="z-index: 95;">
+				<input type="hidden" name="boardId" th:value="@{${lecture.id}}" />
+				<nav class="lecture-navbar navbar navbar-expand-md navbar-light bg-light sticky-top"	style="z-index: 95;">
 					<ul class="navbar-nav">
 						<li class="nav-item"><a class="nav-link"
 							href="#introduction-content">강의안내</a></li>
@@ -49,7 +47,7 @@
 				
 					<h4 class="subtitle">후기</h4>
 					<ul class="review-regist-container list-group">
-						<li class="list-group-item regist-container" style="border: none;">
+						<li class="list-group-item regist-container" style="border: none;"sec:authorize="isAuthenticated()" >
 							<form name="reviewForm">
 								<div class="row">
 									<input type="hidden" name="boardId" th:value="@{${lecture.id}}" />
@@ -101,14 +99,14 @@
 							</form>
 						</li>
 					</ul>
-					<ul class="review-container list-group">
+					<ul class="review-container list-group"style="max-height:600px; overflow-y:scroll;">
 
 					</ul>
 				</div>
 				<div id="lecture-qna" class="container-fluid">
 					<h4 class="subtitle">Q&A</h4>
 					<ul class="review-regist-container list-group">
-						<li class="list-group-item regist-container" style="border: none;">
+						<li class="list-group-item regist-container" style="border: none;"  sec:authorize="isAuthenticated()">
 							<form name="commentForm">
 								<div class="row">
 									<input type="hidden" name="boardId" th:value="@{${lecture.id}}" />
@@ -136,12 +134,12 @@
 											class="btn btn-comment-regist btn-primary btn-block"
 											style="top: 0; height: 100%; margin-left: -20%; width: 120%;">작성하기</button>
 									</div>
-								</div>
+									</div>
 							</form>
 						</li>
 					</ul>
 					<!-- Contenedor Principal -->
-					<div class="comments-container"></div>
+					<div class="comments-container" style="max-height:600px; overflow-y:scroll;"></div>
 				</div>
 				<!-- end of QnA -->
 			</div>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:sd="http://www.thymeleaf.org/spring-data"
+	layout:decorator="layout/adminLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<link rel="stylesheet" type="text/css"	href="/static/styles/lecture/lectureCustom.css"	th:href="@{/static/styles/lecture/lectureCustom.css}">
+<link rel="stylesheet" type="text/css"	href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}"	th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"	href="/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css"	th:href="@{/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css}">
+<link rel="stylesheet" type="text/css"	href="@{/static/styles/hansolCustom.css}"	th:href="@{/static/styles/hansolCustom.css}">
+<link rel="stylesheet" type="text/css"	href="/static/plugins/colorbox/colorbox.css"	th:href="@{/static/plugins/colorbox/colorbox.css}">
+<link rel="stylesheet" type="text/css"	href="/static/styles/main_styles.css"	th:href="@{/static/styles/main_styles.css}">
+<link rel="stylesheet" type="text/css"	href="/static/styles/responsive.css"	th:href="@{/static/styles/responsive.css}">
+<link rel="stylesheet" type="text/css"	href="/webjars/font-awesome/5.7.1/css/all.css"	th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}"/>
+<link rel="stylesheet" type="text/css"	th:href="@{/static/styles/lecture/lectureCustom.css}">
+
+</head>
+<body>
+	<div class=" lecture-container wrapper " layout:fragment="content">
+	<div class="main-panel">
+		<div class="row">
+			<div
+				class="lecture-header d-flex justify-content-between mb-2" style="margin-bottom:0px!important;">
+				<ol class="breadcrumb " style="background: none;">
+					<li class="breadcrumb-item"><a id="intro-link" th:href="@{/admin/lecture}">강의</a></li>
+					<li class="breadcrumb-item"><a id="parent-link" th:href="@{/admin/lecture/intro/}+${lecture.parentId}" th:attr="data-parentId=${lecture.parentId}" >자바의정석</a></li><!-- parentTitle추가해야함 -->
+					<li class="breadcrumb-item active" style="color:white;" th:text="@{${lecture.title}}"></li>
+				</ol>
+				<div class="btn-group p-2" >
+					<button id="btn-prevLecture" type="button" class="btn btn-secondary" th:if="${lecture.lectureStatus}!='first'"><i class="fas fa-chevron-left"></i> 이전강의</button>
+					<button id="btn-lectureList" type="button" class="btn btn-secondary">목록</button>
+					
+					<button id="btn-nextLecture" type="button" class="btn btn-secondary" th:if="${lecture.lectureStatus}!='last'">다음강의 <i class="fas fa-chevron-right"></i></button>
+				</div>
+				
+			</div>
+			<div class="col-sm-12">
+					<div class="lecture-list-container list-group" data-status="invisible" style="right:1%;"><!-- boardId+"/course/"+parentId; -->
+						<a th:each="list:${lectureList}" th:href="${list.id}" class="list-group-item list-group-item-action"><span th:text="@{${list.title}}"></span></a>
+					</div>
+				<div class="lecture-view-body">
+					<input type="hidden" id="currentTime" name="currentTime" th:value="@{${vLogInfo.currentTime}}">
+					<div id="player"  th:attr="data-modify-videoId=${lecture.videoUrl}" style="width:100%"></div>
+					<div class="video-overaybox " style="display: block; width:100%;">
+						<div class="modal-overay-wrap" ></div><div id="modal-container"></div>
+					</div>
+				</div>
+			</div>
+			<div id="lecture-content" class="col-sm-12 container">
+				<div id="accordion">
+					<div class="card">
+						<div class="card-header">
+							<a class="card-link" data-toggle="collapse" href="#collapseOne">
+								<label>필기</label>
+							</a>
+						</div>
+						<div id="collapseOne" class="collapse show" data-parent="#accordion">
+							<div class="card-body">
+								<form id="noteForm" action="/save" method="post">
+									<textarea name="notepad" id="notepad" style="width: 100%; height:412px; min-width:610px; overflow: visible;" rows="25" value=""></textarea>
+									<input type="button" id="save" class="btn btn-primary btn-block" value="저장" /> 
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo"> 
+								<label>QnA</label>
+							</a>
+						</div>
+						<div id="collapseTwo" class="collapse" data-parent="#accordion">
+							<div class="card-body container">
+								<ul class="review-regist-container list-group">
+									<li class="list-group-item regist-container" style="border: none;">
+										<form name="commentForm">
+											<div class="row">
+											<!-- 글번호(boardid),글종류(boardKindid),댓글작성자이름(userid),댓글작성자닉네임(nickname),댓글내용(content),부모댓글번호(parentId)-->
+												<input type="hidden" name="boardId" th:value="@{${lecture.id}}" />
+												<input type="hidden" name="boardKindId" th:value="@{${lecture.boardKindId}}" />
+												
+												<div class="col-sm-2 comment-writerInfo" sec:authorize="isAuthenticated()">
+													<input type="hidden" name="userId" th:value="@{${session.userId}}" /> 
+													<input type="hidden" name="nickName"	th:value="@{${session.nickName}}" />
+													<img class="commnet-writer-thumbnail" th:src="@{${session.profileImagePath}}" alt="유저썸네일" />
+													<div class="review-writer">
+														<h5 class="nickName"  th:text="@{${session.nickName}}"></h5>
+													</div>
+												</div>
+												<div class="col-sm-8 comment-content">
+													<textarea rows="3" cols="20" name="content" maxlength="300"	required="required" placeholder="바르고 고운말을 사용해주세요!"></textarea>
+												</div>
+												<div class="col-sm-2 comment-regist">
+													<button type="button"	class="btn btn-comment-regist btn-primary btn-block" style="top: 0; height: 100%; margin-left: -20%; width: 120%;">작성하기</button>
+												</div>
+											</div>
+										</form>
+									</li>
+								</ul>
+								<div class="comments-container"></div>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<a class="collapsed card-link" data-toggle="collapse" href="#collapseThree"> 
+								<label>강의내용</label>
+							</a>
+						</div>
+						<div id="collapseThree" class="collapse show" data-parent="#accordion">
+							<div class="card-body">
+							<pre th:utext="@{${lecture.content}}"></pre>
+							</div>
+							<button type="button" id="lecture-content-modify" class="btn btn-warning btn-block" style="font-size: 23px;font-weight: bold;margin-top: 5px; margin-bottom:5px;" sec:authorize="hasAnyRole('ROLE_2', 'ROLE_3')">수정하기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="lecture-footer" class="col-sm-12 "></div>
+			</div>
+		</div>
+		<!-- Return to Top -->
+		<a href="javascript:" id="top"><i class="fas fa-chevron-up"></i></a>
+		<th:block layout:fragment="script">
+		<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+		<script th:src="@{/webjars/popper.js/1.14.6/umd/popper.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/4.2.1/js/bootstrap.js}"></script>
+		<script
+			th:src="@{/webjars/bootstrap-select/1.13.3/js/bootstrap-select.js}"></script>
+		<!-- <script type="text/javascript" id="www-widgetapi-script"	src="https://s.ytimg.com/yts/jsbin/www-widgetapi-vflS50iB-/www-widgetapi.js"></script> -->
+		<script th:src="@{/webjars/waypoints/4.0.1/lib/jquery.waypoints.js}"></script>
+		<script src="https://www.youtube.com/player_api"></script>
+		<script type="text/javascript"	th:src="@{/static/js/smarteditor2/dist/js/service/HuskyEZCreator.js}"></script>
+		<script th:src="@{/static/js/lecture/lectureViewCustom.js}"></script>
+		<script th:src="@{/static/js/comment/commentCumstom.js}"></script>
+	</th:block>
+	</div>
+	
+	
+
+
+
+</body>
+</html>
