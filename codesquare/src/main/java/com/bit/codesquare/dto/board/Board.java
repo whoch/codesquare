@@ -20,7 +20,7 @@ public class Board implements ComparableDateTime {
 	String title;
 	String content;
 	LocalDateTime writeDate;
-	Date modifyDate;
+	LocalDateTime modifyDate;
 	int hit;
 	int fileCount;
 	int imageCount;
@@ -33,6 +33,7 @@ public class Board implements ComparableDateTime {
 	String keyword;
 	
 	String writeDateBoard;
+	String modifyDateBoard;
 	List <JoiningAndRecruitmentLog> wantedPlist;
 
 	@Override

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="layout/mainLayout2"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
+<title>로그인</title>
+
+</head>
+<body>
+	<div class="container" layout:fragment="content">
+	권한무
+	</div>
+
+
+</body>
+</html>
