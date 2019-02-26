@@ -1,6 +1,7 @@
 package com.bit.codesquare.dto.member;
 
 import java.sql.Date;
+import java.util.Map;
 
 import lombok.Data;
 
@@ -26,5 +27,6 @@ public class Member {
 	private int myPostCount;
 	private int banCount;
 	
+
 
 }

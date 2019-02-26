@@ -29,12 +29,11 @@
 					aria-expanded="true" aria-controls="'body'+${wlist.id}">
 					<div class="col-md-6" th:text="${wlist.title}"></div>
 					<div class="col-md-4"
-						th:text="${#dates.format(wlist.writeDate, 'yy-MM-dd')}"></div>
+						th:text="${wlist.writeDateBoard}"></div>
 					<div class="col-md-2"
 						th:text="${wlist.status} == 0 ? '모집중' : '모집완료'"></div>
 
 				</div>
-
 				<div th:id="'body'+${wlist.id}" class="collapse"
 					th:aria-labelledby="'heading'+${wlist.id}"
 					data-parent="#wantedList">

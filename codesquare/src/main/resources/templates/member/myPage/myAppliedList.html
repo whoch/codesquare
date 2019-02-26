@@ -23,11 +23,19 @@
 				th:each="alist : ${alist}">
 				<span hidden id="aApplyUserId" th:text="${alist.applyUserId}"></span>
 
+<!-- 				<div class="col-md-2"
+					th:text="${#dates.format(alist.applyDate, 'yy-MM-dd')}"></div> -->
 				<div class="col-md-2"
-					th:text="${#dates.format(alist.applyDate, 'yy-MM-dd')}"></div>
+					th:text="${alist.applyDateString}"></div>
 				<div class="col-md-5" th:text="${alist.title}"></div>
-				<div class="col-md-3" th:text="${alist.applyContent}"></div>
+				<div class="col-md-3">
+			<!-- 	<div th:each="ac : ${alist.applyContentMap}">
+					<div th:text="${ac.key}"></div>
+				</div> -->
+				<span th:text="${alist.applyContent}"></span> 
+				</div>
 				<div class="col-md-2" th:if="${alist.status} ==''">
+						
 					<button id="cancelApply" class="mybtn px-3 py-1 small">취소</button>
 
 					<!-- 취소 모달창 -->
@@ -40,7 +48,8 @@
 							<span hidden id="aNickName" th:text="${alist.nickName}"></span> <span
 								hidden id="aBoardId" th:text="${alist.boardId}"></span> <span
 								id="aTitle" th:text="${alist.title}"></span><br /> <span
-								id="aApplyContent" th:text="${alist.applyContent}"></span> <br />
+								id="aApplyContent" th:text="${alist.applyContent}"></span> 
+								<br />
 							<br /> 신청을 취소하시겠습니까?<br /> <br />
 							<button class="mybtn small cancelAppBtn">신청취소</button>
 							<br />
@@ -70,21 +79,21 @@
 					<ul class="pagination justify-content-center">
 						<li class="page-item" th:if="${pageMakerAL.prev} == true"><a
 							class="page-link"
-							th:href="@{/myPage/myAppliedList(page=${pageMakerAL.startPage}-1,perPageNum=${pageMakerAL.cri.perPageNum}, keyword=${pageMakerAL.cri.keyword})}">&laquo;</a>
+							th:href="@{/member/myAppliedList(page=${pageMakerAL.startPage}-1,perPageNum=${pageMakerAL.cri.perPageNum}, keyword=${pageMakerAL.cri.keyword})}">&laquo;</a>
 						</li>
 
 						<li class="page-item"
 							th:each="idx,iterStat : ${#numbers.sequence(pageMakerAL.startPage,pageMakerAL.endPage)}"
 							th:classappend="${pageMakerAL.cri.page} == ${idx} ? active : null">
 							<a class="page-link"
-							th:href="@{/myPage/myAppliedList(page=${idx},perPageNum=${pageMakerAL.cri.perPageNum},  keyword=${pageMakerAL.cri.keyword})}"
+							th:href="@{/member/myAppliedList(page=${idx},perPageNum=${pageMakerAL.cri.perPageNum},  keyword=${pageMakerAL.cri.keyword})}"
 							th:text="${idx}" th:if="${idx}"></a>
 						</li>
 
 						<li class="page-item"
 							th:if="${pageMakerAL.next} == true and ${pageMakerAL.endPage > 0}">
 							<a class="page-link"
-							th:href="@{/myPage/myAppliedList(page=${pageMakerAL.endPage}+1,perPageNum=${pageMakerAL.cri.perPageNum}, keyword=${pageMakerAL.cri.keyword})}">&raquo;</a>
+							th:href="@{/member/myAppliedList(page=${pageMakerAL.endPage}+1,perPageNum=${pageMakerAL.cri.perPageNum}, keyword=${pageMakerAL.cri.keyword})}">&raquo;</a>
 						</li>
 					</ul>
 				</div>

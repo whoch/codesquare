@@ -24,7 +24,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 </head>
 <body>
- <div sec:authorize="isAnonymous()">
+ <!-- <div sec:authorize="isAnonymous()">
  	<script>
 		alert("비 로그인 상태입니다.");
 		location.href="/";
@@ -38,7 +38,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
  			location.href="/";
  		</script>
  	</div>
- </div>
+ </div> -->
 
 <!-- 페이지의 헤더부분 -->
 <header th:replace="fragments/adminSide :: sideFragment"></header>

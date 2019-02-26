@@ -23,9 +23,9 @@
 	<insert id="signUp">
 		insert into UserInfo (UserId, Password,
 		Email, Name,
-		NickName, DateOfBirth, AuthorId)
+		NickName, DateOfBirth)
 		values (#{userId}, #{password},
-		#{email}, #{name}, #{nickName}, #{dateOfBirth}, #{authorId})
+		#{email}, #{name}, #{nickName}, #{dateOfBirth})
 	</insert>
 
 	<select id="idCheck" parameterType="String" resultType="Int">

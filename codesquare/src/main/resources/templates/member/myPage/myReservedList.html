@@ -35,21 +35,21 @@
 					<ul class="pagination justify-content-center">
 						<li class="page-item" th:if="${pageMakerRL.prev} == true"><a
 							class="page-link"
-							th:href="@{/myPage/myReservedList(page=${pageMakerRL.startPage}-1,perPageNum=${pageMakerRL.cri.perPageNum}, keyword=${pageMakerRL.cri.keyword})}">&laquo;</a>
+							th:href="@{/member/myReservedList(page=${pageMakerRL.startPage}-1,perPageNum=${pageMakerRL.cri.perPageNum}, keyword=${pageMakerRL.cri.keyword})}">&laquo;</a>
 						</li>
 
 						<li class="page-item"
 							th:each="idx,iterStat : ${#numbers.sequence(pageMakerRL.startPage,pageMakerRL.endPage)}"
 							th:classappend="${pageMakerRL.cri.page} == ${idx} ? active : null">
 							<a class="page-link"
-							th:href="@{/myPage/myReservedList(page=${idx},perPageNum=${pageMakerRL.cri.perPageNum},  keyword=${pageMakerRL.cri.keyword})}"
+							th:href="@{/member/myReservedList(page=${idx},perPageNum=${pageMakerRL.cri.perPageNum},  keyword=${pageMakerRL.cri.keyword})}"
 							th:text="${idx}" th:if="${idx}"></a>
 						</li>
 
 						<li class="page-item"
 							th:if="${pageMakerRL.next} == true and ${pageMakerRL.endPage > 0}">
 							<a class="page-link"
-							th:href="@{/myPage/myReservedList(page=${pageMakerRL.endPage}+1,perPageNum=${pageMakerRL.cri.perPageNum}, keyword=${pageMakerRL.cri.keyword})}">&raquo;</a>
+							th:href="@{/member/myReservedList(page=${pageMakerRL.endPage}+1,perPageNum=${pageMakerRL.cri.perPageNum}, keyword=${pageMakerRL.cri.keyword})}">&raquo;</a>
 						</li>
 					</ul>
 				</div>

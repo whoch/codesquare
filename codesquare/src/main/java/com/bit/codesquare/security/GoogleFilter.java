@@ -43,7 +43,7 @@ public class GoogleFilter extends OAuth2ClientAuthenticationProcessingFilter {
 
 		Member member = new Member();
 
-		member.setAuthorId(1);
+		
 		member.setUserId(map.get("email"));
 		member.setNickName(map.get("name")+ranNum);
 		member.setEmail(map.get("email"));

@@ -1,6 +1,8 @@
 package com.bit.codesquare.controller.member;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.BasicJsonParser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -47,6 +50,8 @@ public class MemberController {
 	
 	@Autowired
 	MessageInfoMapper mim;
+	
+
 
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request) {
@@ -65,7 +70,7 @@ public class MemberController {
 	@PostMapping("/signUp")
 	public String signUp(Model model, @ModelAttribute Member member, @RequestParam String userId,
 			@RequestParam String password) {
-		member.setAuthorId(1);
+
 		member.setNickName(userId);
 		member.setPassword(new BCryptPasswordEncoder().encode(password));
 		mm.signUp(member);
@@ -200,10 +205,17 @@ public class MemberController {
 
 	@GetMapping("myAppliedList")
 	public String myAppliedList(Model model, Authentication auth, @ModelAttribute Criteria cri) {
+		
 		String userId = auth.getName();
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
-		model.addAttribute("alist", mm.getAppliedList(userId, cri));
+		
+//		BasicJsonParser bjp = new BasicJsonParser();
+//		
+//		for(JoiningAndRecruitmentLog list : mm.getAppliedList(userId, cri) ) {
+//			list.setApplyContentMap(bjp.parseMap(list.getApplyContent()));
+//		}
+		model.addAttribute("alist", csu.getDateTimeCompareObject(mm.getAppliedList(userId, cri)));
 		cri.setPerPageNum(10);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -221,7 +233,7 @@ public class MemberController {
 		
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
-		model.addAttribute("wlist", mm.getWantedList(userId, cri));
+		model.addAttribute("wlist",csu.getDateTimeCompareObject(mm.getWantedList(userId, cri)));
 		cri.setPerPageNum(10);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -234,10 +246,12 @@ public class MemberController {
 	@GetMapping("myBoardList")
 	public String myBoardList(Model model, Authentication auth, @ModelAttribute Criteria cri) {
 		String userId = auth.getName();
+		csu.setDateTimeCompare(mm.getMyBoardList(userId, cri));
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
-		model.addAttribute("blist", mm.getMyBoardList(userId, cri));
-		logger.info(mm.getMyBoardList(userId, cri)+"durl");
+		model.addAttribute("blist", csu.getDateTimeCompareObject(mm.getMyBoardList(userId, cri)) );
+		
+//		logger.info(mm.getMyBoardList(userId, cri)+"durl");
 		cri.setPerPageNum(10);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -377,6 +391,11 @@ public class MemberController {
 		int count = 0 ;
 		count=mm.declineMo(applyUserId, boardId, declineContent);
 		return count;
+	}
+	
+	@GetMapping("accessDenied")
+	public String accessDenied() {
+		return "member/login/accessDenied";
 	}
 
 }

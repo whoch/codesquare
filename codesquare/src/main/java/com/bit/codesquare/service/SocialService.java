@@ -32,7 +32,7 @@ public class SocialService {
            return setAuthenticationToken(user);
        } else {
            // 새 회원일 경우 회원가입 이후 인증 처리
-    	   member.setAuthorId(6);
+    	 
     	   mm.signUp(member);
           
            final SecurityMember user = new SecurityMember(member);
@@ -45,7 +45,7 @@ public class SocialService {
    
     private UsernamePasswordAuthenticationToken setAuthenticationToken(Object user) {
            return new UsernamePasswordAuthenticationToken(user,
-                 null, getAuthorities("ROLE_6"));
+                 null, getAuthorities("ROLE_1"));
        }
     
     private Collection<? extends GrantedAuthority> getAuthorities(String authorId) {
