@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit.codesquare.mapper.group.GroupMapper">
+<!-- UserId는 임시로 'cksdud'으로 출력중 -->
+
+	<!-- boardId로 해당 글의 ㅁgroupInfo 얻기  -->
+	<select id="getGroupInfoUseBoardId" resultType="GroupInfo">
+		SELECT * FROM GroupInfo_view gv
+		INNER JOIN Board AS bo ON gv.Id=bo.GroupId 
+		WHERE bo.Id = #{boardId}
+	</select>
+	
+	<!-- 유저가 리더인 그룹의 groupInfo 얻기  -->
+	<select id="getGroupInfoUserLeader" resultType="GroupInfo">
+		SELECT gmi.Id, gv.Id AS GroupId, gv.LevelId, gv.TagId, gv.LocaleId, gv.Coordinates, gv.MemberCount, gv.Goal, gv.Content, gv.StartDate, gv.RecruitmentCount, gv.MeetingDate  FROM GroupMemberInfo gmi 
+		INNER JOIN GroupInfo_view gv ON gmi.GroupId = gv.Id
+		WHERE gmi.`UserId`=#{userId} AND gmi.`AuthorId`=5;
+	</select>	
+
+	
+	
+</mapper>

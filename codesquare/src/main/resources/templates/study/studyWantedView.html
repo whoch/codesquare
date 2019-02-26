@@ -45,7 +45,7 @@
 							<div class="board-content" th:utext="*{content}"></div>
 							<th:block th:if="${group.id} ne '그룹없음'">
 								<!-- ******** 그룹 상세정보 카드?부분은 html 따로 독립할 예정  ***** -->
-								<div th:fragment="notUseGroup" class="groupContent row" th:object="${group}">
+								<div class="groupContent row" th:object="${group}">
 									<div class="content-label col-md-3">그룹 상세 정보</div>
 									<dl class="group-detail group-detail-Grid col-md-9 row">
 										<dt>그룹명:</dt>
@@ -101,7 +101,7 @@
 							<h4></h4>
 							<div id="wantedContent-detail">
 								<div th:text="${group.id}"></div>
-							<th:block th:if="*{status}!=0">	
+							<th:block th:if="*{status}!=0 and ${group.id}!='그룹없음'">	
 								<div th:text="|${group.recruitmentCount}명 모집중|"></div>
 								<div th:text="모집중"></div>
 							</th:block>	
@@ -110,7 +110,9 @@
 								<div id="group-apply-button">신청하기</div>
 							</th:block>
 							<div id="bookmark-button" th:class="${bookmarkId}?'checked'">
-								<i class="far fa-heart " aria-hidden="true"><span>찜하기</span></i>
+								<i th:class="${bookmarkId}?'fas fa-heart':'far fa-heart'" aria-hidden="true">
+									<span th:text="${bookmarkId}?'찜취소':'찜하기'"></span>
+								</i>
 							</div>
 						</div>
 						<!-- ####   END 왼쪽 컨텐츠     #### -->
@@ -134,10 +136,6 @@
 						<span th:text="|파일 개수 *{fileCount}|"></span>
 						<span th:text="|이미지 개수*{imageCount}|"></span>
 					</div>
-					
-
-					
-
 						
 				</div>
 			</section>
@@ -175,7 +173,7 @@
 			
     	</th:block>
     	</div>
-		<!-- 콘테이너 종료 -->
+		<!-- div container 종료-->
 
 
 

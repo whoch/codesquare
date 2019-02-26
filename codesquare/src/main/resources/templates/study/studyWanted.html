@@ -35,7 +35,10 @@
     	<div class="container">
     	<th:block th:with="url=${#httpServletRequest.requestURI}">
     		
-    		<h1>스터디모집 게시글 상세 보기</h1>
+    		<h1>스터디모집 글쓰기 게시판</h1>
+ <!-- ####################    글쓰기 테스트를 위한 임시 버튼      ##################### -->
+					<a th:href="@{/studyWanted/writeView}">글쓰기 TEST </a>
+		
 		
 		
 			<!-- 게시판 리스트 -->
@@ -43,7 +46,6 @@
 				<ul>
 					<li class="stdMoGrid" th:each="list : ${boardList}">
 						<span th:text="*{list.id}"></span>
-						
 						<div>
 							<a th:href="|${url}/*{list.id}|" th:text="*{list.title}"></a>
 							<span th:text="*{list.fileCount}"></span>
@@ -51,12 +53,9 @@
 							<span th:text="*{list.commentCount}"></span>
 						</div>
 						<span th:text="*{list.status} eq 1?'':'마감'"></span>
-						
-						
 						<span th:text="*{list.groupId}"></span>
 						<span th:text="*{list.nickName}"></span>
 						<span th:text="*{list.writeDate}"></span>
-						
 						<div>
 							<span th:text="*{list.likeCount}"></span>
 							<span th:text="*{list.hit}"></span>
@@ -68,7 +67,7 @@
 			
     	</th:block>
     	</div>
-		<!-- 콘테이너 종료 -->
+		<!-- div container 종료-->
 
 	</article>
 	<!-- END content -->

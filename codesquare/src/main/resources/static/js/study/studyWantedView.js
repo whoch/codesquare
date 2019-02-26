@@ -2,20 +2,22 @@
 $(function(){
 	var BOARD_ID = $('#BOARD_ID').val();
 	var initial_bookmark_status = $('#bookmark-button').hasClass('checked');
-	
-/*	checkUnload*/
-	console.log(initial_bookmark_status);
+	var current_bookmark_status = $('#bookmark-button').hasClass('checked');
 	
 		$('#bookmark-button').click(function(e) {
-
 	             $(this).toggleClass('checked');
-	             $(this).children().toggleClass('fa-heart');
-	             $(this).children().toggleClass('fa-heart-o');
-
+	             $(this).children('i').toggleClass('fas far'); // 꽉찬 하트
+	             $(this).find('span').text(current_bookmark_status?'찜하기':'찜취소');
+	             current_bookmark_status = !current_bookmark_status;
+		});//북마크 클릭 이벤트 끝
+		
+	$(window).on('beforeunload', function(){
+		if(initial_bookmark_status!==current_bookmark_status){
 			var data = {
 		 			boardId : BOARD_ID,
 		 			boardKind : 'BookmarkList',
-		 			id : ''
+		 			id : '',
+		 			status : current_bookmark_status 
 		 		/*	userId : userId*/
 			} 
 			
@@ -24,32 +26,17 @@ $(function(){
 		  			url: '/clickBookmark',
 		  			data : JSON.stringify(data),
 					context : this,
-		  			contentType: 'application/json; charset=UTF-8',
+					contentType:'application/json; charset=UTF-8',
 		  			success: function (response) {
  		                  $(this).toggleClass('checked');
-		                  console.log("##### ajax 성공 #####");
-		      			console.log(this);
-		                  console.log(response);
 		            },
 		            error: function (jqXHR, textStatus, errorThrown) {
 		                  console.log("##### bookmark checked : Ajax ERROR #####");
 		            }
-			  	})//ajax 끝
-		});//북마크 클릭 이벤트 끝
-		
-	$(window).on('beforeunload', function(){
-			return "ON beforeunload";
-		});
-
-/*	var checkUnload = true;
-    $(window).on("beforeunload", function(){
-        if(checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
-    });
-*/
-	
-		$(window).off('beforeunload', function(){
-			return  alert("OFF beforeunload");
-		});
+		            
+			  	});//ajax 끝
+		}//if문 끝
+	});
 
 		
 		

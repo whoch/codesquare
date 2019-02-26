@@ -13,6 +13,7 @@ import lombok.Data;
 public class GroupInfo {
 
 	String id;
+	String groupId;
 	String levelId;
 	String tagId;
 	String localeId;

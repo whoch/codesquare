@@ -37,7 +37,7 @@
 	    padding: 50px 0 25px;
 	}
 	.boardList li, .boardHeader, .boardContent, .commentContent {
-	    border-bottom : 1px  solid rgba(0,0,0,.125);	
+	    border-bottom : 1px solid rgba(0,0,0,.125);	
         padding : 30px 0px;
 	}
 	
@@ -93,18 +93,21 @@
 		grid-column: span 5;
 	}
 	
-	#group-apply-button, #bookmark-button {
-	    margin-top: 10px;
-	    margin-bottom: 10px;
-	    border: 1px solid rgba(0,0,0,.125);
-	}
-	#group-apply-button, #bookmark-button {
+	#group-apply-button, #bookmark-button, #group-creat-button, #group-skip-button {
 	    /* display: block; */
 	   /*  width: 100%; */
-	   line-height: 56px;
-	   text-align: center;
-	   cursor: pointer;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		border: 1px solid rgba(0,0,0,.125);
+		line-height: 56px;
+		text-align: center;
+		cursor: pointer;
 	}
+	#group-creat-button, #group-skip-button {
+		width: 80%;
+	    margin: 5px auto 5px auto;
+	}
+	
 	#wantedContent-title, #wantedContent-detail {
 		padding : 24px 12px;
 	}
@@ -140,7 +143,7 @@
 		color: #4B0082;
 	}
 	
-	.far.fa-heart {
+	.far.fa-heart, .fas.fa-heart {
 		font-size: 25px;;
 		position: absolute;
 		top: 50%;
@@ -148,9 +151,176 @@
 		transform: translate(-50%, -50%);
 	}
 
-	.far.fa-heart span {
+	.far.fa-heart span, .fas.fa-heart span {
 		font-size: 16px;
 		vertical-align: middle;
-		margin-left :5px;
 	}
+	
+	/* 글쓰기 CSS  */
+	.write-container #writeTitle {
+	    width: 100%;
+	    height: 50px;
+	    padding: 5px 20px;
+	    margin : 5px 0px 10px 0px ;
+	}
+
+  button {
+    display: inline-block;
+    position: relative;
+    width:200px;
+    height: 50px;
+    text-align: center;
+    color: #fff;
+    align-items: flex-start;
+    border-width: 1px;
+    border-style: solid;
+/*     border-color: buttonface; */
+    border-image: initial;
+  }
   
+	#stdMo_cancle {
+		background-color: #fff;
+    	color: grey;
+    	margin-top: 30px;
+	}
+	
+	#stdMo_submit {
+		background-color: #4B0082;
+		margin-top: 30px;
+	}
+	.write-container H2, .write-container H3 {
+		padding-top : 30px;
+		padding-bottom: 20px;
+/* 		border-bottom: 3px solid black; */
+	}
+	
+	.groupSelect {
+		height: inherit; 
+	    padding: 40px 20px;
+	    margin-top: 10px;
+		border-top : 1px solid rgba(0,0,0,.125);
+	}
+	
+	#card-groups {
+		text-align: center;
+		width: 20rem;
+		height : 420px;
+	    margin: 20px 0 24px 0;
+	}
+	
+	#card-groups .card {
+		height: inherit;
+	}
+	
+	#card-groups .card-img-top {
+	    width: 50%;
+        margin-top: 50px;
+        align-self: center;
+	}
+	#card-groups .card-button {
+	    position: absolute;
+	    bottom: 20px;
+	    right: 0;
+	    left: 0;
+	    width: 80%;
+	    margin: 0 auto;
+	    color: white;
+	}
+	
+	.has-group {
+	    padding: 70px 0 50px;
+	}
+	
+	.has-group i {
+	    font-size: 70px;
+	    padding-bottom : 20px;
+	}
+	
+     hr {
+        height: 10px;
+        width: 20%;
+        background-color: #4B0082;
+        text-align: left;
+        margin-left: 0;
+        margin-botton : 25px;
+        margin : 25px 0 30px 0;
+		border-radius: 4px;
+      }
+
+
+	#Info-groups {
+		padding-top: 10px;
+		padding-left: 80px;
+	    cursor: pointer;
+	}
+	
+	#Info-groups .group-list .avatar {
+		vertical-align: middle;
+		width: 60px;
+		height: 60px;
+		align-self: center;
+	/* 	border-radius: 50%; */
+		margin-right: 25px;
+	}
+	
+	#Info-groups .group-list .media-body {
+	    border-bottom: 1px solid rgba(0,0,0,.125);
+	    padding: 17px 0 17px;
+	}
+	
+	#Info-groups .group-list:last-child .media-body  {
+	    border-bottom: none;
+	}
+	
+	#Info-groups .badge {
+		vertical-align: text-bottom;
+	    padding: 4px 7px;
+	}
+	
+	#Info-groups h6 {
+ 	   margin-bottom: 20px;
+	}
+	
+	.btn-div-main {
+		background: #4B0082;
+		color: white;
+	}
+
+	.btn-div-sub {
+		color: #4f4f4f;
+	}
+	
+	.group-details {
+		color : grey;
+	}
+	
+	#group-description {
+        text-align: center;
+        position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	
+	.return-button {
+	    position: absolute;
+	    right: 15px;
+	    top: 15px;
+        font-size: 25px;
+		cursor: pointer;
+	}
+	
+	.select-group-details {
+		border : 1px solid rgba(0,0,0,.125);
+	}
+	
+	#card-groups .card:not(#card_main) {
+		display:none;
+	}
+	
+	#Info-groups .info-list:not(#info_main) {
+		display:none;
+	}
+	
+	#info_main, #info_none {
+	    height: 100%;
+	}

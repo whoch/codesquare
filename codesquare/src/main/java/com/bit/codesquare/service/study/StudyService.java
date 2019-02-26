@@ -19,8 +19,4 @@ public class StudyService {
 	
 	Logger logger = LoggerFactory.getLogger(StudyService.class);
 	
-	public void test() {
-		GroupInfo group= studyMapper.getGroupInfo(76);
-		logger.info(group.toString());
-	}
 }

@@ -53,10 +53,6 @@
             viewSchedule(allSchedule, 'all');
             viewSchedule(groupSchedule, 'study');
             viewSchedule(seminarSchedule, 'seminar');
-
-            $(".nav-custom-tabs a").click(function () {
-                $(this).tab('show');
-            });//탭 클릭 이벤트
         });
 
         $(function () {
@@ -94,15 +90,15 @@
         <!-- START CUSTOM-TAB 나의 그룹 및 세미나 스케쥴 보기 -->
         <div class="row group-schedule custom-tab">
             <!-- 왼쪽 Nav tabs 부분 -->
-            <ul class="nav nav-custom-tabs flex-column col-md-2">
+            <ul class="nav nav-pills nav-custom-tabs flex-column col-md-2">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#all">all</a>
+                    <a class="nav-link active" data-toggle="pill" href="#all">all</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#study">study</a>
+                    <a class="nav-link" data-toggle="pill" href="#study">study</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#seminar">seminar</a>
+                    <a class="nav-link" data-toggle="pill" href="#seminar">seminar</a>
                 </li>
             </ul>
 			<!-- 오른쪽 컨텐츠 부분 -->
