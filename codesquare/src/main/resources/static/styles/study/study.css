@@ -7,6 +7,8 @@
 
 1. 게시판 리스트
 2. 그룹 게시판 상세보기
+3. 스터디 모집 게시판
+4. 스터디 신청 모달창
 
 
 ******************************/
@@ -41,6 +43,15 @@
         padding : 30px 0px;
 	}
 	
+	.boardHeader .nickname {
+		text-align: right;
+    	padding-right: 25px;
+	}
+	
+	.boardHeader .like {
+		text-align: right;
+	}
+	
 	.boardContent {
 		min-height: 400px; 
    		 line-height: 1.75em;
@@ -61,12 +72,42 @@
 	    border: 0;
 	}
 	
+	#wantedContent-detail {
+	text-align: center;
+	}
+	
+	#wantedContent-detail #non-group {
+		height: 100px;
+	}
+	
+	#wantedContent-detail .font-weight-bold {
+		padding-right: 30px;
+	}
+	
+	#wantedContent-detail .groupId {
+		margin : 30px 0 20px;
+	}
+	
+	#wantedContent-detail img {
+		width: 50%;
+	}
+	
+	#wantedContent-detail .group-detail {
+		text-align:left;
+	    display: inline-block;
+	    margin: 0 auto;
+	}
+	
 	.comment-div, .groupContent {
 		border-top: 1px solid rgba(0,0,0,.125);
 	}
 	
-	.board-content, .groupContent {
+	.board-content {
 		padding: 50px 0px;
+	}
+	
+	.groupContent {
+		padding: 50px 30px;
 	}
 	
 	.group-detail dt {
@@ -82,7 +123,7 @@
 		display: grid;
 		grid-column-gap : repeat(2, 10px);
 		grid-row-gap: 7px;
-     	grid-template-columns: 15% 20% 15% 15% 15% 20% ;
+     	grid-template-columns: 15% 25% 10% 20% 10% 20%;
 	}
 	
 	.group-member-cnt {
@@ -93,7 +134,8 @@
 		grid-column: span 5;
 	}
 	
-	#group-apply-button, #bookmark-button, #group-creat-button, #group-skip-button {
+	#group-ing-button, #bookmark-button, #group-creat-button, #group-skip-button,
+	#group-end-button, #group-in-button, #group-wait-button {
 	    /* display: block; */
 	   /*  width: 100%; */
 		margin-top: 10px;
@@ -122,7 +164,7 @@
 	    margin-right: 5px;
 	}
 	
-	#group-apply-button{
+	#group-ing-button {
 		background: #4B0082;
 		color: white;
 	}
@@ -133,7 +175,7 @@
 		color: #4f4f4f;
 	}
 	
-	#bookmark-button.checked {
+	#bookmark-button.checked, #group-in-button {
 		color: #4B0082;
 		border-color: #4B0082;
 	}
@@ -141,6 +183,29 @@
 	#bookmark-button:hover {
 		border-color: #4B0082;
 		color: #4B0082;
+	}
+	
+	
+	#group-end-button {
+	    background-color: #C0C0C0;
+	    border-color: #C0C0C0;
+	    color: white;
+	}
+	
+	#group-wait-button {
+	    background-color: #9d9baf;
+	    border-color: #9d9baf;
+	    color: #fefefe;
+	}
+
+	#group-wait-button:hover {
+		background-color: #7d6f95;
+		color: white;
+	}
+	
+	#group-ing-button:hover {
+		background-color: #402058;
+		color: white;
 	}
 	
 	.far.fa-heart, .fas.fa-heart {
@@ -156,7 +221,13 @@
 		vertical-align: middle;
 	}
 	
-	/* 글쓰기 CSS  */
+	#status-button>div {
+		display: none;
+	}
+	
+/***********************
+3. 스터디 모집 게시판
+***********************/
 	.write-container #writeTitle {
 	    width: 100%;
 	    height: 50px;
@@ -164,19 +235,29 @@
 	    margin : 5px 0px 10px 0px ;
 	}
 
-  button {
-    display: inline-block;
-    position: relative;
-    width:200px;
-    height: 50px;
-    text-align: center;
-    color: #fff;
-    align-items: flex-start;
-    border-width: 1px;
-    border-style: solid;
-/*     border-color: buttonface; */
-    border-image: initial;
-  }
+	.custom-btn {
+		display: inline-block;
+		position: relative;
+		width:200px;
+		height: 50px;
+		text-align: center;
+		color: #fff;
+		align-items: flex-start;
+		border-width: 1px;
+		border-style: solid;
+		border-image: initial;
+	}
+  	
+  	#info-message {
+ 	 	vertical-align: baseline;
+  	}
+  	
+  	#info-btn {
+  	    padding: 0.4rem 0.3rem;
+		font-size: 12px;
+		line-height: 1;
+	    margin-left: 2px;
+  	}
   
 	#stdMo_cancle {
 		background-color: #fff;
@@ -191,21 +272,12 @@
 	.write-container H2, .write-container H3 {
 		padding-top : 30px;
 		padding-bottom: 20px;
-/* 		border-bottom: 3px solid black; */
-	}
-	
-	.groupSelect {
-		height: inherit; 
-	    padding: 40px 20px;
-	    margin-top: 10px;
-		border-top : 1px solid rgba(0,0,0,.125);
 	}
 	
 	#card-groups {
 		text-align: center;
 		width: 20rem;
-		height : 420px;
-	    margin: 20px 0 24px 0;
+		height : 480px;
 	}
 	
 	#card-groups .card {
@@ -213,8 +285,8 @@
 	}
 	
 	#card-groups .card-img-top {
-	    width: 50%;
-        margin-top: 50px;
+	    width: 40%;
+        margin-top: 40px;
         align-self: center;
 	}
 	#card-groups .card-button {
@@ -317,10 +389,179 @@
 		display:none;
 	}
 	
+	#form_used, #form_none {
+	    padding: 6px 30px;
+	}
+	
 	#Info-groups .info-list:not(#info_main) {
 		display:none;
+	}
+	
+	.info-list.groupContent {
+		border-bottom: 1px solid rgba(0,0,0,.125);
 	}
 	
 	#info_main, #info_none {
 	    height: 100%;
 	}
+	.form-row label {
+		display: inline-block;
+	    vertical-align: -webkit-baseline-middle;
+	    margin-bottom: 0;
+	    font-size: larger;
+	}
+	
+
+	.m-btm20 {
+		margin-bottom: 20px;
+	}
+	
+	.large {
+		font-size:x-large;
+	}
+	
+	#applicationform {
+		margin-top: 40px;
+	}
+	
+	#applicationform-area {
+		display:none;
+		height: 250px;
+		margin: 15px 0;
+	}
+	
+	.applyTag:not(:first-child) {
+		margin : 0 5px;
+	}
+	
+	#applicationform .fa-window-close {
+		margin-left: 5px;
+	}
+	
+	#applicationform input {
+		vertical-align: middle;
+		border: 0;
+		outline: 0;
+		background: transparent;
+		border-bottom: 1px solid #939393;
+		padding: 0 10px 7px 10px;
+		width: 150px;
+		color: #3e3d3d;
+	}
+	
+	.btn-purple {
+		color: #fff;
+	    background-color: #BDA1BB;
+	    border-color: #BDA1BB;
+	}
+	
+	.btn-purple:hover {
+		color: #fff;
+	    background-color: #a57ca2;
+	    border-color: #a57ca2;
+	}
+	
+	#group-select {
+		margin-bottom: 100px
+	
+	}
+	
+	
+	
+/***********************
+4. 스터디 신청 모달창
+***********************/
+
+
+
+	#application-modal .modal-header {
+	    border-bottom-width: 0;
+	}
+	
+	#application-modal .modal-body {
+   		 padding: 20px 30px;
+   		 margin-bottom: 50px;
+	}
+	
+	#application-modal .modal-left .card-img-top {
+		margin: 0 auto 30px;
+		display: inline-block;
+		width: 45%;
+	}
+	
+	#application-modal .modal-left {
+        text-align: center;
+	}
+	
+	#application-modal .modal-right {
+		padding-right: 35px;
+	}
+
+	#application-modal .modal-right .form-value {
+		border-bottom: 1px solid #C0C0C0;
+		color: #3e3d3d;
+		width : 85%;
+		margin-bottom: 15px;
+	}
+	
+		
+	.modal-right #applicationform input::placeholder {
+		color: #a1a1a1;
+		font-style: italic;
+		font-size: 15px;
+	}
+	
+	.btn-deepPurple {
+		color: #f3f3f3;
+	    background-color: #4B0082;
+	    border-color: #4B0082;
+	}
+	
+	.btn-deepPurple:hover {
+		color: #f3f3f3;
+	    background-color: #402058;
+	    border-color: #402058;
+	}
+	
+	#submitApply {
+		border-radius: 23px;
+	    padding: 8px 40px;
+	    display: block;
+		margin: 30px auto 0px auto;
+	}
+	
+	#modal-group-detail-Grid {
+		display: grid;
+		grid-template-columns: 15% 85%;
+		text-align: left;
+ 		grid-column-gap : repeat(2, 10px);
+		grid-row-gap: 11px; 
+		padding-left: 45px;
+	}
+	
+	#modal-group-detail-Grid span {
+		grid-column: span 1;
+	}
+	
+	#boardEdit-content {
+		display: inline-block;
+	}
+/* 
+	.swal2-confirm {
+	    font-family: "Times New Roman", Times, serif !important;
+	    font-size: 15px;
+	    background-color: #BDA1BB !important;
+	    border-left-color: #BDA1BB !important;
+	    border-right-color: #BDA1BB !important;
+	}
+	
+	.swal-button:target {
+		box-shadow: none;
+			    border-left-color: #BDA1BB ;
+	    border-right-color: #BDA1BB ;
+	    border: 0;
+	}
+	
+	[class^=swal2] {
+    -webkit-tap-highlight-color: red;
+	} */

@@ -18,6 +18,10 @@ public interface StudyMapper {
 	public void addBookmark(Map<String, String> data);
 	public void deleteBookmark(Map<String, String> data);
 	public String getBookmarkId(int boardId);
-	
 	public void writeStudyWantedBoard(Board board);
+	public void deleteStudyWantedBoard(int boardId);
+	
+	
+	
+	
 }

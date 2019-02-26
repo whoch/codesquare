@@ -26,69 +26,126 @@ $(function(){
 			fOnAppLoad : function(){
 		    }
 		});
-	}
+	};
 	createSmartEditor();
 	/* END 스마트에디터 생성  */
-
-	$('#group-skip-button').on('click', function(){
-		$('#group-skip-button').toggleClass('select-group');
-		console.log(this);
-	});
-	
-	
 	
 	var boardWrite=function(){
-/*		var result;*/
-		oEditors.getById["writeContent"].exec("UPDATE_CONTENTS_FIELD", []);
+		oEditors.getById['writeContent'].exec('UPDATE_CONTENTS_FIELD', []);
+		
+		var $recruitmentCount = $('.card-body:visible').find('#recruitmentCount');
+		var selectGroupId = $('[name="groupId"]').val();
+		if( !selectGroupId ){
+			$('#info-message').focus();
+			$('#info-message').after('<button id="info-btn" type="button" class="btn btn-warning btn-sm">필수</button>');
+			return;
+		}else if( !(selectGroupId=='그룹없음') && !$recruitmentCount.val() ){
+			$recruitmentCount.focus();
+			return;
+		}
+		
+		var applicationForm;
+		if( $('#applicationform-area').is(':visible') && $('.question').length>0 ){
+			applicationForm =  new Array();
+			$('.question').each(function (index, item) {
+				applicationForm.push($(this).text());
+			});
+		}
+		
+		var data = {
+				board : $("#smartEditorResgistForm").serializeObject(),
+				applicationForm : JSON.stringify(applicationForm)||'',
+				recruitmentCount : $recruitmentCount.val()
+		}
+		
 		$.ajax({
 			type:'POST',
 			url:'/studyWanted/write',
-			data:JSON.stringify($("#smartEditorResgistForm").serializeObject()),
+			data : JSON.stringify(data),
 			contentType:'application/json; charset=UTF-8',
+			async: false,
 			success: function (response) {
-					console.log('sucess');
+					window.location.href = response;
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                  console.log("##### submit wantedWrite : Ajax ERROR #####");
-                  console.log("jqXHR.status : " + jqXHR.status);
-                  console.log("jqXHR.statusText : " + jqXHR.statusText);
-                  console.log("jqXHR.responseText : " + jqXHR.responseText);
-                  console.log("jqXHR.readyState : " + jqXHR.readyState);
+                  console.log('##### submit wantedWrite : Ajax ERROR #####');
+                  console.log('jqXHR.status : ' + jqXHR.status);
             }
 	 	});//ajax 끝
-	 }       
-	 
+	 };//boardWrite 종료
 	
 	$('#stdMo_submit').on('click', boardWrite);
 	
-//	jquery show hide
-//	$("ul.topnav li:hidden").length
 	
-	var groupNotSelected = function(){
+	var hideVisibleGroupAria = function(){
 		$('#card-groups .card:visible').hide();
 		$('#Info-groups .info-list:visible').hide();
+	};
+	
+	var setSelectGroupId=function( gruopId ){
+		$('[name="groupId"]').val( gruopId );
+	};
+	
+	var notUseApplicationForm = function(){
+		$('#applicationform-area').hide();
+	};
+	
+	$('.group-list').on('click', function(){
+		setSelectGroupId( $(this).find('.groupId').text() );
+		var id = $(this).find('[id^="list_"]').attr('id').substr(5);
+		hideVisibleGroupAria();
+		$('#card_'+id).show();     
+		$('#info_'+id).show(); 
+	});
+	
+	$('#group-skip-button').on('click', function(){
+		setSelectGroupId('그룹없음');
+		hideVisibleGroupAria();
 		$('#card_none').show();
 		$('#info_none').show();
-	}
+	});
 	
-	var cardGroupsReturn = function(){
-		$('#card-groups .card:visible').hide();
-		$('#Info-groups .info-list:visible').hide();
+	$('.return-button').on('click', function(){
+		setSelectGroupId('');
+		hideVisibleGroupAria();
+		notUseApplicationForm();
 		$('#card_main').show();
 		$('#info_main').show();
-	}
+	});
 	
-	var clickGroupList = function(){
-		var id = $(this).attr('id').substr(5);
-		$('#card-groups .card:visible').hide();
-		$('#Info-groups .info-list:visible').hide();
-		$('#card_'+id).show();     
-		$('#info_'+id).show();   
-	}
+	$(document).on('click', '#form_used', function(){
+		$('#applicationform-area').show();
+	});
 	
-	$('#group-skip-button').on('click', groupNotSelected);
-	$('.return-button').on('click', cardGroupsReturn);
-	$('.group-list .media-body').on('click', clickGroupList);
+	$(document).on('click', '#form_none', function(){
+		$('#applicationform-area').hide();
+	});
+	
+	$(document).on('focus', '#applicationform input', function(){
+		var $input = $('#applicationform input').not(this);
+		var questionCnt = $('.question').length;
+		
+		if( questionCnt<4 ){
+			for(let i=0; i<$input.length; i++){
+				if(  !($input.get(i).value)   ){
+					return;
+				}
+			}
+			$('#applicationform').append('<input class="applyTag" type="text" name="question" required/>');
+		}
+	});
+	
+	$(document).on('blur', '#applicationform input', function(){
+		if( $(this).val() ){
+			$(this).replaceWith('<button type="button" class="question btn btn-purple applyTag">'+$(this).val()+'<i class="fas fa-window-close"></i></button>');
+		}
+	});
+	
+	$(document).on('click', '#applicationform button', function(){
+		$(this).remove();
+	});	
+	
+
 	
 });//END script
 /*]]>*/

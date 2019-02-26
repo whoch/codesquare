@@ -34,14 +34,17 @@
 		DELETE FROM BookmarkList WHERE UserId='cksdud' AND BoardId=#{boardId}
 	</delete>
 	
-		
 	<insert id="writeStudyWantedBoard" parameterType="Board">
-		<selectKey keyProperty="id" resultType="String" order="AFTER">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 		INSERT INTO Board (BoardKindId, UserId, GroupId, Nickname, Title, Content )
-		VALUES (#{BoardKindId}, #{UserId}, #{GroupId}, #{nickname}, #{title}, #{content});
+		VALUES ('StdMo', 'cksdud', #{groupId}, '찬영찬영', #{title}, #{content});
 	</insert>
+	
+	<delete id="deleteStudyWantedBoard">
+		DELETE FROM Board WHERE #{boardId}
+	</delete>
 	
 	
 </mapper>
