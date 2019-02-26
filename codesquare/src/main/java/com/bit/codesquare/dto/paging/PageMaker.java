@@ -22,19 +22,15 @@ public class PageMaker {
 		calcData();
 	}
 	
+	
 	private void calcData() {
 		endPage = (int) (Math.ceil(cri.getPage() / (double) displayPageNum) * displayPageNum);
-		
 		startPage = (endPage - displayPageNum) + 1;
-		
 		int tempEndPage = (int) (Math.ceil(totalCount / (double) cri.getPerPageNum()));
-		
 		if(endPage > tempEndPage) {
 			endPage = tempEndPage;
 		}
-		
 		prev = startPage == 1 ? false : true;
-		
 		next = endPage * cri.getPerPageNum() >= totalCount ? false : true;
 	}
 

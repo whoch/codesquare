@@ -8,6 +8,7 @@ public class Criteria {
 	private int perPageNum;   // 페이지당 보여줄 게시글의 개수
 	
 	private String keyword;
+	private String searchOption;
 	
 	public Criteria() {
 		//최초 게시판에 진입할 때를 위해서 기본 값을 설정 해야 한다.

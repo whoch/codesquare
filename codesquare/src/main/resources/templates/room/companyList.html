@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.typeleaf.org"
 xmlns:sd="http://www.thymeleaf.org/spring-data"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorator="layout/mainLayout">
+layout:decorator="layout/mainLayout2">
 <meta charset="utf-8">
 <head>
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
 
-
-  <style type="text/css">
+<style type="text/css">
   input {
   border: 1px solid #542672;
   border-radius: 5px;
@@ -17,6 +17,17 @@ layout:decorator="layout/mainLayout">
 	border: 1px solid #542672;
 	border-radius: 5px;
 }
+	.max-small {
+    width: auto; height: auto;
+    max-width: 350px;
+    max-height: 400px;
+}
+label{
+       	font-family: 'Do Hyeon', sans-serif;
+        font-size: 20px;
+        font-weight: 200;
+        color: #4B0082;
+    }
 </style>
 
   
@@ -54,11 +65,12 @@ layout:decorator="layout/mainLayout">
             <div class="col-md-4" th:each="Company:${list}">
               <div class="card mb-4 box-shadow">
                 <a th:href="@{'/getid?companyid=' + ${Company.id}}">
-                <img data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"></a>
+                <img th:src="@{static/}+${Company.thumbnailPath}" class="max-small"></a>
+                <!-- <img data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap"></a> -->
                 <div class="card-body">
-     			<a th:href="@{'/getid?companyid=' + ${Company.id}}"><p th:text="${Company.companyname}"></p></a>
-                  <p class="card-text"><!-- <span th:text="${Company.companyinfo}"></span></p> -->
-                  						<span th:text="${Company.address}"></span>
+     			<a th:href="@{'/getid?companyid=' + ${Company.id}}"><label th:text="${Company.companyname}"></label></a>
+                  <p class="card-text" align="right">
+                  <span th:text="${Company.address}"></span>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                     </div>

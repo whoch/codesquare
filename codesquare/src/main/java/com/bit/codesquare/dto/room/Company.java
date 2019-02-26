@@ -11,8 +11,10 @@ public class Company {
 	String coordinates;
 	String companycontent;
 	String address;
-	String extension;
 	
 	String searchOption;
 	String keyword;
+	
+	String extension;
+	String thumbnailPath;
 }

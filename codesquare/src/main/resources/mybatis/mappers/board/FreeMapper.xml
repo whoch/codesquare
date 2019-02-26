@@ -2,14 +2,100 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.codesquare.mapper.board.FreeMapper">
 
-
+<!-- 
 <select id="getfree" resultType="Board">
 	SELECT * FROM codesquare.Board where BoardKindId='ComFr' order by id desc
-</select>
+</select> -->
 
 <select id="insert" resultType="Board" parameterType="Board">
-		INSERT INTO codesquare.Board (boardKindId, userId, nickname, title, content, Hit) VALUES 
-		('ComFr', 'test112', 'testNickName', #{title}, #{content}, 0)
+		INSERT INTO codesquare.Board (boardKindId, UserId, nickName, title, content, Hit) VALUES 
+		('ComFr', #{userId}, #{nickName}, #{title}, #{content}, 0)
 </select>
+<!-- <select id="getfree" resultType="Board">
+	<![CDATA[
+			select
+				id, userid, nickname, title, content, writedate, modifydate, hit
+			from
+				codesquare.Board
+			where BoardKindid='ComFr'
+			
+			and id > 0
+	]]>
+	<![CDATA[	
+			order by id desc, writedate desc
+			limit #{pageStart}, #{perPageNum}
+	]]>
 	
+	</select> -->
+	<select id="getfree" resultType="Board">
+		select * from codesquare.Board
+		where Board.BoardKindId='ComFr'
+		<if test="cri.keyword != null">
+		<choose>
+			<when test="cri.searchOption == 'all'">
+				and content like CONCAT('%',#{cri.keyword},'%')
+				or title like CONCAT('%',#{cri.keyword},'%')
+			</when>
+			<when test="cri.searchOption == 'title'">
+				and title like CONCAT('%',#{cri.keyword},'%')
+			</when>
+			<!-- <when test="cri.searchOption == 'nickname'">
+				and nickname like CONCAT('%',#{cri.keyword},'%')
+			</when> -->
+			<otherwise>
+				and nickname like CONCAT('%',#{cri.keyword},'%')
+			</otherwise>
+		</choose>
+		</if>
+		order by id desc, writedate desc
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+
+
+	<select id="countPaging" resultType="int">
+
+			select
+				count(id)
+			from
+				Board
+			where Board.BoardKindId='ComFr'
+		<if test="cri.keyword != null">
+		<choose>
+			<when test="cri.searchOption == 'all'">
+				and content like CONCAT('%',#{cri.keyword},'%')
+				or title like CONCAT('%',#{cri.keyword},'%')
+			</when>
+			<when test="cri.searchOption == 'title'">
+				and title like CONCAT('%',#{cri.keyword},'%')
+			</when>
+			<!-- <when test="cri.searchOption == 'nickname'">
+				and nickname like CONCAT('%',#{cri.keyword},'%')
+			</when> -->
+			<otherwise>
+				and nickname like CONCAT('%',#{cri.keyword},'%')
+			</otherwise>
+		</choose>
+		</if>
+	</select>
+	
+	
+	<select id="countSPaging" resultType="int">
+			select
+				count(id)
+			from
+				MessageInfo
+				 where sender = #{sender}  and ShowStatus = '정상' 
+				  <if test ="cri.keyword != null">
+				  and (MessageContent like CONCAT('%',#{cri.keyword},'%') or Recipient like CONCAT('%',#{cri.keyword},'%') or RecipientNickName like CONCAT('%',#{cri.keyword},'%') )
+				 </if>
+	</select>
+	<select id="getSentMessageList" resultType="MessageInfo">
+		select * from
+		MessageInfo where Sender = #{sender} and ShowStatus = '정상'
+		<if test ="cri.keyword != null">
+		and (MessageContent like CONCAT('%',#{cri.keyword},'%') or Recipient like CONCAT('%',#{cri.keyword},'%') or RecipientNickName like CONCAT('%',#{cri.keyword},'%') )
+		</if>
+		order by SendDate DESC
+		limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
 </mapper>
