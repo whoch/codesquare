@@ -103,10 +103,10 @@ function qnaCommentList(){
 		type:'get',
 		data:{'boardId' : boardId}
 	}).done(function(data){
-		var cContent="<ul id=\"comments-list\" class=\"comments-list\">";
+		var cContent="<ul id=\"comments-list\" class=\"comments-list \">";
 		$.each(data,function(key,value){
 			if(!value.parentId){
-		        cContent+="<li id=\"lrnQa-"+value.id+"\"><!--메인 댓글--><div class=\"comment-main-level\">";
+		        cContent+="<li id=\"lrnQa-"+value.id+"\"data-parentId=\"0\" ><!--메인 댓글--><div class=\"comment-main-level\">";
 			}else{
 				cContent+="<li id=\"lrnQa-"+value.id+"\"data-parentId=\""+value.parentId+"\"><!--메인 댓글--><div class=\"comment-main-level reply-list\">";
 			}
@@ -276,14 +276,17 @@ $(document).ready(function() {
 			deleteQNAComment(id);
 		}
 		if(objClass.indexOf('fa-reply')!=-1){//리플
-			
+			var parentId=$("#lrnQa-"+id).data('parentid');
+			if(parentId==0){
+				parentId=id;
+			}
 			var replyContent="";
 			replyContent+="<li id=\"reply\"><!--메인 댓글--><form name=\"comment-reply-form\"><div class=\"comment-main-level reply-list\">";
 			replyContent+="<input type=\"hidden\" name=\"boardId\" value=\""+boardId+"\" />";
 			replyContent+="<input type=\"hidden\" name=\"boardKindId\" value=\"LrnQa\" />";
 			replyContent+="<input type=\"hidden\" name=\"userId\" value=\""+userId+"\" /> ";
 			replyContent+="<input type=\"hidden\" name=\"nickName\"	value=\""+nickName+"\" />";
-			replyContent+="<input type=\"hidden\" name=\"parentId\"	value=\""+id+"\" />";
+			replyContent+="<input type=\"hidden\" name=\"parentId\"	value=\""+parentId+"\" />";
 	        replyContent+="<!-- Avatar --><div class=\"comment-avatar\"><img src=\""+writerThumbnail+"\" alt=\"유저썸네일\"></div>";
 	        replyContent+="<div class=\"comment-box\">";
 	        replyContent+="<div class=\"comment-head\">";

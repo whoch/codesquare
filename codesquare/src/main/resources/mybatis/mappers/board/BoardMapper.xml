@@ -17,8 +17,25 @@
 		SELECT Content
 		FROM BlackKeyword
 	</select>
-	
-	
+	<select id="getAllBoardList" parameterType="map" resultType="Board">
+		SELECT *
+		FROM Board
+		WHERE BoardKindId=#{boardKindId}
+		<if test="content == null">ORDER BY Id DESC</if>
+		<if test="content != null">ORDER BY #{content}</if>
+		<![CDATA[   
+         LIMIT #{cri.pageStart}, #{cri.perPageNum}
+  		 ]]>
+	</select>
+	<select id="getBoardKindList" parameterType="String" resultType="map">
+		SELECT Id AS 'id', BoardName AS 'boardName'
+		FROM BoardKind
+	</select>
+	<select id="getBookmarkBoardKindList" resultType="map">
+		SELECT Id AS 'id', BoardName AS 'boardName'
+		FROM BoardKind
+		WHERE AdminBookmark = 1
+	</select>
 	
 <!--     <insert id="insert" parameterType="test">
     	INSERT INTO HANSOL(ID,NAME) VALUES(#{id},#{name})
