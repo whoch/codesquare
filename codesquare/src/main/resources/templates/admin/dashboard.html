@@ -97,7 +97,7 @@
                       <ul class="nav nav-tabs" data-tabs="tabs">
                       	<!-- 신고내역 -->
                         <li class="nav-item">
-                          <a class="nav-link active" href="#repoted" data-toggle="tab">
+                          <a class="nav-link " href="#repoted" data-toggle="tab">
                             <i class="material-icons">bug_report</i> 신고내역
                             <div class="ripple-container"></div>
                           </a>
@@ -111,7 +111,7 @@
                         </li>
                         <!-- todolist -->
                         <li class="nav-item">
-                          <a class="nav-link" href="#todolist" data-toggle="tab">
+                          <a class="nav-link active" href="#todolist" data-toggle="tab">
                             <i class="fas fa-clipboard-list fa-lg"></i> Todo-List
                             <div class="ripple-container"></div>
                           </a>
@@ -123,7 +123,7 @@
                 <div class="card-body" style="height:400px;">
                   <div class="tab-content">
                   	<!-- 신고내역 -->
-                    <div class="tab-pane active" id="repoted">
+                    <div class="tab-pane " id="repoted">
                       <table class="table">
                         <tbody>
                           <tr th:each="rList:${repotedList}">
@@ -181,7 +181,7 @@
                       </table>
                     </div>
                     <!-- todolist -->
-                    <div class="tab-pane" id="todolist" style="overflow:auto;height: 381px;">
+                    <div class="tab-pane active" id="todolist" style="overflow:auto;height: 381px;">
                       <table class="table" >
                         <tbody id="todolist-tbody" >
                         	<div class="form-group">

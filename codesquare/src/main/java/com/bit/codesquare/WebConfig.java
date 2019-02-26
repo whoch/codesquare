@@ -1,4 +1,4 @@
-package com.bit.codesquare;
+/*package com.bit.codesquare;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -17,3 +17,4 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         return registrationBean;
     }
 }
+*/

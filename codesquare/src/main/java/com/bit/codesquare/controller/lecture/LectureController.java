@@ -98,7 +98,7 @@ public class LectureController {
 	//강좌 소개 페이지 이동 컨트롤러
 	@RequestMapping("intro/{id}")
 	public ModelAndView lectureIntroView(@PathVariable("id") int id, Principal principal, HttpSession session, Authentication auth) {
-		cUtil.getSession(auth, session);
+//		cUtil.getSession(auth, session);
 		try {
 			lectureIntro= lectureMapper.getLecture(id);
 			String thumbPath=lectureIntropath;
@@ -119,7 +119,7 @@ public class LectureController {
 	//강의소개 등록 페이지 이동 컨트롤러
 	@RequestMapping("intro")
 	public ModelAndView lectureIntroWrite(Principal pricipal, HttpSession session, Authentication auth) {
-		cUtil.getSession(auth, session);
+//		cUtil.getSession(auth, session);
 		List<LectureTag> ltList;
 		try {
 			
@@ -165,7 +165,7 @@ public class LectureController {
 	//강좌보기 페이지 이동 컨트롤러
 	@RequestMapping("intro/{parentId}/course/{boardId}")
 	public ModelAndView firstlectureView(@PathVariable("parentId") int parentId,@PathVariable("boardId") int boardId, Principal pricipal, HttpSession session, Authentication auth){
-		cUtil.getSession(auth, session);
+//		cUtil.getSession(auth, session);
 		try {
 			member= memberMapper.getUser(pricipal.getName());
 			map= new HashMap<String, Object>();
@@ -299,7 +299,7 @@ public class LectureController {
 	//강좌 등록 수정 페이지 이동 컨트롤러
 	@RequestMapping(value="intro/{parentId}/course/post/{boardId}",method=RequestMethod.GET)
 	public ModelAndView learnModifyViewPage(@PathVariable("boardId") int boardId, HttpSession session, Authentication auth) {
-		cUtil.getSession(auth, session);
+//		cUtil.getSession(auth, session);
 		try {
 			lecture=lectureMapper.getLectureContent(boardId);
 			lectureIntro=lectureMapper.getLecture(lecture.getParentId());
@@ -314,7 +314,7 @@ public class LectureController {
 	//강좌 등록 페이지 이동 컨트롤러
 	@RequestMapping(value="intro/{parentId}/course",method=RequestMethod.GET)
 	public ModelAndView learnWriteViewPage(@PathVariable("parentId") int parentId, HttpSession session, Authentication auth) {
-		cUtil.getSession(auth, session);
+//		cUtil.getSession(auth, session);
 		try {
 			
 			mav.addObject("parentId", parentId);
