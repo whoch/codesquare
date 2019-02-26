@@ -42,25 +42,25 @@ public class BoardController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "index";
-	}
-
-	@RequestMapping("new")
-	public String main2(Model model, Authentication auth, HttpSession session) {
-		
-		csu.getSession(auth, session);
-		
-		try {
-			board= boardMapper.getRecommandList();
-			model.addAttribute("riList",board);
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		return "index3";
 	}
+//
+//	@RequestMapping("new")
+//	public String main2(Model model, Authentication auth, HttpSession session) {
+//		
+//		csu.getSession(auth, session);
+//		
+//		try {
+//			board= boardMapper.getRecommandList();
+//			model.addAttribute("riList",board);
+//			
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		return "index3";
+//	}
 	
 	
 }
