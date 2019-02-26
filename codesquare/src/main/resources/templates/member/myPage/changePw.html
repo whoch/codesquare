@@ -1,38 +1,58 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout/myPageLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
 <!-- default header name is X-CSRF-TOKEN -->
-<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 </head>
 <body>
-	
-	<form id="changePw" method="post">
-		<h2>비밀번호 변경</h2>
-	<span id="pwMsg"></span>
-	
-				<div><input type="hidden" id="userId" name="userId" th:value="${session.userId}">
-				비밀번호:
-				<input type="password" id="password" name="password" required>
-		</div>
-			<div>
-				비밀번호확인:
-				<input type="password" id="rePassword" name="rePassword" required><br /><span id="pwCheckMsg"></span>
+<div class="container" layout:fragment="myPageContent">
+	<div id="changePw" class="container">
+		<br />
+		<h3>비밀번호 변경하기</h3>
+		<br />
+
+		<div class="row py-2 ">
+			<div class="col-md-3 py-2 small text-right">
+				<input type="hidden" id="userId" name="userId"
+					th:value="${session.userId}"> 비밀번호
 			</div>
+			<div class="col-md-5 py-2">
+				<input type="password" id="password" name="password" required>
+			</div>
+		</div>
+
+		<div class="row py-2">
+			<div class="col-md-3 py-2 small text-right">비밀번호 확인</div>
+			<div class="col-md-5 py-2">
+				<input type="password" id="rePassword" name="rePassword" required><br />
 				<span id="pwCheckMsg"></span>
-	
-			<div>
-				<span id="pwValidate">변경하기</span> 
-
-
-<br /> <br /> <br /> <br />
-<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
-<script th:src="@{/static/js/member/modifyMyInfo.js}"></script> 
+			</div>
 
 		</div>
-	</form>
-	</body>
-	</html>
+
+		<div class="row py-2">
+			<div class="col-md-8 py-2 text-right small">
+				<button class="mybtn px-3 py-1" id="pwValidate">변경하기</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 모달창 -->
+
+	<div id="done-dialog" class="jumbotron">
+		<div id="done-close" class="text-right">
+			<i class="fas fa-times align-top "></i>
+		</div>
+		<div id="done-dialog-content" class="text-center"></div>
+	</div>
+</div>
+</body>
+</html>
 

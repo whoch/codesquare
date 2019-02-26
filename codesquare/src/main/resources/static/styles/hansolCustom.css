@@ -23,9 +23,11 @@ header:after{
   display:block;
 }
 footer{
-	position:relative;
+	position:fixed-bottom;
 	width:100%;
-	bottom:0%;  	
+	bottom:0%;
+	z-index : -1;
+	margin-top: 100px;  	
 }
 
 

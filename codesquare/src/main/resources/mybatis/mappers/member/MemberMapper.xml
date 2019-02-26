@@ -12,12 +12,14 @@
 		UserId, Password, NickName,AuthorId from UserInfo
 		where UserId = #{userId}
 	</select>
+
 	<select id="getUser" parameterType="String" resultType="Member">
 		select
 		*
 		from
 		UserInfo where UserId = #{userId}
 	</select>
+
 	<insert id="signUp">
 		insert into UserInfo (UserId, Password,
 		Email, Name,
@@ -85,69 +87,135 @@
 
 	<update id="modifyInstructorInfo">
 		update InstructorInfo set
-		IntroContent = #{introContent}, History = #{history} where UserId =
+		IntroContent =
+		#{introContent}, History = #{history} where UserId =
 		#{userId}
 	</update>
 
-	<select id="getReservedList" parameterType="String"
-		resultType="Reservation">
-		select a.UserId, a.ReservationDate, a.RoomId, b.RoomName, a.PayAmount,
-		a.PaymentDate, a.ReservationTime from ReservationInfo a join RoomInfo
-		b on a.RoomId = b.id where UserId =#{userId}
+	<select id="getReservedList" resultType="Reservation">
+		select a.UserId,
+		a.ReservationDate, a.RoomId, b.RoomName,
+		a.PayAmount,
+		a.PaymentDate,
+		a.ReservationTime from ReservationInfo a
+		join RoomInfo b
+		on a.RoomId =
+		b.id where UserId =#{userId} order by ReservationDate DESC limit
+		#{cri.pageStart}, #{cri.perPageNum}
 	</select>
 
-	<select id="getAppliedList" parameterType="String"
+	<select id="countRLPaging" resultType="int">
+		select count(a.UserId) from ReservationInfo a
+		join RoomInfo
+		b
+		on a.RoomId =
+		b.id where UserId =#{userId}
+
+	</select>
+
+	<select id="getAppliedList"
 		resultType="JoiningAndRecruitmentLog">
-		select a.ApplyUserId, a.Nickname, a.ApplyDate, b.BoardKindId, a.BoardId, b.Title,
-		a.ApplyContent, a. DeclineContent, a.Status from
-		JoiningAndRecruitmentLog a join Board b on a.BoardId = b.Id where
-		a.ApplyUserId=#{userId}
+		select a.ApplyUserId, a.Nickname, a.ApplyDate,
+		b.BoardKindId, a.BoardId, b.Title,
+		a.ApplyContent, a. DeclineContent,
+		a.Status from
+		JoiningAndRecruitmentLog a join Board b on a.BoardId =
+		b.Id where
+		a.ApplyUserId=#{userId} order by ApplyDate DESC limit
+		#{cri.pageStart}, #{cri.perPageNum}
 	</select>
 
-	<select id="getWantedList" parameterType="String"
+	<select id="countALPaging" resultType="int">
+		select count(a.ApplyUserId) from
+		JoiningAndRecruitmentLog a join Board b on a.BoardId =
+		b.Id where
+		a.ApplyUserId= #{userId}
+
+	</select>
+
+	<select id="getWantedList"
 		resultType="Board">
-		select Id, BoardKindId, Title,  WriteDate, Status from Board where UserId= #{userId} AND
-		(BoardKindId='SmnMo' or BoardKindId='StdMo')
+		select Id, BoardKindId, Title, WriteDate, Status from Board
+		where UserId= #{userId} AND
+		(BoardKindId='SmnMo' or
+		BoardKindId='StdMo')
+		limit
+		#{cri.pageStart}, #{cri.perPageNum}
+	</select>
+
+	<select id="countWLPaging" resultType="int">
+		select count(Id) from Board
+		where UserId= #{userId} AND
+		(BoardKindId='SmnMo' or
+		BoardKindId='StdMo')
 	</select>
 
 	<select id="getWantedPList"
 		resultType="JoiningAndRecruitmentLog">
-		select a.BoardId, b.BoardKindId, a.NickName, a.ApplyUserId, a.ApplyDate, b.Title, b.WriteDate,
-		a.ApplyContent, a. DeclineContent, a.Status from
-		JoiningAndRecruitmentLog a join Board b on a.BoardId = b.Id where
+		select a.BoardId, b.BoardKindId, a.NickName, a.ApplyUserId,
+		a.ApplyDate, b.Title, b.WriteDate,
+		a.ApplyContent, a. DeclineContent,
+		a.Status from
+		JoiningAndRecruitmentLog a join Board b on a.BoardId =
+		b.Id where
 		b.Id=#{boardId}
 	</select>
 
 
 	<select id="getInstructorInfo" resultType="instructorInfo">
-		select UserId, IntroContent, History from InstructorInfo where UserId
+		select UserId,
+		IntroContent, History from InstructorInfo where UserId
 		=#{userId}
 	</select>
 
 	<select id="getMyBoardList" resultType="Board">
-		select a.Id, a.BoardKindId, b.BoardName, a.Title, a.Content, a.NickName,
+		select a.Id,
+		a.BoardKindId, b.BoardName, a.Title, a.Content, a.NickName,
 		a.WriteDate, a.modifyDate, a.Hit, a.FileCount, a.ImageCount,
 		a.CommentCount,
 		a.LikeCount,
 		a.ParentId,
-		a.Status from Board a join BoardKind b on a.BoardKindId=b.Id where
+		a.Status from Board a join
+		BoardKind b on a.BoardKindId=b.Id where
+		userId= #{userId}
+		order by WriteDate DESC limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+
+	<select id="countBLPaging" resultType="int">
+	select count(a.Id)
+		 from Board a join
+		BoardKind b on a.BoardKindId=b.Id where
 		userId=#{userId}
+
 	</select>
-	
+
 	<select id="getMyCount" resultType="Member">
-		select UserId, MessageCount, ReservationCount, MyStudyCount, MyPostCount from UserInfo where UserId=#{userId}
+		select UserId, MessageCount,
+		ReservationCount, MyStudyCount, MyPostCount from UserInfo where
+		UserId=#{userId}
 	</select>
-	
-	<update id="cancelApply" >
-		update JoiningAndRecruitmentLog set Status = '신청취소' where ApplyUserId = #{applyUserId} and BoardId = #{boardId};
+
+	<update id="cancelApply">
+		update JoiningAndRecruitmentLog set
+		Status = '신청취소'
+		where ApplyUserId = #{applyUserId} and BoardId =
+		#{boardId};
 	</update>
-	
+
 	<update id="acceptMo">
-		update JoiningAndRecruitmentLog set Status = '수락' where ApplyUserId = #{applyUserId} and BoardId = #{boardId};
+		update JoiningAndRecruitmentLog set Status = '수락'
+		where ApplyUserId = #{applyUserId} and BoardId = #{boardId};
 	</update>
-	
+
 	<update id="declineMo">
-		update JoiningAndRecruitmentLog set Status = '거절', DeclineContent= #{declineContent} where ApplyUserId = #{applyUserId} and BoardId = #{boardId};
+		update JoiningAndRecruitmentLog set Status = '거절',
+		DeclineContent= #{declineContent} where ApplyUserId = #{applyUserId}
+		and BoardId = #{boardId};
 	</update>
-	
+
+	<update id="updateProfile">
+		update UserInfo set profileImagePath =
+		CONCAT(#{userId}, '_Thumbnail.jpg') where UserId = #{userId}
+	</update>
+
 </mapper>

@@ -24,6 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bit.codesquare.dto.member.InstructorInfo;
 import com.bit.codesquare.dto.member.Member;
+import com.bit.codesquare.dto.paging.Criteria;
+import com.bit.codesquare.dto.paging.PageMaker;
 import com.bit.codesquare.mapper.member.MemberMapper;
 import com.bit.codesquare.mapper.member.MessageInfoMapper;
 import com.bit.codesquare.service.MemberService;
@@ -162,24 +164,128 @@ public class MemberController {
 		return count;
 	}
 
-
+	
 	@GetMapping("/myPage")
-	public String myPage(Model model, Authentication auth, HttpSession session) {
-		csu.getSession(auth, session);
+	public String myPage2(Model model, Authentication auth,  @ModelAttribute Criteria cri) {
+//		csu.getSession(auth, session);
 		String userId = auth.getName();
-
 		model.addAttribute("user", mm.getUser(userId));
-		model.addAttribute("rlist", mm.getReservedList(userId));
-		model.addAttribute("alist", mm.getAppliedList(userId));
-		model.addAttribute("wlist", ms.getWantedList(userId));
-		model.addAttribute("blist", mm.getMyBoardList(userId));
+		model.addAttribute("count", mm.getMyCount(userId));
+		model.addAttribute("rlist", mm.getReservedList(userId, cri));
+		cri.setPerPageNum(10);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setDisplayPageNum(10);
+		pageMaker.setTotalCount(mm.countRLPaging(userId, cri));
+		model.addAttribute("pageMakerRL", pageMaker);
+		return "member/myPage/myReservedList";
+	}
+	
+	@GetMapping("myReservedList")
+	public String myReservedList(Model model, Authentication auth, @ModelAttribute Criteria cri) {
+		
+		String userId = auth.getName();
+		model.addAttribute("user", mm.getUser(userId));
+		model.addAttribute("count", mm.getMyCount(userId));
+		model.addAttribute("rlist", mm.getReservedList(userId, cri));
+		cri.setPerPageNum(10);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setDisplayPageNum(10);
+		pageMaker.setTotalCount(mm.countRLPaging(userId, cri));
+		model.addAttribute("pageMakerRL", pageMaker);
+		return "member/myPage/myReservedList";
+	}
+	
+
+	@GetMapping("myAppliedList")
+	public String myAppliedList(Model model, Authentication auth, @ModelAttribute Criteria cri) {
+		String userId = auth.getName();
+		model.addAttribute("user", mm.getUser(userId));
+		model.addAttribute("count", mm.getMyCount(userId));
+		model.addAttribute("alist", mm.getAppliedList(userId, cri));
+		cri.setPerPageNum(10);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setDisplayPageNum(10);
+		pageMaker.setTotalCount(mm.countALPaging(userId, cri));
+		model.addAttribute("pageMakerAL", pageMaker);
+		return "member/myPage/myAppliedList";
+	}
+	
+	
+	
+	@GetMapping("myWantedList")
+	public String myWantedList(Model model, Authentication auth, @ModelAttribute Criteria cri) {
+		String userId = auth.getName();
+		
+		model.addAttribute("user", mm.getUser(userId));
+		model.addAttribute("count", mm.getMyCount(userId));
+		model.addAttribute("wlist", mm.getWantedList(userId, cri));
+		cri.setPerPageNum(10);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setDisplayPageNum(10);
+		pageMaker.setTotalCount(mm.countWLPaging(userId, cri));
+		model.addAttribute("pageMakerWL", pageMaker);
+		return "member/myPage/myWantedList";
+	}
+	
+	@GetMapping("myBoardList")
+	public String myBoardList(Model model, Authentication auth, @ModelAttribute Criteria cri) {
+		String userId = auth.getName();
+		model.addAttribute("user", mm.getUser(userId));
+		model.addAttribute("count", mm.getMyCount(userId));
+		model.addAttribute("blist", mm.getMyBoardList(userId, cri));
+		logger.info(mm.getMyBoardList(userId, cri)+"durl");
+		cri.setPerPageNum(10);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setDisplayPageNum(10);
+		pageMaker.setTotalCount(mm.countBLPaging(userId, cri));
+		model.addAttribute("pageMakerBL", pageMaker);
+		return "member/myPage/myBoardList";
+	}
+	
+	@GetMapping("modifyMyInfo")
+	public String modifyMyInfo(Model model, Authentication auth) {
+		String userId = auth.getName();
+		model.addAttribute("user", mm.getUser(userId));
+		model.addAttribute("count", mm.getMyCount(userId));
+		return "member/myPage/modifyMyInfo";
+	}
+	
+	@GetMapping("modifyInstructorInfo")
+	public String modifyInstructorInfo(Model model, Authentication auth) {
+		String userId = auth.getName();
+		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
 		model.addAttribute("checkInstructor", mm.checkInstructor(userId));
 		model.addAttribute("instructorInfo", mm.getInstructorInfo(userId));
-
-		return "member/myPage/myPage";
+		return "member/myPage/modifyInstructorInfo";
 	}
-
+	
+	
+	@GetMapping("toInstructor")
+	public String toInstructor(Model model, Authentication auth) {
+		String userId = auth.getName();
+		model.addAttribute("user", mm.getUser(userId));
+		model.addAttribute("count", mm.getMyCount(userId));
+		model.addAttribute("checkInstructor", mm.checkInstructor(userId));
+		model.addAttribute("instructorInfo", mm.getInstructorInfo(userId));
+		return "member/myPage/toInstructor";
+	}
+	
+	@GetMapping("/changePw")
+	public String changePw(Model model, Authentication auth) {
+		String userId = auth.getName();
+		model.addAttribute("user", mm.getUser(userId));
+		model.addAttribute("count", mm.getMyCount(userId));
+		model.addAttribute("checkInstructor", mm.checkInstructor(userId));
+		
+		return "member/myPage/changePw";
+	}
+	
 	@PostMapping("/changePw")
 	@ResponseBody
 	public int changePwDone(@ModelAttribute Member member, @RequestBody Map<String, String> data) {
@@ -205,30 +311,31 @@ public class MemberController {
 	}
 
 	@PostMapping("/modifyInstructorInfo")
-	public String modifyInstructorInfo(@ModelAttribute InstructorInfo instructorInfo,
+	@ResponseBody
+	public int modifyInstructorInfo(@ModelAttribute InstructorInfo instructorInfo,
 			@RequestBody Map<String, String> data) {
 
 		String userId = data.get("userId");
 		String introContent = data.get("introContent");
 		String history = data.get("history");
-
+		int count =0 ;
 		instructorInfo.setUserId(userId);
 		instructorInfo.setIntroContent(introContent);
 		instructorInfo.setHistory(history);
-		mm.modifyInstructorInfo(instructorInfo);
+		count = mm.modifyInstructorInfo(instructorInfo);
 
-		return "redirect:myPage#modifyInstructorInfoForm";
+		return count;
 	}
 
 	@PostMapping("/uploadProfile")
 	@ResponseBody
-	public String uploadProfile(@RequestBody MultipartFile[] uploadForm, Authentication auth, HttpSession session) {
-
-		csu.uploadProfile(uploadForm, auth);
-		String userId = auth.getName();
-		Member member = mm.getUser(userId);
-		session.setAttribute("profileImagePath", member.getProfileImagePath());
-		return "redirect:myPage";
+	public int uploadProfile(@RequestBody MultipartFile[] uploadForm, Authentication auth, HttpSession session) throws Exception {
+//		int count = 0 ;
+		
+//		String userId = auth.getName();
+//		Member member = mm.getUser(userId);
+	
+		return csu.uploadProfile(uploadForm, auth);
 
 	}
 
@@ -242,21 +349,21 @@ public class MemberController {
 		
 		int count = 0 ;
 		count = mm.cancelApply(applyUserId, boardId);
-		logger.info(mm.cancelApply(applyUserId, boardId)+"durl");
+		//logger.info(mm.cancelApply(applyUserId, boardId)+"durl");
 		return count;
 	}
 
 	@PostMapping("acceptMo")
 	@ResponseBody
 	public int acceptMo(@RequestBody Map<String, String> data) {
-		logger.info("acceptMo called");
+//		logger.info("acceptMo called");
 		String applyUserId= data.get("applyUserId");
 		int boardId =  Integer.parseInt(data.get("boardId"));
 		
 		int count = 0 ;
 		count = mm.acceptMo(applyUserId, boardId);
 		
-		logger.info(applyUserId+","+boardId+"여기");
+//		logger.info(applyUserId+","+boardId+"여기");
 		return count;
 	}
 
@@ -266,7 +373,7 @@ public class MemberController {
 		String applyUserId= data.get("applyUserId");
 		int boardId =  Integer.parseInt(data.get("boardId"));
 		String declineContent = data.get("declineContent");
-		logger.info(mm.declineMo(applyUserId, boardId, declineContent)+"durl");
+//		logger.info(mm.declineMo(applyUserId, boardId, declineContent)+"durl");
 		int count = 0 ;
 		count=mm.declineMo(applyUserId, boardId, declineContent);
 		return count;
