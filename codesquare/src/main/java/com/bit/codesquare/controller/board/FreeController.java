@@ -13,6 +13,8 @@ import com.bit.codesquare.dto.paging.Criteria;
 import com.bit.codesquare.dto.paging.PageMaker;
 import com.bit.codesquare.mapper.board.FreeMapper;
 import com.bit.codesquare.mapper.board.NewMapper;
+import com.bit.codesquare.mapper.comment.CommentMapper;
+import com.bit.codesquare.mapper.comment.ReplyMapper;
 import com.bit.codesquare.service.NewService;
 import com.bit.codesquare.util.CodesquareUtil;
 
@@ -25,25 +27,27 @@ public class FreeController {
 	NewMapper newMapper;
 	@Autowired
 	NewService newService;
+	@Autowired
+	ReplyMapper replyMapper;
 	
 	@RequestMapping("/getfree")
-	public String getfree (Model model, Criteria cri) throws Exception {
-		model.addAttribute("list", CodesquareUtil.getDateTimeCompareObject(freeMapper.getfree(cri)));
+	public String getfree (Model model, Criteria cri, String keyword, String searchOption) throws Exception {
+		model.addAttribute("list", CodesquareUtil.getDateTimeCompareObject(freeMapper.getfree(cri, keyword, searchOption)));
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(freeMapper.countPaging(cri));
+		pageMaker.setTotalCount(freeMapper.countPaging(cri, keyword, searchOption));
 		model.addAttribute("pageMaker", pageMaker);
 		return "board/freeBoard";
 	}
-	@RequestMapping("/freeSearch")
-	public String freeSearch(Model model, @ModelAttribute Board board, Criteria cri) throws Exception {
-		model.addAttribute("list", CodesquareUtil.getDateTimeCompareObject(freeMapper.freeSearch(board)));
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(freeMapper.countPaging(cri));
-		model.addAttribute("pageMaker", pageMaker);
-		return "board/freeBoard";
-	}
+//	@RequestMapping("/freeSearch")
+//	public String freeSearch(Model model, @ModelAttribute Board board, Criteria cri) throws Exception {
+//		model.addAttribute("list", CodesquareUtil.getDateTimeCompareObject(freeMapper.freeSearch(board)));
+//		PageMaker pageMaker = new PageMaker();
+//		pageMaker.setCri(cri);
+//		pageMaker.setTotalCount(freeMapper.countPaging(cri));
+//		model.addAttribute("pageMaker", pageMaker);
+//		return "board/freeBoard";
+//	}
 	@RequestMapping("/freeWrite")
 	public String write() {
 		return "board/freeWrite";

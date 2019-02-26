@@ -2,8 +2,7 @@
 <html xmlns:th="http://www.typeleaf.org"
 xmlns:sd="http://www.thymeleaf.org/spring-data"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorator="layout/mainLayout"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+layout:decorator="layout/mainLayout">
 <meta charset="utf-8">
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
@@ -24,28 +23,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     border: 1px solid #ddd;
     text-decoration: none;
 }
-select {
-background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg) no-repeat 95% 50%; /* 네이티브 화살표 대체 */
-border: 1px solid #999; border-radius: 0px; /* iOS 둥근모서리 제거 */
--webkit-appearance: none; /* 네이티브 외형 감추기 */
--moz-appearance: none;
-appearance: none; 
-}
-
- a:link { color: red; text-decoration: none;}
- a:visited { color: gray; text-decoration: none;}
- a:hover { color: blue; text-decoration: underline;}
-
-
-
-
 </style>
 <title>자유게시판</title>
 </head>
 <body>
 <div class="container" layout:fragment="content"><br>
 <form action="getfree" align="right" name="join">
-		<select name="searchOption" id="searchOption" style="width: 120px; height: 30px;">
+		<select name="searchOption" id="searchOption">
 			<option value="title">제목</option>
 			<option value="all">제목+내용</option>
 			<option value="nickname">작성자</option>
@@ -53,7 +37,7 @@ appearance: none;
 		<input type="hidden" th:value="${pageMaker.cri.searchOption}">
 		<input type="text" name="keyword" value="" size="30"
 			placeholder="검색어를 입력하세요." th:value="${pageMaker.cri.keyword}">
-			<input type="image" src="/static/images/searchimg1.jpg" value="Submit" name="Submit" style="width: 21px;">
+			<input type="submit" value="검색">
 </form>
 
 <div class="lecture_header_item d-flex justify-content-between"
@@ -66,17 +50,13 @@ appearance: none;
 			<tr th:each="Board:${list}">
 	             <td><a th:href="@{'/freeView?id=' + ${Board.id}}"><span th:text="${Board.title}" style="color: black; font-weight: bold;"></span></a></td>
 	             <td th:text="${Board.nickName}" ></td>
-	             <td style="padding-right: 1px; width: 30px;"><img th:src="@{/static/images/likeCount.png}" style="padding-right: 1px;"></td>
-	             <td th:text="${Board.likeCount}" style="padding-right: 7px; padding-left: 1px;"></td>
-	             <td style="padding-right: 1px; width: 30px;"><img th:src="@{/static/images/eye.png}"></td>
-	             <td style="padding-left: 1px;" th:text="${Board.hit}" ></td>
-	             <td th:text="${Board.writeDateBoard}" style="padding-right: 1px; padding-left: 1px;"></td>
+	             <td><img th:src="@{/static/images/eye.jpg}"></td>
+	             <td th:text="${Board.hit}" ></td>
+	             <td th:text="${Board.writeDateBoard}" ></td>
 	        </tr>
 		</table>
 		<div align="right">
-		<span sec:authorize="isAuthenticated()">
 		<a href="freeWrite" type="button" style="margin-top: 10px" id="button1">글쓰기</a>
-		</span>
 		</div>
 	</div>
 <div align="center">
@@ -90,7 +70,7 @@ appearance: none;
               </li>
                 
               <li class="page-item" th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
-              	<a class="page-link" style="background-color: #BDA1BB; border-color: #ffffff;" th:href="@{/getfree(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum}, keyword=${pageMaker.cri.keyword}, searchOption=${pageMaker.cri.searchOption})}">&raquo;</a>
+              	<a class="page-link" style="background-color: #BDA1BB; border-color: #ffffff" th:href="@{/getfree(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum}, keyword=${pageMaker.cri.keyword}, searchOption=${pageMaker.cri.searchOption})}">&raquo;</a>
               </li>
               </ul>
         </div>

@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.typeleaf.org"
 	xmlns:sd="http://www.thymeleaf.org/spring-data"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/mainLayout">
+	layout:decorator="layout/mainLayout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	<meta charset="utf-8">
 <head>
 <title>Insert title here</title>
@@ -74,8 +75,24 @@
 	        $("#sky").stop().animate({"top":curpos}); //스카이메뉴의 상단위치값 애니
 	    });
 	});
-  </script>
   
+  $(function() {
+		$("#reserveRoomBtn").click(function() {
+		 var userId=$("#userId").val();
+		 var p = document.box;
+		if (userId!=null) {
+			$("#box").submit();
+			if (p.person.value=="선택")
+				alert("인원수를 선택해주세요.");
+				return location.reload();
+		}else {
+			$("#myModal").modal();
+			/* location.href="/member/login"; */
+		}
+	});
+});
+
+</script>
 
 <style>
 	label{
@@ -102,24 +119,51 @@
     max-width: 600px;
     max-height: 600px;
 }
+select {
+    display: inline-block;
+    padding: 1px 1px 1px 1px;
+    width: 70px;
+    outline: none;
+    color: black;
+    border: 1px solid #C8BFC4;
+    border-radius: 20px;
+    box-shadow: inset 1px 1px 5px #ddd8dc;
+    background-color: white;
+    font-weight: bold;
+}
+#testDatepicker{
+	display: inline-block;
+    padding: 1px 1px 1px 1px;
+    width: 100px;
+    outline: none;
+    color: black;
+    border: 1px solid #C8BFC4;
+    border-radius: 20px;
+    box-shadow: inset 1px 1px 5px #ddd8dc;
+    background-color: white;
+    font-weight: bold;
+}
 </style>
 
 </head>
 <body>
 	<div class="container" layout:fragment="content">
 		<div><!-- 지우면 사진 크기 줄어듬 -->
-<form action="/reserve"  id="box">
+<form action="/reserve"  id="box" name="box">
 <div id="sky">
-			<label style="font-size: 30px">공간선택 </label>&nbsp;&nbsp;<label style="font-family: sans-serif; font-size: 15px">예약 및 문의는 <a th:href="@{/member/login}" style="color: red;">로그인</a>이 필수입니다.</label><br>
+			<label style="font-size: 30px">공간선택 </label>&nbsp;&nbsp;
+			<span sec:authorize="isAnonymous()">
+			<label style="font-family: sans-serif; font-size: 15px">예약 및 문의는 <a th:href="@{/member/login}" style="color: red;">로그인</a>을 해주세요.</label><br>
+			</span><br>
 			<label>이용 공간</label>
-			<label><select id="roomid" name="roomid">
+			<label><select id="roomid" name="roomid" style="width: 90px;">
 				<option th:each="item:${list}" th:text="${item.roomname}" th:value="${item.id}"></option>
 			</select>
 			</label><br>
 		
 			<label>이용 인원</label>
 			<select name="person" id="person">
-				<option>선택</option>
+				<option value="선택">선택</option>
 				<option value=2>2인</option>
 				<option value=3>3인</option>
 				<option value=4>4인</option>
@@ -177,25 +221,48 @@
 				<option value=10>10시간</option>
 				</select>
 			<label>동안 이용</label>
-<input type="submit" value="예약하기" class="btn btn-outline-light btn-block" style="font-weight: bolder; background-color:#8B7D9F;">
+			
+<input type="button" id="reserveRoomBtn" value="예약하기" class="btn btn-outline-light btn-block" style="font-weight: bolder; background-color:#8B7D9F;">
 </div>
 </form>
 			<label style="font-size: 30px">지점 소개</label><br>
 			<div th:utext="${content.companycontent}" style="width: 600px"></div><br><br>
 			<label style="font-size: 30px">공간 소개</label>
 			</div>
-			<span th:each="item:${list}"><br><br>
+			<div th:each="item:${list}"><br><br>
 			<div style="width: 600px"> 
 				<img th:src="@{static/}+${item.thumbnailPath}" class="max-small"/><br>
 				<label th:text="${item.roomname}"></label><br>
 				<label>정원:</label><label th:text="${item.usepeople}"></label><label>명</label><br>
 				<label>정보:</label><label th:text="${item.optioninfo}"></label><br>
-				<!-- <a th:href="@{'roomView?id='+${item.id}}">
-					<span th:text="${item.roomname}"></span>
-				</a> -->
-			</div>
-		</span>
-	</div>
+
+		</div>
+	</div> 
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body" align="center">
+          	<label>로그인을 해주세요.</label>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
 	<th:block layout:fragment="script">
 <script>
   $(function() {
@@ -210,5 +277,7 @@
 <script src="static/js/room/datepicker.min.js"></script>
 <script src="static/js/room/i18n/datepicker.en.js"></script>
 </th:block>
+
+
 </body>
 </html>
