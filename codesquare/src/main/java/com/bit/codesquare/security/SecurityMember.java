@@ -47,8 +47,6 @@ public class SecurityMember extends User implements UserDetails {
 
 	private static List<GrantedAuthority> makeGrantedAuthority(Member member) {
 		List<GrantedAuthority> list = new ArrayList<>();
-		System.out.println(member.getUserId()+"여기여기");
-		System.out.println(member.getAuthorId()+"아이디");
 		list.add(new SimpleGrantedAuthority(ROLE_PREFIX + member.getAuthorId()));
 		return list;
 	}
@@ -56,7 +54,6 @@ public class SecurityMember extends User implements UserDetails {
 	
 	public SecurityMember(Member member) {
 		super(member.getUserId(), member.getPassword(), makeGrantedAuthority(member));
-		System.out.println(member.getUserId()+"시큐리티");
 		this.nickName = member.getNickName();
 		this.authorId= member.getAuthorId();
 	}

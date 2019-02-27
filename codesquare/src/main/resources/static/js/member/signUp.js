@@ -52,7 +52,7 @@ function idCheck() {
 			} else {
 				$("#idCheckMsg").text("");
 
-				// 아이디가 중복하지 않으면 
+				// 아이디가 중복하지 않으면
 				idck = 1
 
 			}
@@ -131,11 +131,15 @@ $("#password").blur(function() {
 $("#rePassword").blur(function() {
 	
 	var password = $("#password").val();
+	var regExp = /^[a-zA_Z0-9]{6,15}$/;
 	var rePassword = $("#rePassword").val();
 
-	if ((password != null && rePassword != null) && password == rePassword) {
+	if ((password != null && rePassword != null) && regExp.test(password) && password == rePassword) {
 		$("#pwCheckMsg").text("");
 		pwck = 1;
+	} else if((password != null && rePassword != null) && !regExp.test(password)){
+		$("#pwCheckMsg").css("color", "#A7070B");
+		$("#pwCheckMsg").html("<i class='fas fa-info-circle'></i> 비밀번호는 영문자, 숫자를 포함한 6자 이상 15자 미만");
 	} else {
 		$("#pwCheckMsg").css("color", "#A7070B");
 		$("#pwCheckMsg").html("<i class='fas fa-info-circle'></i> 비밀번호가 일치하지 않습니다.");
@@ -158,13 +162,13 @@ $("#signUp").click(function() {
 		$("input[name='email'").focus();
 		$("#emailCheckMsg").css("color", "#A7070B");
 		$("#emailCheckMsg").html("<i class='fas fa-info-circle'></i> 이메일을 입력해주세요.");
-//		$('body').scrollTo("input[name='email'"); 
+// $('body').scrollTo("input[name='email'");
 		
 	} else if (pwck != 1 ){
 		$("input[name='rePassword'").focus();
 		$("#emailCheckMsg").css("color", "#A7070B");
 		$("#emailCheckMsg").html("<i class='fas fa-info-circle'></i> 비밀번호를 입력해주세요.");
-//		$('body').scrollTo("input[name='rePassword'"); 
+// $('body').scrollTo("input[name='rePassword'");
 	} else {
 		$("#signUpCheckMsg").css("color", "#A7070B");
 		$("#signUpCheckMsg").html("<i class='fas fa-exclamation-triangle'></i> error");

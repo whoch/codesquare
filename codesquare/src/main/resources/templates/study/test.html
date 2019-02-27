@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/mainLayout}"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>스터디모집</title>
+<link rel="stylesheet" type="text/css" th:href="@{/static/styles/study/study.css}">
+
+</head>
+
+<body>
+
+	<!-- START content -->
+    <article class="content" layout:fragment="content">
+    	<div class="container">
+    		
+    		테스트페이지
+    		<div th:each="test : ${test}">
+    			<div th:text="${test.boardId}"></div>
+    			<div th:text="${test.nickName}"></div>
+    		</div>
+    		
+    		<div th:each="mapTest : ${map}">
+    			질문: <span th:text="${mapTest.key}"></span>
+    			/  답변: <span th:text="${mapTest.value}"></span>
+    		</div>
+    		
+    		
+    	</div>
+	</article>
+	<!-- END content -->
+
+</body>
+
+
+</html>

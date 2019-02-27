@@ -3,9 +3,12 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 	<title>Calendar</title>
-	<!-- fullcalendar -->
-
+	
+<th:block layout:fragment="css">
  	<link th:href="@{/static/fullcalendar/fullcalendar.min.css}" rel="stylesheet">	
+</th:block>
+
+<th:block layout:fragment="scriptBefore">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 	<script th:src="@{/static/fullcalendar/fullcalendar.min.js}"></script>
 	<script type='text/javascript' th:src='@{/static/fullcalendar/gcal.js}'></script>
@@ -121,6 +124,9 @@
 		});
 		/*]]>*/
 	</script>
+
+</th:block>
+	
 	<style>
 		#calendar {
 			max-width: 80%;
@@ -133,9 +139,10 @@
 
 <body>
 
-	<article class="content" layout:fragment="content">
+	<article class="content" layout:fragment="myPageContent2">
 		<div id='calendar'></div>
 	</article>
+
 	      
 </body>
 

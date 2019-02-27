@@ -1,16 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout/mainLayout2"
+<html xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="layout/mainLayout2"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-<div class="container" layout:fragment="content">
-회원가입완료
-
-  <h1 th:text="${user.userId}+'님 회원가입을 축하합니다!'"></h1>
-<a th:href="@{/member/login}">로그인</a>
-</div>
+	<div class="container" layout:fragment="content">
+		<div class="col-md-5 mx-auto text-center">
+			<br />
+			<br />
+			<h1 th:text="${user.userId}+' 님'"></h1>
+			<br />
+			코드 스퀘어에 오신 것을 환영합니다!
+			<br />
+			<br />
+			<a th:href="@{/member/login}">로그인</a>
+		</div>
+	</div>
 </body>
 </html>

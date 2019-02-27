@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/mainLayout}"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>그룹개설</title>
+<link rel="stylesheet" type="text/css" th:href="@{/static/styles/study/study.css}">
+
+</head>
+<body>
+
+	<!-- START content -->
+    <article class="content" layout:fragment="content">
+    	<div class="container">
+    	<th:block th:with="url=${#httpServletRequest.requestURI}">
+    	<input id="BOARD_ID" type="hidden" th:value="${board.id}">
+    	<input id="STATUS" type="hidden" th:value="${status}">
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    		
+    	</th:block>
+    	</div>
+		<!-- div container 종료-->
+
+
+
+
+
+	</article>
+	<!-- END content -->
+
+<th:block layout:fragment="script">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+	<script type="text/javascript" th:inline="javascript" th:src="@{/static/js/study/studyWantedView.js}"></script>
+</th:block>
+
+</body>
+
+
+</html>

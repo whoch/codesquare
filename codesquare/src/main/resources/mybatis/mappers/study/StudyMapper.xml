@@ -12,15 +12,10 @@
 	</select>
 	
 	<select id="getBoardKind" resultType='BoardKind'>	
+	
 		SELECT bk.*, bk2.BoardNameEn AS MainSubjectName FROM BoardKind bk
 		INNER JOIN BoardKind AS bk2 ON RIGHT(bk2.Id,3) = LEFT(bk.Id,3)
 		WHERE bk.BoardNameEn=#{BoardNameEn}
-	</select>
-	
-	<select id="getGroupInfo" resultType="GroupInfo">
-		SELECT * FROM GroupInfo_view gv
-		INNER JOIN Board AS bo ON gv.Id=bo.GroupId 
-		WHERE bo.Id = #{boardId}
 	</select>
 	
 	<insert id="addBookmark" parameterType="java.util.Map">
@@ -31,8 +26,25 @@
 		VALUES ('cksdud', #{boardId})
 	</insert>
 	
-	<select id="getBookmark" resultType="String">
-		SELECT Id FROM BookmarkList WHERE UserId='cksdud' AND BoardId=#{boardId} LIMIT 1;
+	<select id="getBookmarkId" resultType="String">
+		SELECT Id FROM BookmarkList WHERE UserId='cksdud' AND BoardId=#{boardId} LIMIT 1
 	</select>
+	
+	<delete id="deleteBookmark">
+		DELETE FROM BookmarkList WHERE UserId='cksdud' AND BoardId=#{boardId}
+	</delete>
+	
+	<insert id="writeStudyWantedBoard" parameterType="Board">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO Board (BoardKindId, UserId, GroupId, Nickname, Title, Content )
+		VALUES ('StdMo', 'cksdud', #{groupId}, '찬영찬영', #{title}, #{content});
+	</insert>
+	
+	<delete id="deleteStudyWantedBoard">
+		DELETE FROM Board WHERE #{boardId}
+	</delete>
+	
 	
 </mapper>
