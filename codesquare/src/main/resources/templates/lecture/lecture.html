@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	xmlns:sd="http://www.thymeleaf.org/spring-data"
-	layout:decorator="layout/mainLayout"
+	layout:decorator="layout/mainLayout2"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="utf-8" />
@@ -12,10 +12,10 @@
 </head>
 <body>
 	<div class="container" layout:fragment="content">
-		<div class="row lecture-show-container">
+		<div class="row lecture-show-container container">
 			<div class="col-sm-9 lecture-content">
 				<input type="hidden" name="boardId" th:value="@{${lecture.id}}" />
-				<nav class="lecture-navbar navbar navbar-expand-md navbar-light bg-light sticky-top"	style="z-index: 95;">
+				<nav class="lecture-navbar navbar navbar-expand-md navbar-light bg-light sticky-top"style="z-index: 95; border:1px solid #5b2e7d">
 					<ul class="navbar-nav">
 						<li class="nav-item"><a class="nav-link"
 							href="#introduction-content">강의안내</a></li>
@@ -139,7 +139,7 @@
 						</li>
 					</ul>
 					<!-- Contenedor Principal -->
-					<div class="comments-container" style="max-height:600px; overflow-y:scroll;"></div>
+					<div class="comments-container  container-fluid" style="max-height:600px; overflow-y:scroll;width:100%;"></div>
 				</div>
 				<!-- end of QnA -->
 			</div>
@@ -149,23 +149,21 @@
 					<h4 class="title" th:text="@{${lecture.title}}"></h4>
 					<h5 class="instruction" th:text="@{${lecture.nickName}}"></h5>
 					<h5 class="count d-flex">
-						<span class="p-2" th:text="@{수강인원}+${lecture.studentCount}"></span><br>
-						<span class="p-2" th:text="@{완강인원}+${lecture.completeCount}"></span>
+						<span class="p-2" th:text="@{수강인원}+${lecture.studentCount}" style="margin: auto;"></span><br>
+						<span class="p-2" th:text="@{완강인원}+${lecture.completeCount}" style="margin: auto;"></span>
 					</h5>
 					<h5 class="like d-flex justify-content-around">
-						<span class="p-2"><img
-							th:src="@{/static/images/lectureImages/reviewHeart.png}"
-							alt="좋아요" style="width: 60%;"></span> <span class="p-2 like-count"
-							th:text="@{${lecture.likeCount}}" style="margin: auto;"></span>
+						<span class="p-2" style="margin:auto;">
+							<img th:src="@{/static/images/lectureImages/reviewHeart.png}" alt="좋아요" style="width: 60%; "></span> <span class="p-2 like-count"
+								 th:text="@{${lecture.likeCount}}" style="margin: auto;">
+						</span>
 					</h5>
 					<button id="lecture-view" type="button" class="lecture-btn btn btn-primary btn-block">강의듣기</button>
 					<button id="lecture-bookmark" type="button" class="lecture-btn btn btn-primary btn-block">찜하기</button>
 					<button th:if="${session.userId}==${lecture.userId}" id="lecture-write" type="button" class="lecture-btn btn btn-primary btn-block" sec:authorize="hasAnyRole('ROLE_2', 'ROLE_3')">강의등록</button>
 				</div>
 				<div class="lecture-overview-footer list-group">
-					<a th:each="list:${recommandList}" th:href="@{${list.id}}"
-						class="list-group-item-action"> <span class="recommand-title"
-						th:text="@{${list.title}}"></span>
+					<a th:each="list:${recommandList}" th:href="@{${list.id}}"	class="list-group-item-action"> <span class="recommand-title" th:text="@{${list.title}}" style="color:#5b2e7d; font-size: 20px;"></span>
 					</a>
 				</div>
 			</div>
