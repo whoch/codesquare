@@ -13,7 +13,7 @@ public class Reservation {
 	int boardid;
 	String userId;
 	Date agreeTime;
-	Timestamp reservationdate;
+	Date reservationdate;
 	Timestamp paymentdate;
 	int payamount;
 	int reservationtime;
