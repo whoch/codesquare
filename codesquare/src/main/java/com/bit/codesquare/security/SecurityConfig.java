@@ -28,7 +28,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CompositeFilter;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
-import com.bit.codesquare.service.SocialService;
 
 @EnableWebSecurity
 @EnableOAuth2Client
@@ -44,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	OAuth2ClientContext oauth2ClientContext;
 
 	@Autowired
-	SocialService socialService;
+	LoginUserDetailsService socialService;
 
 	/* Password Encoder 등록 */
 	@Bean
@@ -126,7 +125,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return filter;
 	}
 
-	private Filter ssoFilter(ClientResources client, SocialService socialService) {
+	private Filter ssoFilter(ClientResources client, LoginUserDetailsService socialService) {
 		CompositeFilter filter = new CompositeFilter();
 		List<Filter> filters = new ArrayList<>();
 		filters.add(ssoFilter(google(), new GoogleFilter(socialService)));
