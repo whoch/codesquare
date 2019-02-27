@@ -78,7 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anonymous() //로그인 안한 사람만
 				.antMatchers("/member/modifyInstructorInfo").hasAnyRole("2") // 특정 권한 지정
 				
-				.antMatchers("/logout").authenticated() // 로그인 하면 다 가능
+				.antMatchers("/logout","/loadBookmark").authenticated() // 로그인 하면 다 가능
 //				.and()
 //				.oauth2Login()
 

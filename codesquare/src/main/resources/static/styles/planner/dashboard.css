@@ -21,9 +21,9 @@
 1. All
 ***********************/
 
-.row {
+ .rowDash {
 	margin: 150px 0px;
-}
+} 
 
 .writeDate {
 	text-align: center;	
@@ -49,6 +49,9 @@
 	border-radius: 0;
 } */
 
+.group-schedule {
+	margin-top: 30px;
+}
 
 .custom-tab .tab-content {
 	height: 400px;
@@ -71,6 +74,7 @@
 
 .custom-tab .nav-pills.nav-custom-tabs {
 	padding: 0px;
+	margin: 0;
 	border-right: 1px solid rgba(0,0,0,.125);
 }
 .custom-tab .nav-pills.nav-custom-tabs .nav-item {
@@ -403,3 +407,13 @@
  .todoList .todo-li.td-check .todo-content {
   text-decoration: line-through;
 }
+
+
+
+
+
+
+
+
+
+
