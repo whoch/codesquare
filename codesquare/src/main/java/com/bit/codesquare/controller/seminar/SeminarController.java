@@ -3,6 +3,7 @@ package com.bit.codesquare.controller.seminar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bit.codesquare.mapper.seminar.SeminarMapper;
@@ -19,6 +20,14 @@ public class SeminarController {
 //		model.addAttribute("info", seminarMapper.seminarInfoList());
 		return "seminar/seminarList";
 	}
+	
+	
+	@RequestMapping("/seminarWanted/{boardId}")
+	public String seminarBoardDetail(@PathVariable("boardId") int boardId, Model model) {
+		
+		return null;
+	}
+	
 	
 //	@GetMapping("/seminarList")
 //	public ModelAndView seminarList() throws Exception {
