@@ -46,9 +46,9 @@
 		<if test="boardKindId">#{boardKindId},</if>
 		<if test="userId!=null">#{userId},</if>
 		<if test="nickName!=null">#{nickName},</if>
-		<if test="content!=null">#{content},</if>
-		<if test="parentId!=null">#{parentId}, (SELECT MAX(c.Seq)+1 From `Comment`c GROUP BY c.ParentId HAVING c.ParentId=#{parentId})</if>
-		
+		<if test="content!=null">#{content}</if>
+		<if test="parentId!=null and parentId != 0">,#{parentId}, (SELECT IF((SELECT MAX(c.Seq)+1 From `Comment`c GROUP BY c.ParentId HAVING c.ParentId=#{parentId}),(SELECT MAX(c.Seq)+1 From `Comment`c GROUP BY c.ParentId HAVING c.ParentId=#{parentId}),2))</if>
+		<if test="parentId ==0">,#{parentId},1</if>
 		)
 	</insert>
 	<update id="updateParentId" parameterType="int">
@@ -77,10 +77,8 @@
 	<![CDATA[  
 		SELECT IF((SELECT COUNT(*)
 				FROM `Comment`
-				WHERE ParentId=(SELECT ParentId FROM `Comment` WHERE Id=#{id}))<2,(SELECT ParentId FROM `Comment` WHERE Id=#{id}), 0);]]>
-				
+				WHERE Id=(SELECT ParentId FROM `Comment` WHERE Id=#{id})AND DeleteStatus=1)=1,(SELECT ParentId FROM `Comment` WHERE Id=#{id}), 0);]]>
 	</select>
-	
 	
 	<!-- 공통 댓글 쿼리 영역 -->
 	<select id="getCommentList" parameterType="map" resultType="Comment">
@@ -91,8 +89,17 @@
 	</select>
 	<insert id="insertComment" parameterType="Comment" useGeneratedKeys="true"	keyProperty="id" >
 		INSERT INTO
-		`Comment`(BoardId,BoardKindId,UserId,NickName,Content,ParentId)
-		VALUES(#{boardId},#{boardKindId},#{userId},#{nickName},#{content},#{parentId})
+		`Comment`(BoardId,BoardKindId,UserId,NickName,Content,ParentId,Seq)
+		VALUES(
+		<if test="boardId!=null">#{boardId},</if>
+		<if test="boardKindId">#{boardKindId},</if>
+		<if test="userId!=null">#{userId},</if>
+		<if test="nickName!=null">#{nickName},</if>
+		<if test="content!=null">#{content}</if>
+		<if test="parentId!=null and parentId != 0">,#{parentId}, (SELECT IF((SELECT MAX(c.Seq)+1 From `Comment`c GROUP BY c.ParentId HAVING c.ParentId=#{parentId}),(SELECT MAX(c.Seq)+1 From `Comment`c GROUP BY c.ParentId HAVING c.ParentId=#{parentId}),1))</if>
+		<if test="parentId ==0">,#{parentId},1</if>
+		
+		)
 	</insert>
 	<delete id="deleteComment" parameterType="int" >
 		DELETE FROM `Comment`

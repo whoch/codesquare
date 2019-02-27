@@ -278,7 +278,7 @@ $(function() {
 							$("#done-dialog-content").css("color", "#552796");
 							$("#done-dialog-content").html("<i class='far fa-check-circle fa-3x'></i><br /><br /> <div class='small'>이메일 변경 완료</div><br />")
 							$("#done-close").click(function(){
-							$("#done-dialog").toggle();
+							$("#done-dialog").hide();
 							$("#openCE").show();
 							$("#changeEmailForm").hide();
 							$("#emailCheckMsg").text("");

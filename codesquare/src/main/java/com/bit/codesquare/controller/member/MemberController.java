@@ -51,6 +51,8 @@ public class MemberController {
 	
 	@Autowired
 	MessageInfoMapper mim;
+	
+
 
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request) {
@@ -69,7 +71,7 @@ public class MemberController {
 	@PostMapping("/signUp")
 	public String signUp(Model model, @ModelAttribute Member member, @RequestParam String userId,
 			@RequestParam String password) {
-		member.setAuthorId(1);
+
 		member.setNickName(userId);
 		member.setPassword(new BCryptPasswordEncoder().encode(password));
 		mm.signUp(member);
@@ -204,16 +206,17 @@ public class MemberController {
 
 	@GetMapping("myAppliedList")
 	public String myAppliedList(Model model, Authentication auth, @ModelAttribute Criteria cri) {
+		
 		String userId = auth.getName();
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
 /*		model.addAttribute("alist", mm.getAppliedList(userId, cri));*/
-		
 //		###############################
 		BasicJsonParser jsonParser = new BasicJsonParser();
 		List<JoiningAndRecruitmentLog> applyList = mm.getAppliedList(userId, cri);
 		for(JoiningAndRecruitmentLog list : applyList ) {
 			list.setApplyMap(jsonParser.parseMap(list.getApplyContent()));
+			list.setApplyDateString(csu.compareDateTime(list.getApplyDate()));
 		}
 		model.addAttribute("alist", applyList);
 //		#######################
@@ -234,7 +237,7 @@ public class MemberController {
 		
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
-		model.addAttribute("wlist", mm.getWantedList(userId, cri));
+		model.addAttribute("wlist",csu.getDateTimeCompareObject(mm.getWantedList(userId, cri)));
 		cri.setPerPageNum(10);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -247,10 +250,12 @@ public class MemberController {
 	@GetMapping("myBoardList")
 	public String myBoardList(Model model, Authentication auth, @ModelAttribute Criteria cri) {
 		String userId = auth.getName();
+		csu.setDateTimeCompare(mm.getMyBoardList(userId, cri));
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
-		model.addAttribute("blist", mm.getMyBoardList(userId, cri));
-		logger.info(mm.getMyBoardList(userId, cri)+"durl");
+		model.addAttribute("blist", csu.getDateTimeCompareObject(mm.getMyBoardList(userId, cri)) );
+		
+//		logger.info(mm.getMyBoardList(userId, cri)+"durl");
 		cri.setPerPageNum(10);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -390,6 +395,11 @@ public class MemberController {
 		int count = 0 ;
 		count=mm.declineMo(applyUserId, boardId, declineContent);
 		return count;
+	}
+	
+	@GetMapping("accessDenied")
+	public String accessDenied() {
+		return "member/login/accessDenied";
 	}
 
 }

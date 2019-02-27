@@ -133,17 +133,6 @@ public class StudyController {
 	}
 	
 	
-	@RequestMapping("/studyWanted/test")
-	public String test(Model model) {
-		BasicJsonParser jsonPaser = new BasicJsonParser();
-		JoiningAndRecruitmentLog test = groupMapper.test();
-		
-		model.addAttribute("test", test);
-		model.addAttribute("map", jsonPaser.parseMap(test.getApplyContent()));
-		
-		return "study/test";
-	}
-	
 	@PostMapping("/studyWanted/cancelApplication")
 	@ResponseBody
 	public String cancelApplication(@RequestBody Map<String, String> data) {
@@ -152,6 +141,8 @@ public class StudyController {
 		logger.info(data.toString());
 		return "ING";
 	}
+	
+	
 	
 	@RequestMapping("/studyWanted/createGroup")
 	public void createGroup() {
@@ -163,20 +154,6 @@ public class StudyController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	@RequestMapping("/studyWanted/delete")
-	public String deleteBoard() {
-		
-//		@PathVariable("boardId") int boardId
-//		logger.info("boardId : " +boardId);
-		return "/studyWanted";
-	}
 	
 	
 	

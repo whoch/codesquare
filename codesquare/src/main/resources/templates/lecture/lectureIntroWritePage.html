@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
 	xmlns:sd="http://www.thymeleaf.org/spring-data"
-	layout:decorator="layout/mainLayout"
+	layout:decorator="layout/mainLayout2"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="utf-8" />
@@ -42,10 +42,10 @@
 					</div>
 					<div class="checkbox-area">
 					<label>강의태그</label>
-					<select name="tagId" class="selectpicker" data-live-search="true" title="강의태그를 선택해주세요" required="required">
+					<select name="tagId" class="selectpicker" data-live-search="true" title="강의태그를 선택해주세요" required="required" style="top:10%">
 						<option th:each="tag:${lectureTag}" th:attr="data-tokens=${tag.langKind}" th:text="@{${tag.content}}"></option>
 					</select>
-					<select class="selectpicker" name="priceInfo" title="가격을 정해주세요." required="required">
+					<select class="selectpicker" name="priceInfo" title="가격을 정해주세요." required="required" style="top:10%">
 					  <option>무료</option>
 					  <option disabled="disabled">유료</option>
 					</select>					

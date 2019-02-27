@@ -155,12 +155,10 @@
          FROM (SELECT @rownum:=@rownum+1 AS'rowNum', u.* FROM ${tName} AS u, (SELECT @rownum:=0) r)AS b
          WHERE @rownum >0 
       ]]>
-		<if test="content !=null">AND UserId like CONCAT('%',#{content},'%') OR NickName
-			like CONCAT('%',#{content},'%')</if>
+		<if test="content !=null">AND UserId like CONCAT('%',#{content},'%') OR NickName like CONCAT('%',#{content},'%')</if>
 		<if test="tag !=null">AND LangKind = #{tag}</if>
-		<if test="keyword !=null">
-			AND Title=#{keyword} OR NickName=#{keyword} OR Tag=#{keyword}
-		</if>
+		<if test="keyword !=null">AND Title=#{keyword} OR NickName=#{keyword} OR Tag=#{keyword}</if>
+		<if test="boardKindId !=null"> AND BoardKindId=#{boardKindId}</if>
 	</select>
 
 	<!-- 회원 아이디 닉네임 검색 쿼리 -->

@@ -19,14 +19,13 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
 import com.bit.codesquare.dto.member.Member;
 import com.bit.codesquare.mapper.member.MemberMapper;
-import com.bit.codesquare.service.SocialService;
 
 public class GoogleFilter extends OAuth2ClientAuthenticationProcessingFilter {
-	private SocialService service;
+	private LoginUserDetailsService service;
 
-	public GoogleFilter(SocialService service) {
+	public GoogleFilter(LoginUserDetailsService socialService) {
 		super("/login/google");
-		this.service = service;
+		this.service = socialService;
 	}
 
 	@Override
@@ -43,7 +42,7 @@ public class GoogleFilter extends OAuth2ClientAuthenticationProcessingFilter {
 
 		Member member = new Member();
 
-		member.setAuthorId(1);
+		
 		member.setUserId(map.get("email"));
 		member.setNickName(map.get("name")+ranNum);
 		member.setEmail(map.get("email"));

@@ -8,15 +8,10 @@
 </head>
 <body>
 	<div class="container" layout:fragment="content">
-		<div class="col-md-5 mx-auto text-center">
-			<br />
-			<br />
-			<h1 th:text="${user.userId}+' 님'"></h1>
-			<br />
-			코드 스퀘어에 오신 것을 환영합니다!
-			<br />
-			<br />
-			<a th:href="@{/member/login}">로그인</a>
+		리스트
+		<div class="row text-center border-bottom  py-2"
+			th:each="glist : ${glist}">
+			<a th:href="@{'/group/'+${glist.groupId}}" th:text="${glist.groupId}"></a>
 		</div>
 	</div>
 </body>

@@ -27,8 +27,11 @@
 				<div class="col-md-2 small">
 					<span th:text="${blist.nickName}"></span>
 				</div>
+				
+				<!-- <div class="col-md-2 small"
+					th:text="${#dates.format(blist.writeDate, 'yy-MM-dd')}"></div> -->
 				<div class="col-md-2 small"
-					th:text="${#dates.format(blist.writeDate, 'yy-MM-dd')}"></div>
+					th:text="${blist.writeDateBoard}"></div>
 				<div class="col-md-1 small">
 					<i class="far fa-eye"></i> <span th:text="${blist.hit}"></span>
 				</div>
@@ -44,21 +47,21 @@
 					<ul class="pagination justify-content-center">
 						<li class="page-item" th:if="${pageMakerBL.prev} == true"><a
 							class="page-link"
-							th:href="@{/myPage/myBoardList(page=${pageMakerBL.startPage}-1,perPageNum=${pageMakerBL.cri.perPageNum}, keyword=${pageMakerBL.cri.keyword})}">&laquo;</a>
+							th:href="@{/member/myBoardList(page=${pageMakerBL.startPage}-1,perPageNum=${pageMakerBL.cri.perPageNum}, keyword=${pageMakerBL.cri.keyword})}">&laquo;</a>
 						</li>
 
 						<li class="page-item"
 							th:each="idx,iterStat : ${#numbers.sequence(pageMakerBL.startPage,pageMakerBL.endPage)}"
 							th:classappend="${pageMakerBL.cri.page} == ${idx} ? active : null">
 							<a class="page-link"
-							th:href="@{/myPage/myBoardList(page=${idx},perPageNum=${pageMakerBL.cri.perPageNum},  keyword=${pageMakerBL.cri.keyword})}"
+							th:href="@{/member/myBoardList(page=${idx},perPageNum=${pageMakerBL.cri.perPageNum},  keyword=${pageMakerBL.cri.keyword})}"
 							th:text="${idx}" th:if="${idx}"></a>
 						</li>
 
 						<li class="page-item"
 							th:if="${pageMakerBL.next} == true and ${pageMakerBL.endPage > 0}">
 							<a class="page-link"
-							th:href="@{/myPage/myBoardList(page=${pageMakerBL.endPage}+1,perPageNum=${pageMakerBL.cri.perPageNum}, keyword=${pageMakerBL.cri.keyword})}">&raquo;</a>
+							th:href="@{/member/myBoardList(page=${pageMakerBL.endPage}+1,perPageNum=${pageMakerBL.cri.perPageNum}, keyword=${pageMakerBL.cri.keyword})}">&raquo;</a>
 						</li>
 					</ul>
 				</div>
