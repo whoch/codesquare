@@ -16,6 +16,15 @@ public class SecurityMember extends User implements UserDetails {
 	private static final String ROLE_PREFIX = "ROLE_";
 	private static final long serialVersionUID = 1L;
 
+	private int authorId;
+	public int getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(int authorId) {
+		this.authorId = authorId;
+	}
+
 	private String nickName;
 	private String isPendingLectureView="true";
 	
@@ -36,19 +45,18 @@ public class SecurityMember extends User implements UserDetails {
 		this.isPendingLectureView = isPendLectureView;
 	}
 
-	public SecurityMember(Member member) {
-		super(member.getUserId(), member.getPassword(), makeGrantedAuthority(member));
-		
-		this.nickName = member.getNickName();
-		
-	}
-
 	private static List<GrantedAuthority> makeGrantedAuthority(Member member) {
 		List<GrantedAuthority> list = new ArrayList<>();
 		list.add(new SimpleGrantedAuthority(ROLE_PREFIX + member.getAuthorId()));
 		return list;
 	}
 
+	
+	public SecurityMember(Member member) {
+		super(member.getUserId(), member.getPassword(), makeGrantedAuthority(member));
+		this.nickName = member.getNickName();
+		this.authorId= member.getAuthorId();
+	}
 
 
 	

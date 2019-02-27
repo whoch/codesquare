@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="layout/mainLayout2"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container" layout:fragment="content">
+		리스트
+		<div class="row text-center border-bottom  py-2"
+			th:each="glist : ${glist}">
+			<a th:href="@{'/group/'+${glist.groupId}}" th:text="${glist.groupId}"></a>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,8 +1,8 @@
 <!-- 왼쪽 Nav tabs 부분 -->
 
-<ul class="nav nav-custom-tabs flex-column col-md-2">
+<ul class="nav nav-pills nav-custom-tabs flex-column col-md-2">
     <li class="nav-item" th:each="category,index : ${bookmarkKind}">
-        <a th:class="|nav-link${index.first?' active':''}|" th:href="|#${category.category}|" th:text="${category.boardName}"></a>
+        <a th:class="|nav-link${index.first?' active':''}|" data-toggle="pill" th:href="|#${category.category}|" th:text="${category.boardName}"></a>
     </li>
 </ul>
 <!-- 오른쪽 Tab Content 부분 -->

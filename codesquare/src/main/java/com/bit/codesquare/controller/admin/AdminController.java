@@ -43,10 +43,12 @@ import com.bit.codesquare.dto.paging.Criteria;
 import com.bit.codesquare.dto.paging.PageMaker;
 import com.bit.codesquare.dto.planner.UserTodoList;
 import com.bit.codesquare.mapper.admin.AdminMapper;
+import com.bit.codesquare.mapper.board.BoardMapper;
 import com.bit.codesquare.mapper.lecture.LectureMapper;
 import com.bit.codesquare.mapper.member.MemberMapper;
 import com.bit.codesquare.service.NewService;
 import com.bit.codesquare.util.CodesquareUtil;
+import com.bit.codesquare.util.ComparableDateTime;
 
 @Controller
 @RequestMapping(value = "admin")
@@ -67,6 +69,9 @@ public class AdminController {
 	@Autowired
 	LectureMapper lectureMapper;
 
+	@Autowired
+	BoardMapper boardMapper;
+	
 	@Value("${lectureIntro.savepath.directory}")
 	String lectureIntropath;
 
@@ -100,8 +105,8 @@ public class AdminController {
 			list = adminMapper.getFiveRepotedInfo();
 			mav.addObject("repotedList", list);
 
-			List<UserTodoList> uList = adminMapper.getTodoList(member.getUserId());
-			List<UserTodoList> uList2 = (List<UserTodoList>) cUtil.getDateTimeCompareObject(uList, "yyyy-mm-dd");
+//			List<UserTodoList> uList = adminMapper.getTodoList(member.getUserId());
+			List<UserTodoList> uList2 = (List<UserTodoList>) cUtil.getDateTimeCompareObject(adminMapper.getTodoList(member.getUserId()), "yyyy-mm-dd");
 
 			AdminMemo aMemo = adminMapper.getAdminMemo();
 			ldt = (LocalDateTime) aMemo.getWriteDate();
@@ -354,7 +359,7 @@ public class AdminController {
 	public ModelAndView adminLectureControlPage(@ModelAttribute("cri") Criteria cri,Principal pricipal, HttpSession session, Authentication auth,HttpServletResponse response) {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		PageMaker pageMaker = new PageMaker();
-		cUtil.getSession(auth, session);
+//		cUtil.getSession(auth, session);
 		try {
 			cri.setPerPageNum(5);
 			map = new HashMap<String, Object>();
@@ -445,7 +450,7 @@ public class AdminController {
 	// 강의 소개글 상세보기 이동 컨트롤러
 	@RequestMapping(value = "lecture/intro/{boardId}", method = RequestMethod.GET)
 	public ModelAndView getLectureIntroPage(@PathVariable("boardId")int boardId, Principal principal, HttpSession session, Authentication auth) throws IOException {
-		cUtil.getSession(auth, session);
+//		cUtil.getSession(auth, session);
 		try {
 			lectureIntro= lectureMapper.getLecture(boardId);
 			String thumbPath=lectureIntropath;
@@ -466,7 +471,7 @@ public class AdminController {
 	// 강의 소개글 수정하기 이동 컨트롤러
 	@RequestMapping(value = "lecture/intro/post/{boardId}", method = RequestMethod.GET)
 	public ModelAndView modifyLectureIntroPage(@PathVariable("boardId")int boardId, Principal principal, HttpSession session, Authentication auth) throws IOException {
-		cUtil.getSession(auth, session);
+//		cUtil.getSession(auth, session);
 		try {
 			lectureIntro= lectureMapper.getLecture(boardId);
 			String thumbPath=lectureIntropath;
@@ -488,7 +493,7 @@ public class AdminController {
 	//강좌보기 페이지 이동 컨트롤러
 	@RequestMapping("intro/{parentId}/course/{boardId}")
 	public ModelAndView firstlectureView(@PathVariable("parentId") int parentId,@PathVariable("boardId") int boardId, Principal pricipal, HttpSession session, Authentication auth,HttpServletResponse response){
-		cUtil.getSession(auth, session);
+//		cUtil.getSession(auth, session);
 		try {
 			member= memberMapper.getUser(pricipal.getName());
 			map= new HashMap<String, Object>();
@@ -595,32 +600,32 @@ public class AdminController {
 	// 게시판 관리 이동 컨트롤러
 	@RequestMapping(value = "board", method = RequestMethod.GET)
 	public ModelAndView adminBoardControlPage(@ModelAttribute("cri") Criteria cri,Principal pricipal, HttpSession session, Authentication auth) {
-		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		List<Board> list = new ArrayList<Board>();
 		PageMaker pageMaker = new PageMaker();
-		cUtil.getSession(auth, session);
+		List<Map<String,Object>> bkList=new ArrayList<Map<String,Object>>();
 		try {
+			bkList=boardMapper.getBoardKindList();
+			mav.addObject("boardKindList",bkList);
+			bkList=boardMapper.getBookmarkBoardKindList();
+			mav.addObject("bBKList",bkList);
 			cri.setPerPageNum(10);
 			map = new HashMap<String, Object>();
-			map.put("tName", "v_LectureIntroContent");
-			licList = adminMapper.getAllLectureList(cri);
-
+			map.put("tName", "Board");
+			map.put("cri", cri);
+			map.put("boardKindId", "ComFr");
+			
 			pageMaker.setCri(cri);
 			pageMaker.setTotalCount(adminMapper.countPaging(map));
-
-			list = adminMapper.getAllLectureTag();
-
-			for (LectureIntroContent l : licList) {
-				String thumbPath = lectureIntropath;
-				thumbPath += cUtil.getPath(l.getId(), l.getChangedName(), l.getExtension());
-				l.setThumbnailPath(thumbPath);
-			}
+			list =boardMapper.getAllBoardList(map);
+			cUtil.getDateTimeCompareObject(list, "yyyy-mm-dd");
+			logger.info(list.toString());
 
 		} catch (Exception e) {
 
 		}
+		
 		mav.addObject("pageMaker", pageMaker);
-		mav.addObject("tagList", list); // 언어 태그 객체
-		mav.addObject("lectureList", licList);// 강의 목록
+		mav.addObject("boardList", list);// 강의 목록
 		mav.setViewName("admin/boardControl");
 		return mav;
 	}

@@ -86,7 +86,7 @@
 .lecture-overview-body .count,.title,.instruction,.like,:after{
   position:relative;
   top:5px;
-  border-bottom:1px solid #D8D8D8;  
+  border-bottom:1px solid #C5BDD0;  
 }
 .lecture-overview-body{
   text-align:center;
@@ -100,7 +100,7 @@
   color:gray;
   position:relative;
   width:100%;
-  border-top:1px solid #D8D8D8;
+  border-top:1px solid #C5BDD0;
 }
 .lecture-overview-footer>a{
   text-align:center;
@@ -108,15 +108,15 @@
 
 .btn-primary {
   color: #fff;
-  background-color: #1a1a1a;
+  background-color: #5b2e7d;
   border-color: #1a1a1a;
   height:50px;
   font-size:25px;
 }
 .btn-primary:hover {
-  color: #fff;
-  background-color: #070707;
-  border-color: #010000;
+  color: #5b2e7d;
+  background-color: white;
+  border-color: #5b2e7d;
 }
 
 .btn-primary:focus, .btn-primary.focus {
@@ -386,6 +386,10 @@
 	-moz-border-radius: 50%;
 	border-radius: 50%;
 }
+
+
+
+
 .lecctureview-comments-container  .comments-list:after {
 	content: '';
 	position: absolute;
@@ -400,7 +404,29 @@
 	-moz-border-radius: 50%;
 	border-radius: 50%;
 }
-
+.lintroQna .comments-list:before{
+	content: '';
+	width: 2px;
+	height: 100%;
+	background: #c7cacb;
+	position: absolute;
+	left: 30px;
+	top: 0;
+}
+.lintroQna  .comments-list:after {
+	content: '';
+	position: absolute;
+	background: #c7cacb;
+	bottom: 0;
+	top:101%;
+	left: 28px;
+	width: 7px;
+	height: 7px;
+	border: 3px solid #dee1e3;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+}
 .reply-list:before, .reply-list:after {display: none;}
 .reply-list li:before {
 	content: '';
@@ -472,7 +498,7 @@
  * Caja del Comentario
  ---------------------------*/
 .comments-list .comment-box {
-	width: 680px;
+	width: 90%;
 	float: right;
 	position: relative;
 	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
@@ -499,9 +525,9 @@
 	left: -12px;
 }
 
-.reply-list .comment-box {
+/* .reply-list .comment-box {
 	width: 610px;
-}
+} */
 .comment-box .comment-head {
 	background: #FCFCFC;
 	padding: 10px 12px;
@@ -797,3 +823,31 @@ input[name="parent-title"]{
 	width:100%;
 	border-bottom: 1px solid gray;
 }
+
+.btn-group-toggle> .btn-lang-kind{
+	background-color: white; 
+	color:#5b2e7d;"	
+
+}
+.btn-group-toggle> .btn-lang-kind:hover{
+	border-bottom:1px solid #5b2e7d;
+	color:white;
+	background-color:#5b2e7d;
+} 
+.btn-group-toggle> .active{
+	color:white!important;
+	background-color:#5b2e7d!important;
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
