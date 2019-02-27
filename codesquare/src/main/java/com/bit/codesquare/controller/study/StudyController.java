@@ -25,7 +25,7 @@ import com.bit.codesquare.util.CodesquareUtil;
 import com.bit.codesquare.util.DayEnum;
 
 
-@Controller
+//@Controller
 public class StudyController {
 	
 	@Autowired

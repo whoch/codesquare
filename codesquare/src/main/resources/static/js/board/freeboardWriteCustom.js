@@ -3,7 +3,7 @@ var header = $("meta[name='_csrf_header']").attr("content");
 var boardId=$("[name=id]").val()
 $(function() {
 	$(document).ajaxSend(function(e, xhr, options) {
-        xhr.setRequestHeader(header, token);
+        xhr.setRequestHeader(header2, token);
     });
     createSmartEditor();
 });
