@@ -115,7 +115,7 @@ public class CommentController {
 		//해당 코멘트이 대댓글인지+ 해당 부모댓글의 대댓글의 갯수 검사
 		int searchPCResult=cMapper.searchParentComment(id);
 		int result=0;
-		
+		logger.info("pcresult:"+searchPCResult);
 		if(searchPCResult!=0) {
 			cMapper.deleteQNAComment(searchPCResult);
 		}		

@@ -26,7 +26,7 @@ public class JoiningAndRecruitmentLog  extends Member implements ComparableDateT
 	private String declineContent;
 	private String status;
 	
-	Map<String, Object> applyContentMap;
+	private Map applyMap;
 
 	@Override
 	public LocalDateTime getDateTimeCompare() {
@@ -40,6 +40,4 @@ public class JoiningAndRecruitmentLog  extends Member implements ComparableDateT
 		this.applyDateString = format;
 		
 	}
-
-	
 }

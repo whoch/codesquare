@@ -51,7 +51,7 @@
 						      	<ul id="modal-checked-lecturelist" class="list-group" style="border-bottom:2px dashed #dddddd;height: 200px;overflow-y: scroll;">
 								</ul>
 								<i class="material-icons">description</i></label>게시글 을(를) 삭제하시겠습니까?
-					      </div>
+					      	</div>
 					      <div class="modal-footer">
 					        <button id="btn-delete-cancel" type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
 					        <button id="btn-delete-yes" type="button" class="btn btn-primary">삭제</button>
@@ -61,24 +61,29 @@
 					</div>					
 					<!-- End Of Modal-Control-LectureDelete -->
 					<!-- Modal-Control-LecturePendig -->
-					<div class="modal fade" id="modal-lecture-pending" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal fade" id="modal-board-bookmark" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					  <div class="modal-dialog" role="document">
 					    <div class="modal-content">
 					      <div class="modal-header">
-					        <h5 class="modal-title" id="modal-title">강의 보류 설정</h5>
+					        <h5 class="modal-title" id="modal-title">즐겨찾기 설정</h5>
 					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					          <span aria-hidden="true">&times;</span>
 					        </button>
 					      </div>
 							<div class="modal-body" >
-								<i class="material-icons">ondemand_video</i><label id="modal-lecture-title"></label>선택된 강의
-						      	<ul id="modal-checked-pendinglecturelist" class="list-group" style="border-bottom:2px dashed #dddddd;height: 200px;overflow-y: scroll;">
-								</ul>
+								<i class="material-icons">developer_board</i><label id="modal-lecture-title"></label>게시판 종류
+								<div class="row" style="border: 1px dashed #dddddd;margin: auto;">
+						      	<div id="list-boardKind" class="col-md-6 list-group" style=" max-height: 400px; overflow-y:scroll;">
+						      		<span th:each="bkList:${boardKindList}" class="list-group-item list-group-item-action" th:id="@{bkItem-}+${bkList.id}" th:text="@{${bkList.boardName}}">보드명</span>
+						      	</div>
+						      	<div id="list-bookark-addedList" class="col-md-6 list-group" style=" max-height: 400px; overflow-y:scroll;">
+						      		<span th:each="item:${bBKList}" class="list-group-item list-group-item-action" th:value="@{${item.id}}" th:text="@{${item.boardName}}">버튼</span>
+						      	</div>
+						      	</div>
 					      </div>
 					      <div class="modal-footer">
-					        <button id="btn-pending-cancel" type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					        <button id="btn-pending-clear" type="button" class="btn btn-primary">해제하기</button>
-					        <button id="btn-pending-yes" type="button" class="btn btn-primary">보류하기</button>
+					        <button id="btn-pending-cancel" type="button" class="btn btn-secondary" data-dismiss="modal">취소하기</button>
+					        <button id="btn-pending-clear" type="button" class="btn btn-primary">저장하기</button>
 					      </div>
 					    </div>
 					  </div>
@@ -106,7 +111,13 @@
 											<label id="div-alert-area"></label>
 										</div>
 										<div id="" class="col-lg-7"	style="text-align: right;">
-											
+											<button class="btn btn-success btn-fab  btn-round " data-toggle="modal" data-target="#modal-board-bookmark">
+											  <i class="fas fa-exchange-alt"></i>
+											</button>
+											<label style="color:white; ">자주가는 게시판</label>&nbsp<br/>
+											<div class="btn-group btn-group-lg">
+											  <button th:each="item:${bBKList}" type="button" class="btn btn-warning btn-sm" th:value="@{${item.id}}" th:text="@{${item.boardName}}">버튼</button>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -117,12 +128,17 @@
 											<button id="btn-allcheck" class="btn btn-warning btn-round btn-sm" data-status="off">
 											  <i class="far fa-check-square"></i> All Check
 											</button>
+											<form action="/admin/board/" method="GET" style="display: inline;">
+											  <select name="cars" class="custom-select" style="width:35%;border-radius: 30px;height: 85%;">
+											    <option selected>Custom Select Menu</option>
+											    <option th:each="bkList:${boardKindList}" th:value="@{${bkList.id}}" th:text="@{${bkList.boardName}}">보드명</option>
+											  </select>
+											</form>
 											</div>
 											<div class="d-flex col-md-6 justify-content-end">
 												<button id="btn-lectureStatus-change" class="btn btn-warning btn-round btn-sm" data-toggle="modal" >
 												  <i class="fas fa-exchange-alt"></i> 게시글 삭제
 												</button>	
-
 												<!-- <button id="btn-lecture-modify" class="btn btn-warning btn-round btn-sm" data-toggle="modal">
 												  <i class="fas fa-exchange-alt"></i> 강의 수정
 												</button> -->
@@ -133,6 +149,7 @@
 											<thead class=" text-primary">
 												<th>Check</th>
 												<th colspan="2" class="text-left">Title</th>
+												<th>author</th>
 												<th>Like</th>
 												<th>Hit</th>
 												<th>WriteDate</th>
@@ -147,15 +164,18 @@
 															</label>
 														</div>
 													</td>
-													<td colspan="2" class="text-left" ><a class="lecture-link"  th:href="@{/admin/board/}+${item.id}" th:text="@{${item.title}}"></a></td>
+													<td colspan="2" class="text-left" ><a class="lecture-link"  th:href="@{/admin/board/}+${item.id}" th:text="@{${item.title}}" style="font-size: 15px;"></a>
+														<span class="badge badge-pill badge-success" th:text="@{${item.commentCount}}">댓글수</span>
+													</td>
 													<td th:text="@{${item.nickName}}">작성자</td>
-													<td th:text="@{${item.likeCount}}">좋아요</td>
-													<td th:text="@{${item.hit}}">조회수</td>
-													<td th:text="@{${item.writeDate}}">완강인원</td>
+													<td><i class="far fa-heart"></i>&nbsp<label th:text="@{${item.likeCount}}"></label></td>
+													<td><i class="far fa-eye"></i>&nbsp<label th:text="@{${item.hit}}"></label></td>
+													<td th:text="@{${item.writeDateBoard}}"></td>
 												</tr>
 											</tbody>
 										</table>
 									</div>
+									
 									<div align="center">
 										<ul
 											class="pagination justify-content-center  no-margin pull-right ">
@@ -188,6 +208,7 @@
 					<th:block layout:fragment="script">
 						<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
 						<script type="text/javascript" th:src="@{/static/js/admin/utilCustom.js}"></script>
+						<script type="text/javascript" th:src="@{/static/js/admin/adminBoardCustom.js}"></script>
 						<!-- <script type="text/javascript" th:src="@{/static/js/admin/adminLectureCustom.js}"></script> -->
 					</th:block>
 				</div>

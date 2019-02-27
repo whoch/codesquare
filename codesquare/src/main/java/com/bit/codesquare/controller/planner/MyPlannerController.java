@@ -37,6 +37,8 @@ public class MyPlannerController {
 	
 	@PostMapping("/loadBookmark")
 	public String loadBookmark(@RequestBody String userId, Model model) {
+		
+		logger.info("###################");
 		model.addAttribute("bookmarkList", myplannerService.getUserBookmarkList());
 		model.addAttribute("bookmarkKind", myplannerMapper.getUserBookmarkKinds());
 		return "planner/ajax/userBookmarkList";		

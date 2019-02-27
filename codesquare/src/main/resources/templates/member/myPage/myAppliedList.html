@@ -29,10 +29,13 @@
 					th:text="${alist.applyDateString}"></div>
 				<div class="col-md-5" th:text="${alist.title}"></div>
 				<div class="col-md-3">
-			<!-- 	<div th:each="ac : ${alist.applyContentMap}">
-					<div th:text="${ac.key}"></div>
-				</div> -->
-				<span th:text="${alist.applyContent}"></span> 
+					<span th:text="${alist.applyMap.get('신청메세지')}"></span>
+					<div th:each=" list : ${alist.applyMap}">
+						<th:block th:if="${list.key}!='신청메세지'">
+							<span th:text=${list.key}></span>
+							<span th:text=${list.value}></span>
+						</th:block>
+					</div>
 				</div>
 				<div class="col-md-2" th:if="${alist.status} ==''">
 						

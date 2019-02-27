@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bit.codesquare.dto.member.InstructorInfo;
+import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
 import com.bit.codesquare.dto.member.Member;
 import com.bit.codesquare.dto.paging.Criteria;
 import com.bit.codesquare.dto.paging.PageMaker;
@@ -209,13 +210,16 @@ public class MemberController {
 		String userId = auth.getName();
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
-		
-//		BasicJsonParser bjp = new BasicJsonParser();
-//		
-//		for(JoiningAndRecruitmentLog list : mm.getAppliedList(userId, cri) ) {
-//			list.setApplyContentMap(bjp.parseMap(list.getApplyContent()));
-//		}
-		model.addAttribute("alist", csu.getDateTimeCompareObject(mm.getAppliedList(userId, cri)));
+/*		model.addAttribute("alist", mm.getAppliedList(userId, cri));*/
+//		###############################
+		BasicJsonParser jsonParser = new BasicJsonParser();
+		List<JoiningAndRecruitmentLog> applyList = mm.getAppliedList(userId, cri);
+		for(JoiningAndRecruitmentLog list : applyList ) {
+			list.setApplyMap(jsonParser.parseMap(list.getApplyContent()));
+			list.setApplyDateString(csu.compareDateTime(list.getApplyDate()));
+		}
+		model.addAttribute("alist", applyList);
+//		#######################
 		cri.setPerPageNum(10);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);

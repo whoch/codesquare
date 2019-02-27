@@ -1,21 +1,96 @@
-/*<![CDATA[*/
 $(function(){
 	var BOARD_ID = $('#BOARD_ID').val();
 	var initial_bookmark_status = $('#bookmark-button').hasClass('checked');
+	var status_change = false;
 	
-/*	checkUnload*/
-	console.log(initial_bookmark_status);
+	$(document).ready(function(){
+		var status =  $('#STATUS').val();
+		statusButtonView(status);
+	});
 	
-		$('#bookmark-button').click(function(e) {
+	$('#bookmark-button').click(function(e) {
+         $(this).toggleClass('checked').children('i').toggleClass('fas far');
+         $(this).find('span').text( $('#bookmark-button i').hasClass('far') ?'찜하기':'찜취소');
+         status_change = !status_change;
+	});//북마크 클릭 이벤트 끝
+	
+	$('#submitApply').on('click',  function(){
+		//신청양식 빈 값 체크
+		$('#applicationform>input').each(function(index){
+			if( !$(this).val() ){
+				$(this).focus();
+				return false;
+			}
+		});
+		
+		var applyContent = {};
+		for(let i=0, size=$('#applicationform>input').length/2; i<size; i++){
+			let key = $('.form-key[name="map'+i+'"]').val();
+			let value = $('.form-value[name="map'+i+'"]').val();
+			applyContent[key]=value;
+		}
+		
+		var data = {
+				boardId		: $('#BOARD_ID').val(),
+				applyUserId : 'cksdud',
+				nickName	: '찬영찬영',
+				applyContent: JSON.stringify(applyContent)
+		}
+		
+		$.ajax({
+			type:'POST',
+			url:'/studyWanted/submitApplication',
+			data : JSON.stringify(data),
+			contentType:'application/json; charset=UTF-8',
+			success: function (response) {
+					statusButtonView(response);
+					$('#application-modal').modal('hide')
+					
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                  console.log('##### submit wantedWrite : Ajax ERROR #####');
+                  console.log('jqXHR.status : ' + jqXHR.status);
+            }
+	 	});//ajax 끝
+	});//스터디 그룹 신청 APPLY
+	
+	
+	var applyCancel = function(){
+		var data = {
+				boardId		: $('#BOARD_ID').val(),
+				applyUserId		: 'cksdud',
+		}
+		$.ajax({
+			type:'POST',
+			url:'/studyWanted/cancelApplication',
+			data : JSON.stringify(data),
+			contentType:'application/json; charset=UTF-8',
+			success: function (response) {
+					statusButtonView(response);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                  console.log('##### submit wantedWrite : Ajax ERROR #####');
+                  console.log('jqXHR.status : ' + jqXHR.status);
+            }
+	 	});//ajax
+	}//그룹 신청 취소 CanCEL
+	
+	var statusButtonView = function( status ){
+		$('#status-button div:visible').hide()
+		$('.'+status).show();
+	}
+	
+	
+	$('#group-wait-button').on('click',applyCancel);
 
-	             $(this).toggleClass('checked');
-	             $(this).children().toggleClass('fa-heart');
-	             $(this).children().toggleClass('fa-heart-o');
-
+		
+	$(window).on('beforeunload', function(){
+		if( status_change ){
 			var data = {
 		 			boardId : BOARD_ID,
 		 			boardKind : 'BookmarkList',
-		 			id : ''
+		 			id : '',
+		 			status : !initial_bookmark_status 
 		 		/*	userId : userId*/
 			} 
 			
@@ -24,34 +99,17 @@ $(function(){
 		  			url: '/clickBookmark',
 		  			data : JSON.stringify(data),
 					context : this,
-		  			contentType: 'application/json; charset=UTF-8',
+					contentType:'application/json; charset=UTF-8',
 		  			success: function (response) {
- 		                  $(this).toggleClass('checked');
-		                  console.log("##### ajax 성공 #####");
-		      			console.log(this);
-		                  console.log(response);
 		            },
 		            error: function (jqXHR, textStatus, errorThrown) {
 		                  console.log("##### bookmark checked : Ajax ERROR #####");
 		            }
-			  	})//ajax 끝
-		});//북마크 클릭 이벤트 끝
-		
-	$(window).on('beforeunload', function(){
-			return "ON beforeunload";
-		});
+		            
+		  	});//ajax
+		}//if
+	});//페이지가 바뀔 때 북마크 변동사항 저장
 
-/*	var checkUnload = true;
-    $(window).on("beforeunload", function(){
-        if(checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
-    });
-*/
 	
-		$(window).off('beforeunload', function(){
-			return  alert("OFF beforeunload");
-		});
-
-		
-		
+	
 });//익명function END
-/*]]>*/
