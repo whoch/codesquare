@@ -12,7 +12,8 @@ public class Reservation {
 	String roomid;
 	int boardid;
 	String userId;
-	Date reservationdate;
+	Date agreeTime;
+	Timestamp reservationdate;
 	Timestamp paymentdate;
 	int payamount;
 	int reservationtime;

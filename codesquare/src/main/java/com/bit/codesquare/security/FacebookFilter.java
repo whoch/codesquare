@@ -22,14 +22,13 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 
 import com.bit.codesquare.dto.member.Member;
 import com.bit.codesquare.mapper.member.MemberMapper;
-import com.bit.codesquare.service.SocialService;
 
 public class FacebookFilter extends OAuth2ClientAuthenticationProcessingFilter {
-	   private SocialService service;
+	   private LoginUserDetailsService service;
 
-	   public FacebookFilter(SocialService service) {
+	   public FacebookFilter(LoginUserDetailsService socialService) {
 	      super("/login/facebook");
-	      this.service=service;
+	      this.service=socialService;
 	   }
 	    
 	   @Override
