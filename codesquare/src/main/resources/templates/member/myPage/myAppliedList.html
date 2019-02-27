@@ -26,7 +26,16 @@
 				<div class="col-md-2"
 					th:text="${#dates.format(alist.applyDate, 'yy-MM-dd')}"></div>
 				<div class="col-md-5" th:text="${alist.title}"></div>
-				<div class="col-md-3" th:text="${alist.applyContent}"></div>
+<!-- 				<div class="col-md-3" th:text="${alist.applyContent}"></div> -->
+				<div class="col-md-3">
+					<span th:text="${alist.applyMap.get('신청메세지')}"></span>
+					<div th:each=" list : ${alist.applyMap}">
+						<th:block th:if="${list.key}!='신청메세지'">
+							<span th:text=${list.key}></span>
+							<span th:text=${list.value}></span>
+						</th:block>
+					</div>
+				</div>
 				<div class="col-md-2" th:if="${alist.status} ==''">
 					<button id="cancelApply" class="mybtn px-3 py-1 small">취소</button>
 

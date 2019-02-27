@@ -1,6 +1,7 @@
 package com.bit.codesquare.dto.member;
 
 import java.sql.Date;
+import java.util.Map;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,4 +21,6 @@ public class JoiningAndRecruitmentLog  extends Member{
 	private String applyContent;
 	private String declineContent;
 	private String status;
+	
+	private Map applyMap;
 }
