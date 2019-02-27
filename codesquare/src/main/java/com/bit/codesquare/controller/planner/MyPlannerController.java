@@ -5,6 +5,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.codesquare.dto.planner.UserTodoList;
+import com.bit.codesquare.mapper.group.GroupMapper;
 import com.bit.codesquare.mapper.planner.MyplannerMapper;
 import com.bit.codesquare.service.planner.MyplannerService;
 import com.bit.codesquare.util.CodesquareUtil;
@@ -26,12 +28,16 @@ public class MyPlannerController {
 	@Autowired
 	MyplannerService myplannerService;
 	
+	@Autowired
+	GroupMapper gm;
 	Logger logger = LoggerFactory.getLogger(MyPlannerController.class);
 	
 	@RequestMapping("/myplanner")
-	public String myPlanner(Model model) {
+	public String myPlanner(Model model, Authentication auth) {
+		String userId = auth.getName();
 		model.addAttribute("groupWorkList", myplannerService.getUsergetGroupWorkList());
 		model.addAttribute("todoList", myplannerMapper.getUserTodoList());
+		model.addAttribute("glist", gm.getMyGroupList(userId));
 		return "planner/myPlanner";
 	}
 	

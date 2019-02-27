@@ -20,19 +20,21 @@ public class GroupController {
 	@Autowired 
 	GroupMapper gm;
 	
-	@GetMapping("glist")
-	public String getMyGroupList (Model model, Authentication auth) {
-		String userId = auth.getName();
-		model.addAttribute("glist", gm.getMyGroupList(userId));
-		
-		return "group/groupList";
-	}
+//	@GetMapping("glist")
+//	public String getMyGroupList (Model model, Authentication auth) {
+//		String userId = auth.getName();
+//		model.addAttribute("glist", gm.getMyGroupList(userId));
+//		
+//		return "group/groupList";
+//	}
 	
 	@GetMapping("group/{groupId}")
-	public String getGroupInfo(Model model, @PathVariable String groupId) {
+	public String getGroupInfo(Model model, Authentication auth, @PathVariable String groupId) {
+		String userId = auth.getName();
 		model.addAttribute("ginfo", gm.getGroupInfo(groupId));
 		model.addAttribute("gMember", gm.getGroupMember(groupId));
 		model.addAttribute("gLeader", gm.getGroupLeader(groupId));
+		model.addAttribute("glist", gm.getMyGroupList(userId));
 		return "group/groupInfo";
 	}
 }

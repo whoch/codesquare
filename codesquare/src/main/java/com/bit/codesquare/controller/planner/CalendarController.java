@@ -8,12 +8,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bit.codesquare.dto.planner.GroupMeetingDateDetails;
 import com.bit.codesquare.dto.planner.SeminarMeetingDateDetails;
+import com.bit.codesquare.mapper.group.GroupMapper;
 import com.bit.codesquare.mapper.planner.CalendarMapper;
 
 
@@ -26,6 +28,8 @@ public class CalendarController {
 	
 	Logger logger = LoggerFactory.getLogger(CalendarController.class);	
 	
+	@Autowired
+	GroupMapper gm;
 	
 	/**
 	 * 
@@ -36,7 +40,9 @@ public class CalendarController {
 	 */
 	
 	@RequestMapping("/calendar")
-	public String calendar(Model model) {	
+	public String calendar(Model model, Authentication auth) {	
+		String userId = auth.getName();
+		
 		List<HashMap<String, Object>> seminarScheduleList=new ArrayList<HashMap<String, Object>>();
 		List<HashMap<String, Object>> groupMeetingScheduleList=new ArrayList<HashMap<String, Object>>();		
 		
@@ -67,6 +73,8 @@ public class CalendarController {
 		
 		model.addAttribute("seminar",seminarScheduleList);
 		model.addAttribute("study",groupMeetingScheduleList);
+		
+		model.addAttribute("glist", gm.getMyGroupList(userId));
 		return "planner/calendar";	
 	
 	}
