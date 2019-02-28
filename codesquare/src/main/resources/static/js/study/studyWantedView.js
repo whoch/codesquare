@@ -1,5 +1,4 @@
 $(function(){
-	var BOARD_ID = $('#BOARD_ID').val();
 	var initial_bookmark_status = $('#bookmark-button').hasClass('checked');
 	var status_change = false;
 	
@@ -32,8 +31,8 @@ $(function(){
 		
 		var data = {
 				boardId		: $('#BOARD_ID').val(),
-				applyUserId : 'cksdud',
-				nickName	: '찬영찬영',
+				applyUserId : $('#USER_ID').val(),
+				nickName	: $('#NICKNAME').val(),
 				applyContent: JSON.stringify(applyContent)
 		}
 		
@@ -44,7 +43,7 @@ $(function(){
 			contentType:'application/json; charset=UTF-8',
 			success: function (response) {
 					statusButtonView(response);
-					$('#application-modal').modal('hide')
+					$('#application-modal').modal('hide');
 					
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -58,7 +57,7 @@ $(function(){
 	var applyCancel = function(){
 		var data = {
 				boardId		: $('#BOARD_ID').val(),
-				applyUserId		: 'cksdud',
+				applyUserId	: $('#USER_ID').val()
 		}
 		$.ajax({
 			type:'POST',
@@ -73,25 +72,44 @@ $(function(){
                   console.log('jqXHR.status : ' + jqXHR.status);
             }
 	 	});//ajax
-	}//그룹 신청 취소 CanCEL
+	}//그룹 신청 취소 Cancel
 	
 	var statusButtonView = function( status ){
 		$('#status-button div:visible').hide()
 		$('.'+status).show();
 	}
 	
+	var boardClose = function(){
+		var data = {
+				status	: 0,
+				boardId : $('#BOARD_ID').val(),
+				groupId : $('#GROUP_ID').val()
+		}
+		$.ajax({
+			type:'POST',
+			url:'/studyWanted/boardClose',
+			data : JSON.stringify(data),
+			contentType:'application/json; charset=UTF-8',
+			success: function (response) {
+					statusButtonView(response);
+					$('#recruitmentCount').remove();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                  console.log('##### submit wantedWrite : Ajax ERROR #####');
+                  console.log('jqXHR.status : ' + jqXHR.status);
+            }
+	 	});//ajax
+	}//모집글 마감
 	
-	$('#group-wait-button').on('click',applyCancel);
-
+	$('#group-close-button').on('click',boardClose);
+	$('div[id$="wait-button"]').on('click',applyCancel);
 		
 	$(window).on('beforeunload', function(){
 		if( status_change ){
 			var data = {
-		 			boardId : BOARD_ID,
-		 			boardKind : 'BookmarkList',
-		 			id : '',
-		 			status : !initial_bookmark_status 
-		 		/*	userId : userId*/
+		 			boardId : $('#BOARD_ID').val(),
+		 			status : !initial_bookmark_status,
+		 			userId : $('#USER_ID').val()
 			} 
 			
 			 $.ajax({

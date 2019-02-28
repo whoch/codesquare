@@ -20,6 +20,7 @@ public interface StudyMapper {
 	public String getBookmarkId(int boardId);
 	public void writeStudyWantedBoard(Board board);
 	public void deleteStudyWantedBoard(int boardId);
+	public void updateBoardStatus(Map<String, String> data);
 	
 	
 	

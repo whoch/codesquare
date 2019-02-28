@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.BasicJsonParser;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,23 +52,27 @@ public class StudyController {
 	
 	//게시판 상세보기로 이동
 	@RequestMapping(value = "/studyWanted/{boardId}")
-	public String getBoardView(@PathVariable("boardId") int boardId, Model model) {
+	public String getBoardView(@PathVariable("boardId") int boardId, Model model, Authentication auth) {
 		
 		GroupInfo group = groupMapper.getGroupInfoUseBoardId(boardId);
 		Board board = studyMapper.getBoardView("스터디모집", boardId);
+		String userId = auth.getName();
+		String applyStatus = groupMapper.getApplyingStatus(boardId, userId);
+		Integer joinningGroupAuthorId = groupMapper.getJoinningGroupInfo(userId, group.getId(), "AuthorId");
+		String statusOfTheUser;
+		
+		
 		if( !group.getApplicationForm().isEmpty() ) {
 			BasicJsonParser jsonParser = new BasicJsonParser();
 			model.addAttribute("question", jsonParser.parseList(group.getApplicationForm()));
-			logger.info( " ## parsing한 결과값 : "+jsonParser.parseList( group.getApplicationForm()).toString());
 		}
-		
-		String applyStatus = groupMapper.getApplyingStatus(boardId, "cksdud");
-		Integer joinningGroupId = groupMapper.getJoinningGroupId("cksdud", group.getId());
-		String statusOfTheUser;
+
 		
 		if(board.getStatus()==0) {
 			statusOfTheUser="END";
-		}else if( joinningGroupId!=null && joinningGroupId > 0) {
+		}else if( joinningGroupAuthorId!=null && joinningGroupAuthorId == 5) {
+			statusOfTheUser="CLOSE";
+		}else if( joinningGroupAuthorId!=null && joinningGroupAuthorId == 4) {
 			statusOfTheUser="IN";
 		}else if( applyStatus!=null && applyStatus.equals("") ){
 			statusOfTheUser="WAIT";
@@ -76,13 +81,13 @@ public class StudyController {
 		}
 		
 		model.addAttribute("group", group);
-		model.addAttribute("board", board );
-		model.addAttribute("bookmarkId", studyMapper.getBookmarkId(boardId));
+		model.addAttribute("board", CodesquareUtil.setDateTimeCompare(board));
 		model.addAttribute("status", statusOfTheUser);
+		model.addAttribute("bookmarkId", studyMapper.getBookmarkId(boardId));
 		
-		logger.info("------------ 유저의 그룹스터디 신청 상태 : "+statusOfTheUser+"------------------");
+		logger.info("------------ ## userId: "+userId+"------------------");
 		logger.info("이 그룹에 신청한 상태 : " + applyStatus);
-		logger.info("이 그룹에 가입한 상태 : " + groupMapper.getJoinningGroupId("cksdud", group.getId()));
+		logger.info("이 그룹에 가입한 상태 : " + joinningGroupAuthorId);
 		return "study/studyWantedView";
 	}
 
@@ -90,21 +95,22 @@ public class StudyController {
 	//게시글에서 북마크 아이콘을 클릭할 경우 찜,찜취소
 	@PostMapping("/clickBookmark")
 	@ResponseBody
-	public Map clickBookmark(@RequestBody Map<String, String> data) {
+	public void clickBookmark(@RequestBody Map<String, String> data) {
 		boolean status = Boolean.parseBoolean(data.get("status"));
 		if(status) {
 			studyMapper.addBookmark(data);
 		}else {
 			studyMapper.deleteBookmark(data);
 		}
-		return data;
 	}
 	
 	
 	//글쓰기 페이지로 이동
 	@RequestMapping("/studyWanted/writeView")
-	public String getWriteView(Model model) {
-		model.addAttribute("group", groupMapper.getGroupInfoUserLeader("cksdud"));
+	public String getWriteView(Model model, Authentication auth) {
+		String userId = auth.getName();
+		model.addAttribute("group", groupMapper.getGroupInfoUserLeader(userId));
+		logger.info(groupMapper.getGroupInfoUserLeader(userId).toString() + "##tests");
 		return "study/studyWantedWriteView";
 	}
 
@@ -132,17 +138,21 @@ public class StudyController {
 		return "WAIT";
 	}
 	
-	
 	@PostMapping("/studyWanted/cancelApplication")
 	@ResponseBody
 	public String cancelApplication(@RequestBody Map<String, String> data) {
-		logger.info("### cancel Application");
 		groupMapper.cancelApplication(data);
-		logger.info(data.toString());
 		return "ING";
 	}
 	
-	
+	@PostMapping("/studyWanted/boardClose")
+	@ResponseBody
+	public String boardClose(@RequestBody Map<String, String> data) {
+		studyMapper.updateBoardStatus(data);
+		groupMapper.updateGroupRecruitmentCount(data.get("groupId"), 0);
+		groupMapper.setDeclineContentUseBoardId(data.get("boardId"), "해당 모집글이 마감 되었습니다.");
+		return "END";
+	}
 	
 	@RequestMapping("/studyWanted/createGroup")
 	public void createGroup() {

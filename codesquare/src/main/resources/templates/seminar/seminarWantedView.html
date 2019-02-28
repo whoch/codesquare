@@ -2,8 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/mainLayout2}"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<title>스터디모집</title>
+<title>세미나 모집 </title>
 <link rel="stylesheet" type="text/css" th:href="@{/static/styles/study/study.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/static/styles/seminar/seminarView.css}">
 
 </head>
 <body>
@@ -13,13 +14,12 @@
     	<div class="container">
     	<th:block th:with="url=${#httpServletRequest.requestURI}">
     	<input id="BOARD_ID" type="hidden" th:value="${board.id}">
-	    <input id="GROUP_ID" type="hidden" th:value="${board.groupId}">
-	    <input id="USER_ID" type="hidden" th:value="${session.userId}">
+    	<input id="USER_ID" type="hidden" th:value="${session.userId}">
     	<input id="NICKNAME" type="hidden" th:value="${session.nickName}">
     	<input id="STATUS" type="hidden" th:value="${status}">
     	
     		
-    		<h3 class="boardTitle">스터디모집</h3>
+    		<h3 class="boardTitle">세미나모집</h3>
 			<!-- 게시판 본문 -->
 			<section class="boardDetail">
 				<div class="boardView" th:object="${board}">
@@ -27,15 +27,7 @@
 					<div class="boardHeader">
 						<h2 class="row">
 							<span class="col-md-8" th:text="*{title}"></span>
-							<div class="nickname col-md-4">
-								<img th:if="${board.profileImagePath} eq DefaultThumbnail" class="profileImg shadow-sm" 
-									th:src="@{/static/images/DefaultThumbnail.png}" />
-								<img th:unless="${board.profileImagePath} eq DefaultThumbnail" class="profileImg shadow-sm" 
-									th:src="@{'/static/codesquareDB/UserThumbnail/{userId}/{ImagePath}'(userId=${board.userId},ImagePath=${board.profileImagePath})}" />
-								<small th:text="*{nickName}"></small>
-							</div>
-							<!-- <img th:src="@{${session.profileImagePath}}" class="profileImg" /> -->
-						
+							<small class="nickname col-md-4" th:text="*{nickName}"></small>
 						</h2>
 						<div class="row">
 							<span class="col-md-9" th:text="*{writeDateBoard}"></span>
@@ -54,80 +46,67 @@
 					<div class="boardContent row">
 						<!-- ####   START 왼쪽 컨텐츠     #### -->
 						<div class="col-md-9" >
-							<div class="board-content">
-								<div th:utext="*{content}"></div>
-							</div>
+							<div class="board-content" th:utext="*{content}"></div>
 							<!-- <div id="boardEdit-content">
 								<span>수정</span>
 								<span id="delete-button">삭제</span>
 							</div> -->
 							
-							<th:block th:if="${group.id} ne '그룹없음'">
-								<div class="groupContent row" th:object="${group}">
-									<dl class="group-detail group-detail-Grid">
-										<dt>그룹명:</dt>
-										<dd th:text="*{id}"></dd>
-										<dd th:class="group-member-cnt" th:text="|*{memberCount}명의 멤버가 참여중 입니다|"></dd>
-										
-										<dt>시간:</dt>
-										<dd class="group-meetingTime" th:text="${#dates.format(group.startDate,'aaa HH시 mm분')}"></dd><dd></dd>
-										<dd class="group-startDate" th:text="${#dates.format(group.startDate)}>${#dates.format(#dates.createNow())}
-																			?|${#dates.format(group.startDate,'M월 dd일  (EE)')} 첫 스터디 시작  예정! |
-																			:|${#dates.format(group.startDate,'YY년 M월 dd일 (EE)')}부터 진행중인 그룹입니다|">
-										</dd>
-										
-										<dt>일정:</dt>
-										<dd class="group-meeting">
-											<th:block th:with="meetingDate = ${ #strings.arraySplit( group.meetingDate, ',' ) }">
-												<span class="tag-meetingDate" th:each=" item : ${ meetingDate }" th:text="|${item}요일|"></span>
-											</th:block>
-										</dd>
-										
-										<dt>목표:</dt>
-										<dd class="group-goal" th:text="*{goal}"></dd>
-										<dt>내용:</dt>
-										<dd class="group-content" th:text="*{content}"></dd>
-
-
-									</dl>
-								</div>
-							</th:block> 
+							<div class="groupContent row" th:object="${seminar}">
+								<dl class="group-detail seminar-detail-Grid">
+									
+													
+									<dt>신청 기간</dt>
+									<dd th:text="|${#temporals.format(seminar.seminarjoinstartdate,'YY년 MM월 dd일  (EE)')}
+										~ ${#temporals.format(seminar.seminarjoinenddate,'MM월 dd일  (EE)')}|"></dd>
+									
+									
+									<dt>일시</dt>
+									<dd th:text="|${#temporals.format(seminar.seminarstartdate,'YY년 MM월 dd일  (EE)')}
+										~ ${#temporals.format(seminar.seminarenddate,'MM월 dd일  (EE)')}|"></dd>
+									
+									<dt>시간</dt>
+									<dd class="seminar-meeting">
+										<th:block th:with="meetingDate = ${ #strings.arraySplit( seminar.meetingDate, ',' ) }">
+											<span class="tag-meetingDate" th:each=" item : ${ meetingDate }" th:text="|${item}요일|"></span>
+										</th:block>
+										<span th:text="${#temporals.format(seminar.seminarstartdate,'a HH시 mm분 세미나 시작!')}"></span>
+									</dd>
+							
+									
+									<dt>위치</dt>
+									<dd th:text="*{locale}"></dd>
+									
+									<dt>강사 소개</dt>
+									<dd th:text="*{introContent}"></dd>
+									
+									<dt>강사 이력</dt>
+									<dd th:text="*{history}"></dd>
+								</dl>
+							</div>
 						</div>
 						<!-- ####   END 왼쪽 컨텐츠     #### -->
 						<!-- ####   START 오른쪽 컨텐츠     #### -->	
 						<div class="col-md-3 wantedContent" >
 							<div id="wantedContent-detail">
-								<th:block th:if="${group.id}!='그룹없음'">	
-								<img class="rounded-circle shadow" 
+								 <img class="rounded-circle shadow" 
 									 th:src="@{/static/codesquareDB/default/default_user_image4.jpg}">
-								<h4 class="groupId" th:text="${group.id}"></h4>
-									<div id="recruitmentCount" th:if="*{status}!=0" 
-										th:text="|${group.recruitmentCount}명 모집중|"></div>
-										<div class="group-detail">
-											<div>
-												<span class="font-weight-bold">언어</span>
-												<span th:text="${group.tagId}"></span>
-											</div>
-											<div>
-												<span class="font-weight-bold">레벨</span>
-												<span th:text="${group.levelId}"></span>
-											</div>
-											<div>
-												<span class="font-weight-bold">지역</span>
-												<span th:text="${#strings.replace(group.localeId,'_' ,' ')}"></span>
-											</div>
-										</div>
-								</th:block>	
-								<div id="non-group" th:if="${group.id} eq '그룹없음'">
-								<span>그룹을 사용하지 않는 일반 모집글 입니다</span></div>
+								<h4 class="instructorNickName" th:text="${board.nickName}"></h4>
+								<div th:if="*{status}!=0 and ${seminar.recruitpersonnel}!=0 " 
+									th:text="|${seminar.recruitpersonnel}명 모집중|"></div>
+								<div class="seminar-detail">
+									<div>
+										<span class="font-weight-bold">지역</span>
+										<span th:text="${#strings.replace(seminar.localeid,'_' ,' ')}"></span>
+									</div>
+								</div> 
 							</div>
-							<div id="status-button">
-								<div id="group-ing-button" class="ING shadow-sm" data-toggle="modal" data-target="#application-modal"
-									th:if="${group.id}!='그룹없음'">신청하기</div>
-								<div id="group-wait-button" class="WAIT shadow-sm">신청취소</div>
-								<div id="group-end-button" class="END shadow-sm">마감된 모집입니다</div>
-								<div id="group-in-button" class="IN shadow-sm">현재 참여중인 그룹입니다</div>
-								<div id="group-close-button" class="CLOSE shadow-sm">모집 마감하기</div>
+ 							<div id="status-button">
+ 								<div id="seminar-ing-button" class="ING shadow-sm" data-toggle="modal" 
+ 									data-target="#application-modal">신청하기</div>
+								<div id="seminar-wait-button" class="WAIT shadow-sm">신청취소</div>
+								<div id="seminar-end-button" class="END shadow-sm">마감된 모집입니다</div>
+								<div id="seminar-in-button" class="IN shadow-sm">현재 참여중인 세미나입니다</div>
 							</div>
 							<div id="bookmark-button" th:class="${bookmarkId}?'checked'+' shadow-sm'">
 								<i th:class="${bookmarkId}?'fas fa-heart':'far fa-heart'" aria-hidden="true">
@@ -164,43 +143,28 @@
 			<section class="modal fade" id="application-modal">
 			    <div class="modal-dialog modal-lg modal-dialog-centered">
 			        <div class="modal-content shadow-lg">
-			
-			            <!-- Modal Header -->
 			            <div class="modal-header">
 			                <button type="button" class="close" data-dismiss="modal">&times;</button>
 			            </div>
 			
-						<!-- Modal body -->
 						<div class="modal-body row">
 						    <div class="modal-left col-md-6">
 						        <img class="card-img-top rounded-circle shadow" 
 						 	       th:src="@{/static/codesquareDB/default/default_user_image4.jpg}" alt="image">
-						        <h4	th:text="${group.id}"></h4>
-						        <div id="modal-group-detail-Grid">
-						        	<span>언어</span>
-						        	<span th:text="${group.tagId}"></span>
+						        <h4	th:text="${board.nickName}"></h4>
+						        <div id="modal-seminar-detail-Grid">
 						        	<span>지역</span>
-						        	<span th:text="${#strings.replace(group.localeId,'_' ,' ')}"></span>
-						        	<span>일정</span>
-									<span class="group-meeting">
-										<th:block th:with="meetingDate = ${ #strings.arraySplit( group.meetingDate, ',' ) }">
-											<span class="tag-meetingDate" th:each=" item : ${ meetingDate }" th:text="|${item}요일|"></span>
-										</th:block>
-									</span>
+						        	<span th:text="${#strings.replace(seminar.localeid,'_' ,' ')}"></span>
+						        	<span>시작일</span>
+									<span th:text="${#temporals.format(seminar.seminarstartdate,'YY년 M월 dd일  (EE)')}"></span>
+									<span>시간</span>
+									<span th:text="${#temporals.format(seminar.seminarstartdate,'a HH시 mm분')}"></span>
 						        </div>
 						    </div>
 						    <div class="modal-right col-md-6">
 						    	<h3>신청양식</h3>
 						    	<small>양식을 모두 작성하여 신청해 주세요.</small>
-						    	<form id="applicationform" name="applicationform" action="/studyWanted/submit">
- 						    		<th:block th:each=" item, index : ${question}">
-						    			<input class="form-key" th:name="|map${index.count}|" type="hidden" th:value="${item}">
-							    		<input class="form-value" th:name="|map${index.count}|" th:placeholder="${item}" type="text">
-						    		</th:block>
-						    	
-					    			
-					    			
-					    			<!-- 신청 meassage는 default-->
+						    	<form id="applicationform" name="applicationform" action="/seminarWanted/submit">
 					    			<input class="form-key" type="hidden" name="map0" value="신청메세지">
 							    	<input class="form-value" type="text" name="map0" placeholder="신청메세지">
 						    	</form>
@@ -255,8 +219,8 @@
 	<!-- END content -->
 
 <th:block layout:fragment="script">
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 	<script type="text/javascript" th:inline="javascript" th:src="@{/static/js/study/studyWantedView.js}"></script>
+	<script type="text/javascript" th:inline="javascript" th:src="@{/static/js/seminar/seminarWantedView.js}"></script>
 </th:block>
 
 </body>

@@ -8,22 +8,18 @@
 	</select>
 	
 	<select id="getBoardView" resultType="Board">
-		SELECT  * FROM Board_view WHERE BoardName IN(#{boardName}) AND Id=#{boardId}
+		SELECT  * FROM Board_view_addProfilePath WHERE BoardName IN(#{boardName}) AND Id=#{boardId}
 	</select>
 	
 	<select id="getBoardKind" resultType='BoardKind'>	
-	
 		SELECT bk.*, bk2.BoardNameEn AS MainSubjectName FROM BoardKind bk
 		INNER JOIN BoardKind AS bk2 ON RIGHT(bk2.Id,3) = LEFT(bk.Id,3)
 		WHERE bk.BoardNameEn=#{BoardNameEn}
 	</select>
 	
 	<insert id="addBookmark" parameterType="java.util.Map">
-		<selectKey keyProperty="id" resultType="String" order="AFTER">
-			SELECT LAST_INSERT_ID()
-		</selectKey>
 		INSERT INTO BookmarkList (UserId, BoardId)
-		VALUES ('cksdud', #{boardId})
+		VALUES ( #{userId}, #{boardId} )
 	</insert>
 	
 	<select id="getBookmarkId" resultType="String">
@@ -45,6 +41,10 @@
 	<delete id="deleteStudyWantedBoard">
 		DELETE FROM Board WHERE #{boardId}
 	</delete>
+	
+	<update id="updateBoardStatus">
+		UPDATE Board SET Status=#{status} WHERE Id=#{boardId}
+	</update>
 	
 	
 </mapper>
