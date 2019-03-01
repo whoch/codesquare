@@ -67,25 +67,23 @@ main {
     padding-bottom: 50px;
 }
 
-#bookmark-contentTab {
-    padding: 10px 40px 0;
+#bookmark-contentTab ,
+.custom-tab-content {
+    padding: 15px 40px 0;
+    height: 520px;
 }
 
-#bookmark-contentTab .custom-tab .tab-content {
-	height: 500px;
-	 padding-top: 10px;
-}
-
-#bookmark-contentTab .card {
+#bookmark-contentTab .card,
+.custom-tab-content .card {
     border: none;
-    border-bottom: 1px solid rgba(0,0,0,.14);
+    border-bottom: 1px solid rgba(0,0,0,.14) !important;
     box-shadow: none;
     border-radius: 0;
 }
 
-#bookmark-contentTab .title,
-#bookmark-contentTab .writeDate {
-    color : #4e4e4e;
+.card-header .title,
+.card-header .writeDate {
+    color : #4e4e4e !important;
 
 }
 
@@ -93,17 +91,29 @@ main {
 	margin: 30px 0px;
 }
 
-.custom-tab .nav-pills.nav-custom-tabs .nav-link.active {
+.nav-pills.nav-custom-tabs .nav-item {
+	z-index: 1;
+}
+
+.nav-pills.nav-custom-tabs .nav-link {
+    padding: 30px 20px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.nav-pills.nav-custom-tabs .nav-link.active {
 	background-color : #fff;
+	font-weight: bold;
 }
 
 .custom-tab .nav-pills.nav-custom-tabs {
 	padding: 0px;
 	margin: 0;
-	border-right: 1px solid rgba(0,0,0,.125);
+    text-align: center;
 }
+
 .custom-tab .nav-pills.nav-custom-tabs .nav-item {
-	margin-right: -1px;
+	margin-right: 0;
 	margin-bottom: -1px;
 }
 .custom-tab .nav-pills.nav-custom-tabs a {
@@ -119,8 +129,10 @@ main {
 	color : #4B0082;
 }
 .custom-tab .nav-pills.nav-custom-tabs .nav-link:not(.active) {
-	background-color : #fff;
-	border-right: 1px solid rgba(0,0,0,.125);
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px #d6d2cf6b;
+    background: linear-gradient(60deg, #D6D2CF, #cfcbc9);
+    color: white;
+    border-color: rgba(0,0,0,.125);
 }
 
 /* nav-tabs custom CSS END */
@@ -289,11 +301,11 @@ main {
   .big-card .card-header .card-category {
     display: inline-block;
     padding: 15px 25px;
-    background: linear-gradient(60deg, #ab9fbb, #8B7D9F);
     color: #fff;
     font-size: 17px;
     border-radius: 3px;
-    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 8px 20px -3px #8b7d9f66;
+    background: linear-gradient(60deg, #ccc9c7, #c8c1bc);
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px #d6d2cfa6;
  }
 
 .big-card .card-header {
@@ -359,9 +371,10 @@ main {
 
   .grpWkGrid {
      display: grid;
-     grid-template-columns: 30% 50% 20%;
-     padding: 5px 0px;
+     grid-template-columns: 30% 55% 15%;
      text-align: left;
+     padding-left: 20px;
+     padding-right: 20px;
  }
 
  
@@ -396,9 +409,6 @@ main {
 	cursor: pointer;
  }
  
-.accordion.acc-custom .card-header {
-	padding: 5px 20px;
-}
 
 
   /**********
@@ -493,13 +503,14 @@ main {
 }
 
 .btn-deepPurple {
-	border-radius: 23px;
-    padding: 8px 30px;
     display: table;
+    margin: auto;
+    padding: 8px 30px;
     text-align: center;
     color: #f3f3f3;
     background-color: #4B0082;
     border-color: #4B0082;
+	border-radius: 23px;
     cursor: pointer;
 }
 
@@ -509,19 +520,34 @@ main {
     border-color: #402058;
 }
 
-#bookmark-accordion .card-header {
+#bookmark-accordion .card-header ,
+.custom-tab-content .card-header {
     padding : 18px 0;
 }
 
-#bookmark-accordion .card-body {
+#bookmark-accordion .card-body ,
+#accorionGroupWork .card-body {
     padding-left: 165px;
     padding-top: 0;
     padding-bottom: 0;
     margin-top: 15px;
 }
 
+
+#bookmark-accordion .card-footer,
+#accorionGroupWork .card-footer {
+    border-top: none;
+    padding: 30px 0 45px;
+}
+
+#bookmark-accordion .card-footer a,
+#accorionGroupWork .card-footer a {
+    color: white;
+    text-decoration: none;
+}
+
 .card-body .bookmark-content {
-    max-height:100px; 
+    max-height: 75px; 
     display:-webkit-box;
     -webkit-line-clamp:3;
     -webkit-box-orient:vertical;
@@ -531,7 +557,8 @@ main {
 }
 
 .card-body .bookmark-content *,
-.card-body .bookmark-content {
+.card-body .bookmark-content ,
+#accorionGroupWork .card-body {
     margin-bottom: 0.1rem !important;
     color: #4e4e4e !important;
     font-family: 'Noto Sans KR' !important;
@@ -543,5 +570,14 @@ main {
 .bookmarkGrid i {
     margin: auto;
     font-size: 22px;
+    color : #A7212A;
 }
 
+#accorionGroupWork {
+	padding : 15px 55px 0;
+	
+}
+
+#accorionGroupWork a {
+	color: #552796;
+}

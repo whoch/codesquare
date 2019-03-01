@@ -6,9 +6,9 @@ body {
 
 main {
 	position: fixed;
-	padding-left: 20px;
-	background: white;
-	margin-right: 7%;
+	background: #fff;
+    margin-left: 4%;
+    margin-right: 6%;
 	
 }
 #wrapper {
@@ -84,14 +84,14 @@ main {
 
 .sidebar {
     position: fixed;
-    margin-left: 3%;
-    padding: 0 90px;
-    background: #fff;
     z-index: 1;
     height: auto;
-    /* margin-bottom: 100px; */
-    padding-bottom: 50px;
+    background: #fff;
+    margin-top: 15px;
+    margin-left: 3%;
+    padding: 0 90px;
     padding-top: 18px;
+    padding-bottom: 50px;
 }
 
 .rowCustom {

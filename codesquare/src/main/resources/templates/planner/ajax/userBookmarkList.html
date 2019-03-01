@@ -1,5 +1,4 @@
 <!-- 왼쪽 Nav tabs 부분 -->
-
 <ul class="nav nav-pills nav-custom-tabs flex-column col-md-1">
     <li class="nav-item" th:each="category,index : ${bookmarkKind}">
         <a th:class="|nav-link${index.first?' active':''}|" data-toggle="pill" th:href="|#${category.category}|" th:text="${category.boardName}"></a>
@@ -25,10 +24,14 @@
 	              <div th:id="|content_*{category.category}_*{list.boardId}|"
 	                  th:class="|collapse${status.first?' show':''}|"
 	                  th:aria-labelledby="|board_*{category.category}_*{list.boardId}|" data-parent="#bookmark-contentTab">
-	                  <div class="card-body row" >
-						<div class="col-md-10 bookmark-content" th:utext="*{list.content}"></div>
-						<div class="col-md-2 btn-deepPurple shadow">바로가기</div>
+	                  <div class="card-body" >
+						<div class="bookmark-content" th:utext="*{list.content}"></div>
 	                  </div>
+	                  <div class="card-footer">
+						<div class="btn-deepPurple shadow">
+							<a th:href="@{'/go/{boardId}'(boardId=*{list.boardId})}">+해당글 바로가기</a>
+						</div>
+					  </div>
 	              </div>
 	          </div>
 	      </div>

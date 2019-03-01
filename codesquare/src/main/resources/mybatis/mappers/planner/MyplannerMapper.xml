@@ -16,7 +16,7 @@
 		FROM BookmarkList bl 
 		INNER JOIN Board bo ON bl.BoardId=bo.Id
 		INNER JOIN BoardKind bk ON bk.Id = bo.BoardKindId
-		WHERE bl.UserId=#{userId} ORDER BY BoardId DESC
+		WHERE bl.UserId=#{userId} ORDER BY WriteDate DESC
 	</select>
 	
 	<select id="getUserBookmarkKinds" resultType="UserBookmarkCatecory">

@@ -206,12 +206,12 @@ var loadBookmark = function() {
     	<input id="NICKNAME" type="hidden" th:value="${session.nickName}">
     	
         <!-- START GROUP-WORK -->
-        <div class="accordion acc-custom rowCustom" id="accorionGroupWork">
-            <p class="card-category">그룹 과제 목록</p>
+        <p class="card-category" style="margin-top:50px">그룹 과제 목록</p>
+        <div class="accordion custom-tab-content shadow" id="accorionGroupWork">
             <div class="card" th:each=" list, status : ${groupWorkList}">
                 <div class="card-header" th:id="|heading${status.index}|">
                     <div class="mb-0 grpWkGrid">
-                        <a th:text="${list.groupId}" href="#"></a> <a th:class="${status.first?'':' collapsed'}"
+                        <a th:text="${list.groupId}" href="#"></a> <a th:class="|title${status.first?'':' collapsed'}|"
                             data-toggle="collapse" th:data-target="|#grpWk${list.id}|" aria-expanded="true"
                             th:aria-controls="'grpWk'+${list.id}" th:text="${list.title}"> </a> <span class="writeDate"
                             th:text="${list.writeDateFormat}"></span>
@@ -220,15 +220,20 @@ var loadBookmark = function() {
                 <div th:id="|grpWk${list.id}|" th:class="|collapse${status.first?' show':''}|"
                     th:aria-labelledby="|heading${status.index}|" data-parent="#accorionGroupWork">
                     <div class="card-body" th:text="${list.content}"></div>
+	     	      <div class="card-footer">
+<!-- 					<div class="btn-deepPurple shadow">
+						<a href="#">+해당글 바로가기</a>
+					</div> -->
+				  </div>
                 </div>
             </div>
         </div>
         <!-- END GROUP-WORK -->
 
-
-
+        <p class="card-category rowCustom">나의 찜 목록</p>
         <!-- START BOOK-MARK List -->
-        <div id="bookmarkList" class="row rowCustom custom-tab">
+        <div id="bookmarkList" class="row custom-tab">
+
 						<!-- *********************
 								이 부분은 Ajax로 로드 됨 
 							 *********************  -->
