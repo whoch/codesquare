@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.codesquare.mapper.planner.MyplannerMapper">
-<!-- UserId는 임시로 'cksdud'으로 출력중 -->
 
 	<select id="getGroupWorkList" resultType="UserGroupWorkList">
 		SELECT b.Id, b.GroupId, b.Title, b.Content, b.WriteDate FROM GroupMemberInfo g 
 		INNER JOIN Board b ON b.BoardKindId='GrpWk' AND g.GroupId=b.GroupId
-		WHERE g.UserId='cksdud' ORDER BY b.WriteDate DESC LIMIT 10
+		WHERE g.UserId=#{userId} ORDER BY b.WriteDate DESC LIMIT 10
 	</select>
-	
 	
 	
 	
@@ -18,7 +16,7 @@
 		FROM BookmarkList bl 
 		INNER JOIN Board bo ON bl.BoardId=bo.Id
 		INNER JOIN BoardKind bk ON bk.Id = bo.BoardKindId
-		WHERE bl.UserId='cksdud' ORDER BY Id DESC
+		WHERE bl.UserId=#{userId} ORDER BY BoardId DESC
 	</select>
 	
 	<select id="getUserBookmarkKinds" resultType="UserBookmarkCatecory">
@@ -28,20 +26,23 @@
 		FROM BookmarkList bl
 		INNER JOIN Board bo ON bl.BoardId=bo.Id
 		INNER JOIN BoardKind bk ON CONCAT("MS",LEFT(bo.BoardKindId,3))=bk.Id
-		WHERE bl.UserId='cksdud'
+		WHERE bl.UserId=#{userId}
 	</select>
 	
 	
-	<delete id="deleteUsingId" parameterType="java.util.Map">
+	<delete id="deleteBookmarkUsingId" parameterType="java.util.Map">
 		<![CDATA[
 			DELETE FROM ${boardKind} WHERE `Id`=#{id};
 		 ]]>
 	</delete>
 	
+	<update id="updateBookmarkDeleteCount">
+		UPDATE Board SET LikeCount = LikeCount -1 WHERE id=#{boardId}
+	</update>
 	
 	
 	<select id="getUserTodoList" resultType="UserTodoList">
-		SELECT id, UserId, Content, EndDate, Status FROM ToDoList WHERE `UserId`='cksdud'
+		SELECT id, UserId, Content, EndDate, Status FROM ToDoList WHERE `UserId`=#{userId}
 		ORDER BY Status DESC, EndDate DESC,  Id DESC
 	</select>
 	
@@ -49,7 +50,7 @@
 		<selectKey keyProperty="id" resultType="String" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
-		INSERT INTO ToDoList (`UserId`, `Content`) VALUES ('cksdud',#{content});
+		INSERT INTO ToDoList (`UserId`, `Content`) VALUES (#{userId},#{content});
 	</insert>
 	
 	<update id="updateTodo" parameterType="java.util.Map">
@@ -57,14 +58,14 @@
 	</update>
 	
 	<update id="updateTodoStatus" parameterType="java.util.Map">
-		UPDATE ToDoList SET Status=#{status} WHERE `UserId`='cksdud' AND `Id`=#{id}
+		UPDATE ToDoList SET Status=#{status} WHERE `UserId`=#{userId} AND `Id`=#{id}
 	</update>
 	
 	<select id="getRowNumTodo" resultType="java.lang.String">
 		<![CDATA[
 			SELECT Id
 			FROM ToDoList
-			WHERE `UserId`='cksdud'
+			WHERE `UserId`=#{userId}
 			ORDER BY Status DESC, EndDate DESC,  Id DESC
 		 ]]>
 	</select>

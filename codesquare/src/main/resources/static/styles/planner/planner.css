@@ -83,13 +83,15 @@ main {
 }
 
 .sidebar {
-	position: fixed;
-	margin-left: 7%;
-	background: white;
-	z-index: 1;
-	height: auto;
-	margin-bottom: 100px;
-	padding-bottom: 50px;
+    position: fixed;
+    margin-left: 3%;
+    padding: 0 90px;
+    background: #fff;
+    z-index: 1;
+    height: auto;
+    /* margin-bottom: 100px; */
+    padding-bottom: 50px;
+    padding-top: 18px;
 }
 
 .rowCustom {

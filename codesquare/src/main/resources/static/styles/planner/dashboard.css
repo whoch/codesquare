@@ -20,7 +20,12 @@
 /***********************
 1. All
 ***********************/
-
+body {
+	background-color: #f1f1f1
+}
+main {
+	background-color: #f1f1f1
+}
  .rowDash {
 	margin: 150px 0px;
 } 
@@ -31,6 +36,7 @@
 
 .custom-tab-content {
 	overflow:auto;
+    background-color: #fff;
 }
 
 .custom-tab-content li {
@@ -54,14 +60,33 @@
 }
 
 .custom-tab .tab-content {
-	height: 400px;
-	padding: 0px;
-	border : 1px solid rgba(0,0,0,.125);
-	border-left : none;
+    height: 400px;
+    padding-top: 0;
+    border: 1px solid rgba(0,0,0,.125);
+    border-left: none;
+    padding-bottom: 50px;
 }
 
-.custom-tab .custom-tab-content .tab-pane {
-	margin: 5px 0px;
+#bookmark-contentTab {
+    padding: 10px 40px 0;
+}
+
+#bookmark-contentTab .custom-tab .tab-content {
+	height: 500px;
+	 padding-top: 10px;
+}
+
+#bookmark-contentTab .card {
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,.14);
+    box-shadow: none;
+    border-radius: 0;
+}
+
+#bookmark-contentTab .title,
+#bookmark-contentTab .writeDate {
+    color : #4e4e4e;
+
 }
 
 .custom-tab .custom-tab-content .tab-pane .row {
@@ -69,7 +94,7 @@
 }
 
 .custom-tab .nav-pills.nav-custom-tabs .nav-link.active {
-	background-color : white;
+	background-color : #fff;
 }
 
 .custom-tab .nav-pills.nav-custom-tabs {
@@ -94,7 +119,7 @@
 	color : #4B0082;
 }
 .custom-tab .nav-pills.nav-custom-tabs .nav-link:not(.active) {
-	background-color : whitesmoke;
+	background-color : #fff;
 	border-right: 1px solid rgba(0,0,0,.125);
 }
 
@@ -162,6 +187,7 @@
 
  .card-header .card-title {
    margin-top: .75rem;
+   color : #4e4e4e;
  }
 
  .card-stats .card-header {
@@ -182,7 +208,7 @@
  .card-icon {
    border-radius: 3px;
    padding: 15px;
-   margin-top: -20px;
+   margin-top: -38px;
    margin-right: 15px;
    float: left;
    color: #fff;
@@ -223,33 +249,85 @@
    font-size: 14px;
  }
  
+
  
  
 /**********
 4. card-lecture
 ***********/
 
- .card-lecture .lecture-list {
-   display: grid;
-   grid-template-columns: auto auto auto auto auto auto;
-   border-top: 1px solid #eee;
-   margin: 0px 20px;
- }
- .lecture-list:first-of-type {
-	 border-top: 0px solid #eee;	
- }
 
+	
+ 
+
+  
+.card-lecture .lecture-list {
+	border-top: 1px solid #eee;
+	margin : 0 20px;
+	padding :10px 0;
+}
+
+.lecture-list:first-of-type {
+	border-top: 0px solid #eee;	
+}
+ 
+.card .card-header {
+	padding-top: 25px;
+	background: none;
+	border-bottom: none;
+}
+ 
+
+
+.card-lecture .card-body {
+    padding: 0 1.25rem 1.7rem;
+}
  .card-lecture .card-body p {
    margin-bottom: 8px;
  }
+ 
+  .big-card .card-header .card-category {
+    display: inline-block;
+    padding: 15px 25px;
+    background: linear-gradient(60deg, #ab9fbb, #8B7D9F);
+    color: #fff;
+    font-size: 17px;
+    border-radius: 3px;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 8px 20px -3px #8b7d9f66;
+ }
 
- .lecture-description,
- .lecture-progress {
-   grid-column: span 3;
+.big-card .card-header {
+	padding-top: 0px;
+	margin-top: -12px;
+	padding-bottom: 18px;
+	background: none;
+	border-bottom: none;
+}
+
+
+ .lecture-description{
    padding: 10px 0px;
  }
  
+ .lecture-progress {
+     display: inline-grid;
+     padding: 10px 0px;
+ }
  
+ .lecture-progress p {
+     margin: auto 0;
+ }
+.lecture-description H5 {
+	color: #4B0082;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+	
+.lecture-description .introContent {
+    color: #4e4e4e;
+	padding: 5px 50px 0 10px;
+    font-size : smaller;
+}
  
  
 /**********
@@ -289,8 +367,10 @@
  
  .bookmarkGrid {
      display: grid;
-     grid-template-columns: 20% 50% 5% 15% 5% 5%;
+     grid-template-columns: 17% 60% 6% 12% 5%;
      cursor: pointer;
+     padding-left: 20px;
+     padding-right: 20px;
  }
  
  .todoGrid {
@@ -408,12 +488,60 @@
   text-decoration: line-through;
 }
 
+.card-icon .groupsImage{
+    width: 56px;
+}
 
+.btn-deepPurple {
+	border-radius: 23px;
+    padding: 8px 30px;
+    display: table;
+    text-align: center;
+    color: #f3f3f3;
+    background-color: #4B0082;
+    border-color: #4B0082;
+    cursor: pointer;
+}
 
+.btn-deepPurple:hover {
+	color: #f3f3f3;
+    background-color: #402058;
+    border-color: #402058;
+}
 
+#bookmark-accordion .card-header {
+    padding : 18px 0;
+}
 
+#bookmark-accordion .card-body {
+    padding-left: 165px;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 15px;
+}
 
+.card-body .bookmark-content {
+    max-height:100px; 
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    padding-right: 50px;
+}
 
+.card-body .bookmark-content *,
+.card-body .bookmark-content {
+    margin-bottom: 0.1rem !important;
+    color: #4e4e4e !important;
+    font-family: 'Noto Sans KR' !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+}
 
-
+.bookmarkGrid i {
+    margin: auto;
+    font-size: 22px;
+}
 
