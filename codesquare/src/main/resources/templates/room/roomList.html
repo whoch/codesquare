@@ -71,7 +71,7 @@
 
   $(function () {
 	    $(window).scroll(function () { //브라우저에 스크롤이 발생하는 순간부터
-	        var curpos = $(window).scrollTop()+50; //스크롤바의 상단 위치값+20 보관
+	        var curpos = $(window).scrollTop(); //스크롤바의 상단 위치값+20 보관
 	        $("#sky").stop().animate({"top":curpos}); //스카이메뉴의 상단위치값 애니
 	    });
 	});
@@ -90,23 +90,7 @@
 		  }
 	});
 });
-  
-/*   $(function() {
-		$("#reserveRoomBtn").click(function() {
-		 var userId=$("#userId").val();
-		 var p = document.box;
-		if (userId!=null) {
-			$("#box").submit();
-			if (p.person.value=="선택")
-				alert("인원수를 선택해주세요.");
-				return $("#box").submit();
-		}else {
-			$("#myModal").modal();
-			/* location.href="/member/login"; */
-/* 		}
-	});
-});
- */
+
 </script>
 
 <style>
@@ -165,6 +149,7 @@ select {
 	<div class="container" layout:fragment="content">
 		<div><!-- 지우면 사진 크기 줄어듬 -->
 <form action="/reserve"  id="box" name="box">
+<input type="hidden" name="userId" th:value="${session.userId}">
 <div id="sky">
 			<label style="font-size: 30px">공간선택 </label>&nbsp;&nbsp;
 			<span sec:authorize="isAnonymous()">

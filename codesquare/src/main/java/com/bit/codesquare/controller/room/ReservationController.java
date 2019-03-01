@@ -79,10 +79,9 @@ public class ReservationController {
 	public String reserve(HttpServletRequest request, Model model, @ModelAttribute Reservation reservation) throws Exception {
 //		int no = Integer.parseInt(request.getParameter("no"));
 		Logger.info("하기전:"+reservation.getNo());
-
 		reservationMapper.insert(reservation);
 		reservationMapper.enddate(reservation.getNo());
-
+		reservationMapper.reservedate(reservation.getNo());
 		Logger.info("와야됨:"+reservation.getNo());
 		return "redirect:companyList";
 	}
@@ -97,39 +96,5 @@ public class ReservationController {
 		return reservationMapper.getReserve(data);
 	}
 }
-
-//	@RequestMapping("/roomView")
-//	public String roomView(Model model, String id) throws Exception {
-//		model.addAttribute("list", roomMapper.getroom(id));
-//		return "room/roomView";
-//	}
-
-//	@RequestMapping("/getid")
-//	public String getid(Model model, String companyid) throws Exception {
-//		model.addAttribute("list", roomMapper.getid(companyid));
-//		licList=roomMapper.getAllRoom();
-//		for(Room l: licList) {
-//			String thumbPath=path;
-//			thumbPath+=l.getId()+"/Thumbnail."+l.getExtension();
-//			System.out.println(thumbPath);
-//			l.setThumbnailPath(thumbPath);
-//		}
-//		return "roomList";
-//	}
-
-//	@RequestMapping("/roomList")
-//	public String getAllRoom(Model model) throws Exception {
-//		
-//		List<Room> licList = new ArrayList<Room>();
-//		
-//		model.addAttribute("list", roomMapper.getAllRoom());
-//		licList=roomMapper.getAllRoom();
-//		for(Room l: licList) {
-//			String thumbPath=path;
-//			thumbPath+="/Thumbnail."+l.getExtension();
-//			l.setThumbnailPath(thumbPath);
-//		}
-//		return "roomList";
-//	}
 	
 

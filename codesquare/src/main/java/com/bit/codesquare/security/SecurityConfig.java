@@ -1,5 +1,6 @@
 package com.bit.codesquare.security;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anonymous() //로그인 안한 사람만
 				.antMatchers("/admin").hasRole("3")
 				.antMatchers("/member/modifyInstructorInfo").hasRole("2") // 특정 권한 지정
-				.antMatchers("/logout","/loadBookmark").authenticated() // 로그인 하면 다 가능
+				.antMatchers("/logout","/loadBookmark","/dashboard").authenticated() // 로그인 하면 다 가능
 //				.and()
 //				.oauth2Login()
 
