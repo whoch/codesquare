@@ -3,9 +3,9 @@
 <mapper namespace="com.bit.codesquare.mapper.room.ReservationMapper">
 
 <insert id="insert" parameterType="Reservation">
-		INSERT INTO codesquare.ReservationInfo
-		(RoomId, BoardId, UserId, ReservationDate, PayAmount, ReservationTime, UseTime, Person, EndDate) 
-		values (#{roomid}, null, #{userId}, #{reservationdate}, #{payamount}, #{reservationtime}, #{usetime}, #{person}, #{enddate})
+INSERT INTO codesquare.ReservationInfo
+		(RoomId, UserId, ReservationDate, PayAmount, ReservationTime, UseTime, Person, EndDate) 
+		values (#{roomid}, #{userId}, #{reservationdate}, #{payamount}, #{reservationtime}, #{usetime}, #{person}, #{enddate})
 <selectKey resultType="int" keyProperty="no" order="AFTER">
 	SELECT LAST_INSERT_ID()
 </selectKey>
@@ -13,6 +13,10 @@
 
 <update id="enddate" parameterType="Reservation">
 		UPDATE codesquare.ReservationInfo SET ENDDATE=DATE_ADD(RESERVATIONDATE, INTERVAL (RESERVATIONTIME + USETIME) HOUR) WHERE NO=#{NO}
+</update>
+
+<update id="reservedate" parameterType="Reservation">
+		UPDATE codesquare.ReservationInfo SET GoDate=DATE_ADD(RESERVATIONDATE, INTERVAL (RESERVATIONTIME) HOUR) WHERE NO=#{NO}
 </update>
 
 <select id="getReserve" parameterType="java.util.Map" resultType="Reservation">

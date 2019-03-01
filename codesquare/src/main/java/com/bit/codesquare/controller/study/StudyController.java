@@ -25,7 +25,7 @@ import com.bit.codesquare.mapper.study.StudyMapper;
 import com.bit.codesquare.util.CodesquareUtil;
 
 
-@Controller
+//@Controller
 public class StudyController {
 	
 	@Autowired
