@@ -60,7 +60,7 @@
 		WHERE Id=#{groupId}
 	</update>
 	
-	<!-- 모집글 거절 및 거절 메세지 작성 -->
+	<!-- 해당 모집글의 신청 일괄 거절 및 거절 메세지 작성 -->
 	<update id="setDeclineContentUseBoardId" parameterType="java.util.Map">
 		UPDATE JoiningAndRecruitmentLog 
 		SET `Status`='거절', DeclineContent=#{declineContent}

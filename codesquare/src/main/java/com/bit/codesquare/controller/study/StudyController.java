@@ -100,16 +100,11 @@ public class StudyController {
 	@ResponseBody
 	public void clickBookmark(@RequestBody Map<String, String> data) {
 		boolean status = Boolean.parseBoolean(data.get("status"));
-
-		logger.info("##test" + data.toString());
-		logger.info("##test" + status );
-		
 		if(status) {
 			studyMapper.addBookmark(data);
 		}else {
 			studyMapper.deleteBookmark(data);
 		}
-
 	}
 	
 	
@@ -118,7 +113,6 @@ public class StudyController {
 	public String getWriteView(Model model, Authentication auth) {
 		String userId = auth.getName();
 		model.addAttribute("group", groupMapper.getGroupInfoUserLeader(userId));
-		logger.info(groupMapper.getGroupInfoUserLeader(userId).toString() + "##tests");
 		return "study/studyWantedWriteView";
 	}
 
@@ -137,7 +131,6 @@ public class StudyController {
 			groupMapper.updateWantedInfo(data);
 		}
 		
-		logger.info("##test : " + board.toString());
 		return  "/studyWanted/"+board.getId();
 	}
 	
@@ -158,9 +151,10 @@ public class StudyController {
 	@PostMapping("/studyWanted/wantedClose")
 	@ResponseBody
 	public String wantedClose(@RequestBody Map<String, String> data) {
+		logger.info("##test : " + data.toString());
 		studyMapper.updateBoardStatus(data);
 		groupMapper.updateGroupRecruitmentCount(data.get("groupId"), 0);
-		groupMapper.setDeclineContentUseBoardId(data.get("boardId"), "해당 모집글이 마감 되었습니다.");
+		groupMapper.setDeclineContentUseBoardId(data);
 		return "END";
 	}
 	

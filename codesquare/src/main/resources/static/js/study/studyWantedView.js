@@ -77,31 +77,33 @@ $(function(){
 	var statusButtonView = function( status ){
 		$('#status-button div:visible').hide()
 		$('.'+status).show();
-	}
+	}//상태에 따른 버튼 보기
 	
 	var wantedClose = function(){
 		var data = {
 				status	: 0,
 				boardId : $('#BOARD_ID').val(),
-				groupId : $('#GROUP_ID').val()
+				groupId : $('#GROUP_ID').val(),
+				declineContent : $('#declineContent').val()
 		}
 		$.ajax({
 			type:'POST',
-			url:'/studyWanted/boardClose',
+			url:'/studyWanted/wantedClose',
 			data : JSON.stringify(data),
 			contentType:'application/json; charset=UTF-8',
 			success: function (response) {
 					statusButtonView(response);
 					$('#recruitmentCount').remove();
+					$('#boardClosed-modal').modal('hide');
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                  console.log('##### submit wantedWrite : Ajax ERROR #####');
+                  console.log('##### submit wantedClose : Ajax ERROR #####');
                   console.log('jqXHR.status : ' + jqXHR.status);
             }
 	 	});//ajax
 	}//모집글 마감
 	
-	$('#submitClose').on('click',wantedClose);
+	$('#submitClose').on('click', wantedClose);
 	$('div[id$="wait-button"]').on('click',applyCancel);
 		
 	$(window).on('beforeunload', function(){

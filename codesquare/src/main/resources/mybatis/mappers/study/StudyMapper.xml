@@ -9,7 +9,7 @@
 		SELECT  * FROM Board_view_addProfilePath WHERE BoardName IN(#{boardName}) AND Id=#{boardId}
 	</select>
 	
-	<select id="getBoardKind" resultType='BoardKind'>	
+	<select id="getBoardKind" resultType="BoardKind">	
 		SELECT bk.*, bk2.BoardNameEn AS MainSubjectName FROM BoardKind bk
 		INNER JOIN BoardKind AS bk2 ON RIGHT(bk2.Id,3) = LEFT(bk.Id,3)
 		WHERE bk.BoardNameEn=#{BoardNameEn}

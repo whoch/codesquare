@@ -27,7 +27,7 @@ public interface GroupMapper {
 	public int insertStudyJoining(JoiningAndRecruitmentLog data);
 	public void cancelApplication(Map<String, String> data);
 	public void updateGroupRecruitmentCount(String groupId, int recruitmentCount);
-	public void setDeclineContentUseBoardId(String boardId, String declineContent);
+	public void setDeclineContentUseBoardId(Map<String, String> data);
 	
 
 }
