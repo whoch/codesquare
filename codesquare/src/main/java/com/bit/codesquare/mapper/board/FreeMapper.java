@@ -15,7 +15,7 @@ public interface FreeMapper {
 	public List<Board> getfree(@Param("cri") Criteria cri, String keyword, String searchOption, String boardKindId) throws Exception;
 	int countPaging(@Param("cri") Criteria cri, String keyword, String searchOption, String boardKindId);
 	public List<Board> getkind() throws Exception;
-	Board getid(int id) throws Exception;
+	Board getid(int id);
 	void insert(Board board) throws Exception;
 	void updateCount(int id) throws Exception;
 	void delete(int id) throws Exception;

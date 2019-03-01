@@ -2,6 +2,8 @@ package com.bit.codesquare.controller.study;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,19 +14,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.group.GroupInfo;
 import com.bit.codesquare.dto.group.WriteWantedBoard;
 import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
+import com.bit.codesquare.mapper.board.FreeMapper;
 import com.bit.codesquare.mapper.group.GroupMapper;
 import com.bit.codesquare.mapper.study.StudyMapper;
 import com.bit.codesquare.util.CodesquareUtil;
 
 
-//@Controller
+@Controller
 public class StudyController {
 	
 	@Autowired
@@ -35,6 +37,9 @@ public class StudyController {
 	
 	@Autowired
 	CodesquareUtil util;
+	
+	@Autowired
+	FreeMapper freeMapper;
 	
 	Logger logger = LoggerFactory.getLogger(StudyController.class);
 	
@@ -51,8 +56,7 @@ public class StudyController {
 	
 	//게시판 상세보기로 이동
 	@RequestMapping(value = "/studyWanted/{boardId}")
-	public String getBoardView(@PathVariable("boardId") int boardId, Model model) {
-		
+	public String getBoardView(@PathVariable("boardId") int boardId, Model model, HttpServletRequest request) throws Exception {
 		GroupInfo group = groupMapper.getGroupInfoUseBoardId(boardId);
 		Board board = studyMapper.getBoardView("스터디모집", boardId);
 		if( !group.getApplicationForm().isEmpty() ) {
@@ -74,7 +78,7 @@ public class StudyController {
 		}else {
 			statusOfTheUser="ING";
 		}
-		
+		freeMapper.updateCount(boardId);
 		model.addAttribute("group", group);
 		model.addAttribute("board", board );
 		model.addAttribute("bookmarkId", studyMapper.getBookmarkId(boardId));
