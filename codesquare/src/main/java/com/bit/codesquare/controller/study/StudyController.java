@@ -25,7 +25,7 @@ import com.bit.codesquare.mapper.study.StudyMapper;
 import com.bit.codesquare.util.CodesquareUtil;
 
 
-//@Controller
+@Controller
 public class StudyController {
 	
 	@Autowired
@@ -100,6 +100,8 @@ public class StudyController {
 	@ResponseBody
 	public void clickBookmark(@RequestBody Map<String, String> data) {
 		boolean status = Boolean.parseBoolean(data.get("status"));
+		logger.info("#test : "+data.toString());
+		studyMapper.updateBoardLikeCount(data);
 		if(status) {
 			studyMapper.addBookmark(data);
 		}else {

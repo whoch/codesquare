@@ -10,6 +10,7 @@ $(function(){
 	$('#bookmark-button').click(function(e) {
          $(this).toggleClass('checked').children('i').toggleClass('fas far');
          $(this).find('span').text( $('#bookmark-button i').hasClass('far') ?'찜하기':'찜취소');
+         $('#likeCount').text(  parseInt($('#likeCount').text())+($('#bookmark-button i').hasClass('far')?-1:1)   );
          status_change = !status_change;
 	});//북마크 클릭 이벤트 끝
 	
@@ -110,8 +111,9 @@ $(function(){
 		if( status_change ){
 			var data = {
 		 			boardId : $('#BOARD_ID').val(),
+		 			userId : $('#USER_ID').val(),
 		 			status : !initial_bookmark_status,
-		 			userId : $('#USER_ID').val()
+		 			likeCount : $('#likeCount').text()
 			} 
 			
 			 $.ajax({

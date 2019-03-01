@@ -44,5 +44,8 @@
 		UPDATE Board SET Status=#{status} WHERE Id=#{boardId}
 	</update>
 	
+	<update id="updateBoardLikeCount">
+		UPDATE Board SET LikeCount=#{likeCount} WHERE Id=#{boardId}
+	</update>
 	
 </mapper>

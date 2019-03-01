@@ -21,5 +21,6 @@ public interface StudyMapper {
 	public void writeStudyWantedBoard(Board board);
 	public void deleteStudyWantedBoard(int boardId);
 	public void updateBoardStatus(Map<String, String> data);
+	public void updateBoardLikeCount(Map<String, String> data);
 	
 }
