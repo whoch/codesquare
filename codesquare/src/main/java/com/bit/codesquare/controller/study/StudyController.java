@@ -53,41 +53,44 @@ public class StudyController {
 	//게시판 상세보기로 이동
 	@RequestMapping(value = "/studyWanted/{boardId}")
 	public String getBoardView(@PathVariable("boardId") int boardId, Model model, Authentication auth) {
-		
 		GroupInfo group = groupMapper.getGroupInfoUseBoardId(boardId);
 		Board board = studyMapper.getBoardView("스터디모집", boardId);
-		String userId = auth.getName();
-		String applyStatus = groupMapper.getApplyingStatus(boardId, userId);
-		Integer joinningGroupAuthorId = groupMapper.getJoinningGroupInfo(userId, group.getId(), "AuthorId");
-		String statusOfTheUser;
-		
 		
 		if( !group.getApplicationForm().isEmpty() ) {
 			BasicJsonParser jsonParser = new BasicJsonParser();
 			model.addAttribute("question", jsonParser.parseList(group.getApplicationForm()));
 		}
 
-		
-		if(board.getStatus()==0) {
-			statusOfTheUser="END";
-		}else if( joinningGroupAuthorId!=null && joinningGroupAuthorId == 5) {
-			statusOfTheUser="CLOSE";
-		}else if( joinningGroupAuthorId!=null && joinningGroupAuthorId == 4) {
-			statusOfTheUser="IN";
-		}else if( applyStatus!=null && applyStatus.equals("") ){
-			statusOfTheUser="WAIT";
-		}else {
-			statusOfTheUser="ING";
+		String statusOfTheUser;
+
+		try{
+			String userId = auth.getName();
+			String applyStatus = groupMapper.getApplyingStatus(boardId, userId);
+			Integer joinningGroupAuthorId = groupMapper.getJoinningGroupInfo(userId, group.getId(), "AuthorId");
+			
+			if(board.getStatus()==0) {
+				statusOfTheUser="END";
+			}else if( joinningGroupAuthorId!=null && joinningGroupAuthorId == 5) {
+				statusOfTheUser="CLOSE";
+			}else if( joinningGroupAuthorId!=null && joinningGroupAuthorId == 4) {
+				statusOfTheUser="IN";
+			}else if( applyStatus!=null && applyStatus.equals("") ){
+				statusOfTheUser="WAIT";
+			}else {
+				statusOfTheUser="ING";
+			}
+			model.addAttribute("bookmarkId", studyMapper.getBookmarkId(boardId, userId));
+		}catch (Exception e) {
+			if(board.getStatus()==0) {
+				statusOfTheUser="END";
+			}else {
+				statusOfTheUser="ING";
+			}
 		}
 		
+		model.addAttribute("status", statusOfTheUser);
 		model.addAttribute("group", group);
 		model.addAttribute("board", CodesquareUtil.setDateTimeCompare(board));
-		model.addAttribute("status", statusOfTheUser);
-		model.addAttribute("bookmarkId", studyMapper.getBookmarkId(boardId));
-		
-		logger.info("------------ ## userId: "+userId+"------------------");
-		logger.info("이 그룹에 신청한 상태 : " + applyStatus);
-		logger.info("이 그룹에 가입한 상태 : " + joinningGroupAuthorId);
 		return "study/studyWantedView";
 	}
 
@@ -97,11 +100,16 @@ public class StudyController {
 	@ResponseBody
 	public void clickBookmark(@RequestBody Map<String, String> data) {
 		boolean status = Boolean.parseBoolean(data.get("status"));
+
+		logger.info("##test" + data.toString());
+		logger.info("##test" + status );
+		
 		if(status) {
 			studyMapper.addBookmark(data);
 		}else {
 			studyMapper.deleteBookmark(data);
 		}
+
 	}
 	
 	
@@ -128,6 +136,8 @@ public class StudyController {
 		if(!board.getGroupId().equals("그룹없음")) {
 			groupMapper.updateWantedInfo(data);
 		}
+		
+		logger.info("##test : " + board.toString());
 		return  "/studyWanted/"+board.getId();
 	}
 	
@@ -145,9 +155,9 @@ public class StudyController {
 		return "ING";
 	}
 	
-	@PostMapping("/studyWanted/boardClose")
+	@PostMapping("/studyWanted/wantedClose")
 	@ResponseBody
-	public String boardClose(@RequestBody Map<String, String> data) {
+	public String wantedClose(@RequestBody Map<String, String> data) {
 		studyMapper.updateBoardStatus(data);
 		groupMapper.updateGroupRecruitmentCount(data.get("groupId"), 0);
 		groupMapper.setDeclineContentUseBoardId(data.get("boardId"), "해당 모집글이 마감 되었습니다.");

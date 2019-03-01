@@ -27,7 +27,13 @@
 					<div class="boardHeader">
 						<h2 class="row">
 							<span class="col-md-8" th:text="*{title}"></span>
-							<small class="nickname col-md-4" th:text="*{nickName}"></small>
+							<div class="nickname col-md-4">
+								<img th:if="${board.profileImagePath} eq DefaultThumbnail" class="profileImg shadow-sm" 
+									th:src="@{/static/images/DefaultThumbnail.png}" />
+								<img th:unless="${board.profileImagePath} eq DefaultThumbnail" class="profileImg shadow-sm" 
+									th:src="@{'/static/codesquareDB/UserThumbnail/{userId}/{ImagePath}'(userId=${board.userId},ImagePath=${board.profileImagePath})}" />
+								<small th:text="*{nickName}"></small>
+							</div>
 						</h2>
 						<div class="row">
 							<span class="col-md-9" th:text="*{writeDateBoard}"></span>
@@ -107,6 +113,7 @@
 								<div id="seminar-wait-button" class="WAIT shadow-sm">신청취소</div>
 								<div id="seminar-end-button" class="END shadow-sm">마감된 모집입니다</div>
 								<div id="seminar-in-button" class="IN shadow-sm">현재 참여중인 세미나입니다</div>
+								<div id="seminar-close-button" class="CLOSE shadow-sm">모집 마감하기</div>
 							</div>
 							<div id="bookmark-button" th:class="${bookmarkId}?'checked'+' shadow-sm'">
 								<i th:class="${bookmarkId}?'fas fa-heart':'far fa-heart'" aria-hidden="true">
@@ -139,7 +146,7 @@
 				</div>
 			</section>
 			
-			<!-- STARD 그룹 신청 Modal -->
+			<!-- STARD 세미나 신청 Modal -->
 			<section class="modal fade" id="application-modal">
 			    <div class="modal-dialog modal-lg modal-dialog-centered">
 			        <div class="modal-content shadow-lg">
@@ -177,35 +184,7 @@
 					</div>
 				</div>
 			</section>
-				<!-- END 그룹 신청 Modal -->
-			
-			<!-- 게시판 리스트 -->
-			<div class="row boardList">
-				<ul>
-					<li class="stdMoGrid" th:each="list : ${boardList}">
-						<span th:text="*{list.id}"></span>
-						
-						<div>
-							<a th:href="|${url}/*{list.id}|" th:text="*{list.title}"></a>
-							<span th:text="*{list.fileCount}"></span>
-							<span th:text="*{list.imageCount}"></span>
-							<span th:text="*{list.commentCount}"></span>
-						</div>
-						<span th:text="*{list.status} eq 1?'':'마감'"></span>
-						
-						
-						<span th:text="*{list.groupId}"></span>
-						<span th:text="*{list.nickName}"></span>
-						<span th:text="*{list.writeDate}"></span>
-						
-						<div>
-							<span th:text="*{list.likeCount}"></span>
-							<span th:text="*{list.hit}"></span>
-						</div>
-						
-					</li>
-				</ul>
-			</div>
+			<!-- END 세미나 신청 Modal -->
 			
     	</th:block>
     	</div>

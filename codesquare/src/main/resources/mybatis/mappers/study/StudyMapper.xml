@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.codesquare.mapper.study.StudyMapper">
-<!-- UserId는 임시로 'cksdud'으로 출력중 -->
-
 	<select id="getBoardList" resultType="Board">
 		SELECT  * FROM Board_view WHERE BoardName IN(#{boardName}) ORDER BY WriteDate DESC
 	</select>
@@ -22,20 +20,20 @@
 		VALUES ( #{userId}, #{boardId} )
 	</insert>
 	
-	<select id="getBookmarkId" resultType="String">
-		SELECT Id FROM BookmarkList WHERE UserId='cksdud' AND BoardId=#{boardId} LIMIT 1
-	</select>
-	
 	<delete id="deleteBookmark">
-		DELETE FROM BookmarkList WHERE UserId='cksdud' AND BoardId=#{boardId}
+		DELETE FROM BookmarkList WHERE UserId=#{userId} AND BoardId=#{boardId}
 	</delete>
+	
+	<select id="getBookmarkId" resultType="String">
+		SELECT Id FROM BookmarkList WHERE UserId=#{userId} AND BoardId=#{boardId} LIMIT 1
+	</select>
 	
 	<insert id="writeStudyWantedBoard" parameterType="Board">
 		<selectKey keyProperty="id" resultType="int" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 		INSERT INTO Board (BoardKindId, UserId, GroupId, Nickname, Title, Content )
-		VALUES ('StdMo', 'cksdud', #{groupId}, '찬영찬영', #{title}, #{content});
+		VALUES ('StdMo', #{userId}, #{groupId}, #{nickName}, #{title}, #{content});
 	</insert>
 	
 	<delete id="deleteStudyWantedBoard">

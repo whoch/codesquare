@@ -10,7 +10,8 @@
     	width: 100%;
 }
 
-#seminar-wait-button, #seminar-end-button, #seminar-in-button, #seminar-ing-button  {
+#seminar-wait-button, #seminar-end-button, #seminar-in-button, #seminar-ing-button,
+#seminar-close-button  {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	border: 1px solid rgba(0,0,0,.125);
@@ -19,6 +20,16 @@
 	cursor: pointer;
 }
 
+#seminar-close-button {
+	cursor : default;
+	background: #4B0082;
+	color: white;
+}
+	
+#seminar-close-button:hover {
+	background-color: #402058;
+	color: white;
+}
 #seminar-in-button {
 	cursor : default;
 	color: #4B0082;

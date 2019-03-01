@@ -79,7 +79,7 @@ $(function(){
 		$('.'+status).show();
 	}
 	
-	var boardClose = function(){
+	var wantedClose = function(){
 		var data = {
 				status	: 0,
 				boardId : $('#BOARD_ID').val(),
@@ -101,7 +101,7 @@ $(function(){
 	 	});//ajax
 	}//모집글 마감
 	
-	$('#group-close-button').on('click',boardClose);
+	$('#submitClose').on('click',wantedClose);
 	$('div[id$="wait-button"]').on('click',applyCancel);
 		
 	$(window).on('beforeunload', function(){

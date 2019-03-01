@@ -58,12 +58,8 @@
 		text-align: right;
 	}
 	
-	.boardContent {
-	/* 	min-height: 400px;  */
-   		 line-height: 1.75em;
-	}
 	.wantedContent {
-		padding : 20px 10px;
+	    padding: 20px 25px;
 	}
 
 	.wantedContent, .comment-form {
@@ -112,9 +108,7 @@
 	
 	.groupContent {
 		border-top: 1px solid rgba(0,0,0,.125);
-		padding: 50px 30px;
-		position: absolute;
-	    bottom: 0;
+		padding: 50px 30px 0px;
 	    width: 100%;
 	}
 	
@@ -297,8 +291,8 @@
 	
 	#card-groups {
 		text-align: center;
-		width: 20rem;
-		height : 480px;
+		height : 500px;
+		padding:0 50px;
 	}
 	
 	#card-groups .card {
@@ -456,11 +450,13 @@
 		margin : 0 5px;
 	}
 	
-	#applicationform .fa-window-close {
+	#applicationform .fa-window-close,
+	#boardClosed-modal .fa-window-close {
 		margin-left: 5px;
 	}
 	
-	#applicationform input {
+	#applicationform input,
+	#boardClosed-modal input {
 		vertical-align: middle;
 		border: 0;
 		outline: 0;
@@ -491,16 +487,18 @@
 	
 	
 /***********************
-4. 스터디 신청 모달창
+4. 스터디 신청,마감 모달창
 ***********************/
 
 
 
-	#application-modal .modal-header {
+	#application-modal .modal-header,
+	#boardClosed-modal .modal-header {
 	    border-bottom-width: 0;
 	}
 	
-	#application-modal .modal-body {
+	#application-modal .modal-body,
+	#boardClosed-modal .modal-body {
    		 padding: 20px 30px;
    		 margin-bottom: 50px;
 	}
@@ -519,18 +517,30 @@
 		padding-right: 35px;
 	}
 
-	#application-modal .modal-right .form-value {
+	#application-modal .modal-right .form-value,
+	#boardClosed-modal .declineContent {
 		border-bottom: 1px solid #C0C0C0;
 		color: #3e3d3d;
 		width : 85%;
 		margin-bottom: 15px;
 	}
-	
 		
-	.modal-right #applicationform input::placeholder {
+	.modal-right #applicationform input::placeholder,
+	 #boardClosed-modal input::placeholder {
 		color: #a1a1a1;
 		font-style: italic;
 		font-size: 15px;
+	}
+	
+	#boardClosed-modal .modal-body {
+		margin: 0 auto;
+	    display: inline-grid;
+	    padding-bottom: 9%;
+	}
+	
+	.declineContent {
+	    margin: 8% auto 3%;
+	    width: 96%
 	}
 	
 	.btn-deepPurple {
@@ -545,7 +555,7 @@
 	    border-color: #402058;
 	}
 	
-	#submitApply {
+	#submitApply, #submitClose {
 		border-radius: 23px;
 	    padding: 8px 40px;
 	    display: block;
@@ -572,7 +582,12 @@
 
 	
 	.boardDetail .board-content {
-	    height: auto;
+		 line-height: 1.75em;
+	     padding: 50px 0 70px;
 	}
 	
+	.svgIMG {
+	    width: 30%;
+	    margin: 0 auto 11%;
+	}
 	

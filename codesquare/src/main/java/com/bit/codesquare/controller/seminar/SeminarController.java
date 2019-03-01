@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,8 +40,9 @@ public class SeminarController {
 	}
 	
 	@RequestMapping("/seminarWanted/{boardId}")
-	public String seminarBoardDetail(@PathVariable("boardId") int boardId, Model model) throws Exception {
-		String applyStatus = groupMapper.getApplyingStatus(boardId, "cksdud");
+	public String seminarBoardDetail(@PathVariable("boardId") int boardId, Model model, Authentication auth) throws Exception {
+		String userId = auth.getName();
+		String applyStatus = groupMapper.getApplyingStatus(boardId, userId);
 		Board board = seminarMapper.getid(boardId);
 		SeminarInstructorInfo seminar = seminarMapper.getSeminarInfo(boardId);
 		LocalDate today = LocalDateTime.now().toLocalDate();
@@ -52,15 +54,16 @@ public class SeminarController {
 			}else {
 				statusOfTheUser="END";
 			}
+		}else if( userId.equals(board.getUserId()) ) {
+			statusOfTheUser="CLOSE";
 		}else if(applyStatus!=null && applyStatus.equals("") ) {
 			statusOfTheUser="WAIT";
 		}else {
 			statusOfTheUser="ING";
 		}
-		
 		model.addAttribute("board", csu.setDateTimeCompare(board));
 		model.addAttribute("seminar", seminar);
-		model.addAttribute("bookmarkId", studyMapper.getBookmarkId(boardId));
+		model.addAttribute("bookmarkId", studyMapper.getBookmarkId(boardId, userId));
 		model.addAttribute("status", statusOfTheUser);
 		
 		return "seminar/seminarWantedView";

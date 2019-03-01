@@ -7,7 +7,7 @@
 </select>
 
 <select id="getid" resultType="Board">
-	SELECT * FROM codesquare.Board where id=#{id}
+	SELECT * FROM codesquare.Board_view_addProfilePath where id=#{id}
 </select>
 
 <select id="insert" resultType="Board" parameterType="Board">
