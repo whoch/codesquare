@@ -4,9 +4,9 @@
 <head>
 	<title>Calendar</title>
 	
-<th:block layout:fragment="css">
- 	<link th:href="@{/static/fullcalendar/fullcalendar.min.css}" rel="stylesheet">	
-</th:block>
+
+ 	<link th:href="@{/static/fullcalendar/fullcalendar.min.css}" rel="stylesheet">
+
 
 <th:block layout:fragment="scriptBefore">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
@@ -21,7 +21,6 @@
 			$('#calendar').fullCalendar({
 				//-----테마 설정-----
 				theme: 'bootstrap4',
-				
  				/* 
 				googleCalendarApiKey: 'AIzaSyDLfWhH0ZLqE_NvLAdO-CNtCQHuCyyXm-I',	 */ 	 
 				
@@ -124,17 +123,9 @@
 		});
 		/*]]>*/
 	</script>
-
 </th:block>
-	
-	<style>
-		#calendar {
-			max-width: 80%;
- 	        margin-left: auto;
-	        margin-right: auto;		
+ 
 
-		}
-	</style>
 </head>
 
 <body>
@@ -143,7 +134,9 @@
 		<div id='calendar'></div>
 	</article>
 
-	      
+	  <th:block layout:fragment="css">
+	  <link th:href="@{/static/styles/planner/fullcalendar.css}" rel="stylesheet">
+	  </th:block>      
 </body>
 
 </html>
