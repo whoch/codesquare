@@ -134,7 +134,7 @@ public class StudyController {
 			groupMapper.updateWantedInfo(data);
 		}
 		
-		return  "/studyWanted/"+board.getId();
+		return  "/study/StdMo/"+board.getId();
 	}
 	
 	@PostMapping("/studyWanted/submitApplication")
