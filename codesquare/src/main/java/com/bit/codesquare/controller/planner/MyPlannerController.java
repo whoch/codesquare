@@ -5,16 +5,22 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.BasicJsonParser;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit.codesquare.dto.board.Board;
+import com.bit.codesquare.dto.board.BoardKind;
+import com.bit.codesquare.dto.group.GroupInfo;
 import com.bit.codesquare.dto.planner.UserTodoList;
 import com.bit.codesquare.mapper.planner.MyplannerMapper;
+import com.bit.codesquare.mapper.study.StudyMapper;
 import com.bit.codesquare.util.CodesquareUtil;
 
 @Controller
@@ -69,6 +75,26 @@ public class MyPlannerController {
 	public String[] checkedTodo(@RequestBody Map<String, String> data) {
 		myplannerMapper.updateTodoStatus(data);
 		return myplannerMapper.getRowNumTodo(data.get("userId"));
+	}
+	
+	@RequestMapping(value = "/go/{boardId}")
+	public String getBoardViewUseBoardId(@PathVariable("boardId") int boardId) {
+		try {
+			BoardKind boardKind = myplannerMapper.getBoardkindDetailUseBoardId(boardId);
+			String boardKindId=boardKind.getId();
+			switch (boardKindId) {
+			case "StdMo":
+				return "redirect:/"+boardKind.getMainSubjectName()+"/"+boardKindId+"/"+boardId;
+			case "SmnMo":
+				return "redirect:/"+boardKind.getMainSubjectName()+"/"+boardKindId+"/"+boardId;
+			case "LrnPr":
+				return "redirect:/"+boardKind.getMainSubjectName()+"/intro/"+boardId;
+			default:
+				return "redirect:/freeView"+boardKindId+"?id"+boardId;
+			}
+		} catch (Exception e) {
+			return "redirect:/";
+		}
 	}
 	
 }

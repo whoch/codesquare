@@ -39,7 +39,7 @@ public class SeminarController {
 		return "seminar/seminarList";
 	}
 	
-	@RequestMapping("/seminarWanted/{boardId}")
+	@RequestMapping("/seminar/SmnMo/{boardId}")
 	public String seminarBoardDetail(@PathVariable("boardId") int boardId, Model model, Authentication auth) throws Exception {
 		String userId = auth.getName();
 		String applyStatus = groupMapper.getApplyingStatus(boardId, userId);

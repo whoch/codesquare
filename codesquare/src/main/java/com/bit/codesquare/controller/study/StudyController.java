@@ -42,16 +42,17 @@ public class StudyController {
 	/*
 	 * 아직 보드게시판이 만들어지지 않아 임시로 목록을 뿌려주기만 하는 페이지	
 	 * */
-	@RequestMapping("/studyWanted")
+	@RequestMapping("/study/StdMo")
 	public String getBoardList(Model model) {
 		String boardName = "스터디모집";
 		model.addAttribute("boardList", studyMapper.getBoardList(boardName));
 		return "study/studyWanted";
 	}
 	
-	
+//	/freeView/NewNt?id=235
+//	/studyWanted/{boardId}
 	//게시판 상세보기로 이동
-	@RequestMapping(value = "/studyWanted/{boardId}")
+	@RequestMapping(value = "/study/StdMo/{boardId}")
 	public String getBoardView(@PathVariable("boardId") int boardId, Model model, Authentication auth) {
 		GroupInfo group = groupMapper.getGroupInfoUseBoardId(boardId);
 		Board board = studyMapper.getBoardView("스터디모집", boardId);
