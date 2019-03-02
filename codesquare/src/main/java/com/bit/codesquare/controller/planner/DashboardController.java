@@ -24,7 +24,7 @@ public class DashboardController {
 	
 	@RequestMapping("/dashboard")
 	public String dashBoard(Model model) {
-		
+		logger.info("#test : "+dashboardMapper.getUserLectureList().toString());
 		model.addAttribute("allSchedule", dashboardService.getAllSchedule());
 		model.addAttribute("userStats", dashboardService.getUserStats());
 		model.addAttribute("cardLecture", dashboardMapper.getUserLectureList());

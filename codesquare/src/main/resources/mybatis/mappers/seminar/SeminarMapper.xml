@@ -7,11 +7,19 @@
 </select>
 
 <select id="getid" resultType="Board">
-	SELECT * FROM codesquare.Board where id=#{id}
+	SELECT * FROM codesquare.Board_view_addProfilePath where id=#{id}
 </select>
 
 <select id="insert" resultType="Board" parameterType="Board">
 	INSERT INTO codesquare.Board (boardkindid, userId, nickname, title, content, Hit) VALUES 
 	('SmnMo', 'test112', #{nickName}, #{title}, #{content}, 0)
 </select>
+
+<select id="getSeminarInfo" resultType="SeminarInstructorInfo">
+	SELECT si.*, ii.IntroContent, ii.History FROM SeminarInfo_view AS si 
+	INNER JOIN InstructorInfo AS ii ON si.UserId=ii.UserId 
+	WHERE si.BoardId=#{boardId}
+</select>
+
+
 </mapper>

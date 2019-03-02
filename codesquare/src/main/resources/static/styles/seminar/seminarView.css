@@ -1,0 +1,86 @@
+#wantedContent-detail .instructorNickName {
+    margin: 30px 0 20px;
+}
+
+.seminar-detail-Grid {
+	display: grid;
+	grid-column-gap : repeat(2, 10px);
+	grid-row-gap: 7px;
+    	grid-template-columns: 30% 70%;
+    	width: 100%;
+}
+
+#seminar-wait-button, #seminar-end-button, #seminar-in-button, #seminar-ing-button,
+#seminar-close-button  {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border: 1px solid rgba(0,0,0,.125);
+	line-height: 56px;
+	text-align: center;
+	cursor: pointer;
+}
+
+#seminar-close-button {
+	cursor : default;
+	background: #4B0082;
+	color: white;
+}
+	
+#seminar-close-button:hover {
+	background-color: #402058;
+	color: white;
+}
+#seminar-in-button {
+	cursor : default;
+	color: #4B0082;
+	border-color: #4B0082;
+}
+	
+#seminar-ing-button {
+	background: #4B0082;
+	color: white;
+}
+
+
+#seminar-end-button {
+    background-color: #C0C0C0;
+    border-color: #C0C0C0;
+    color: white;
+    cursor : default;
+}
+
+#seminar-wait-button {
+    background-color: #9d9baf;
+    border-color: #9d9baf;
+    color: #fefefe;
+}
+
+#seminar-wait-button:hover {
+	background-color: #7d6f95;
+	color: white;
+}
+
+#seminar-ing-button:hover {
+	background-color: #402058;
+	color: white;
+}
+
+.seminar-meeting .tag-meetingDate {
+    border: 1px solid #6190b3;
+    color: #6190b3;
+    border-radius: 8px;
+    padding: 3px 8px;
+    margin-right: 5px;
+}
+
+#modal-seminar-detail-Grid {
+	display: grid;
+	grid-template-columns: 22% 75%;
+	text-align: left;
+	grid-column-gap : repeat(2, 10px);
+	grid-row-gap: 11px; 
+	padding-left: 45px;
+    margin-top: 5%;
+}
+	
+	
