@@ -1826,12 +1826,20 @@ padding: 24px 31px;
 
 #modalBody .attend .yes {
   	color : #3D870A;
-    font-size: 19px;
+    font-size: 17px;
+    border: 1px solid #3D870A;
+    border-radius: 8px;
+    padding: 3px 8px;
+    margin-right: 5px;
 }
 
 #modalBody .attend .no {
   	color : #D0350A;
-	font-size: 19px;
+	font-size: 17px;
+    border: 1px solid #D0350A;
+    border-radius: 8px;
+    padding: 3px 8px;
+    margin-right: 5px;
 }
 
 #modalBody #attend-check {
@@ -1856,48 +1864,49 @@ padding: 24px 31px;
 }
 
 
-.btn-red:hover {
+.btn-grey:hover {
     color: #f3f3f3;
-    background-color: #81181e;
-    border-color: #81181e;
+    background-color: #737373;
+    border-color: #737373;
 }
-.btn-red {
+.btn-grey {
     display: inline;
     margin: auto;
-    padding: 8px 30px;
+    padding: 7px 32px;
     text-align: center;
     color: #f3f3f3;
-    background-color: #9C1E23;
-    border-color: #9C1E23;
+    background-color: #8c8c8c;
+    border-color: #8c8c8c;
     cursor: pointer;
 }
 
-.btn-green:hover {
+.btn-purple:hover {
     color: #f3f3f3;
-    background-color: #206632;
-    border-color: #1d6d31;
+    background-color: #3a0066;
+    border-color: #3a0066;
 }
-.btn-green {
+.btn-purple {
     display: inline;
     margin: auto;
-    padding: 8px 30px;
+    padding: 7px 32px;
     text-align: center;
     color: #f3f3f3;
-    background-color: #247538;
-    border-color: #247538;
+    background-color: #4B0082;
+    border-color: #4B0082;
+    border-radius: 23px;
     cursor: pointer;
 }
 
-#attend-check .btn-red {
+#attend-check .btn-grey {
 	border-radius:0;
-    border-bottom-right-radius: 5px;
-    border-top-right-radius: 5px;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
 }	
 
-#attend-check .btn-green {
+#attend-check .btn-purple {
 	border-radius:0;
-    border-bottom-left-radius: 5px;
-    border-top-left-radius: 5px;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
 }	
 
 .fc-toolbar.fc-header-toolbar H2{
@@ -1905,7 +1914,7 @@ padding: 24px 31px;
 }
 
 #calendarModal .title {
-    margin: 10px 0 5px;	
+    margin: 25px 0 5px;	
 }
 
 #calendarModal .goUrl {
@@ -1918,4 +1927,14 @@ a:hover {
 
 .btn-deepPurple a{
 	color:white;
+}
+
+.tag-custom {
+    border: 1px solid indianred;
+    color: #6190b3;
+    border-radius: 8px;
+    padding: 3px 8px;
+    margin-right: 5px;
+}
+	
 }

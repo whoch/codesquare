@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.codesquare.mapper.planner.CalendarMapper">
-<!-- UserId는 임시로 'cksdud'으로 출력중 -->
-
 	<select id="getScheduleSeminar" resultType="SeminarMeetingDateDetails">
 		SELECT si.`BoardId`, si.`UserId`, si.`Locale`,si.`SeminarStartDate`,si.`SeminarEndDate`,bo.Nickname
 		FROM JoiningAndRecruitmentLog jr INNER JOIN SeminarInfo si 
-		ON jr.UserId='cksdud' AND jr.BoardId=si.BoardId INNER JOIN Board bo ON jr.`BoardId`=bo.Id
+		ON jr.UserId=#{userId} AND jr.BoardId=si.BoardId INNER JOIN Board bo ON jr.`BoardId`=bo.Id
 	</select>
 	
 	<select id="getScheduleGroup" resultType="GroupMeetingDateDetails">
-		SELECT * from GroupStudyLog WHERE `UserId`='cksdud'
+		SELECT * from GroupStudyLog WHERE `UserId`=#{userId}
 	</select>
 		
 </mapper>

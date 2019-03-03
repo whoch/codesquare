@@ -17,9 +17,9 @@ public class SeminarMeetingDateDetails {
 	
 	LocalDateTime seminarStartDate;
 	LocalDate seminarEndDate;
-	
 	String locale;
-	String meetingDate;
-	
+	String meetingDay;
 	String profileImagePath;
+	
+	LocalDateTime meetingDate;
 }

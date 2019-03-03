@@ -25,7 +25,6 @@ import com.bit.codesquare.dto.planner.SeminarMeetingDateDetails;
 import com.bit.codesquare.mapper.group.GroupMapper;
 import com.bit.codesquare.mapper.planner.CalendarMapper;
 import com.bit.codesquare.mapper.seminar.SeminarMapper;
-import com.bit.codesquare.service.planner.CalendarService;
 
 
 
@@ -37,8 +36,6 @@ public class CalendarController {
 	SeminarMapper seminarMapper;
 	@Autowired
 	CalendarMapper calendarMapper;
-	@Autowired
-	CalendarService calendarService;
 	Logger logger = LoggerFactory.getLogger(CalendarController.class);	
 	
 	CalendarEvent event;
@@ -106,9 +103,9 @@ public class CalendarController {
 			event.setStart(item.getMeetingDate());
 			event.setDescription( makeCalendarModalHTML(item)+
 					"<div class='attend'>"+(status!=null&&!status.isEmpty()?"이 날 모임은 "+
-					(status.equals("1")?"<span class='yes'>참석</span>":"<span class='no'>불참</span>")+"으로 체크했어요!</div>":
+					(status.equals("1")?"<span class='yes tag-custom'>참석</span>":"<span class='no tag-custom'>불참</span>")+"으로 체크했어요!</div>":
 					"<span id='none'>아직 참석 여부를 체크하지 않았습니다!</span></div></div>"+
-					"<div id='attend-check'><div id='"+item.getId()+"' class='yes btn btn-green shadow'>참석</div><div id='"+item.getId()+"' class='no btn btn-red shadow'>불참</div></div>"));
+					"<div id='attend-check'><div id='"+item.getId()+"' class='yes btn btn-purple shadow'>참석</div><div id='"+item.getId()+"' class='no btn btn-grey shadow'>불참</div></div>"));
 			eventList.add(event);
 		}
 		return eventList;
@@ -162,9 +159,6 @@ public class CalendarController {
 	
 	public List<CalendarEventDow> getEventSeminar(String userId) {
 		List<SeminarMeetingDateDetails> seminarInfo = seminarMapper.getSeminarInfoUseUserid(userId);
-		
-		logger.info("##TEST SEMINAR:"+seminarInfo.toString());
-		
 		eventDow = new CalendarEventDow();
 		eventDowList = new ArrayList<CalendarEventDow>();
 		LocalDateTime seminarStartDate;
@@ -174,7 +168,7 @@ public class CalendarController {
 		for(SeminarMeetingDateDetails item : seminarInfo) {
 			seminarStartDate = item.getSeminarStartDate();
 			meetingTime = seminarStartDate.toLocalTime();
-			dow = getDowArray(item.getMeetingDate());
+			dow = getDowArray(item.getMeetingDay());
 			
 			eventDow.setTitle("세미나");
 			eventDow.setDow(dow);
@@ -192,20 +186,10 @@ public class CalendarController {
 					"  <div class='locale'><small>"+item.getLocale()+"</small></div>"+
 					"</div></div>"+
 					"<div class='goUrl'><div class='btn-deepPurple shadow'><a href='/go/"+item.getBoardId()+"'>해당글 이동</a></div></div>");
-			
-			
-			
-			
-			
-			
-			
-			
 			eventDowList.add(eventDow);
 		}
 		return eventDowList;
-		
-		
-	}
+	}//getEventSeminar
 	
 	public int[] getDowArray(String day) {
 		String[] days = day.split(",");
@@ -214,14 +198,14 @@ public class CalendarController {
 			dow[i]=Day.valueOf(days[i]).index;
 		}
 		return dow;
-	}
+	}//getDowArray
 	
 	@PostMapping("/groupAttendCheck")
 	@ResponseBody
 	public void updateGroupMeetingStatus(@RequestBody Map<String, String> data) {
 		groupMapper.updateGroupMeetingStatus(data);
 		logger.info("##test : "+data.toString());
-	}
+	}// 미완성  ajax 안먹힘 :: updateGroupMeetingStatus
 }
 
 

@@ -25,7 +25,7 @@
 <select id="getSeminarInfoUseUserid" resultType="SeminarMeetingDateDetails">
 	SELECT jr.Id, jr.BoardId, jr.ApplyUserId,
 			 bo.UserId, bo.Nickname, bo.Title,
-			 si.SeminarStartDate, si.SeminarEndDate, si.Locale, si.MeetingDate,
+			 si.SeminarStartDate, si.SeminarEndDate, si.Locale, si.MeetingDate AS MeetingDay,
 			 ui.profileImagePath
 	FROM JoiningAndRecruitmentLog jr
 	INNER JOIN Board AS bo ON bo.Id=jr.BoardId

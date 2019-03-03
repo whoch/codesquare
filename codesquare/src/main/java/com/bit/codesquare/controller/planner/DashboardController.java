@@ -3,6 +3,7 @@ package com.bit.codesquare.controller.planner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,12 +24,13 @@ public class DashboardController {
 	Logger logger= LoggerFactory.getLogger(DashboardController.class);
 	
 	@RequestMapping("/dashboard")
-	public String dashBoard(Model model) {
-		logger.info("#test : "+dashboardMapper.getUserLectureList().toString());
-		model.addAttribute("allSchedule", dashboardService.getAllSchedule());
-		model.addAttribute("userStats", dashboardService.getUserStats());
-		model.addAttribute("cardLecture", dashboardMapper.getUserLectureList());
-		model.addAttribute("cardGroupNotice", dashboardService.getUserGroupNoticeList());
+	public String dashBoard(Model model, Authentication auth) {
+		String userId = auth.getName();
+		
+		model.addAttribute("allSchedule", dashboardService.getAllSchedule(userId));
+		model.addAttribute("userStats", dashboardService.getUserStats(userId));
+		model.addAttribute("cardLecture", dashboardMapper.getUserLectureList(userId));
+		model.addAttribute("cardGroupNotice", dashboardService.getUserGroupNoticeList(userId));
 		return "planner/dashboard";		
 	}
 	
