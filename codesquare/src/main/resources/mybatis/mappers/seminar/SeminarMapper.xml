@@ -21,5 +21,17 @@
 	WHERE si.BoardId=#{boardId}
 </select>
 
+<!-- 유저의 세미나 상세 정보를 얻는다 . 신청상태가 취소가 아니고 세미나 강사의 프로필 이미지와 닉네임도 얻는다-->
+<select id="getSeminarInfoUseUserid" resultType="SeminarMeetingDateDetails">
+	SELECT jr.Id, jr.BoardId, jr.ApplyUserId,
+			 bo.UserId, bo.Nickname, bo.Title,
+			 si.SeminarStartDate, si.SeminarEndDate, si.Locale, si.MeetingDate,
+			 ui.profileImagePath
+	FROM JoiningAndRecruitmentLog jr
+	INNER JOIN Board AS bo ON bo.Id=jr.BoardId
+	INNER JOIN SeminarInfo AS si ON si.BoardId = jr.BoardId
+	INNER JOIN UserInfo AS ui ON ui.UserId = bo.UserId
+	WHERE jr.ApplyUserId=#{userId} AND bo.BoardKindId='SmnMo' AND (jr.Status is NULL OR jr.Status='') 
+</select>
 
 </mapper>

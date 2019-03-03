@@ -21,6 +21,9 @@ public interface CalendarMapper {
 	 * @author 김찬영
 	 * @todo 사용자 아이디 참조변수로 받는것
 	 */
-	public List<GroupMeetingDateDetails> getAllScheduleGroup();
+	public List<GroupMeetingDateDetails> getGroupScheduleTRUE(String userId);
+	public List<GroupMeetingDateDetails> getGroupScheduleNULL(String userId);
+	public List<GroupMeetingDateDetails> getGroupScheduleFALSE(String userId);
+	
 	
 }

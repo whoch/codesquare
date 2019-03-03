@@ -8,13 +8,18 @@ import lombok.Data;
 @Data
 public class SeminarMeetingDateDetails {
 
-	
+	String id;
 	String boardId;
+	String applyUserId;
 	String userId;
-	String locale;
+	String nickname;
+	String title;
+	
 	LocalDateTime seminarStartDate;
 	LocalDate seminarEndDate;
-	LocalDateTime meetingDate;
-	String nickname;
 	
+	String locale;
+	String meetingDate;
+	
+	String profileImagePath;
 }
