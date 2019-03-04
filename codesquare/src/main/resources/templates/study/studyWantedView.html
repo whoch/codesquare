@@ -28,10 +28,11 @@
 	<!-- START content -->
     <article class="content" layout:fragment="content">
     	<div class="container">
-    	<th:block th:with="url=${#httpServletRequest.requestURI}">
     	<input id="BOARD_ID" type="hidden" th:value="${board.id}">
+	    <input id="GROUP_ID" type="hidden" th:value="${board.groupId}">
+	    <input id="USER_ID" type="hidden" th:value="${session.userId}">
+    	<input id="NICKNAME" type="hidden" th:value="${session.nickName}">
     	<input id="STATUS" type="hidden" th:value="${status}">
-    	
     		
     		<h3 class="boardTitle">스터디모집</h3>
 			<!-- 게시판 본문 -->
@@ -41,14 +42,22 @@
 					<div class="boardHeader">
 						<h2 class="row">
 							<span class="col-md-8" th:text="*{title}"></span>
-							<small class="nickname col-md-4" th:text="*{nickName}"></small>
+							<div class="nickname col-md-4">
+								<img th:if="${board.profileImagePath} eq DefaultThumbnail" class="profileImg shadow-sm" 
+									th:src="@{/static/images/DefaultThumbnail.png}" />
+								<img th:unless="${board.profileImagePath} eq DefaultThumbnail" class="profileImg shadow-sm" 
+									th:src="@{'/static/codesquareDB/UserThumbnail/{userId}/{ImagePath}'(userId=${board.userId},ImagePath=${board.profileImagePath})}" />
+								<small th:text="*{nickName}"></small>
+							</div>
+							<!-- <img th:src="@{${session.profileImagePath}}" class="profileImg" /> -->
+						
 						</h2>
 						<div class="row">
-							<span class="col-md-9" th:text="*{writeDate}"></span>
+							<span class="col-md-9" th:text="*{writeDateBoard}"></span>
 							<div class="like">
 								좋아요
 								<i class="fa fa-heart" aria-hidden="true"></i>
-								<span th:text="*{likeCount}"></span>
+								<span id="likeCount" th:text="*{likeCount}"></span>
 							</div>
 							<div class="hit">
 								조회수
@@ -74,10 +83,10 @@
 										<dd th:class="group-member-cnt" th:text="|*{memberCount}명의 멤버가 참여중 입니다|"></dd>
 										
 										<dt>시간:</dt>
-										<dd class="group-meetingTime" th:text="${#dates.format(group.startDate,'aaa HH시 mm분부터 ')}"></dd><dd></dd>
-										<dd class="group-startDate" th:text="${#dates.format(group.startDate)}>${#dates.format(#dates.createNow())}
-																			?|${#dates.format(group.startDate,'M월 dd일  (EE)')} 첫 스터디 시작  예정! |
-																			:|${#dates.format(group.startDate,'M월 dd일 (EE)')}부터 진행중인 그룹입니다|">
+										<dd class="group-meetingTime" th:text="${#temporals.format(group.startDate,'a HH시 mm분')}"></dd><dd></dd>
+										<dd class="group-startDate" th:text="${group.startDate}>${#temporals.createNow()}
+																			?|${#temporals.format(group.startDate,'M월 dd일  (EE)')} 첫 스터디 시작  예정! |
+																			:|${#temporals.format(group.startDate,'YY년 M월 dd일 (EE)')}부터 진행중인 그룹입니다|">
 										</dd>
 										
 										<dt>일정:</dt>
@@ -105,7 +114,7 @@
 								<img class="rounded-circle shadow" 
 									 th:src="@{/static/codesquareDB/default/default_user_image4.jpg}">
 								<h4 class="groupId" th:text="${group.id}"></h4>
-									<div th:if="*{status}!=0" 
+									<div id="recruitmentCount" th:if="*{status}!=0" 
 										th:text="|${group.recruitmentCount}명 모집중|"></div>
 										<div class="group-detail">
 											<div>
@@ -126,8 +135,10 @@
 								<span>그룹을 사용하지 않는 일반 모집글 입니다</span></div>
 							</div>
 							<div id="status-button">
-								<div id="group-ing-button" class="ING shadow-sm" data-toggle="modal" data-target="#application-modal"
-									th:if="${group.id}!='그룹없음'">신청하기</div>
+								<div id="group-ing-button" class="ING shadow-sm"
+									data-toggle="modal" data-target="#application-modal" th:if="${group.id}!='그룹없음'">신청하기</div>
+								<div id="group-close-button" class="CLOSE shadow-sm"
+									data-toggle="modal" data-target="#boardClosed-modal">모집 마감하기</div>
 								<div id="group-wait-button" class="WAIT shadow-sm">신청취소</div>
 								<div id="group-end-button" class="END shadow-sm">마감된 모집입니다</div>
 								<div id="group-in-button" class="IN shadow-sm">현재 참여중인 그룹입니다</div>
@@ -230,39 +241,58 @@
 					</div>
 				</div>
 			</section>
-				<!-- END 그룹 신청 Modal -->
+			<!-- END 그룹 신청 Modal -->
 			
-			<!-- 게시판 리스트 -->
-			<div class="row boardList">
-				<ul>
-					<li class="stdMoGrid" th:each="list : ${boardList}">
-						<span th:text="*{list.id}"></span>
-						
-						<div>
-							<a th:href="|${url}/*{list.id}|" th:text="*{list.title}"></a>
-							<span th:text="*{list.fileCount}"></span>
-							<span th:text="*{list.imageCount}"></span>
-							<span th:text="*{list.commentCount}"></span>
-						</div>
-						<span th:text="*{list.status} eq 1?'':'마감'"></span>
-						
-						
-						<span th:text="*{list.groupId}"></span>
-						<span th:text="*{list.nickName}"></span>
-						<span th:text="*{list.writeDate}"></span>
-						
-						<div>
-							<span th:text="*{list.likeCount}"></span>
-							<span th:text="*{list.hit}"></span>
-						</div>
-						
-					</li>
-				</ul>
-			</div>
+			<!-- STARD 마감하기 Modal -->
+			<section class="modal fade" id="boardClosed-modal">
+			    <div class="modal-dialog modal modal-dialog-centered">
+			        <div class="modal-content shadow-lg">
 			
-    	</th:block>
+			            <!-- Modal Header -->
+			            <div class="modal-header">
+			                <button type="button" class="close" data-dismiss="modal">&times;</button>
+			            </div>
+			
+						<!-- Modal body -->
+						<div class="modal-body row">
+							<div class="svgIMG">
+								<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+								    y="0px" viewBox="0 0 58.018 58.018" style="enable-background:new 0 0 58.018 58.018;" xml:space="preserve">
+								<polygon style="fill:#EDEADA;" points="24.192,39.492 16.414,41.613 18.536,33.835 48.362,4.009 0,4.009 0,58.009 54,58.009 
+								54,9.685 " />
+								   <path style="fill:#F7E6A1;" d="M18.716,39.311c0.391,0.391,0.391,1.023,0,1.414l-0.358,0.358l5.793-1.58l-5.627-5.627l-1.58,5.792
+								l0.358-0.358C17.693,38.92,18.326,38.92,18.716,39.311z" />
+								   <path style="fill:#424A60;" d="M18.358,41.083l0.358-0.358c0.391-0.391,0.391-1.023,0-1.414s-1.023-0.391-1.414,0l-0.358,0.358
+								l-0.53,1.944L18.358,41.083z" />
+								   <polygon style="fill:#BDA1BB;"
+								points="51.062,12.622 45.406,6.965 18.536,33.835 18.524,33.876 24.151,39.503 24.192,39.492 " />
+								<path style="fill:#ED7161;" d="M57.437,3.44l-2.85-2.85c-0.775-0.775-2.032-0.775-2.807,0l-3.546,3.546l5.657,5.657l3.546-3.546
+								C58.212,5.472,58.212,4.215,57.437,3.44z" />
+								   <rect x="44.82" y="5.551" transform="matrix(0.7071 -0.7071 0.7071 0.7071 9.789 34.7337)" style="fill:#F7E6A1;"
+								width="4" height="0" />
+								<rect x="45.648" y="6.379" transform="matrix(0.7071 0.7071 -0.7071 0.7071 20.4667 -32.6524)" style="fill:#F7E6A1;"
+								width="8" height="4" />
+								</svg>
+							</div>
+					    	<small>그룹의 현재 대기중인 신청은 모두 거절로 처리됩니다.</small>
+					    	<small>거절 메세지를 작성해 주세요.</small>
+					    	<input id="declineContent" class="declineContent" type="text" name="declineContent" placeholder="거절 메세지">
+					        
+					        <button type="button" id="submitClose" class="btn btn-deepPurple shadow">
+								<span>모집 마감하기</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- END 마감하기 Modal -->
+			
+			
+			
     	</div>
 		<!-- div container 종료-->
+
+
 
 
 

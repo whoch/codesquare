@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.codesquare.mapper.planner.DashboardMapper">
-<!-- UserId는 임시로 'cksdud'으로 출력중 -->
 
 	<select id="getWeeklyScheduleGroup" resultType="GroupMeetingDateDetails">
 		<![CDATA[
@@ -11,7 +10,7 @@
 					ELSE 'none' END
 			) AS `Status`
 		FROM GroupStudyLog
-		WHERE `UserId`='cksdud' 
+		WHERE `UserId`=#{userId} 
 				AND DATE(`MeetingDate`) >= CURDATE()
 				AND DATE(`MeetingDate`) <  CURDATE()+INTERVAL 7 DAY
 		ORDER BY `MeetingDate` ASC
@@ -21,31 +20,34 @@
 	
 	<select id="getWeeklyScheduleSeminar" resultType="SeminarMeetingDateDetails">
 		<![CDATA[
-		SELECT si.`BoardId`, si.`UserId`, si.`Locale`,si.`SeminarStartDate`,si.`SeminarEndDate`,bo.Nickname
+		SELECT jr.Id, jr.BoardId, jr.ApplyUserId,
+		 bo.UserId, bo.Nickname, bo.Title,
+		 si.SeminarStartDate, si.SeminarEndDate, si.Locale, si.MeetingDate AS MeetingDay,
+		 ui.profileImagePath
 		FROM JoiningAndRecruitmentLog jr
-		INNER JOIN SeminarInfo si 
-		ON jr.`ApplyUserId`='cksdud' AND si.SeminarEndDate >= CURDATE() AND jr.BoardId=si.BoardId 
-		INNER JOIN Board bo
-		ON jr.`BoardId`=bo.Id
+		INNER JOIN Board AS bo ON bo.Id=jr.BoardId
+		INNER JOIN SeminarInfo AS si ON si.BoardId = jr.BoardId
+		INNER JOIN UserInfo AS ui ON ui.UserId = bo.UserId
+		WHERE jr.ApplyUserId=#{userId} AND bo.BoardKindId='SmnMo' AND (jr.Status is NULL OR jr.Status='') AND si.SeminarEndDate >= CURDATE()
 		 ]]>		
 	</select>
 	
 	<select id="getCountJoiningGroup" resultType="int">
-		SELECT COUNT(*) from GroupMemberInfo WHERE `UserId`='cksdud'
+		SELECT COUNT(*) from GroupMemberInfo WHERE `UserId`=#{userId}
 	</select>
 	
 	<select id="getCountJoiningSeminar" resultType="int">
 		SELECT COUNT(*)
 		FROM JoiningAndRecruitmentLog jr INNER JOIN SeminarInfo si 
-		ON jr.ApplyUserId='cksdud' AND jr.BoardId=si.BoardId
+		ON jr.ApplyUserId=#{userId} AND jr.BoardId=si.BoardId
 	</select>
 	
 	<select id="getCountLearningLecture" resultType="int">
-		SELECT COUNT(DISTINCT ParentId) FROM UserLearningLog WHERE `UserId`='cksdud'
+		SELECT COUNT(DISTINCT ParentId) FROM UserLearningLog WHERE `UserId`=#{userId}
 	</select>
 
 	<select id="getCountToDo" resultType="int">
-		SELECT COUNT(*) FROM ToDoList WHERE `UserId`='cksdud' AND IFNULL(`EndDate`,CURDATE())>=CURDATE()
+		SELECT COUNT(*) FROM ToDoList WHERE `UserId`=#{userId} AND IFNULL(`EndDate`,CURDATE())>=CURDATE()
 	</select>
 	
 	<select id="getUserLectureList" resultType="UserLectureList">
@@ -55,14 +57,14 @@
 		FROM UserLearningLog l 
 		INNER JOIN Board b ON l.ParentId=b.Id
 		INNER JOIN LectureDetailInfo d ON l.ParentId=d.Id
-		WHERE l.UserId='cksdud'
+		WHERE l.UserId=#{userId}
 		GROUP BY l.ParentId
 	</select>
 	
 	<select id="getUserGroupNoticeList" resultType="UserGroupNoticeList">
 		SELECT g.GroupId, b.Nickname, b.Title, b.Content, b.WriteDate  FROM GroupMemberInfo g
 		INNER JOIN Board b ON b.BoardKindId='GrpNt' AND g.GroupId=b.GroupId
-		WHERE g.UserId='cksdud' ORDER BY b.WriteDate DESC LIMIT 10
+		WHERE g.UserId=#{userId} ORDER BY b.WriteDate DESC LIMIT 10
 	</select>
 	
 	

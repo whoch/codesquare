@@ -48,8 +48,7 @@
   <div class="container">
     <div class="row">
       <nav class="col-md-3 d-none d-md-block">
-        <div class="sidebar">
-          <br /> <br /> <br />
+        <div class="sidebar shadow">
           <ul class="nav flex-column">
             <li class="nav-item">
               <div class="profile px-2 text-center">
@@ -73,16 +72,10 @@
             </li>
             <li class="nav-item2">
 			  <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle "><i class="fas fa-user-tie"></i> Groups</a>
-			  <ul class="collapse list-unstyled" id="pageSubmenu">
-			    <li>
-			      <a href="#">group 1</a>
-			    </li>
-			    <li>
-			      <a href="#">group 2</a>
-			    </li>
-			    <li>
-			      <a href="#">group 3</a>
-			    </li>
+			  <ul class="collapse list-unstyled" id="pageSubmenu" th:each="glist : ${glist}">
+			 
+			   <li> <a th:href="@{'/group/'+${glist.groupId}}" th:text="${glist.groupId}"></a> </li>
+
 			  </ul>
 			</li>
             

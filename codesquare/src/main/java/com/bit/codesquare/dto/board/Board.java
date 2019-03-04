@@ -35,6 +35,9 @@ public class Board implements ComparableDateTime{
 	
 	String writeDateBoard;
 	String modifyDateBoard;
+	
+	String profileImagePath;
+	
 	List <JoiningAndRecruitmentLog> wantedPlist;
 	
 	@Override

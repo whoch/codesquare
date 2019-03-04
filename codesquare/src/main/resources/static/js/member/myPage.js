@@ -422,7 +422,8 @@ $(function() {
 			var data = {
 				applyUserNick : $("#pApplyUserNick").text(),
 				applyUserId : $("#pApplyUserId").text(),
-				boardId : $("#pBoardId").text()
+				boardId : $("#pBoardId").text(),
+				groupId : $("#groupId").text()
 				}
 						$.ajax({
 									type : "POST",
@@ -532,8 +533,11 @@ $(function() {
 			success : function(response) {
 				if (response > 0) {
 					// alert(response);
-					$("#cancel-dialog-content").html("<i class='far fa-check-circle'></i> "+data.title+"<br />"+data.applyContent+"<br /> 신청 취소 완료<br /><br />");
-					// $("#moStaus").html('수락');
+					$("#cancel-dialog-content").html("<i class='far fa-check-circle'></i> "+data.title+"<br /><br />"+data.applyContent+"<br /> 신청 취소 완료<br /><br />");
+					$("#cancel-close").click(function(){
+						$("#cancel-dialog-content").hide();
+						location.reload();
+					});
 				} else {
 				}
 			},

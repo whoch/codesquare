@@ -1,5 +1,4 @@
 $(function(){
-	var BOARD_ID = $('#BOARD_ID').val();
 	var initial_bookmark_status = $('#bookmark-button').hasClass('checked');
 	var status_change = false;
 	
@@ -11,6 +10,7 @@ $(function(){
 	$('#bookmark-button').click(function(e) {
          $(this).toggleClass('checked').children('i').toggleClass('fas far');
          $(this).find('span').text( $('#bookmark-button i').hasClass('far') ?'찜하기':'찜취소');
+         $('#likeCount').text(  parseInt($('#likeCount').text())+($('#bookmark-button i').hasClass('far')?-1:1)   );
          status_change = !status_change;
 	});//북마크 클릭 이벤트 끝
 	
@@ -32,8 +32,8 @@ $(function(){
 		
 		var data = {
 				boardId		: $('#BOARD_ID').val(),
-				applyUserId : 'cksdud',
-				nickName	: '찬영찬영',
+				applyUserId : $('#USER_ID').val(),
+				nickName	: $('#NICKNAME').val(),
 				applyContent: JSON.stringify(applyContent)
 		}
 		
@@ -44,7 +44,7 @@ $(function(){
 			contentType:'application/json; charset=UTF-8',
 			success: function (response) {
 					statusButtonView(response);
-					$('#application-modal').modal('hide')
+					$('#application-modal').modal('hide');
 					
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -58,7 +58,7 @@ $(function(){
 	var applyCancel = function(){
 		var data = {
 				boardId		: $('#BOARD_ID').val(),
-				applyUserId		: 'cksdud',
+				applyUserId	: $('#USER_ID').val()
 		}
 		$.ajax({
 			type:'POST',
@@ -69,29 +69,51 @@ $(function(){
 					statusButtonView(response);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                  console.log('##### submit wantedWrite : Ajax ERROR #####');
+                  console.log('##### cancelApplication : Ajax ERROR #####');
                   console.log('jqXHR.status : ' + jqXHR.status);
             }
 	 	});//ajax
-	}//그룹 신청 취소 CanCEL
+	}//그룹 신청 취소 Cancel
 	
 	var statusButtonView = function( status ){
 		$('#status-button div:visible').hide()
 		$('.'+status).show();
-	}
+	}//상태에 따른 버튼 보기
 	
+	var wantedClose = function(){
+		var data = {
+				status	: 0,
+				boardId : $('#BOARD_ID').val(),
+				groupId : $('#GROUP_ID').val(),
+				declineContent : $('#declineContent').val()
+		}
+		$.ajax({
+			type:'POST',
+			url:'/studyWanted/wantedClose',
+			data : JSON.stringify(data),
+			contentType:'application/json; charset=UTF-8',
+			success: function (response) {
+					statusButtonView(response);
+					$('#recruitmentCount').remove();
+					$('#boardClosed-modal').modal('hide');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                  console.log('##### submit wantedClose : Ajax ERROR #####');
+                  console.log('jqXHR.status : ' + jqXHR.status);
+            }
+	 	});//ajax
+	}//모집글 마감
 	
-	$('#group-wait-button').on('click',applyCancel);
-
+	$('#submitClose').on('click', wantedClose);
+	$('div[id$="wait-button"]').on('click',applyCancel);
 		
 	$(window).on('beforeunload', function(){
 		if( status_change ){
 			var data = {
-		 			boardId : BOARD_ID,
-		 			boardKind : 'BookmarkList',
-		 			id : '',
-		 			status : !initial_bookmark_status 
-		 		/*	userId : userId*/
+		 			boardId : $('#BOARD_ID').val(),
+		 			userId : $('#USER_ID').val(),
+		 			status : !initial_bookmark_status,
+		 			likeCount : $('#likeCount').text()
 			} 
 			
 			 $.ajax({
