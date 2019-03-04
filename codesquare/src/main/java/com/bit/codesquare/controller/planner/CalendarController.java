@@ -38,16 +38,19 @@ public class CalendarController {
 	CalendarMapper calendarMapper;
 	Logger logger = LoggerFactory.getLogger(CalendarController.class);	
 	
+
 	CalendarEvent event;
 	CalendarEventDow eventDow;
 	List<CalendarEvent> eventList;
 	List<CalendarEventDow> eventDowList;
-	
+
 	@RequestMapping("/calendar")
 	public String calendar(Model model, Authentication auth) {	
 		String userId = auth.getName();
 		
+
 		/*List<HashMap<String, Object>> seminarScheduleList=new ArrayList<HashMap<String, Object>>();
+
 		List<HashMap<String, Object>> groupMeetingScheduleList=new ArrayList<HashMap<String, Object>>();		
 		
 		List<SeminarMeetingDateDetails> seminarData=calendarMapper.getAllScheduleSeminar();
@@ -75,7 +78,6 @@ public class CalendarController {
 			groupMeetingScheduleList.add(schedule);
 		}//groupMeetingScheduleList.add();		
 		model.addAttribute("study",groupMeetingScheduleList);
-		*/
 
 		model.addAttribute("GroupConfirmedEventTRUE",getConfirmedEventInGroup(calendarMapper.getGroupScheduleTRUE(userId)));
 		model.addAttribute("GroupConfirmedEventFALSE",getConfirmedEventInGroup(calendarMapper.getGroupScheduleFALSE(userId)));

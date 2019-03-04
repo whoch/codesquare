@@ -25,8 +25,11 @@ public class JoiningAndRecruitmentLog  extends Member implements ComparableDateT
 	private String applyContent;
 	private String declineContent;
 	private String status;
+	private String groupId;
 	
 	private Map applyMap;
+	
+	
 
 	@Override
 	public LocalDateTime getDateTimeCompare() {

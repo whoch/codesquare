@@ -10,6 +10,8 @@ import com.bit.codesquare.dto.group.GroupInfo;
 import com.bit.codesquare.dto.group.GroupMemberInfo;
 import com.bit.codesquare.dto.group.WriteWantedBoard;
 import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
+
+import com.bit.codesquare.dto.member.Member;
 import com.bit.codesquare.dto.planner.GroupMeetingDateDetails;
 
 @Mapper
@@ -19,6 +21,9 @@ public interface GroupMapper {
 	public GroupInfo getGroupInfo(String groupId);
 	public List <GroupMemberInfo> getGroupMember (String groupId);
 	public GroupInfo getGroupLeader (String groupId);
+	
+	public int changeGroupAvailability (String groupId);
+	public int addGroupMember (Member member, String groupId);
 	
 	
 	public GroupInfo getGroupInfoUseBoardId(int boardId);

@@ -133,7 +133,7 @@
 
 	<select id="getWantedList"
 		resultType="Board">
-		select Id, BoardKindId, Title, WriteDate, Status from Board
+		select Id, BoardKindId, Title, WriteDate, Status, GroupId from Board
 		where UserId= #{userId} AND
 		(BoardKindId='SmnMo' or
 		BoardKindId='StdMo')
@@ -151,7 +151,7 @@
 	<select id="getWantedPList"
 		resultType="JoiningAndRecruitmentLog">
 		select a.BoardId, b.BoardKindId, a.NickName, a.ApplyUserId,
-		a.ApplyDate, b.Title, b.WriteDate,
+		a.ApplyDate, b.Title, b.WriteDate, b.groupId,
 		a.ApplyContent, a. DeclineContent,
 		a.Status from
 		JoiningAndRecruitmentLog a join Board b on a.BoardId =
