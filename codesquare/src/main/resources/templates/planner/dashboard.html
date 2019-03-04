@@ -49,8 +49,28 @@
             </div>
         </div>
         <!-- END CUSTOM-TAB 나의 그룹 및 세미나 스케쥴 보기  -->
-
-
+		<!-- The Modal -->
+		  <div class="modal fade" id="attend-modal">
+		    <div class="modal-dialog modal-sm">
+		      <div class="modal-content">
+		        <!-- Modal Header -->
+		        <div class="modal-header">
+		          <h6 class="modal-title">참석 여부를 체크해 주세요!</h6>
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		        </div>
+		        
+		        <!-- Modal body -->
+		        <div class="modal-body">
+		          <div id="attend-check">
+			          <div id="yes" class="yes btn btn-purple shadow">참석</div>
+			          <div id="no" class="no btn btn-grey shadow">불참</div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		<!-- END The Modal -->
+		
         <!-- START CARD-DECK -->
         <div class="rowDash card-deck">
             <div class="card card-stats shadow">
@@ -136,7 +156,6 @@
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
         <!-- END LECTURE CARD -->
@@ -152,7 +171,7 @@
                     </div>
                     <div class="groupNt-title">
                         <span th:text="*{list.title}"></span>
-                        <i class="fa fa-check-circle"></i>
+<!--                         <i class="fa fa-check-circle"></i> -->
                     </div>
                     <div class="groupNt-content" th:text="*{list.content}"> </div>
                     <div class="groupNt-writeDate writeDate" th:text="*{list.writeDateFormat}"></div>
@@ -217,6 +236,11 @@
             });
         };//end viewSchedule function
 
+       	var attendCheck = function(){
+       		alert(this);
+        	
+        }
+        $('.tag-custom.attend-none').on('click', attendCheck);
         $(document).ready(function () {
             viewSchedule(allSchedule, 'all');
             viewSchedule(groupSchedule, 'study');

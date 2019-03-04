@@ -57,12 +57,13 @@ public class MyPlannerController {
 		return userTodoList;
 	}
 	
-	@PostMapping("/planner/deleteBookMark")
+	@PostMapping("/deleteTodo")
 	@ResponseBody
 	public void deleteTodo(@RequestBody Map<String, String> data) {
-		myplannerMapper.deleteBookmarkUsingId(data);
-		myplannerMapper.updateBookmarkDeleteCount(data);
+		myplannerMapper.deleteUsingIdAndBoardKind(data);
 	}
+	
+
 	
 	@PostMapping("/updateTodo")
 	@ResponseBody
@@ -75,6 +76,13 @@ public class MyPlannerController {
 	public String[] checkedTodo(@RequestBody Map<String, String> data) {
 		myplannerMapper.updateTodoStatus(data);
 		return myplannerMapper.getRowNumTodo(data.get("userId"));
+	}
+	
+	@PostMapping("/planner/deleteBookMark")
+	@ResponseBody
+	public void deleteBookMark(@RequestBody Map<String, String> data) {
+		myplannerMapper.deleteBookmarkUsingId(data);
+		myplannerMapper.updateBookmarkDeleteCount(data);
 	}
 	
 	@RequestMapping(value = "/go/{boardId}")

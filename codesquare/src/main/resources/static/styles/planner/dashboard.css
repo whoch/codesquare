@@ -27,7 +27,7 @@ main {
 	background-color: #f1f1f1
 }
  .rowDash {
-	margin: 150px 0px;
+	margin: 130px 0px;
 } 
 
 .writeDate {
@@ -56,11 +56,11 @@ main {
 } */
 
 .group-schedule {
-	margin-top: 30px;
+	margin-top: 20px;
 }
 
 .custom-tab .tab-content {
-    height: 400px;
+    height: 298px;
     padding-top: 10px;
     border: 1px solid rgba(0,0,0,.125);
     border-left: none;
@@ -98,7 +98,7 @@ main {
 }
 
 .nav-pills.nav-custom-tabs .nav-link {
-    padding: 30px 20px;
+    padding: 23px 5px;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
 }
@@ -377,7 +377,8 @@ main {
 
  .card-nomal .groupNotice {
      display: grid;
-     grid-template-columns: 15% 25% 40% 20%;
+     grid-template-columns: 20% 30% 40% 10%;
+     padding-left: 13px;
  }
 
 
@@ -437,16 +438,17 @@ main {
   #custom-todoList .todoList {
 	max-height: 400px;
 	overflow:auto;
+    padding: 0 30px;
  }
  
+ .deleteIcon-todo{
+	color:#fdfdfd;;
  
- 
+ }
  #custom-todoList .todo-li {
  	list-style-type: none;
- /* 	padding : 10px; */
  	margin-bottom: 5px;
- 	border : 1px solid rgba(0,0,0,.125);
- 	border-radius: 5px;
+ 	border-bottom : 1px solid rgba(0,0,0,.125);
  	 	
  }
  
@@ -456,9 +458,17 @@ main {
  	 	
  }
  
+ #custom-todoList input::placeholder {
+	color: #a1a1a1;
+	font-style: italic;
+	font-size: 15px;
+}
+
  
   #custom-todoList .todo-submit-btn{
-  font-size: 40px;
+  font-size: 16px;
+  margin-left: 14px;
+  margin-bottom:40px;
  }
 
  #custom-todoList textarea {
@@ -491,10 +501,31 @@ main {
     text-align: center;
  }
  
- .todo-li:not(.td-check) i  {
+/*  .todo-li:not(.td-check) i  {
     visibility: hidden;
     color: rgba(0,0,0,.125);
+ } */
+
+ .todo-li:not(.td-check) .fa-check  {
+    visibility: hidden;
+    color: #5DA16B;
  }
+ 
+  .todo-li:not(.td-check) .fa-trash  {
+    visibility: hidden;
+    color: #C0C0C0;
+ }
+
+#custom-todoList .form-control{
+	border: none;
+    border-bottom: 1px solid #8e8e8e;
+    border-radius: 0;
+    width: 100%;
+    margin-left: 60px !important;
+    margin-bottom: 40px !important;
+}
+
+
 
 .todoList .todo-li:hover {
   background: #f9f9f9;
@@ -502,10 +533,16 @@ main {
 }
  
  .todoList .todo-li.td-check {
-  background: #ddd;
+  background: #d3d2d66b;
   color: #fff;
+  border-radius: 30px;
+  margin-left: -8px;
+  margin-right: -8px;
 }
 
+#custom-todoList .form-control{
+	margin : 0 35px;
+}
  .todoList .todo-li.td-check .todo-content {
   text-decoration: line-through;
 }
@@ -600,7 +637,12 @@ main {
 
 #dash-first a {
 	color:#4e4e4e;
-	font-size: 20px;
+	font-size: 18px;
+}
+
+#dash-first .nav-link:not(.active) {
+	color:white;
+	font-size: 15px;
 }
 
 #dash-first div {
@@ -631,4 +673,7 @@ main {
     color: #4e4e4e;
     border-color: #4e4e4e;
     background-color: rgb(255, 213, 7);
+}
+.tag-custom.attend-none:hover {
+    background-color: rgb(228, 190, 3);
 }

@@ -95,8 +95,13 @@
 						<!-- ####   START 오른쪽 컨텐츠     #### -->	
 						<div class="col-md-3 wantedContent" >
 							<div id="wantedContent-detail">
-								 <img class="rounded-circle shadow" 
-									 th:src="@{/static/codesquareDB/default/default_user_image4.jpg}">
+								<img th:if="${board.profileImagePath} eq DefaultThumbnail" class="rounded-circle shadow" 
+									th:src="@{/static/images/DefaultThumbnail.png}" />
+								<img th:unless="${board.profileImagePath} eq DefaultThumbnail" class="rounded-circle shadow" 
+									th:src="@{'/static/codesquareDB/UserThumbnail/{userId}/{ImagePath}'(userId=${board.userId},ImagePath=${board.profileImagePath})}" />
+							
+		<!-- 						 <img class="rounded-circle shadow" 
+									 th:src="@{/static/codesquareDB/default/default_user_image4.jpg}"> -->
 								<h4 class="instructorNickName" th:text="${board.nickName}"></h4>
 								<div th:if="*{status}!=0 and ${seminar.recruitpersonnel}!=0 " 
 									th:text="|${seminar.recruitpersonnel}명 모집중|"></div>

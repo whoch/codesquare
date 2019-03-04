@@ -31,8 +31,6 @@ public class DashboardController {
 		model.addAttribute("userStats", dashboardService.getUserStats(userId));
 		model.addAttribute("cardLecture", dashboardMapper.getUserLectureList(userId));
 		model.addAttribute("cardGroupNotice", dashboardService.getUserGroupNoticeList(userId));
-		
-		logger.info("###TEST : " + dashboardService.getAllSchedule(userId).toString());
 		return "planner/dashboard";		
 	}
 	
