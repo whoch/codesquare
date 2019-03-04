@@ -17,11 +17,10 @@ public interface StudyMapper {
 	public BoardKind getBoardKind(String boardNameEn);
 	public void addBookmark(Map<String, String> data);
 	public void deleteBookmark(Map<String, String> data);
-	public String getBookmarkId(int boardId);
+	public String getBookmarkId(int boardId, String userId);
 	public void writeStudyWantedBoard(Board board);
 	public void deleteStudyWantedBoard(int boardId);
-	
-	
-	
+	public void updateBoardStatus(Map<String, String> data);
+	public void updateBoardLikeCount(Map<String, String> data);
 	
 }
