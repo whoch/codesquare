@@ -2,8 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/mainLayout2}"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <title>스터디모집</title>
 <link rel="stylesheet" type="text/css" th:href="@{/static/styles/study/study.css}">
 <style>
@@ -302,9 +300,9 @@
 	<!-- END content -->
 
 <th:block layout:fragment="script">
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 	<script type="text/javascript" th:inline="javascript" th:src="@{/static/js/study/studyWantedView.js}"></script>
-		<script src="/static/js/comment/comment.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+	<script src="/static/js/comment/comment.js"></script>
 
 </th:block>
 

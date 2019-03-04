@@ -6,7 +6,6 @@ var notibell = "<img id='menuicon' src='/static/images/noticelist.png'/>";
 //var notibell = null;
 var aline;
 $(function() {   
-
 	 socket = new SockJS('/stomp');
 	 stompClient = Stomp.over(socket);
 
@@ -30,7 +29,7 @@ $(function() {
 //ajax 알림리스트 DB
 function noticeviewList() {
 	$.ajax({
-		url:'noticeview',
+		url:'/noticeview',
 		type:'GET',
 		data:{"messages":messages}
 	}).done(function(data){
@@ -39,8 +38,6 @@ function noticeviewList() {
 			noticeviewContent += "<li>"+notibell+"<a href='" + value.noticeLink + "'>"+value.noticeContent
 			+ "<p id=send>" + value.sendDateString + "</p>"+"</br>"+"</a>"+"</li>";
 		});
-		console.log("noticeviewList나옴")
-		
 		$("#messages").html(noticeviewContent);
 	}).fail(function(data){
 		console.log("noticeviewContent실패");
@@ -74,13 +71,10 @@ function noticeviewList() {
 			success : function() {
 				counts();
 				pushFunction();
-				console.log("reply()작동 ok");
-				console.log("현재시간 뽑기: " + aline)
 				//허버 var ho = hover {background: #bbb;}
 				//aline = window.location.href;
-				console.log("경로: " +aline);
 				
-			$('#messages').prepend("<li>" + notibell + "<a href='" + aline + "'>"+ "회원님의 게시글에 댓글이 달렸습니다.(js)" 
+			$('#messages').prepend("<li>" + notibell + "<a href='" + aline + "'>"+ "회원님의 게시글에 댓글이 달렸습니다." 
 					+"<p id = 'send'>"+ times +"</p>"+"</br>"+"</a>" + "</li>");
 	
 			//	$('#messages').prepend("<li>" + notibell + "회원님의 게시글에 댓글이 달렸습니다.(js)" +aline2 +"</li>");
@@ -109,16 +103,15 @@ function noticeviewList() {
 			url : '/send/message',
 			data : {
 				
-				'qq' : "코드스퀘어 가입을 환영합니다.^^*(DB) ",
+				'qq' : "코드스퀘어 가입을 환영합니다.^^* ",
 				'aline' : aline,
 				'times' : times
 			},
 			success : function(data) {
 				//message = data.body; 
 				counts();
-				console.log("times: " + times);
-				//시간 stlyl없을때 $('#messages').prepend("<li>" + notibell +"코드스퀘어 가입을 환영합니다^^*(js)"+ times +"</li>");
-				$('#messages').prepend("<li>" + notibell + "<a href='" + aline + "'>"+ "코드스퀘어 가입을 환영합니다^^*(js)" +"<p id = 'send'>"+ times +"</p>"+"</br>"+"</a>" + "</li>");
+				//시간 stlyl없을때 $('#messages').prepend("<li>" + notibell +"코드스퀘어 가입을 환영합니다^^*"+ times +"</li>");
+				$('#messages').prepend("<li>" + notibell + "<a href='" + aline + "'>"+ "코드스퀘어 가입을 환영합니다.^^" +"<p id = 'send'>"+ times +"</p>"+"</br>"+"</a>" + "</li>");
 			}
 		});
 	}//join() 닫음
@@ -156,11 +149,10 @@ function noticeviewList() {
 	// 카운트- 쿼리, 컨트롤러 사용시
 	function counts() {
 		$.ajax({
-			url:'coints1',
+			url:'/coints1',
 			type:'GET',
 		}).done(function(data){
 			document.getElementById("counts").innerHTML = data;
-			
 		}).fail(function(data){
 			console.log("cc 실패");
 		})
