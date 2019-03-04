@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.bit.codesquare.dto.board.BoardKind;
 import com.bit.codesquare.dto.planner.UserBookmarkCatecory;
 import com.bit.codesquare.dto.planner.UserBookmarkList;
 import com.bit.codesquare.dto.planner.UserGroupWorkList;
@@ -26,4 +27,6 @@ public interface MyplannerMapper {
 	public int updateTodoStatus(Map<String, String> data);
 	
 	public String[] getRowNumTodo(String userId);
+	public String getBoardSubjectUseBoardId(int boardId);
+	public BoardKind getBoardkindDetailUseBoardId(int boardId);
 }

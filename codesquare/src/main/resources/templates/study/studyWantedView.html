@@ -33,7 +33,6 @@
 	    <input id="USER_ID" type="hidden" th:value="${session.userId}">
     	<input id="NICKNAME" type="hidden" th:value="${session.nickName}">
     	<input id="STATUS" type="hidden" th:value="${status}">
-    	
     		
     		<h3 class="boardTitle">스터디모집</h3>
 			<!-- 게시판 본문 -->
@@ -84,10 +83,10 @@
 										<dd th:class="group-member-cnt" th:text="|*{memberCount}명의 멤버가 참여중 입니다|"></dd>
 										
 										<dt>시간:</dt>
-										<dd class="group-meetingTime" th:text="${#dates.format(group.startDate,'aaa HH시 mm분')}"></dd><dd></dd>
-										<dd class="group-startDate" th:text="${#dates.format(group.startDate)}>${#dates.format(#dates.createNow())}
-																			?|${#dates.format(group.startDate,'M월 dd일  (EE)')} 첫 스터디 시작  예정! |
-																			:|${#dates.format(group.startDate,'YY년 M월 dd일 (EE)')}부터 진행중인 그룹입니다|">
+										<dd class="group-meetingTime" th:text="${#temporals.format(group.startDate,'a HH시 mm분')}"></dd><dd></dd>
+										<dd class="group-startDate" th:text="${group.startDate}>${#temporals.createNow()}
+																			?|${#temporals.format(group.startDate,'M월 dd일  (EE)')} 첫 스터디 시작  예정! |
+																			:|${#temporals.format(group.startDate,'YY년 M월 dd일 (EE)')}부터 진행중인 그룹입니다|">
 										</dd>
 										
 										<dt>일정:</dt>

@@ -4,18 +4,13 @@
 
 <head>
     <title>Dashboard</title>
-    
-    
-
-  
 </head>
 
 <body>
 
     <article class="content" layout:fragment="myPageContent2">
-
         <!-- START CUSTOM-TAB 나의 그룹 및 세미나 스케쥴 보기 -->
-        <div class="row group-schedule custom-tab">
+        <div id="dash-first" class="row group-schedule custom-tab">
             <!-- 왼쪽 Nav tabs 부분 -->
             <ul class="nav nav-pills nav-custom-tabs flex-column col-md-1">
                 <li class="nav-item">
@@ -31,33 +26,24 @@
 			<!-- 오른쪽 컨텐츠 부분 -->
             <div class="tab-content custom-tab-content col-md-11 shadow">
                 <div id="all" class="container tab-pane active">
-                    <p>all</p>
                     <div class="row">
-                        <ul class="col-md-7 schedule-list">
+                        <ul class="col-md-12 schedule-list">
                             <!-- #####  스케쥴의 리스트의 data  ##### -->
                         </ul>
-                        <div class="map col-md-5" style="background-color: lightgray; height: 250px">
-                        </div>
                     </div>
                 </div>
                 <div id="study" class="container tab-pane fade">
-                   <p>study</p>
                     <div class="row">
-                        <ul class="col-md-7 schedule-list">
+                        <ul class="col-md-12 schedule-list">
                             <!-- #####  스케쥴의 리스트의 data  ##### -->
                         </ul>
-                        <div class="map col-md-5" style="background-color: lightgray; height: 250px">
-                        </div>
                     </div>
                 </div>
                 <div id="seminar" class="container tab-pane fade">
-                    <p>seminar</p>
                     <div class="row">
-                        <ul class="col-md-7 schedule-list">
+                        <ul class="col-md-12 schedule-list">
                             <!-- #####  스케쥴의 리스트의 data  ##### -->
                         </ul>
-                        <div class="map col-md-5" style="background-color: lightgray; height: 250px">
-                        </div>
                     </div>
                 </div>
             </div>
@@ -184,6 +170,7 @@
 <th:block layout:fragment="script">
   <script type="text/javascript" th:inline="javascript">
 
+		  
         var allSchedule = /*[[${allSchedule}]]*/;
         allSchedule.sort(function (a, b) {
             return a.meetingDate < b.meetingDate ? -1 : 1
@@ -208,12 +195,16 @@
             $.each(objectSchedule, function (index, item) {
                 var isSeminarSchedule = 'seminarStartDate' in item;
                 var week = ['일', '월', '화', '수', '목', '금', '토'];
+                var date = new Date(item.meetingDate);
                 var el = [
-                    ['list__scheduleId', isSeminarSchedule ? '강사' : '그룹명', item.nickname || item.groupId]
-                    , ['list__boardKind', '분류', isSeminarSchedule ? '세미나' : '그룹']
-                    , ['list__meetingDate', '모임일', new Date(item.meetingDate).getDate() + '일']
-                    , ['list__meetingDay', '요일', week[new Date(item.meetingDate).getDay()]]
-                    , ['list__status '+(item.status=='none'?'fa fa-exclamation':(item.status==false?'fa fa-close':'fa fa-check')), '상태', '']
+                    ['list__scheduleId', isSeminarSchedule?'강사':'그룹명', item.nickname || item.groupId]
+                    , ['list__boardKind', '분류', isSeminarSchedule?'세미나':'그룹']
+                    , ['list__meetingDate', '모임일', date.getDate() + '일']
+                    , ['list__meetingDay', '요일', week[date.getDay()]]
+              		, ['list__meetingTime', '모임시간', date.getHours()+':'+(date.getMinutes()==0?'00':date.getMinutes())+"에 시작"]
+                    , ['list__status', '상태',
+                    	item.status=='none'?'<div class="tag-custom attend-none"><i class="fa fa-exclamation"></i><div>':
+                    	(item.status=='false'?'<div class="tag-custom attend-false">불참</div>':'<div class="tag-custom attend-true">참석</div>')]
                 ];
                 var html = '';
 
@@ -232,33 +223,7 @@
             viewSchedule(seminarSchedule, 'seminar');
         });
 
-        $(function () {
-            $(".map").click(function () {
-                $.ajax({
-                    type: 'post',
-                    url: '/test',
-                    /* dataType : 'html',  내가 서버에서 받을 데이터값의 타입을 정하는건가? */
-                    /* data : {"JSONallScedule":JSONallSchedule, "A" : "A"}, */
-                    data: JSONallSchedule,
-                    contentType: 'application/json; charset=UTF-8',
-/* 					traditional : true,
- */					success: function (data) {
-                        $(this).css('background-color', 'red');
-                        console.log("##### Ajax SUCCESS #######");
-                        console.log(this);
-                        console.log(data);
-                        console.log(event);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log("##### Ajax ERROR #######");
-                    }
-                });
-            });
-        });
-
-
     </script>
-
 </th:block>
 </body>
 

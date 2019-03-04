@@ -17,4 +17,6 @@ public class SeminarInfo {
 	int recruitpersonnel;
 	String coordinates;
 	String locale;
+	
+	String meetingDate;
 }
