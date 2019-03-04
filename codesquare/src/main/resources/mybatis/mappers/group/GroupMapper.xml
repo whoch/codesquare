@@ -97,9 +97,11 @@
 	</select>
 	
 	<!-- 신청 취소 -->
-	<delete id="cancelApplication" parameterType="java.util.Map">
-		DELETE FROM JoiningAndRecruitmentLog WHERE `ApplyUserId`=#{applyUserId} AND `BoardId`=#{boardId}
-	</delete>
+	<update id="cancelApplication" parameterType="java.util.Map">
+		UPDATE JoiningAndRecruitmentLog
+		SET Status='신청취소'
+		WHERE ApplyUserId=#{applyUserId} ANd boardId=#{boardId}
+	</update>
 	
 
 </mapper>

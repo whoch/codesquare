@@ -3,6 +3,7 @@ package com.bit.codesquare.controller.study;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.boot.json.BasicJsonParser;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +23,11 @@ import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.group.GroupInfo;
 import com.bit.codesquare.dto.group.WriteWantedBoard;
 import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
+import com.bit.codesquare.dto.member.Member;
 import com.bit.codesquare.mapper.board.FreeMapper;
 import com.bit.codesquare.mapper.group.GroupMapper;
 import com.bit.codesquare.mapper.study.StudyMapper;
+import com.bit.codesquare.security.SecurityMember;
 import com.bit.codesquare.util.CodesquareUtil;
 
 
@@ -69,7 +73,7 @@ public class StudyController {
 		}
 
 		String statusOfTheUser;
-
+		
 		try{
 			String userId = auth.getName();
 			String applyStatus = groupMapper.getApplyingStatus(boardId, userId);
@@ -77,9 +81,9 @@ public class StudyController {
 			
 			if(board.getStatus()==0) {
 				statusOfTheUser="END";
-			}else if( joinningGroupAuthorId!=null && joinningGroupAuthorId == 5) {
+			}else if( joinningGroupAuthorId == 5) {
 				statusOfTheUser="CLOSE";
-			}else if( joinningGroupAuthorId!=null && joinningGroupAuthorId == 4) {
+			}else if( joinningGroupAuthorId == 4) {
 				statusOfTheUser="IN";
 			}else if( applyStatus!=null && applyStatus.equals("") ){
 				statusOfTheUser="WAIT";
@@ -94,9 +98,6 @@ public class StudyController {
 				statusOfTheUser="ING";
 			}
 		}
-		
-
-		
 		model.addAttribute("status", statusOfTheUser);
 		model.addAttribute("group", group);
 		model.addAttribute("board", CodesquareUtil.setDateTimeCompare(board));
@@ -109,7 +110,6 @@ public class StudyController {
 	@ResponseBody
 	public void clickBookmark(@RequestBody Map<String, String> data) {
 		boolean status = Boolean.parseBoolean(data.get("status"));
-		logger.info("#test : "+data.toString());
 		studyMapper.updateBoardLikeCount(data);
 		if(status) {
 			studyMapper.addBookmark(data);
@@ -162,7 +162,6 @@ public class StudyController {
 	@PostMapping("/studyWanted/wantedClose")
 	@ResponseBody
 	public String wantedClose(@RequestBody Map<String, String> data) {
-		logger.info("##test : " + data.toString());
 		studyMapper.updateBoardStatus(data);
 		groupMapper.updateGroupRecruitmentCount(data.get("groupId"), 0);
 		groupMapper.setDeclineContentUseBoardId(data);

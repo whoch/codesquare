@@ -69,7 +69,7 @@ $(function(){
 					statusButtonView(response);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                  console.log('##### submit wantedWrite : Ajax ERROR #####');
+                  console.log('##### cancelApplication : Ajax ERROR #####');
                   console.log('jqXHR.status : ' + jqXHR.status);
             }
 	 	});//ajax
