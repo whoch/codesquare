@@ -5,6 +5,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorator="layout/mainLayout2">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <title>Insert title here</title>
 <style>
@@ -22,46 +23,59 @@ layout:decorator="layout/mainLayout2">
     border: 1px solid #ddd;
     text-decoration: none;
 }
+a:link {
+text-decoration: none;
+}
 </style>
 </head>
 <body>
-<div class="container" layout:fragment="content"><br>
+<div class="container" layout:fragment="content" style="padding-left: 40px; padding-right: 40px;"><br>
 		<div class="lecture_header_item d-flex justify-content-between"
 				style="border-bottom: 5px solid black; margin-bottom: 25px;">
-		<h1 align="center"><a href=getfree style="color: black;">자유게시판</a></h1>
-</div>
+		<h1 align="center"><a th:href="@{'/getfree/'+${boardKindId}}" style="color: black;"><span th:text="${bn.boardName}"></span></a></h1>
+		
+</div>			
 <span th:text=${list.title} style="font-weight: bold; font-size: 27px;"></span>
 <a style="float: right;"><span th:text="${list.hit}" style="float: right;"></span>조회수 &nbsp;</a>
-
 <span th:text="${list.writeDateBoard}"></span>
-
 <div style="margin-top: 25px; border-bottom: 1px solid #BAB9BA;"></div>
-<div style="margin-top: 40px; margin-bottom:150px; border-bottom: 1px solid #BAB9BA;"> <span th:utext=${list.content}></span>
-</div>
+<div style="margin-top: 40px; margin-bottom:150px; border-bottom: 1px solid #BAB9BA;">
+<span th:utext=${list.content}></span>
+</div>			
 				<div align="right" style="margin-top: 20px;">
-				<a th:href="@{'/freemodifygo?id=' + ${list.id}}" type="button" id=a style="font-weight: bold;">수정</a> &nbsp;
-				<a href="javascript:history.go(-1)" type="button" id=a style="font-weight: bold;">목록보기</a> &nbsp;
-				<a th:href="@{'freedelete?id='+${list.id}}" type="button" id=a style="font-weight: bold;">삭제</a>
+				<input type="hidden" name="boardKindId" th:value="${boardKindId}">
+				<a href="javascript:history.go(-1)" type="button" id=a style="font-weight: bold;">목록보기</a>
+				<span sec:authorize="isAuthenticated()">
+				<a th:href="@{'/freemodifygo/'+${boardKindId}+'?id='+${list.id}}" type="button" id=a style="font-weight: bold;">수정</a>
+
+				<form th:action="@{/freedelete}" name="freedelete" style="display:inline;">
+				<input type="hidden" name="id" th:value="${list.id}">
+				<input type="hidden" name="boardKindId" th:value="${boardKindId}">
+				<button type="submit" id=a style="font-weight: bold;">삭제</button>
+				</form>
+				</span>
 				</div>
 				
-				<div class="container">
+	<div class="container" sec:authorize="isAuthenticated()">
         <label for="content" style="font-size: 30px; color: #8045dd">댓글</label>
         <form name="commentInsertForm">
             <div class="input-group">
                <input type="hidden" id="bno" name="bno" th:value="${list.id}"/>
                <input type="text" class="form-control" id="content" name="content" placeholder="내용을 입력하세요."  style="height: 100px; background-color: #FBFAFB" autocomplete="off">
                <span class="input-group-btn">
-                    <button type="button" name="commentInsertBtn" id="a" style="height: 100px;">등록</button>
+                    <button type="button" name="commentInsertBtn" id="a" style="height: 100px;" onclick="reply()">등록</button>
                </span>
               </div>
         </form>
     </div>
    
-    
-	<script src="static/js/comment/comment.js"></script>
+<th:block layout:fragment="script">
+	<script src="/static/js/comment/comment.js"></script>
     <div class="container">
         <div class="commentList"></div>
     </div>
+</th:block>
 </div>
+
 </body>
 </html>

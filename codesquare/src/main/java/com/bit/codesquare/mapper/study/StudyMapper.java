@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.board.BoardKind;
-import com.bit.codesquare.dto.group.GroupInfo;
 
 @Mapper
 public interface StudyMapper {
@@ -16,7 +15,12 @@ public interface StudyMapper {
 	public List<Board> getBoardList(String boardName);
 	public Board getBoardView(String boardName, int boardId);
 	public BoardKind getBoardKind(String boardNameEn);
-	public GroupInfo getGroupInfo(int boardId);
 	public void addBookmark(Map<String, String> data);
-	public String getBookmark(int boardId);
+	public void deleteBookmark(Map<String, String> data);
+	public String getBookmarkId(int boardId, String userId);
+	public void writeStudyWantedBoard(Board board);
+	public void deleteStudyWantedBoard(int boardId);
+	public void updateBoardStatus(Map<String, String> data);
+	public void updateBoardLikeCount(Map<String, String> data);
+	
 }

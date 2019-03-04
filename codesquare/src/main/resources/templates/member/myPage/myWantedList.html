@@ -28,19 +28,19 @@
 					data-toggle="collapse" th:data-target="'#body'+${wlist.id}"
 					aria-expanded="true" aria-controls="'body'+${wlist.id}">
 					<div class="col-md-6" th:text="${wlist.title}"></div>
+					<span hidden th:text="${wlist.groupId}"></span>
 					<div class="col-md-4"
-						th:text="${#dates.format(wlist.writeDate, 'yy-MM-dd')}"></div>
+						th:text="${wlist.writeDateBoard}"></div>
 					<div class="col-md-2"
 						th:text="${wlist.status} == 0 ? '모집중' : '모집완료'"></div>
 
 				</div>
-
 				<div th:id="'body'+${wlist.id}" class="collapse"
 					th:aria-labelledby="'heading'+${wlist.id}"
 					data-parent="#wantedList">
 
 					<!-- 스터디 모집인 경우 -->
-
+		
 					<div th:if="${wlist.boardKindId} == 'StdMo'">
 						<div class="row text-center small py-1">
 							<div class="col-md-3">신청자</div>
@@ -60,8 +60,8 @@
 							</div>
 							<div class="col-md-4 " th:text="${plist.applyContent}"></div>
 
-							<div class="col-md-2"
-								th:text="${#dates.format(plist.applyDate, 'yy-MM-dd')}"></div>
+							 <div class="col-md-2"
+								th:text="${#temporals.format(plist.applyDate, 'yy.MM.dd')}"></div>
 							<div class="col-md-3" id="moStaus" th:if="${plist.status} =='' ">
 
 								<button id="acceptMo" class="mybtn px-2 py-1 small">수락</button>
@@ -74,7 +74,8 @@
 									<div id="accept-dialog-content" class="text-center">
 										<span hidden id="pBoardId" th:text="${plist.boardId}"></span>
 										<span hidden id="pApplyUserId" th:text="${plist.applyUserId}"></span>
-										<span id="pApplyUserNick" th:text="${plist.nickName}"></span>님의
+										<span hidden id="groupId" th:text="${plist.groupId}"></span>
+										<span id="pApplyUserNick" th:text="${plist.nickName}"></span>님의 <Br /><Br />
 										<span th:text="${plist.applyContent}"></span> <br /> <br />신청을
 										수락하시겠습니까?<br /> <br />
 										<button id="acceptMoBtn" class="mybtn small">수락</button>
@@ -121,8 +122,8 @@
 							</div>
 							<div class="col-md-5" th:text="${plist.applyContent}"></div>
 
-							<div class="col-md-2"
-								th:text="${#dates.format(plist.applyDate, 'yy-MM-dd')}"></div>
+							 <div class="col-md-2"
+								th:text="${#temporals.format(plist.applyDate, 'yy.MM.dd')}"></div>
 							<div class="col-md-2" th:text="${plist.status}"></div>
 						</div>
 					</div>
@@ -136,21 +137,21 @@
 					<ul class="pagination justify-content-center">
 						<li class="page-item" th:if="${pageMakerWL.prev} == true"><a
 							class="page-link"
-							th:href="@{/myPage/myWantedList(page=${pageMakerWL.startPage}-1,perPageNum=${pageMakerWL.cri.perPageNum}, keyword=${pageMakerWL.cri.keyword})}">&laquo;</a>
+							th:href="@{/member/myWantedList(page=${pageMakerWL.startPage}-1,perPageNum=${pageMakerWL.cri.perPageNum}, keyword=${pageMakerWL.cri.keyword})}">&laquo;</a>
 						</li>
 
 						<li class="page-item"
 							th:each="idx,iterStat : ${#numbers.sequence(pageMakerWL.startPage,pageMakerWL.endPage)}"
 							th:classappend="${pageMakerWL.cri.page} == ${idx} ? active : null">
 							<a class="page-link"
-							th:href="@{/myPage/myWantedList(page=${idx},perPageNum=${pageMakerWL.cri.perPageNum},  keyword=${pageMakerWL.cri.keyword})}"
+							th:href="@{/member/myWantedList(page=${idx},perPageNum=${pageMakerWL.cri.perPageNum},  keyword=${pageMakerWL.cri.keyword})}"
 							th:text="${idx}" th:if="${idx}"></a>
 						</li>
 
 						<li class="page-item"
 							th:if="${pageMakerWL.next} == true and ${pageMakerWL.endPage > 0}">
 							<a class="page-link"
-							th:href="@{/myPage/myWantedList(page=${pageMakerWL.endPage}+1,perPageNum=${pageMakerWL.cri.perPageNum}, keyword=${pageMakerWL.cri.keyword})}">&raquo;</a>
+							th:href="@{/member/myWantedList(page=${pageMakerWL.endPage}+1,perPageNum=${pageMakerWL.cri.perPageNum}, keyword=${pageMakerWL.cri.keyword})}">&raquo;</a>
 						</li>
 					</ul>
 				</div>

@@ -1,38 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bit.codesquare.mapper.study.StudyMapper">
-<!-- UserId는 임시로 'cksdud'으로 출력중 -->
-
 	<select id="getBoardList" resultType="Board">
 		SELECT  * FROM Board_view WHERE BoardName IN(#{boardName}) ORDER BY WriteDate DESC
 	</select>
 	
 	<select id="getBoardView" resultType="Board">
-		SELECT  * FROM Board_view WHERE BoardName IN(#{boardName}) AND Id=#{boardId}
+		SELECT  * FROM Board_view_addProfilePath WHERE BoardName IN(#{boardName}) AND Id=#{boardId}
 	</select>
 	
-	<select id="getBoardKind" resultType='BoardKind'>	
+	<select id="getBoardKind" resultType="BoardKind">	
 		SELECT bk.*, bk2.BoardNameEn AS MainSubjectName FROM BoardKind bk
 		INNER JOIN BoardKind AS bk2 ON RIGHT(bk2.Id,3) = LEFT(bk.Id,3)
 		WHERE bk.BoardNameEn=#{BoardNameEn}
 	</select>
 	
-	<select id="getGroupInfo" resultType="GroupInfo">
-		SELECT * FROM GroupInfo_view gv
-		INNER JOIN Board AS bo ON gv.Id=bo.GroupId 
-		WHERE bo.Id = #{boardId}
-	</select>
-	
 	<insert id="addBookmark" parameterType="java.util.Map">
-		<selectKey keyProperty="id" resultType="String" order="AFTER">
-			SELECT LAST_INSERT_ID()
-		</selectKey>
 		INSERT INTO BookmarkList (UserId, BoardId)
-		VALUES ('cksdud', #{boardId})
+		VALUES ( #{userId}, #{boardId} )
 	</insert>
 	
-	<select id="getBookmark" resultType="String">
-		SELECT Id FROM BookmarkList WHERE UserId='cksdud' AND BoardId=#{boardId} LIMIT 1;
+	<delete id="deleteBookmark">
+		DELETE FROM BookmarkList WHERE UserId=#{userId} AND BoardId=#{boardId}
+	</delete>
+	
+	<select id="getBookmarkId" resultType="String">
+		SELECT Id FROM BookmarkList WHERE UserId=#{userId} AND BoardId=#{boardId} LIMIT 1
 	</select>
+	
+	<insert id="writeStudyWantedBoard" parameterType="Board">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO Board (BoardKindId, UserId, GroupId, Nickname, Title, Content )
+		VALUES ('StdMo', #{userId}, #{groupId}, #{nickName}, #{title}, #{content});
+	</insert>
+	
+	<delete id="deleteStudyWantedBoard">
+		DELETE FROM Board WHERE #{boardId}
+	</delete>
+	
+	<update id="updateBoardStatus">
+		UPDATE Board SET Status=#{status} WHERE Id=#{boardId}
+	</update>
+	
+	<update id="updateBoardLikeCount">
+		UPDATE Board SET LikeCount=#{likeCount} WHERE Id=#{boardId}
+	</update>
 	
 </mapper>

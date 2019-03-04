@@ -31,7 +31,9 @@
 <link
 	href="https://fonts.googleapis.com/css?family=Do+Hyeon|Noto+Sans+KR"
 	rel="stylesheet">
-
+<link rel="stylesheet" type="text/css" href="/static/styles/notice.css" th:href="@{/static/styles/notice.css}">	
+<script th:src="@{/static/js/notice/notice.js}"></script>
+<script th:src="@{/static/js/notice/sockjs.js}"></script>
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
 <!-- default header name is X-CSRF-TOKEN -->
 <meta id="_csrf_header" name="_csrf_header"
@@ -39,6 +41,7 @@
 
 </head>
 <body>
+ <div id="wapper">
 	<!-- 페이지의 헤더부분 -->
 	<header th:replace="fragments/header2 :: headerFragment2"></header>
 
@@ -114,7 +117,7 @@
 				</div>
 			</div>
 
-			<div layout:fragment="myPageContent" id="myPageContent"style="margin-bottom: 100px;">
+			<div layout:fragment="myPageContent" id="myPageContent" style="margin-bottom: 100px;">
 			</div>
 			</main>
 	</div>
@@ -154,6 +157,6 @@
 
 	<th:block layout:fragment="script"></th:block>
 	<th:block layout:fragment="css"></th:block>
-
+</div>
 </body>
 </html>

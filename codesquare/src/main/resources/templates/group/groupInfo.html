@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	layout:decorator="layout/plannerLayout"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container" layout:fragment="myPageContent2">
+		그룹정보
+		
+		<div th:text="${ginfo}"></div>
+			
+			그룹리더
+			<div th:text="${gLeader}"></div>
+			
+			그룹멤버
+			<div class="row text-center border-bottom  py-2"
+			th:each="gMember : ${gMember}">
+			
+			<div class="col">
+			<span th:text="${gMember.nickname}"></span>
+			(<span th:text="${gMember.UserId}"></span>)
+			<div th:text="${gMember.role}"></div>
+			<div th:text="${gMember.Content}"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

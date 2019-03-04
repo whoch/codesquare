@@ -67,12 +67,13 @@ header {
 	height: 30px;
 	border-radius: 50%;
 }
-
+.logo {
+	padding : 25px 50px;
+}
 .codesquare {
 	font-family: 'Do Hyeon', sans-serif;
 	text-align: center;
 	font-size: 65px;
-	margin: 25px;
 	color: #5b2e7d;
 }
 
@@ -94,7 +95,7 @@ header {
 
 .nav {
 	width: 100%;
-	margin: 10px;
+	margin: 10px 0;
 	overflow: hidden;
 }
 

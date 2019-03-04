@@ -1,6 +1,9 @@
 package com.bit.codesquare.dto.member;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.Map;
+
+import com.bit.codesquare.util.ComparableDateTime;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,16 +11,36 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper=true)
 @Data
-public class JoiningAndRecruitmentLog  extends Member{
+public class JoiningAndRecruitmentLog  extends Member implements ComparableDateTime {
 	
 	private int boardId;
 	private String boardKindId;
 	private String applyUserId;
 	private String title;
 	private String nickname;
-	private Date applyDate;
-	private Date writeDate;
+	private LocalDateTime applyDate;
+	private String applyDateString;
+	private LocalDateTime writeDate;
+	private String writeDateString;
 	private String applyContent;
 	private String declineContent;
 	private String status;
+	private String groupId;
+	
+	private Map applyMap;
+	
+	
+
+	@Override
+	public LocalDateTime getDateTimeCompare() {
+		// TODO Auto-generated method stub
+		return applyDate;
+	}
+
+	@Override
+	public void setDateTimeCompare(String format) {
+		// TODO Auto-generated method stub
+		this.applyDateString = format;
+		
+	}
 }

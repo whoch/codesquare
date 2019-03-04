@@ -10,8 +10,8 @@
 </head>
 <body>
 	<div class="container" layout:fragment="content">
-	
 		<div class="search_box_container d-flex flex-row align-items-center justify-content-start" style="background-color: #5b2e7d">
+
 							<div class="search_form_container">
 								<form action="search" id="search_form" class="search_form">
 									<div class="">
@@ -28,7 +28,9 @@
 												<option value="companyname">스터디룸 이름</option>
 											</select>
 												<input type="text" name="keyword" value="" size="50" placeholder="ex) 강남, 수원" style="height: 60px" id="txtFavorite">
+
 												<input id="btn-mainsearch" type="submit" value="검색" style="height: 62px; width:12%; border: 1px solid #542672; border-radius: 5px;  color: #542672;">
+
 										</ul>
 									</div>
 								</form>
@@ -133,7 +135,30 @@
 	</div>
 	<!-- end content -->
 
-
+<th:block layout:fragment="script">
+<script>
+  $(function() {
+	    $( "#testDatepicker" ).datepicker({
+	    	language: 'en',
+	    	dateFormat: 'yyyy-mm-dd',
+	        minDate: new Date()
+	    });
+	});
+  $(document).ready(function () {
+      // 콤보박스가 변경될 때 
+      $('#lstFavorites').change(function () {
+          // 드롭다운리스트에서 선택된 값을 텍스트박스에 출력
+          var selectedText = // $("#lstFavorites option:selected").text();
+              // $("option:selected").text();
+              $(":selected").text();  // 드롭다운리스트가 하나밖에 없다면 이렇게 써도 됨
+          $('#txtFavorite').val(selectedText);
+      });
+  });
+  </script>
+<link href="static/styles/room/datepicker.min.css" rel="stylesheet" type="text/css">
+<script src="static/js/room/datepicker.min.js"></script>
+<script src="static/js/room/i18n/datepicker.en.js"></script>
+</th:block>
 
 </body>
 </html>

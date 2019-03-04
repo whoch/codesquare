@@ -23,9 +23,9 @@
 	<insert id="signUp">
 		insert into UserInfo (UserId, Password,
 		Email, Name,
-		NickName, DateOfBirth, AuthorId)
+		NickName, DateOfBirth)
 		values (#{userId}, #{password},
-		#{email}, #{name}, #{nickName}, #{dateOfBirth}, #{authorId})
+		#{email}, #{name}, #{nickName}, #{dateOfBirth})
 	</insert>
 
 	<select id="idCheck" parameterType="String" resultType="Int">
@@ -94,10 +94,8 @@
 
 	<select id="getReservedList" resultType="Reservation">
 		select a.UserId,
-		a.ReservationDate, a.RoomId, b.RoomName,
-		a.PayAmount,
-		a.PaymentDate,
-		a.ReservationTime from ReservationInfo a
+		a.ReservationDate, a.RoomId, a.goDate, b.RoomName,
+		a.ReservationTime, a.AgreeTime, a.UseTime from ReservationInfo a
 		join RoomInfo b
 		on a.RoomId =
 		b.id where UserId =#{userId} order by ReservationDate DESC limit
@@ -135,7 +133,7 @@
 
 	<select id="getWantedList"
 		resultType="Board">
-		select Id, BoardKindId, Title, WriteDate, Status from Board
+		select Id, BoardKindId, Title, WriteDate, Status, GroupId from Board
 		where UserId= #{userId} AND
 		(BoardKindId='SmnMo' or
 		BoardKindId='StdMo')
@@ -153,7 +151,7 @@
 	<select id="getWantedPList"
 		resultType="JoiningAndRecruitmentLog">
 		select a.BoardId, b.BoardKindId, a.NickName, a.ApplyUserId,
-		a.ApplyDate, b.Title, b.WriteDate,
+		a.ApplyDate, b.Title, b.WriteDate, b.groupId,
 		a.ApplyContent, a. DeclineContent,
 		a.Status from
 		JoiningAndRecruitmentLog a join Board b on a.BoardId =

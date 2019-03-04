@@ -22,11 +22,14 @@ function commentList(){
             var a =''; 
             $.each(data, function(key, value){ 
                 a += '<div class="commentArea" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
-                a += '<div class="commentInfo'+value.cno+'"> 작성자 :'+value.writer+' 등록일시 '+value.reg_date;
-                a += '<a onclick="commentUpdate('+value.cno+',\''+value.content+'\');"> 수정 </a>';
-                a += '<a onclick="commentDelete('+value.cno+');"> 삭제 </a> </div>';
-                a += '<div class="commentContent'+value.cno+'"> <p> 내용 : '+value.content +'</p>';
+                a += '<div class="commentInfo'+value.cno+'"> 작성자 :'+value.writer
+                a += '<div align="right">'+value.writeDateBoard+'</div>'
+                a += '<p class="commentContent'+value.cno+'">'+value.content +'</p>';
+                a += '<div align="right">'
+                a += '<a onclick="commentUpdate('+value.cno+',\''+value.content+'\');" class="btn btn-outline-light text-dark"> 수정 </a>';
+                a += '<a onclick="commentDelete('+value.cno+');" class="btn btn-outline-light text-dark"> 삭제 </a> </div>';
                 a += '</div></div>';
+                a += '</div>';
             });
             
             $(".commentList").html(a);

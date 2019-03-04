@@ -1,21 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/mainLayout}"
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/mainLayout2}"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <title>스터디모집</title>
 <link rel="stylesheet" type="text/css" th:href="@{/static/styles/study/study.css}">
-
+<style>
+	#a{
+	transition: background-color .2s;
+    display: inline-block;
+    position: relative;
+    height: 50px;
+    background-color: #222;
+    box-sizing: border-box;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
+    width: 100px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+}
+</style>
 </head>
-
 <body>
 
 	<!-- START content -->
     <article class="content" layout:fragment="content">
     	<div class="container">
-    	<th:block th:with="url=${#httpServletRequest.requestURI}">
     	<input id="BOARD_ID" type="hidden" th:value="${board.id}">
+	    <input id="GROUP_ID" type="hidden" th:value="${board.groupId}">
+	    <input id="USER_ID" type="hidden" th:value="${session.userId}">
+    	<input id="NICKNAME" type="hidden" th:value="${session.nickName}">
+    	<input id="STATUS" type="hidden" th:value="${status}">
     		
-    		<h3 class="boardTitle">스터디모집 게시판 상세보기 [[*{url}]]</h3>
+    		<h3 class="boardTitle">스터디모집</h3>
 			<!-- 게시판 본문 -->
 			<section class="boardDetail">
 				<div class="boardView" th:object="${board}">
@@ -23,16 +42,24 @@
 					<div class="boardHeader">
 						<h2 class="row">
 							<span class="col-md-8" th:text="*{title}"></span>
-							<span class="col-md-4" th:text="*{nickName}"></span>
+							<div class="nickname col-md-4">
+								<img th:if="${board.profileImagePath} eq DefaultThumbnail" class="profileImg shadow-sm" 
+									th:src="@{/static/images/DefaultThumbnail.png}" />
+								<img th:unless="${board.profileImagePath} eq DefaultThumbnail" class="profileImg shadow-sm" 
+									th:src="@{'/static/codesquareDB/UserThumbnail/{userId}/{ImagePath}'(userId=${board.userId},ImagePath=${board.profileImagePath})}" />
+								<small th:text="*{nickName}"></small>
+							</div>
+							<!-- <img th:src="@{${session.profileImagePath}}" class="profileImg" /> -->
+						
 						</h2>
 						<div class="row">
-							<span class="col-md-8" th:text="*{writeDate}"></span>
-							<div class="col-md-2">
+							<span class="col-md-9" th:text="*{writeDateBoard}"></span>
+							<div class="like">
 								좋아요
 								<i class="fa fa-heart" aria-hidden="true"></i>
-								<span th:text="*{likeCount}"></span>
+								<span id="likeCount" th:text="*{likeCount}"></span>
 							</div>
-							<div class="col-md-2">
+							<div class="hit">
 								조회수
 								<i class="fa fa-eye" aria-hidden="true"></i>
 								<span th:text="*{hit}"></span>
@@ -43,139 +70,229 @@
 						<!-- ####   START 왼쪽 컨텐츠     #### -->
 						<div class="col-md-9" >
 							<div class="board-content" th:utext="*{content}"></div>
+							<!-- <div id="boardEdit-content">
+								<span>수정</span>
+								<span id="delete-button">삭제</span>
+							</div> -->
+							
 							<th:block th:if="${group.id} ne '그룹없음'">
-								<!-- ******** 그룹 상세정보 카드?부분은 html 따로 독립할 예정  ***** -->
-								<div th:fragment="notUseGroup" class="groupContent row" th:object="${group}">
-									<div class="content-label col-md-3">그룹 상세 정보</div>
-									<dl class="group-detail group-detail-Grid col-md-9 row">
+								<div class="groupContent row" th:object="${group}">
+									<dl class="group-detail group-detail-Grid">
 										<dt>그룹명:</dt>
 										<dd th:text="*{id}"></dd>
 										<dd th:class="group-member-cnt" th:text="|*{memberCount}명의 멤버가 참여중 입니다|"></dd>
 										
-										<dt>태그:</dt>
-										<dd th:text="*{tagId}"></dd>									
+										<dt>시간:</dt>
+										<dd class="group-meetingTime" th:text="${#temporals.format(group.startDate,'a HH시 mm분')}"></dd><dd></dd>
+										<dd class="group-startDate" th:text="${group.startDate}>${#temporals.createNow()}
+																			?|${#temporals.format(group.startDate,'M월 dd일  (EE)')} 첫 스터디 시작  예정! |
+																			:|${#temporals.format(group.startDate,'YY년 M월 dd일 (EE)')}부터 진행중인 그룹입니다|">
+										</dd>
 										
-										<dt>레벨:</dt> 
-										<dd th:text="*{levelId}"></dd>
-									
-										<dt>지역:</dt>
-										<dd th:text="${#strings.replace(group.localeId,'_' ,' ')}"></dd>
-										
-										
-										<dt>목표:</dt>
-										<dd class="group-goal" th:text="*{goal}"></dd>
-									
-										<dt>내용:</dt>
-										<dd class="group-content" th:text="*{content}"></dd>
-										<!-- 
-											이런식으로 표시
-											(월)20:00-22:00 (진행중)
-											이미 시작한 스터디입니다. 
-											
-											(수)20:00-22:00
-											지금 신청하면 3월 20일 (수) 첫 스터디 시작!
-										-->
 										<dt>일정:</dt>
-										<!-- <dd class="group-meeting" th:text="|*{meetingDate}요일 20:00 (진행중)|"></dd> -->
-										<!-- <dd class="group-meeting" th:text="${#strings.replace( group.meetingDate , ',' , '요일,')+'요일'}"></dd> -->
 										<dd class="group-meeting">
 											<th:block th:with="meetingDate = ${ #strings.arraySplit( group.meetingDate, ',' ) }">
 												<span class="tag-meetingDate" th:each=" item : ${ meetingDate }" th:text="|${item}요일|"></span>
 											</th:block>
 										</dd>
-										<dt>시간:</dt>
-										<dd class="group-meetingTime" th:text="${#dates.format(group.startDate,'aaa HH시 mm분부터 ')}"></dd><dd></dd>
-										<dd class="group-startDate" th:text="${#dates.format(group.startDate)}>${#dates.format(#dates.createNow())}
-																			?|${#dates.format(group.startDate,'M월 dd일  (EE)')} 첫 스터디 시작  예정! |
-																			:|${#dates.format(group.startDate,'M월 dd일 (EE)')}부터 진행중인 그룹입니다|">
-										</dd>
+										
+										<dt>목표:</dt>
+										<dd class="group-goal" th:text="*{goal}"></dd>
+										<dt>내용:</dt>
+										<dd class="group-content" th:text="*{content}"></dd>
+
+
 									</dl>
 								</div>
-								<!-- ************************************************ -->
-							</th:block>
+							</th:block> 
 						</div>
 						<!-- ####   END 왼쪽 컨텐츠     #### -->
 						<!-- ####   START 오른쪽 컨텐츠     #### -->	
 						<div class="col-md-3 wantedContent" >
-							<h4 id="wantedContent-title" th:text="${group.goal}?:*{title}"></h4>
-							<h4></h4>
 							<div id="wantedContent-detail">
-								<div th:text="${group.id}"></div>
-							<th:block th:if="*{status}!=0">	
-								<div th:text="|${group.recruitmentCount}명 모집중|"></div>
-								<div th:text="모집중"></div>
-							</th:block>	
+								<th:block th:if="${group.id}!='그룹없음'">	
+								<img class="rounded-circle shadow" 
+									 th:src="@{/static/codesquareDB/default/default_user_image4.jpg}">
+								<h4 class="groupId" th:text="${group.id}"></h4>
+									<div id="recruitmentCount" th:if="*{status}!=0" 
+										th:text="|${group.recruitmentCount}명 모집중|"></div>
+										<div class="group-detail">
+											<div>
+												<span class="font-weight-bold">언어</span>
+												<span th:text="${group.tagId}"></span>
+											</div>
+											<div>
+												<span class="font-weight-bold">레벨</span>
+												<span th:text="${group.levelId}"></span>
+											</div>
+											<div>
+												<span class="font-weight-bold">지역</span>
+												<span th:text="${#strings.replace(group.localeId,'_' ,' ')}"></span>
+											</div>
+										</div>
+								</th:block>	
+								<div id="non-group" th:if="${group.id} eq '그룹없음'">
+								<span>그룹을 사용하지 않는 일반 모집글 입니다</span></div>
 							</div>
-							<th:block th:if="${group.id}!='그룹없음'">
-								<div id="group-apply-button">신청하기</div>
-							</th:block>
-							<div id="bookmark-button" th:class="${bookmarkId}?'checked'">
-								<i class="far fa-heart " aria-hidden="true"><span>찜하기</span></i>
+							<div id="status-button">
+								<div id="group-ing-button" class="ING shadow-sm"
+									data-toggle="modal" data-target="#application-modal" th:if="${group.id}!='그룹없음'">신청하기</div>
+								<div id="group-close-button" class="CLOSE shadow-sm"
+									data-toggle="modal" data-target="#boardClosed-modal">모집 마감하기</div>
+								<div id="group-wait-button" class="WAIT shadow-sm">신청취소</div>
+								<div id="group-end-button" class="END shadow-sm">마감된 모집입니다</div>
+								<div id="group-in-button" class="IN shadow-sm">현재 참여중인 그룹입니다</div>
+							</div>
+							<div id="bookmark-button" th:class="${bookmarkId}?'checked'+' shadow-sm'">
+								<i th:class="${bookmarkId}?'fas fa-heart':'far fa-heart'" aria-hidden="true">
+									<span th:text="${bookmarkId}?'찜취소':'찜하기'"></span>
+								</i>
 							</div>
 						</div>
 						<!-- ####   END 왼쪽 컨텐츠     #### -->
 					</div>
-					
-					<div class="commentContent">
+	<div class="container">
+        <label for="content" style="font-size: 30px; color: #8045dd">댓글</label>
+        <form name="commentInsertForm">
+            <div class="input-group">
+               <input type="hidden" id="bno" name="bno" th:value="${boardId}"/>
+               <input type="text" class="form-control" id="content" name="content" placeholder="내용을 입력하세요."  style="height: 100px; background-color: #FBFAFB" autocomplete="off">
+               <span class="input-group-btn">
+                    <button type="button" name="commentInsertBtn" id="a" style="height: 100px;">등록</button>
+               </span>
+              </div>
+        </form>
+    </div>
+        <div class="container">
+        <div class="commentList"></div>
+    </div>
+					<!-- <div class="commentContent">
 						<H3>댓글 <span th:text="*{commentCount}"></span> </H3>
 						<div class="comment-form">
 							<form>
 								<textarea class="textarea comment-textarea" maxlength="200" placeholder=""></textarea>
 							</form>
 							<div class="comment-div">
-								<button type="button">등록</button>
+								<button class="custom-btn" type="button">등록</button>
 							</div>
 						</div>
 						<div class="comment-list">댓글리스트 예정</div>
-					</div>
+					</div> -->
 
 					
-					<div class="FileContent">
+<!-- 					<div class="FileContent">
 						<span th:text="|파일 개수 *{fileCount}|"></span>
 						<span th:text="|이미지 개수*{imageCount}|"></span>
-					</div>
-					
-
-					
-
+					</div> -->
 						
 				</div>
 			</section>
 			
+			<!-- STARD 그룹 신청 Modal -->
+			<section class="modal fade" id="application-modal">
+			    <div class="modal-dialog modal-lg modal-dialog-centered">
+			        <div class="modal-content shadow-lg">
 			
+			            <!-- Modal Header -->
+			            <div class="modal-header">
+			                <button type="button" class="close" data-dismiss="modal">&times;</button>
+			            </div>
 			
-			
-			<!-- 게시판 리스트 -->
-			<div class="row boardList">
-				<ul>
-					<li class="stdMoGrid" th:each="list : ${boardList}">
-						<span th:text="*{list.id}"></span>
-						
-						<div>
-							<a th:href="|${url}/*{list.id}|" th:text="*{list.title}"></a>
-							<span th:text="*{list.fileCount}"></span>
-							<span th:text="*{list.imageCount}"></span>
-							<span th:text="*{list.commentCount}"></span>
+						<!-- Modal body -->
+						<div class="modal-body row">
+						    <div class="modal-left col-md-6">
+						        <img class="card-img-top rounded-circle shadow" 
+						 	       th:src="@{/static/codesquareDB/default/default_user_image4.jpg}" alt="image">
+						        <h4	th:text="${group.id}"></h4>
+						        <div id="modal-group-detail-Grid">
+						        	<span>언어</span>
+						        	<span th:text="${group.tagId}"></span>
+						        	<span>지역</span>
+						        	<span th:text="${#strings.replace(group.localeId,'_' ,' ')}"></span>
+						        	<span>일정</span>
+									<span class="group-meeting">
+										<th:block th:with="meetingDate = ${ #strings.arraySplit( group.meetingDate, ',' ) }">
+											<span class="tag-meetingDate" th:each=" item : ${ meetingDate }" th:text="|${item}요일|"></span>
+										</th:block>
+									</span>
+						        </div>
+						    </div>
+						    <div class="modal-right col-md-6">
+						    	<h3>신청양식</h3>
+						    	<small>양식을 모두 작성하여 신청해 주세요.</small>
+						    	<form id="applicationform" name="applicationform" action="/studyWanted/submit">
+ 						    		<th:block th:each=" item, index : ${question}">
+						    			<input class="form-key" th:name="|map${index.count}|" type="hidden" th:value="${item}">
+							    		<input class="form-value" th:name="|map${index.count}|" th:placeholder="${item}" type="text">
+						    		</th:block>
+						    	
+					    			
+					    			
+					    			<!-- 신청 meassage는 default-->
+					    			<input class="form-key" type="hidden" name="map0" value="신청메세지">
+							    	<input class="form-value" type="text" name="map0" placeholder="신청메세지">
+						    	</form>
+						        
+						        <button type="button" id="submitApply" class="btn btn-deepPurple shadow">
+									<span>제출하기</span>
+								</button>
+						    </div>
 						</div>
-						<span th:text="*{list.status} eq 1?'':'마감'"></span>
-						
-						
-						<span th:text="*{list.groupId}"></span>
-						<span th:text="*{list.nickName}"></span>
-						<span th:text="*{list.writeDate}"></span>
-						
-						<div>
-							<span th:text="*{list.likeCount}"></span>
-							<span th:text="*{list.hit}"></span>
-						</div>
-						
-					</li>
-				</ul>
-			</div>
+					</div>
+				</div>
+			</section>
+			<!-- END 그룹 신청 Modal -->
 			
-    	</th:block>
+			<!-- STARD 마감하기 Modal -->
+			<section class="modal fade" id="boardClosed-modal">
+			    <div class="modal-dialog modal modal-dialog-centered">
+			        <div class="modal-content shadow-lg">
+			
+			            <!-- Modal Header -->
+			            <div class="modal-header">
+			                <button type="button" class="close" data-dismiss="modal">&times;</button>
+			            </div>
+			
+						<!-- Modal body -->
+						<div class="modal-body row">
+							<div class="svgIMG">
+								<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+								    y="0px" viewBox="0 0 58.018 58.018" style="enable-background:new 0 0 58.018 58.018;" xml:space="preserve">
+								<polygon style="fill:#EDEADA;" points="24.192,39.492 16.414,41.613 18.536,33.835 48.362,4.009 0,4.009 0,58.009 54,58.009 
+								54,9.685 " />
+								   <path style="fill:#F7E6A1;" d="M18.716,39.311c0.391,0.391,0.391,1.023,0,1.414l-0.358,0.358l5.793-1.58l-5.627-5.627l-1.58,5.792
+								l0.358-0.358C17.693,38.92,18.326,38.92,18.716,39.311z" />
+								   <path style="fill:#424A60;" d="M18.358,41.083l0.358-0.358c0.391-0.391,0.391-1.023,0-1.414s-1.023-0.391-1.414,0l-0.358,0.358
+								l-0.53,1.944L18.358,41.083z" />
+								   <polygon style="fill:#BDA1BB;"
+								points="51.062,12.622 45.406,6.965 18.536,33.835 18.524,33.876 24.151,39.503 24.192,39.492 " />
+								<path style="fill:#ED7161;" d="M57.437,3.44l-2.85-2.85c-0.775-0.775-2.032-0.775-2.807,0l-3.546,3.546l5.657,5.657l3.546-3.546
+								C58.212,5.472,58.212,4.215,57.437,3.44z" />
+								   <rect x="44.82" y="5.551" transform="matrix(0.7071 -0.7071 0.7071 0.7071 9.789 34.7337)" style="fill:#F7E6A1;"
+								width="4" height="0" />
+								<rect x="45.648" y="6.379" transform="matrix(0.7071 0.7071 -0.7071 0.7071 20.4667 -32.6524)" style="fill:#F7E6A1;"
+								width="8" height="4" />
+								</svg>
+							</div>
+					    	<small>그룹의 현재 대기중인 신청은 모두 거절로 처리됩니다.</small>
+					    	<small>거절 메세지를 작성해 주세요.</small>
+					    	<input id="declineContent" class="declineContent" type="text" name="declineContent" placeholder="거절 메세지">
+					        
+					        <button type="button" id="submitClose" class="btn btn-deepPurple shadow">
+								<span>모집 마감하기</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- END 마감하기 Modal -->
+			
+			
+			
     	</div>
-		<!-- 콘테이너 종료 -->
+		<!-- div container 종료-->
+
+
 
 
 
@@ -185,7 +302,10 @@
 	<!-- END content -->
 
 <th:block layout:fragment="script">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 	<script type="text/javascript" th:inline="javascript" th:src="@{/static/js/study/studyWantedView.js}"></script>
+		<script src="/static/js/comment/comment.js"></script>
+
 </th:block>
 
 </body>

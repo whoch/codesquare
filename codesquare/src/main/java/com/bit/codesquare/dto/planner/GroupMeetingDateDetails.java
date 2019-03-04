@@ -6,17 +6,19 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 
-/*
- * status는 DB에서 가져올 때 true,false,none의 문자열로 변환해서 가져오고있어서 자료형을 String으로 했습니다
- * */
 @Data
 public class GroupMeetingDateDetails {
 
 	String id;
 	String groupId;
+	String levelId;
+	String tagId;
+	String localeId;
 	String userId;
 	String locale;
-	LocalDateTime meetingDate;
-	int cost;
+	Integer cost;
 	String status;
+	LocalDateTime startDate;
+	LocalDateTime meetingDate;
+	String meetingDay;
 }

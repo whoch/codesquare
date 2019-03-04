@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bit.codesquare.mapper.group.GroupMapper">
+
+	<select id="getMyGroupList" resultType="GroupMemberInfo">
+		select * from
+		GroupMemberInfo where UserId = #{userId}
+	</select>
+
+	<select id="getGroupInfo" resultType="GroupInfo">
+		select * from GroupInfo
+		where Id = #{groupId}
+	</select>
+
+	<select id="getGroupMember" resultType="GroupMemberInfo">
+		select * from
+		GroupMemberInfo where GroupId = #{groupId} and AuthorId=4
+	</select>
+
+	<select id="getGroupLeader" resultType="GroupMemberInfo">
+		select * from GroupMemberInfo where GroupId = #{groupId} and AuthorId =5
+	</select>
+	
+	
+	<!-- boardId로 해당 글의 groupInfo 얻기  -->
+	<select id="getGroupInfoUseBoardId" resultType="GroupInfo">
+		SELECT * FROM GroupInfo_view gv
+		INNER JOIN Board AS bo ON gv.Id=bo.GroupId 
+		WHERE bo.Id = #{boardId}
+	</select>
+	
+	<!-- 유저가 리더인 그룹의 groupInfo 얻기 -->
+	<select id="getGroupInfoUserLeader" resultType="GroupInfo">
+		SELECT gmi.Id, gv.Id AS GroupId, gv.LevelId, gv.TagId, gv.LocaleId, gv.Coordinates, gv.MemberCount, gv.Goal, gv.Content, gv.StartDate, gv.RecruitmentCount, gv.MeetingDate  
+		FROM GroupMemberInfo gmi 
+		INNER JOIN GroupInfo_view gv ON gmi.GroupId = gv.Id
+		WHERE gmi.`UserId`=#{userId} AND gmi.`AuthorId`=5;
+	</select>	
+	
+	<!-- 유저가 참여중인 그룹의 groupInfo 얻기 -->
+	<select id="getGroupInfoUserJoinning" resultType="GroupMeetingDateDetails">
+		SELECT gv.Id AS GroupId, gv.LevelId, gv.TagId, gv.LocaleId, gv.StartDate, gv.MeetingDate AS MeetingDay FROM GroupMemberInfo AS gi
+		INNER JOIN GroupInfo_view AS gv ON gv.Id=gi.GroupId
+		WHERE gi.UserId=#{userId}
+	</select>
+	
+	
+	<!-- 유저가 해당 그룹에 가입중인지  파라미터로 온 column행의 값 반환-->	
+	<select id="getJoinningGroupInfo" resultType="java.lang.Integer">
+	<![CDATA[
+		SELECT ${column} FROM GroupMemberInfo 
+		WHERE UserId=#{userId} AND GroupId=#{groupId}
+	 ]]>
+	</select>
+	
+	<!-- 해당 그룹의 가장 최근 모임날짜 로그 얻기 -->
+	<select id="getRecentMeetingDate" resultType="java.time.LocalDate">
+		SELECT MeetingDate FROM GroupStudyLog WHERE GroupId=#{groupId} ORDER BY MeetingDate DESC limit 1
+	</select>
+	
+	<!-- 그룹 일정 참석 여부 체크 -->
+	<update id="updateGroupMeetingStatus">
+		UPDATE GroupStudyLog SET Status=#{status} WHERE Id=#{id}
+	</update>
+	
+	<!-- 모집 글 등록 될 때 해당 모집 정보 update  -->
+	<update id="updateWantedInfo" parameterType="WriteWantedBoard">
+		UPDATE GroupInfo 
+		SET RecruitmentCount=#{recruitmentCount}, ApplicationForm=#{applicationForm}
+		WHERE Id=#{board.groupId}
+	</update>
+	
+	<!-- 그룹 모집인원 변경 -->
+	<update id="updateGroupRecruitmentCount">
+		UPDATE GroupInfo 
+		SET RecruitmentCount=#{recruitmentCount}
+		WHERE Id=#{groupId}
+	</update>
+	
+	<!-- 해당 모집글의 신청 일괄 거절 및 거절 메세지 작성 -->
+	<update id="setDeclineContentUseBoardId" parameterType="java.util.Map">
+		UPDATE JoiningAndRecruitmentLog 
+		SET `Status`='거절', DeclineContent=#{declineContent}
+		WHERE BoardId = #{boardId}
+	</update>
+	
+	<!-- 그룹에 신청하기  -->
+	<insert id="insertStudyJoining" parameterType="JoiningAndRecruitmentLog">
+		INSERT INTO JoiningAndRecruitmentLog(BoardId, ApplyUserId, Nickname, ApplyContent)
+		VALUE (#{boardId}, #{applyUserId}, #{nickName}, #{applyContent});
+	</insert>
+	
+	<!-- 그룹 신청 수락거절 상태 get하기  -->
+	<select id="getApplyingStatus" resultType="String">
+		SELECT Status FROM JoiningAndRecruitmentLog
+		WHERE BoardId=#{boardId} AND ApplyUserId=#{userId} ORDER BY ApplyDate DESC limit 1
+	</select>
+	
+	<!-- 신청 취소 -->
+	<update id="cancelApplication" parameterType="java.util.Map">
+		UPDATE JoiningAndRecruitmentLog
+		SET Status='신청취소'
+		WHERE ApplyUserId=#{applyUserId} ANd boardId=#{boardId}
+	</update>
+	
+	<!-- 그룹 수락 시 모집인원, 그룹인원 -->
+	<update id="changeGroupAvailability">
+		update GroupInfo set MemberCount = MemberCount+1 , RecruitmentCount = RecruitmentCount -1 where Id = #{groupId}
+	</update>
+
+	<insert id="addGroupMember">
+	insert into GroupMemberInfo (UserId, GroupId, AuthorId, Nickname) VALUES (#{member.userId}, #{groupId}, #{member.authorId} , #{member.nickName});
+	</insert>
+</mapper>
