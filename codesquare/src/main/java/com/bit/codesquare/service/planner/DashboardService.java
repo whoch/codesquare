@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.codesquare.controller.planner.CalendarController;
 import com.bit.codesquare.dto.planner.CalendarEvent;
@@ -85,4 +87,10 @@ public class DashboardService {
 		return  groupNoticeLists;
 	}
 	
+	@GetMapping("/download/web/data/test.json")
+	@ResponseBody
+	public String test() {
+		logger.info("####왔음");
+		return "여기오려고하나";
+	}
 }

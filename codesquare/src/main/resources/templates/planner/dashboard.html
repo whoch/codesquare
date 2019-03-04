@@ -10,7 +10,7 @@
 
     <article class="content" layout:fragment="myPageContent2">
         <!-- START CUSTOM-TAB 나의 그룹 및 세미나 스케쥴 보기 -->
-        <div class="row group-schedule custom-tab">
+        <div id="dash-first" class="row group-schedule custom-tab">
             <!-- 왼쪽 Nav tabs 부분 -->
             <ul class="nav nav-pills nav-custom-tabs flex-column col-md-1">
                 <li class="nav-item">
@@ -26,33 +26,24 @@
 			<!-- 오른쪽 컨텐츠 부분 -->
             <div class="tab-content custom-tab-content col-md-11 shadow">
                 <div id="all" class="container tab-pane active">
-                    <p>all</p>
                     <div class="row">
-                        <ul class="col-md-7 schedule-list">
+                        <ul class="col-md-12 schedule-list">
                             <!-- #####  스케쥴의 리스트의 data  ##### -->
                         </ul>
-                        <div class="map col-md-5" style="background-color: lightgray; height: 250px">
-                        </div>
                     </div>
                 </div>
                 <div id="study" class="container tab-pane fade">
-                   <p>study</p>
                     <div class="row">
-                        <ul class="col-md-7 schedule-list">
+                        <ul class="col-md-12 schedule-list">
                             <!-- #####  스케쥴의 리스트의 data  ##### -->
                         </ul>
-                        <div class="map col-md-5" style="background-color: lightgray; height: 250px">
-                        </div>
                     </div>
                 </div>
                 <div id="seminar" class="container tab-pane fade">
-                    <p>seminar</p>
                     <div class="row">
-                        <ul class="col-md-7 schedule-list">
+                        <ul class="col-md-12 schedule-list">
                             <!-- #####  스케쥴의 리스트의 data  ##### -->
                         </ul>
-                        <div class="map col-md-5" style="background-color: lightgray; height: 250px">
-                        </div>
                     </div>
                 </div>
             </div>
@@ -179,6 +170,7 @@
 <th:block layout:fragment="script">
   <script type="text/javascript" th:inline="javascript">
 
+		  
         var allSchedule = /*[[${allSchedule}]]*/;
         allSchedule.sort(function (a, b) {
             return a.meetingDate < b.meetingDate ? -1 : 1
@@ -251,9 +243,48 @@
             });
         });
 
-
     </script>
+<script>
+/* 
+$(window).on('load', function() {
+/* 	var container = document.getElementById('kkmap');
+	var options = {
+		center: new daum.maps.LatLng(33.450701, 126.570667),
+		level: 3
+	};
+	var map = new daum.maps.Map(container, options); */
+	
+	
+	var map = new daum.maps.Map(document.getElementById('kkmap'), { // 지도를 표시할 div
+        center : new daum.maps.LatLng(37.498206, 127.027610), // 지도의 중심좌표 
+        level : 10 // 지도의 확대 레벨 
+    });
+    
+    // 마커 클러스터러를 생성합니다 
+    var clusterer = new daum.maps.MarkerClusterer({
+        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+        averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+        minLevel: 10 // 클러스터 할 최소 지도 레벨 
+    });
+ 
+    // 데이터를 가져오기 위해 jQuery를 사용합니다
+    // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
+    $.get("/download/web/data/test.json", function(data) {
+        // 데이터에서 좌표 값을 가지고 마커를 표시합니다
+        // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
+        var markers = $(data.positions).map(function(i, position) {
+            return new daum.maps.Marker({
+                position : new daum.maps.LatLng(position.lat, position.lng)
+            });
+        });
 
+        // 클러스터러에 마커들을 추가합니다
+        clusterer.addMarkers(markers);
+    });
+});
+ */
+
+</script>
 </th:block>
 </body>
 
