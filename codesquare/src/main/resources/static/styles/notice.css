@@ -5,13 +5,18 @@
 	margin-top : 50px;
 	height: 390px;
 }
+#menuicon{
+   width: 32px;
+    height: 32px;
+    margin-right: 3.5px;
+}
 
 #messages>li {
 	display: block;
 }
 
 .noti-dropdown {
-	margin: 0 30px;
+	margin: 0 16px;
 	float: left;
 }
 
@@ -308,7 +313,7 @@ to {
 .push_img {
 	display: block;
 	position: absolute;
-	width: auto;
+	width: 70px;
 	height: 69px;
 	padding-top: 5px;
 }
