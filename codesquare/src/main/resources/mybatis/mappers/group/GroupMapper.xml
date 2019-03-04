@@ -13,12 +13,11 @@
 	</select>
 
 	<select id="getGroupMember" resultType="GroupMemberInfo">
-		select * from
-		GroupMemberInfo where GroupId = #{groupId} and AuthorId=4
+		select a.userId, a.GroupId, a.AuthorId, a.Nickname, a.`Role`, a.Content, a.AttendCount, a.AbsenceCount, b.profileImagePath from GroupMemberInfo a join UserInfo b on a.UserId = b.UserId where a.GroupId = #{groupId} and a.AuthorId =4
 	</select>
 
 	<select id="getGroupLeader" resultType="GroupMemberInfo">
-		select * from GroupMemberInfo where GroupId = #{groupId} and AuthorId =5
+		select a.userId, a.GroupId, a.AuthorId, a.Nickname, a.`Role`, a.Content, a.AttendCount, a.AbsenceCount, b.profileImagePath from GroupMemberInfo a join UserInfo b on a.UserId = b.UserId where a.GroupId = #{groupId} and a.AuthorId =5
 	</select>
 	
 	

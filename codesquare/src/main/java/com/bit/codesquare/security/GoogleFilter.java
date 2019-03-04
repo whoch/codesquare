@@ -23,11 +23,11 @@ import com.bit.codesquare.mapper.member.MemberMapper;
 public class GoogleFilter extends OAuth2ClientAuthenticationProcessingFilter {
 	private LoginUserDetailsService service;
 
-	public GoogleFilter(LoginUserDetailsService socialService) {
+	public GoogleFilter(LoginUserDetailsService service) {
 		super("/login/google");
-		this.service = socialService;
+		this.service = service;
 	}
-
+	//로그인 성공했을때
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
@@ -38,9 +38,10 @@ public class GoogleFilter extends OAuth2ClientAuthenticationProcessingFilter {
 																												// 받은
 		int ranNum = (int) (Math.random() * 999) + 1;
 
+//		String userId = map.get("email");
 		Member member = new Member();
-
 		
+		member.setAuthorId(member.getAuthorId());
 		member.setUserId(map.get("email"));
 		member.setNickName(map.get("name")+ranNum);
 		member.setEmail(map.get("email"));

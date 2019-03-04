@@ -16,6 +16,7 @@ public class SecurityMember extends User implements UserDetails {
 	private static final String ROLE_PREFIX = "ROLE_";
 	private static final long serialVersionUID = 1L;
 
+
 	private int authorId;
 	
 	public int getAuthorId() {

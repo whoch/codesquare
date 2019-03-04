@@ -8,22 +8,46 @@
 </head>
 <body>
 	<div class="container" layout:fragment="myPageContent2">
-		그룹정보
-		
-		<div th:text="${ginfo}"></div>
-			
-			그룹리더
-			<div th:text="${gLeader}"></div>
-			
-			그룹멤버
-			<div class="row text-center border-bottom  py-2"
-			th:each="gMember : ${gMember}">
-			
-			<div class="col">
-			<span th:text="${gMember.nickname}"></span>
-			(<span th:text="${gMember.UserId}"></span>)
-			<div th:text="${gMember.role}"></div>
-			<div th:text="${gMember.Content}"></div>
+		<br />
+		<div class="row py-2">
+			<i class="fas fa-users fa-3x"></i> <h2 th:text="${ginfo.id}"></h2> <h4 class="middle" th:text="':'+${ginfo.goal}"></h4>
+			<br />
+		</div>
+	<span th:text="${ginfo}"></span>
+		<div class="row ">
+
+			<div class="col-3 border p-2 my-2 text-center">
+				그룹리더
+				<div th:if="${gLeader. profileImagePath} == 'DefaultThumbnail' ">
+					<img th:src="@{/static/images/DefaultThumbnail.png}"
+						style="width: 100px; height: 100px;">
+				</div>
+				<div th:unless="${gLeader. profileImagePath} == 'DefaultThumbnail' ">
+					<img
+						th:src="@{'/static/codesquareDB/UserThumbnail/'+${gLeader.userId}+'/'+${gLeader.profileImagePath}}"
+						style="width: 100px; height: 100px; border-radius: 50%;">
+				</div>
+				<br /> <span
+					th:text="${gLeader.nickname}+' ('+${gLeader.userId}+')'"></span>
+			</div>
+		</div>
+		<div class="row  border p-2 my-2 ">
+
+			<div class="col-3 text-center" th:each="gMember : ${gMember}">
+				그룹멤버 <br />
+				<div th:if="${gMember.profileImagePath} == 'DefaultThumbnail' ">
+					<img th:src="@{/static/images/DefaultThumbnail.png}"
+						style="width: 100px; height: 100px;">
+				</div>
+				<div th:unless="${gMember.profileImagePath} == 'DefaultThumbnail' ">
+					<img
+						th:src="@{'/static/codesquareDB/UserThumbnail/'+${gMember.userId}+'/'+${gMember.profileImagePath}}"
+						style="width: 100px; height: 100px; border-radius: 50%;">
+				</div>
+				<span th:text="${gMember.nickname}"></span> (<span
+					th:text="${gMember.UserId}"></span>)
+				<!-- <div th:text="'역할'+${gMember.role}"></div>
+				<div th:text="${'gMember.Content}"></div> -->
 			</div>
 		</div>
 	</div>

@@ -80,8 +80,8 @@ public class CodesquareUtil {
 
 	public void getSession(Authentication auth, HttpSession session) {
 		if (auth != null && session.getAttribute("userId") == null) {
+			System.out.println(auth.getPrincipal()+"여기여기");
 			SecurityMember sc = (SecurityMember) auth.getPrincipal();
-
 			Member member = mm.getUser(sc.getUsername());
 
 			if (!member.getProfileImagePath().equals("DefaultThumbnail")) {

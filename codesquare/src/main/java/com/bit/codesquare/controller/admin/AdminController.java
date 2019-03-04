@@ -111,6 +111,7 @@ public class AdminController {
 			AdminMemo aMemo = adminMapper.getAdminMemo();
 			ldt = (LocalDateTime) aMemo.getWriteDate();
 			aMemo.setWriteDateFomat(cUtil.compareDateTime(ldt, "yyyy-mm-dd"));
+			logger.info("aMemo결과값:"+ aMemo.toString());
 			List<ReportedUserInfo> ruiList = adminMapper.getThreeDayRepotedUserRanking();
 
 			mav.addObject("ruiList", ruiList);

@@ -18,6 +18,10 @@ $(function() {
 	});
 });
 
+$(document).on('click','.temp-kList',function(){
+	$(this).remove();
+})
+
 $(".keyword-item").click(function(){
 	var self=$(this);
 	var status=self.data('status');
@@ -98,6 +102,7 @@ function deleteBlackKeyword(list){
 
 $(document).on('click','.list-group-item',function(){
 	var self=$(this);
+	
 	var id=self.attr('id').split('-')[1];
 	$("#"+id).removeClass("checked")
 	$("#"+id).addClass("unchecked")
@@ -108,6 +113,8 @@ $(document).on('click','.temp-kList',function(){
 	$(this).remove();
 })
 
+
+
 $("#input-blackKeyword").on({
 	"keyup":function(e){
 		if(e.keyCode==13){
@@ -115,7 +122,7 @@ $("#input-blackKeyword").on({
 			var contentHTML= "<li class=\"temp-kList list-group-item list-group-item-action\">"+content+"</a>";
 			$(".input-keyword-container").append(contentHTML);
 			$("#input-blackKeyword").val('');
-		}
+		} 
 	}
 })
 $("#btn-insert-clear").click(function(){

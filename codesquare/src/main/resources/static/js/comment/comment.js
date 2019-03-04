@@ -26,8 +26,8 @@ function commentList(){
                 a += '<div align="right">'+value.writeDateBoard+'</div>'
                 a += '<p class="commentContent'+value.cno+'">'+value.content +'</p>';
                 a += '<div align="right">'
-                a += '<a onclick="commentUpdate('+value.cno+',\''+value.content+'\');" class="btn btn-outline-light text-dark"> 수정 </a>';
-                a += '<a onclick="commentDelete('+value.cno+');" class="btn btn-outline-light text-dark"> 삭제 </a> </div>';
+                a += '<a onclick="commentUpdate('+value.cno+',\''+value.content+'\');" style="background-color: #9370DB" class="btn btn-outline-light text-dark"> 수정 </a>';
+                a += '<a onclick="commentDelete('+value.cno+');" style="background-color: #9370DB"; class="btn btn-outline-light text-dark"> 삭제 </a> </div>';
                 a += '</div></div>';
                 a += '</div>';
             });
@@ -57,7 +57,6 @@ function commentDelete(cno){
         url : '/comment/delete/'+cno,
         type : 'post',
         success : function(data){
-        	alert(data)
             if(data == 1) commentList(bno); //댓글 삭제후 목록 출력 
         }
     });

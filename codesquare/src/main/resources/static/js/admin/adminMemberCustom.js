@@ -69,7 +69,6 @@ $("#btn-modal-save").click(function(){
 	obj.NickName=$("#modail-detail-nickname").val();
 	obj.AuthorId=$("#authorSelector option:selected").val();
 	obj.RestrictId=$("#restrictSelector option:selected").val();
-	alert("hihi")
 	$.ajax({
 		url:'/admin/member/detail',
 		type:'PUT',
