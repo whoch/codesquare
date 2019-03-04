@@ -24,3 +24,8 @@
 	left:0;
 	
 }
+.quickBox i:hover{
+	font-size: 55px;
+	color:#5b2e7c;
+	cursor: pointer;
+}
