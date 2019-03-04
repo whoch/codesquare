@@ -1,6 +1,7 @@
 package com.bit.codesquare.controller.comment;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.comment.ReplyDto;
 import com.bit.codesquare.dto.paging.Criteria;
 import com.bit.codesquare.mapper.board.FreeMapper;
@@ -36,13 +38,14 @@ public class FreeCommentController {
     
     @RequestMapping("/insert") //댓글 작성 
     @ResponseBody
-    private int mCommentServiceInsert(@RequestParam int bno, @RequestParam String content, HttpSession session) throws Exception{
+    private int mCommentServiceInsert(@RequestParam int bno, @RequestParam String content, HttpSession session, HttpServletRequest request) throws Exception{
     	String nickName = (String) session.getAttribute("nickName");
         ReplyDto comment = new ReplyDto();
+        replyMapper.inco(bno);
         comment.setBno(bno);
         comment.setContent(content);
         //로그인 기능을 구현했거나 따로 댓글 작성자를 입력받는 폼이 있다면 입력 받아온 값으로 사용하면 됩니다. 저는 따로 폼을 구현하지 않았기때문에 임시로 "test"라는 값을 입력해놨습니다.
-        comment.setWriter(nickName);  
+        comment.setWriter(nickName);
         return replyMapper.commentInsert(comment);
     }
     
