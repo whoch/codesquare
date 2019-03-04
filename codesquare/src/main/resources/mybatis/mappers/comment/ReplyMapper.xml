@@ -6,7 +6,12 @@
 	<select id="commentList" resultType="ReplyDto">
 		select * from fcomment where bno = #{bno} order by cno desc
 	</select>
-	
+	<select id="coCount" resultType="int">
+		select count(cno) from fcomment where bno=#{id}
+	</select>
+	<update id="inco" parameterType="Board">
+		UPDATE Board SET CommentCount=CommentCount+1 WHERE Id=#{bno}
+	</update>
 	<insert id="commentInsert" parameterType="ReplyDto">
         INSERT INTO
         fcomment (CNO, BNO, WRITER, CONTENT, REG_DATE)
@@ -23,8 +28,5 @@
             CONTENT = #{content}
         WHERE CNO = #{cno}
     </update>
-	
-	<select id="commentCount" parameterType="int">
-		select count(cno) from fcomment where bno=#{bno}
-	</select>
+
 </mapper>
