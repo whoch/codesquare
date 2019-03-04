@@ -36,6 +36,9 @@ public class CalendarController {
    SeminarMapper seminarMapper;
    @Autowired
    CalendarMapper calendarMapper;
+   
+   @Autowired
+   GroupMapper gm;
    Logger logger = LoggerFactory.getLogger(CalendarController.class);   
    
    CalendarEvent event;
@@ -52,6 +55,8 @@ public class CalendarController {
       model.addAttribute("GroupConfirmedEventNULL",getConfirmedEventInGroup(calendarMapper.getGroupScheduleNULL(userId)));
       model.addAttribute("GroupUpComingEvent",getUpcomingEventInGroup(userId));
       model.addAttribute("SeminarEvent", getEventSeminar(userId));
+      model.addAttribute("glist", gm.getMyGroupList(userId));
+      
       return "planner/calendar";   
    }
    

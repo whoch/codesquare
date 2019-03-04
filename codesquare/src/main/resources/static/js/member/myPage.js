@@ -438,7 +438,8 @@ $(function() {
 													.html("<br /><i class='far fa-check-circle'></i> "
 																	+ data.applyUserNick
 																	+ " 님의 <br /> 신청 수락 완료<br /><br />");
-											 // $("#moStaus").html('수락');
+											
+											  $("#moStaus").html('수락');
 										} else {
 										}
 									},
@@ -451,11 +452,13 @@ $(function() {
 					});
 
 	// 거절 모달창
-	$("#declineMo, #decline-close", "#done-close").click(
+	$("#declineMo, #decline-close, #done-close").click(
 			function() {
-				$("#decline-dialog", "#done-dialog").toggle();
+				$("#decline-dialog, #done-dialog").toggle();
 			});
 
+	
+	
 	// 거절버튼 클릭시
 
 	$("#declineMoBtn").click(function() {
@@ -496,7 +499,7 @@ $(function() {
 							"<br /><i class='far fa-check-circle'></i> "
 									+ data.applyUserNick
 									+ " 님의 <br /> 신청 거절 완료<br /><br />");
-					// $("#moStaus").html('거절');
+					 $("#moStaus").html('거절');
 				} else {
 				}
 			},
