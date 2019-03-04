@@ -50,7 +50,7 @@
 	font-size: 12px;
 	position: absolute;
 	top: -2px;
-	right: -5px;
+	right: 0px;
 	width: 18px;
 	height: 18px;
 	color: white;
@@ -312,7 +312,9 @@ to {
 	bottom: 0;
 	opacity: 0;
 }
-
+#noti-btn{
+   padding: 0;
+}
 }
 .push_img {
 	display: block;

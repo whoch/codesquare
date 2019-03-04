@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bit.codesquare.mapper.group.GroupMapper;
 import com.bit.codesquare.mapper.planner.DashboardMapper;
 import com.bit.codesquare.service.planner.DashboardService;
 
@@ -21,6 +22,10 @@ public class DashboardController {
 	DashboardMapper dashboardMapper;
 	@Autowired
 	DashboardService dashboardService;
+	
+	@Autowired
+	GroupMapper gm;
+	
 	Logger logger= LoggerFactory.getLogger(DashboardController.class);
 	
 	@RequestMapping("/dashboard")
@@ -31,6 +36,8 @@ public class DashboardController {
 		model.addAttribute("userStats", dashboardService.getUserStats(userId));
 		model.addAttribute("cardLecture", dashboardMapper.getUserLectureList(userId));
 		model.addAttribute("cardGroupNotice", dashboardService.getUserGroupNoticeList(userId));
+		model.addAttribute("glist", gm.getMyGroupList(userId));
+	
 		return "planner/dashboard";		
 	}
 	

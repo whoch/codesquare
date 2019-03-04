@@ -68,7 +68,7 @@
 				 WHERE	b2.ParentId=#{parentId} AND b2.BoardKindId='LrnVo'
 				 ORDER BY b2.Id LIMIT 1),
 				(SELECT ul.BoardId
-				 FROM  (SELECT * FROM UserLearningLog WHERE ParentId=22 AND UserId=#{userId} 
+				 FROM  (SELECT * FROM UserLearningLog WHERE ParentId=#{parentId} AND UserId=#{userId} 
 				 ORDER BY HearingDate DESC LIMIT 1)AS ul
 				));
 	</select>

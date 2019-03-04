@@ -36,24 +36,24 @@
 								</form>
 							</div>
 						</div>
-
+		
 		<div class="row quickButton" style="margin-top: 5%;   margin-bottom: 10%;">
 			<div class="quickBox col-sm-1 col-md-2">
-				<i class="fas fa-users fa-3x fa-lg"></i><span>스터디모집</span>
+				<a th:href="@{/study/StdMo}"><i class="fas fa-users fa-3x fa-lg"></i><span>스터디모집</span></a>
 			</div>
 			<div class="quickBox col-sm-1 col-md-2">
-				<i class="fab fa-linux fa-3x fa-lg"></i><span>리눅스</span>
+				<a th:href="@{/learn}"><i class="fab fa-linux fa-3x fa-lg"></i><span>리눅스</span></a>
 			</div>
 			<div class="quickBox col-sm-1 col-md-2">
-				<i class="fas fa-certificate fa-3x fa-lg"></i><span>자격증</span>
+				<a th:href="@{/study/StdMo}"><i class="fas fa-certificate fa-3x fa-lg"></i><span>자격증</span></a>
 			</div>
 			<div class="quickBox col-sm-1 col-md-2">
-				<i class="fab fa-weebly fa-3x fa-lg"></i><span>웹개발</span>
+				<a th:href="@{/learn}"><i class="fab fa-weebly fa-3x fa-lg"></i><span>웹개발</span></a>
 			</div>
 		</div>
 		<div class="recommand_item_container">
-			<a class="recommand_item_link" href="#" th:each="item:${riList}"><span
-				class="recommand_item" th:text="${item.title}"></span></a>
+			<a class="recommand_item_link"  th:each="item:${riList}" th:href="${item.boardName}=='스터디모집'?@{/study/StdMo/}+${item.id}:@{/seminar/SmnMo/}+${item.id}">
+			<span class="recommand_item" th:text="${item.title}"></span></a>
 		</div>
 		<div>
 			<br /> <br /> <br /> <br />
@@ -136,6 +136,7 @@
 	<!-- end content -->
 
 <th:block layout:fragment="script">
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
 <script>
   $(function() {
 	    $( "#testDatepicker" ).datepicker({
@@ -156,6 +157,7 @@
   });
   </script>
 <link href="static/styles/room/datepicker.min.css" rel="stylesheet" type="text/css">
+<script th:src="@{static/js/mainCustom.js}"></script>
 <script src="static/js/room/datepicker.min.js"></script>
 <script src="static/js/room/i18n/datepicker.en.js"></script>
 </th:block>
