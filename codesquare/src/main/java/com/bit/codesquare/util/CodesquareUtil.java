@@ -86,7 +86,7 @@ public class CodesquareUtil {
 			Member member = mm.getUser(sc.getUsername());
 
 			if (!member.getProfileImagePath().equals("DefaultThumbnail")) {
-				member.setProfileImagePath(userThumbPath += getPath(member.getUserId(), member.getProfileImagePath()));
+				member.setProfileImagePath(userThumbPath + getPath(member.getUserId(), member.getProfileImagePath()));
 			} else {
 				member.setProfileImagePath("/static/images/DefaultThumbnail.png");
 			}

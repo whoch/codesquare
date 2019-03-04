@@ -62,7 +62,7 @@ text-decoration: none;
 <title>자유게시판</title>
 </head>
 <body>
-<div class="container" layout:fragment="content" style="padding-left: 40px; padding-right: 40px;"><br>
+<div class="container" layout:fragment="content"><br>
 
 
 <div class="lecture_header_item d-flex justify-content-between" style="border-bottom: 5px solid black; margin-bottom: 5px;">		
@@ -83,13 +83,13 @@ text-decoration: none;
 	<div class="container" align="right">
 		<table class="table table-hover row-clickable">
 			<tr th:each="Board:${list}">
-	             <td><a th:href="@{'/freeView/'+${boardKindId}+'?id=' + ${Board.id}}"><span th:text="|${Board.title} &nbsp; [${Board.commentCount}]|" style="color: black; font-weight: bold; padding-right: 150px;"></span></a></td>
-	             <td th:text="${Board.nickName}" style="padding-left: 100px;"></td>
-	             <td style="padding-right: 1px; width: 30px;"><i class="far fa-eye"></i></td>
-	             <td style="padding-left: 1px;" th:text="${Board.hit}"></td>
-	             <td style="padding-right: 1px; width: 30px;"><i class="fas fa-heart"></i></td>
-	             <td th:text="${Board.likeCount}" style="padding-right: 7px; padding-left: 1px;"></td>
-	             <td th:text="${Board.writeDateBoard}" style="padding-right: 1px; padding-left: 1px;"></td>
+	             <td><a th:href="@{'/freeView/'+${boardKindId}+'?id=' + ${Board.id}}"><span th:text="|${Board.title} &nbsp; [${Board.commentCount}]|" style="color: black; font-weight: bold"></span></a></td>
+	             <td th:text="${Board.nickName}"></td>
+	             <td style="width: 10px; padding-left: 20px;"><i class="far fa-eye"></i></td>
+	             <td th:text="${Board.hit}"></td>
+	             <td style="padding-right: 1px; width: 10px;"><i class="fas fa-heart"></i></td>
+	             <td th:text="${Board.likeCount}"></td>
+	             <td th:text="${Board.writeDateBoard}" style="padding-left: 30px;"></td>
 	        </tr>
 		</table>
 	</div>
