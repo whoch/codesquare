@@ -27,7 +27,7 @@ function reviewList() {
 		     	reviewContent+="<div class=\"review-writer\">";
 		     	reviewContent+="<h5 class=\"name\" >"+value.nickName+"</h5>";
 		     	reviewContent+="<h6 class=\"writeDate\" >"+value.writeDate+"</h6></div></div>";
-		     	reviewContent+="<div class=\"col-sm-8 review-content\">";
+		     	reviewContent+="<div class=\"col-sm-7 review-content\">";
 		     	reviewContent+="<p class=\"review-content-text\">"+value.content+"</p></div>";
 		     	reviewContent+="<div class=\"col-sm-2 review-heart\">";
 		     	reviewContent+="<img src=\"/static/images/lectureImages/reviewHeart.png\"alt=\"좋아요\"> ";

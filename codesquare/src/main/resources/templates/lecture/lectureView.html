@@ -26,7 +26,7 @@
 				class="lecture-header d-flex justify-content-between mb-2" style="margin-bottom:0px!important;">
 				<ol class="breadcrumb " style="background: none;">
 					<li class="breadcrumb-item"><a id="intro-link" th:href="@{/learn}">강의</a></li>
-					<li class="breadcrumb-item"><a id="parent-link" th:href="@{/learn/intro/}+${lecture.parentId}" th:attr="data-parentId=${lecture.parentId}" >자바의정석</a></li><!-- parentTitle추가해야함 -->
+					<li class="breadcrumb-item"><a id="parent-link" th:href="@{/learn/intro/}+${lecture.parentId}" th:attr="data-parentId=${lecture.parentId}" >강의소개</a></li><!-- parentTitle추가해야함 -->
 					<li class="breadcrumb-item active" style="color:white;" th:text="@{${lecture.title}}"></li>
 				</ol>
 				<div class="btn-group p-2" >

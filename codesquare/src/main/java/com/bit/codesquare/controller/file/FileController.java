@@ -76,7 +76,7 @@ public class FileController {
 			do {
 //				changeName = RandomStringUtils.randomAlphanumeric(32);
 				changeName = id+"_Thumbnail";
-				destinationFile = new File(lPath + "LectureIntro/" + id + "/" + changeName+"."+extension);
+				destinationFile = new File(path + "LectureIntro/" + id + "/" + changeName+"."+extension);
 			} while (destinationFile.exists());
 			destinationFile.getParentFile().mkdirs();
 			tFile.transferTo(destinationFile);
