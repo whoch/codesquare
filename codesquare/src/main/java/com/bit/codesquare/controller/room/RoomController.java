@@ -34,7 +34,6 @@ public class RoomController {
 				l.setThumbnailPath(thumbPath);
 			}
 			model.addAttribute("list", licList);
-			System.out.println("여기에요!!!!!!!!!!!!!!!!!!!!!"+licList);
 		}catch (Exception e) {
 			
 		}

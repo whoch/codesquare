@@ -8,6 +8,13 @@ layout:decorator="layout/mainLayout2">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" type="text/css" th:href="@{/static/styles/seminar/seminar.css}">
 <title>세미나 모집</title>
+<style>
+	.max-small {
+    width: auto; height: auto;
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 50px;
+</style>
 </head>
 <body>
 
@@ -33,9 +40,8 @@ layout:decorator="layout/mainLayout2">
 				</dd>
 				<dd>
 				</dd>
-
-			</dl><img alt="Bootstrap Image Preview" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg"  style="width: auto; height: auto;" /><br><br>
-			<button type="button" class="btn btn-md btn-outline-danger btn-block">참여할래요.</button><br>
+			</dl><img th:src="@{static/}+${item.thumbnailPath}" class="max-small" style="width: auto; height: auto;" /><br><br>
+			<a th:href="|seminar/SmnMo/*{item.id}|" class="btn btn-md btn-outline-danger btn-block">참여할래요.</a><br>
 		</div>
 	</div>
 </div>
