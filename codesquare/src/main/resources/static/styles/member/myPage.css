@@ -13,6 +13,7 @@ main {
 }
 
 .topMenubar {
+
 	background: white;
 	margin-left: 7%;
 	z-index: 3;
@@ -32,6 +33,7 @@ main {
 
 .container {
 	color: #552796;
+	min-width: 100%
 }
 
 .container .nav-link {
@@ -79,6 +81,21 @@ main {
 	background: white;
 	z-index: 1;
 	height: auto;
-	margin-bottom: 100px;
+	margin-bottom: 100px; 
 	padding-bottom: 50px;
+}
+
+.page-link {
+	color :#D8BFD8;
+	border : none;
+}
+.page-link:hover {
+	color :#251233 ;
+	background : none;
+}
+
+.page-item.active .page-link{
+	background : none;
+	border : none;
+	color: #251233;
 }

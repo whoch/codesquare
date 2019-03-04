@@ -1,5 +1,6 @@
 package com.bit.codesquare.controller.board;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import com.bit.codesquare.dto.paging.Criteria;
 import com.bit.codesquare.dto.paging.PageMaker;
 import com.bit.codesquare.mapper.board.FreeMapper;
 import com.bit.codesquare.mapper.comment.ReplyMapper;
+import com.bit.codesquare.mapper.member.MemberMapper;
 import com.bit.codesquare.service.NewService;
 import com.bit.codesquare.util.CodesquareUtil;
 
@@ -27,9 +29,11 @@ public class FreeController {
 	NewService newService;
 	@Autowired
 	ReplyMapper replyMapper;
+	@Autowired
+	MemberMapper mm;
 	
 	@RequestMapping("/getfree/{boardKindId}")
-	public String getfree (Model model, Criteria cri, String keyword, String searchOption, @PathVariable String boardKindId, String boardName) throws Exception {
+	public String getfree (Model model, Criteria cri, String keyword, String searchOption, @PathVariable String boardKindId, String boardName, ServletRequest request) throws Exception {
 		model.addAttribute("list", CodesquareUtil.getDateTimeCompareObject(freeMapper.getfree(cri, keyword, searchOption, boardKindId)));
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -53,6 +57,7 @@ public class FreeController {
 	public String noticeView(Model model, HttpServletRequest request, @PathVariable String boardKindId) throws Exception {
 		int id = Integer.parseInt(request.getParameter("id"));
 		freeMapper.updateCount(id);
+		model.addAttribute("co", replyMapper.coCount(id));
 		model.addAttribute("list",  freeMapper.getid(id));
 		model.addAttribute("bn", freeMapper.getBoardName(boardKindId));
 		return "board/freeView";

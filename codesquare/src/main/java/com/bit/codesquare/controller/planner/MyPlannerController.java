@@ -19,6 +19,7 @@ import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.board.BoardKind;
 import com.bit.codesquare.dto.group.GroupInfo;
 import com.bit.codesquare.dto.planner.UserTodoList;
+import com.bit.codesquare.mapper.group.GroupMapper;
 import com.bit.codesquare.mapper.planner.MyplannerMapper;
 import com.bit.codesquare.mapper.study.StudyMapper;
 import com.bit.codesquare.util.CodesquareUtil;
@@ -32,6 +33,8 @@ public class MyPlannerController {
 	@Autowired
 	CodesquareUtil csu;
 	
+	@Autowired
+	GroupMapper gm;
 	Logger logger = LoggerFactory.getLogger(MyPlannerController.class);
 	
 	@RequestMapping("/myplanner")
@@ -39,6 +42,8 @@ public class MyPlannerController {
 		String userId = auth.getName();
 		model.addAttribute("groupWorkList", csu.getDateTimeCompareObject(myplannerMapper.getGroupWorkList(userId)));
 		model.addAttribute("todoList", myplannerMapper.getUserTodoList(userId));
+		model.addAttribute("glist", gm.getMyGroupList(userId));
+		
 		return "planner/myPlanner";
 	}
 	

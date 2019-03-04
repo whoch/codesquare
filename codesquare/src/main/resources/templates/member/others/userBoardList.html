@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	layout:decorator="layout/myPageLayout"
+	layout:decorator="layout/mainLayout2"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}" />
+<link
+	href="https://fonts.googleapis.com/css?family=Do+Hyeon|Noto+Sans+KR"
+	rel="stylesheet">
+<link
+	th:href="@{/static/styles/member/viewOthers.css}"
+	rel="stylesheet">
+	
 </head>
 <body>
-	<div class="container" layout:fragment="myPageContent">
-		<div id="myBoardList" class="container">
+	<div class="container" layout:fragment="content">
 			<br />
-			<h3>내가 쓴 글</h3>
+			<br />
+			<h3><span th:text="${user.nickName} + ' (' + ${user.userId} +') 님이 쓴 글'"></span></h3>
 			<br />
 
 			<div class="row border-bottom text-center py-2"
@@ -74,7 +86,6 @@
 		
 		</div>
 		
-	</div>
 
 </body>
 </html>

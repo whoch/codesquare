@@ -58,7 +58,7 @@ public class MessageController {
 		pageMaker.setTotalCount(mim.countRPaging(recipient, cri));
 		model.addAttribute("pageMaker", pageMaker);
 
-		return "member/myPage/myReceivedMessage";
+		return "member/message/myReceivedMessage";
 	}
 
 	@GetMapping("sentMessage")
@@ -74,7 +74,7 @@ public class MessageController {
 		pageMaker.setTotalCount(mim.countSPaging(sender, cri));
 		model.addAttribute("pageMaker", pageMaker);
 
-		return "member/myPage/mySentMessage";
+		return "member/message/mySentMessage";
 	}
 
 	@GetMapping("receivedMessage/{id}")
@@ -90,20 +90,20 @@ public class MessageController {
 
 		model.addAttribute("receivedRead", mim.readMessage(id));
 
-		return "member/myPage/myReceivedMessageView";
+		return "member/message/myReceivedMessageView";
 	}
 
 	@GetMapping("sentMessage/{id}")
 	public String sentMessage(Model model, @PathVariable int id) {
 		model.addAttribute("sentRead", mim.readMessage(id));
 
-		return "member/myPage/mySentMessageView";
+		return "member/message/mySentMessageView";
 	}
 
 	@GetMapping("sendMessage")
 	public String sendNew(Authentication auth, HttpSession session) {
 
-		return "member/myPage/mySendNewMessage";
+		return "member/message/mySendNewMessage";
 	}
 
 	@GetMapping("sendMessage/{recipient}")
@@ -112,7 +112,7 @@ public class MessageController {
 		model.addAttribute(recipient);
 		model.addAttribute("recipientNickName", mm.getUser(recipient).getNickName());
 
-		return "member/myPage/mySendMessage";
+		return "member/message/mySendMessage";
 	};
 
 	@PostMapping("sendMessage")
