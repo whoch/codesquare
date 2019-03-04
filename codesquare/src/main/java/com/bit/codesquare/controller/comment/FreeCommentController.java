@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.comment.ReplyDto;
 import com.bit.codesquare.dto.paging.Criteria;
 import com.bit.codesquare.mapper.board.FreeMapper;

@@ -29,22 +29,21 @@ text-decoration: none;
 </style>
 </head>
 <body>
-<div class="container" layout:fragment="content" style="padding-left: 40px; padding-right: 40px;"><br>
+<div class="container" layout:fragment="content"><br>
 		<div class="lecture_header_item d-flex justify-content-between"
 				style="border-bottom: 5px solid black; margin-bottom: 25px;">
 		<h1 align="center"><a th:href="@{'/getfree/'+${boardKindId}}" style="color: black;"><span th:text="${bn.boardName}"></span></a></h1>
 		
 </div>			
-<<<<<<< HEAD
+
 <span th:text=${list.title} style="font-weight: bold; font-size: 27px;"></span>
 <a style="float: right;" class="hit">조회수<i class="fa fa-eye" aria-hidden="true" style="margin: 0px 2px 0 5px;"></i><span th:text="${list.hit}"></span></a>
 <a style="float: right;" class="like">좋아요<i class="fa fa-heart" aria-hidden="true" style="margin: 0px 2px 0 5px;"></i><span id="likeCount" th:text="${list.likeCount}" style="
     margin-right: 19px;"></span></a>
 
-=======
-<span th:text=${list.title} style="font-weight: bold; font-size: 27px;"></span><span th:utext="${co}"></span>
+
+<span th:text="|${list.title} &nbsp; [${list.commentCount}]|" style="font-weight: bold; font-size: 27px;"></span>
 <a style="float: right;"><span th:text="${list.hit}" style="float: right;"></span>조회수 &nbsp;</a>
->>>>>>> refs/remotes/codesquare-origin/master
 <span th:text="${list.writeDateBoard}"></span>
 <div style="margin-top: 25px; border-bottom: 1px solid #BAB9BA;"></div>
 <div style="margin-top: 40px; margin-bottom:150px; border-bottom: 1px solid #BAB9BA;">

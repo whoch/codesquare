@@ -41,7 +41,7 @@ text-decoration: none;
 </style>
 </head>
 <body>
-<div class="container" layout:fragment="content" style="padding-left: 40px; padding-right: 40px;"><br>
+<div class="container" layout:fragment="content"><br>
 <form th:action="@{/freewritego}" name="freeform" id="freeform">
 <input type="hidden" name="boardKindId" th:value="${boardKindId}">
 	<div class="lecture_header_item d-flex justify-content-between" style="border-bottom: 5px solid black;">
@@ -50,7 +50,7 @@ text-decoration: none;
 		<div style="margin-top: 10px; border-bottom: 5px solid black;">
 		<input type="hidden" name="userId" id="userId" th:value="${session.userId}">
 		<input type="hidden" name="nickName" id="nickName" th:value="${session.nickName}">
-		<input type="text" name="title" placeholder="제목을입력해주세요." style="margin-bottom: 10px; width: 1308px; height: 50px" autocomplete="off">
+		<input type="text" name="title" placeholder="제목을입력해주세요." style="margin-bottom: 10px; width: 1110px; height: 50px" autocomplete="off">
 	</div>
 <input name="content" id="content" style="width: 1317px; height:400px;" autocomplete="off">
 <!-- <textarea name="content" id="content" style="width: 100%; height: 412px; min-width: 610px; overflow: visible;" rows="25"></textarea> -->
