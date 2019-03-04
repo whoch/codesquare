@@ -61,6 +61,7 @@ public class StudyController {
 //	/freeView/NewNt?id=235
 //	/studyWanted/{boardId}
 	//게시판 상세보기로 이동
+
 @RequestMapping(value = "/study/StdMo/{boardId}")
 	public String getBoardView(@PathVariable("boardId") int boardId, Model model, HttpServletRequest request, Authentication auth) throws Exception {
 		freeMapper.updateCount(boardId);

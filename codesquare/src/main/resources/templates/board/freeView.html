@@ -64,7 +64,7 @@ text-decoration: none;
                <input type="hidden" id="bno" name="bno" th:value="${list.id}"/>
                <input type="text" class="form-control" id="content" name="content" placeholder="내용을 입력하세요."  style="height: 100px; background-color: #FBFAFB" autocomplete="off">
                <span class="input-group-btn">
-                    <button type="button" name="commentInsertBtn" id="a" style="height: 100px;">등록</button>
+                    <button type="button" name="commentInsertBtn" id="a" style="height: 100px;" onclick="reply()">등록</button>
                </span>
               </div>
         </form>

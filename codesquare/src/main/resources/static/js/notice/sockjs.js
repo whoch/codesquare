@@ -2,8 +2,8 @@ var stompClient = null;
 var socket = null;
 var messages = $("[name=messages]").val();
 
-//var notibell = "<img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4uCFAx5yg3Qmx6XJOSMUiBg-o1RE1bOB3LQ4k-lyF68yFNXbz'/>"; 
-var notibell = null;
+var notibell = "<img id='menuicon' src='/static/images/noticelist.png'/>"; 
+//var notibell = null;
 var aline;
 $(function() {   
 

@@ -141,7 +141,9 @@ public class LectureController {
 		int bResult=0;
 		int ldResult=0;
 		try {
+			logger.info("강의소개글등록1: "+obj.toString());
 			bResult=lectureMapper.insertLectureIntroContent(obj);
+			logger.info("성공성공: "+bResult);
 			if(bResult!=0) {
 				logger.info("bResult: "+bResult);
 //				obj.put("id", bResult);

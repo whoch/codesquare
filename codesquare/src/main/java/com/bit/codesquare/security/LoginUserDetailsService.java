@@ -38,12 +38,13 @@ public class LoginUserDetailsService implements UserDetailsService {
 		      if (loadUserByUsername(member.getUserId())!=null) {
 		           // 기존 회원일 경우에는 데이터베이스에서 조회해서 인증 처리
 		           final SecurityMember sm = new SecurityMember(member);
-		           System.out.println(sm.getAuthorities());
+		           System.out.println(sm.getAuthorId()+"아이디");
 		           System.out.println(sm.getUsername());
 		           return setAuthenticationToken(sm);
 		       } else {
 		           // 새 회원일 경우 회원가입 이후 인증 처리
-		    	 
+		    	   
+		    	   
 		    	   mm.signUp(member);
 		          
 		           final SecurityMember user = new SecurityMember(member);
@@ -54,15 +55,14 @@ public class LoginUserDetailsService implements UserDetailsService {
 		       }
 		   }
 		   
-		    private UsernamePasswordAuthenticationToken setAuthenticationToken(SecurityMember user) {
+		private UsernamePasswordAuthenticationToken setAuthenticationToken(SecurityMember user) {
 		    	System.out.println(user.getAuthorId()+"가져");
 		    	return new UsernamePasswordAuthenticationToken(user,
 		                 null, getAuthorities("ROLE_"+user.getAuthorId()));
 		       }
 		    
-		    private Collection<? extends GrantedAuthority> getAuthorities(String authorId) {
+		private Collection<? extends GrantedAuthority> getAuthorities(String authorId) {
 		           List<GrantedAuthority> authorities = new ArrayList<>();
-		          System.out.println(authorId+"");
 		           authorities.add(new SimpleGrantedAuthority(authorId));
 		           return authorities;
 		       }

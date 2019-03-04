@@ -103,5 +103,13 @@
 		WHERE ApplyUserId=#{applyUserId} ANd boardId=#{boardId}
 	</update>
 	
+	<!-- 그룹 수락 시 모집인원, 그룹인원 -->
+	<update id="changeGroupAvailability">
+		update GroupInfo set MemberCount = MemberCount+1 , RecruitmentCount = RecruitmentCount -1 where Id = #{groupId}
+		
+	</update>
 
+	<insert id="addGroupMember">
+	insert into GroupMemberInfo (UserId, GroupId, AuthorId, Nickname) VALUES (#{member.userId}, #{groupId}, 4 , #{member.nickName});
+	</insert>
 </mapper>
