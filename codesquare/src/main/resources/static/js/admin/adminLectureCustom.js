@@ -52,7 +52,6 @@ function lectureIntroSearch(keyword){
 
 //3.강의소개글 클릭시 상세보기 이동
 $(".area-lectureintro").click(function(){
-	alert("hi")
 	var id=$(this).closest('tr').attr('id').split('-')[1];
 	location.href="/admin/lecture/intro/"+id;
 })

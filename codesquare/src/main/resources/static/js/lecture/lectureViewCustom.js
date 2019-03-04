@@ -128,7 +128,6 @@ function saveNoteContent(content){
 	}).done(function(data){
 		var sHTML=data;
 		console.log(data);
-		alert("저장완료");
 	}).fail(function(data){
 		if(data!=1){
 			alert("Load Review Fail");

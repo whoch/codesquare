@@ -21,7 +21,6 @@ $(document).on('click','#btn-video-regist,#btn-video-change',function(){
 $(".btn-lecture-regist, .btn-lecture-cancel, .btn-lecture-modify").click(function(){
 	var txt=$(this).text();
 	if(txt=='등록'){
-		alert("등록")
 		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 		var content=$("[name=lectureResgistForm]").serialize();
 		insertLectureContent(content);
@@ -78,7 +77,6 @@ function saveLectureVideo(){
 		data:{"videoUrl":videoUrl,"id":boardId}
 	}).done(function(data){
 		if(data!=0){
-			alert("영상 저장 성공");
 			window.history.back();
 		}else{
 			alert("뭔가 실패");
