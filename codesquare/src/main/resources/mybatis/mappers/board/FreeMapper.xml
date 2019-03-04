@@ -9,27 +9,28 @@
 
 <select id="insert" resultType="Board" parameterType="Board">
 		INSERT INTO codesquare.Board (boardKindId, UserId, nickName, title, content, Hit) VALUES 
-		('ComFr', #{userId}, #{nickName}, #{title}, #{content}, 0)
+		(#{boardKindId}, #{userId}, #{nickName}, #{title}, #{content}, 0)
 </select>
-<!-- <select id="getfree" resultType="Board">
-	<![CDATA[
-			select
-				id, userid, nickname, title, content, writedate, modifydate, hit
-			from
-				codesquare.Board
-			where BoardKindid='ComFr'
-			
-			and id > 0
-	]]>
-	<![CDATA[	
-			order by id desc, writedate desc
-			limit #{pageStart}, #{perPageNum}
-	]]>
-	
-	</select> -->
-	<select id="getfree" resultType="Board">
+<select id="getid" resultType="Board">
+		SELECT * FROM codesquare.Board where id=#{id}
+</select>
+<update id="updateCount" parameterType="Board">
+		update codesquare.Board set hit=hit+1 where id=#{id}
+</update>
+<select id="getBoardName" resultType="BoardKind">
+select boardName from codesquare.BoardKind where id=#{boardKindId};
+</select>
+<delete id="delete" parameterType="Board">
+		delete from codesquare.Board where id=#{id}
+</delete>
+
+<update id="update" parameterType="Board">
+		update codesquare.Board set title=#{title}, content=#{content} where id=#{id}
+</update>
+
+<select id="getfree" resultType="Board">
 		select * from codesquare.Board
-		where Board.BoardKindId='ComFr'
+		where Board.boardKindId=#{boardKindId}
 		<if test="cri.keyword != null">
 		<choose>
 			<when test="cri.searchOption == 'all'">
@@ -49,16 +50,12 @@
 		</if>
 		order by id desc, writedate desc
 		limit #{cri.pageStart}, #{cri.perPageNum}
-	</select>
+</select>
 
 
-	<select id="countPaging" resultType="int">
-
-			select
-				count(id)
-			from
-				Board
-			where Board.BoardKindId='ComFr'
+<select id="countPaging" resultType="int">
+select count(id) from Board
+where Board.BoardKindId=#{boardKindId}
 		<if test="cri.keyword != null">
 		<choose>
 			<when test="cri.searchOption == 'all'">
@@ -76,26 +73,6 @@
 			</otherwise>
 		</choose>
 		</if>
-	</select>
-	
-	
-	<select id="countSPaging" resultType="int">
-			select
-				count(id)
-			from
-				MessageInfo
-				 where sender = #{sender}  and ShowStatus = '정상' 
-				  <if test ="cri.keyword != null">
-				  and (MessageContent like CONCAT('%',#{cri.keyword},'%') or Recipient like CONCAT('%',#{cri.keyword},'%') or RecipientNickName like CONCAT('%',#{cri.keyword},'%') )
-				 </if>
-	</select>
-	<select id="getSentMessageList" resultType="MessageInfo">
-		select * from
-		MessageInfo where Sender = #{sender} and ShowStatus = '정상'
-		<if test ="cri.keyword != null">
-		and (MessageContent like CONCAT('%',#{cri.keyword},'%') or Recipient like CONCAT('%',#{cri.keyword},'%') or RecipientNickName like CONCAT('%',#{cri.keyword},'%') )
-		</if>
-		order by SendDate DESC
-		limit #{cri.pageStart}, #{cri.perPageNum}
-	</select>
+</select>
+
 </mapper>

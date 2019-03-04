@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" th:href="@{/static/plugins/colorbox/colorbox.css}" >
 <link rel="stylesheet" type="text/css" th:href="@{/static/styles/main/mainHeader.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/static/styles/main_styles.css}">
+<link rel="stylesheet" type="text/css" href="/static/styles/notice.css" th:href="@{/static/styles/notice.css}">
 <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Noto+Sans+KR" rel="stylesheet">
 
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
@@ -40,6 +41,9 @@
 <script th:src="@{/webjars/bootstrap-select/1.13.3/js/bootstrap-select.js}"></script>
 <script th:src="@{/webjars/waypoints/4.0.1/lib/jquery.waypoints.js}"></script>
 <script th:src="@{/webjars/jquery-serialize-object/2.1.0/jquery.serialize-object.js}"></script>
+
+<script th:src="@{/webjars/sockjs-client/1.0.2/sockjs.min.js}"></script>
+<script th:src="@{/webjars/stomp-websocket/2.3.3/stomp.min.js}"></script>
 <script th:src="@{/static/plugins/greensock/TweenMax.min.js}"></script>
 <script th:src="@{/static/plugins/greensock/TimelineMax.min.js}"></script>
 <script th:src="@{/static/plugins/scrollmagic/ScrollMagic.min.js}"></script>
@@ -50,10 +54,15 @@
 <script th:src="@{/static/plugins/progressbar/progressbar.min.js}"></script>
 <script th:src="@{/static/plugins/colorbox/jquery.colorbox-min.js}"></script>
 <script th:src="@{/static/plugins/parallax-js-master/parallax.min.js}"></script>
+<!-- 소켓 라이브러리 -->
+<script type="text/javascript"	src="//cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
+<script type="text/javascript"	src="//cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
 <script th:src="@{/static/js/securityAjax.js}"></script>
 <script th:src="@{/static/js/main/main.js}"></script>
 <script th:src="@{/static/js/custom.js}"></script>
-
+<script th:src="@{/static/js/notice/notice.js}"></script>
+<script th:src="@{/static/js/notice/sockjs.js}"></script>
 
 <th:block layout:fragment="script"></th:block>
 <th:block layout:fragment="css"></th:block>

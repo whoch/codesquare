@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.codesquare.dto.planner.UserTodoList;
-import com.bit.codesquare.mapper.group.GroupMapper;
 import com.bit.codesquare.mapper.planner.MyplannerMapper;
-import com.bit.codesquare.service.planner.MyplannerService;
 import com.bit.codesquare.util.CodesquareUtil;
 
 @Controller
@@ -26,27 +24,23 @@ public class MyPlannerController {
 	MyplannerMapper myplannerMapper;
 	
 	@Autowired
-	MyplannerService myplannerService;
+	CodesquareUtil csu;
 	
-	@Autowired
-	GroupMapper gm;
 	Logger logger = LoggerFactory.getLogger(MyPlannerController.class);
 	
 	@RequestMapping("/myplanner")
 	public String myPlanner(Model model, Authentication auth) {
 		String userId = auth.getName();
-		model.addAttribute("groupWorkList", myplannerService.getUsergetGroupWorkList());
-		model.addAttribute("todoList", myplannerMapper.getUserTodoList());
-		model.addAttribute("glist", gm.getMyGroupList(userId));
+		model.addAttribute("groupWorkList", csu.getDateTimeCompareObject(myplannerMapper.getGroupWorkList(userId)));
+		model.addAttribute("todoList", myplannerMapper.getUserTodoList(userId));
 		return "planner/myPlanner";
 	}
 	
 	@PostMapping("/loadBookmark")
-	public String loadBookmark(@RequestBody String userId, Model model) {
-		
-		logger.info("###################");
-		model.addAttribute("bookmarkList", myplannerService.getUserBookmarkList());
-		model.addAttribute("bookmarkKind", myplannerMapper.getUserBookmarkKinds());
+	public String loadBookmark(Model model, Authentication auth) {
+		String userId = auth.getName();
+		model.addAttribute("bookmarkList", csu.getDateTimeCompareObject(myplannerMapper.getUserBookmarkList(userId)));
+		model.addAttribute("bookmarkKind", myplannerMapper.getUserBookmarkKinds(userId));
 		return "planner/ajax/userBookmarkList";		
 	}
 	
@@ -57,10 +51,11 @@ public class MyPlannerController {
 		return userTodoList;
 	}
 	
-	@PostMapping("/delete")
+	@PostMapping("/planner/deleteBookMark")
 	@ResponseBody
 	public void deleteTodo(@RequestBody Map<String, String> data) {
-		myplannerMapper.deleteUsingId(data);
+		myplannerMapper.deleteBookmarkUsingId(data);
+		myplannerMapper.updateBookmarkDeleteCount(data);
 	}
 	
 	@PostMapping("/updateTodo")
@@ -73,7 +68,7 @@ public class MyPlannerController {
 	@ResponseBody
 	public String[] checkedTodo(@RequestBody Map<String, String> data) {
 		myplannerMapper.updateTodoStatus(data);
-		return myplannerMapper.getRowNumTodo();
+		return myplannerMapper.getRowNumTodo(data.get("userId"));
 	}
 	
 }

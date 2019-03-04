@@ -14,6 +14,7 @@ public class Reservation {
 	String userId;
 	Date agreeTime;
 	Date reservationdate;
+	Timestamp goDate;
 	Timestamp paymentdate;
 	int payamount;
 	int reservationtime;

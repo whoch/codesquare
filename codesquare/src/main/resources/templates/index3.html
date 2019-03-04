@@ -10,76 +10,30 @@
 </head>
 <body>
 	<div class="container" layout:fragment="content">
-	
-		<div class="search_box">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<div
-							class="search_box_container d-flex flex-row align-items-center justify-content-start">
+	<br><br>
+						<div class="search_box_container d-flex flex-row align-items-center justify-content-start" style="background-color: #542672" align="center">
 							<div class="search_form_container">
-								<form action="#" id="search_form" class="search_form">
-									<div
-										class="d-flex flex-lg-row flex-column align-items-center justify-content-start">
-										<ul
-											class="search_form_list d-flex flex-row align-items-center justify-content-start flex-wrap">
-											<li
-												class="search_dropdown d-flex flex-row align-items-center justify-content-start">
-												<span>참석 유형</span> <i class="fa fa-chevron-down ml-auto"
-												aria-hidden="true"></i>
-												<ul>
-													<li>스터디</li>
-													<li>세미나</li>
-												</ul>
-											</li>
-											<li
-												class="search_dropdown d-flex flex-row align-items-center justify-content-start">
-												<span>지역</span> <i class="fa fa-chevron-down ml-auto"
-												aria-hidden="true"></i>
-												<ul>
-													<li>Check out item 1</li>
-													<li>Check out item 2</li>
-													<li>Check out item 3</li>
-													<li>Check out item 4</li>
-													<li>Check out item 5</li>
-												</ul>
-											</li>
-											<li
-												class="search_dropdown d-flex flex-row align-items-center justify-content-start">
-												<span>언어</span> <i class="fa fa-chevron-down ml-auto"
-												aria-hidden="true"></i>
-												<ul>
-													<li>1</li>
-													<li>2</li>
-													<li>3</li>
-													<li>4</li>
-													<li>5</li>
-												</ul>
-											</li>
-											<li
-												class="search_dropdown d-flex flex-row align-items-center justify-content-start">
-												<span>시작일</span> <i class="fa fa-chevron-down ml-auto"
-												aria-hidden="true"></i>
-												<ul>
-													<li>1</li>
-													<li>2</li>
-													<li>3</li>
-													<li>4</li>
-													<li>5</li>
-												</ul>
-											</li>
+								<form action="search" id="search_form" class="search_form">
+									<div class="">
+										<ul class="search_form_list d-flex flex-row align-items-center">
+											<input type="text" id="testDatepicker" placeholder="연도/월/일" style="height: 60px" autocomplete="off">
+											<select name="searchOption" style="height: 60px" id="lstFavorites">
+												<option value="address">지역</option>
+												<option value="address">강남구</option>
+												<option value="address">서초구</option>
+												<option value="address">금천구</option>
+												<option value="address">종로구</option>
+												<option value="address">수원시</option>
+												<option value="address">안산시</option>
+												<option value="companyname">스터디룸 이름</option>
+											</select>
+												<input type="text" name="keyword" value="" size="50" placeholder="ex) 강남, 수원" style="height: 60px" id="txtFavorite">
+												<input type="submit" value="검색" style="height: 60px">
 										</ul>
-										<button class="search_button">search</button>
-
 									</div>
 								</form>
-
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 
 		<div class="row quickButton">
 			<div class="quickBox col-sm-1 col-md-2">
@@ -194,7 +148,30 @@
 	</div>
 	<!-- end content -->
 
-
+<th:block layout:fragment="script">
+<script>
+  $(function() {
+	    $( "#testDatepicker" ).datepicker({
+	    	language: 'en',
+	    	dateFormat: 'yyyy-mm-dd',
+	        minDate: new Date()
+	    });
+	});
+  $(document).ready(function () {
+      // 콤보박스가 변경될 때 
+      $('#lstFavorites').change(function () {
+          // 드롭다운리스트에서 선택된 값을 텍스트박스에 출력
+          var selectedText = // $("#lstFavorites option:selected").text();
+              // $("option:selected").text();
+              $(":selected").text();  // 드롭다운리스트가 하나밖에 없다면 이렇게 써도 됨
+          $('#txtFavorite').val(selectedText);
+      });
+  });
+  </script>
+<link href="static/styles/room/datepicker.min.css" rel="stylesheet" type="text/css">
+<script src="static/js/room/datepicker.min.js"></script>
+<script src="static/js/room/i18n/datepicker.en.js"></script>
+</th:block>
 
 </body>
 </html>

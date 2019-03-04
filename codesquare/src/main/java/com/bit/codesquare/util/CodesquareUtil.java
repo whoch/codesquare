@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.server.reactive.ChannelSendOperator;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -145,11 +147,11 @@ public class CodesquareUtil {
 				result = differenceInMinutes / 60 + "시간 전";
 			}
 		} else { // 오늘이 아닐 때
-			int differenceInDates = Period.between(compareDate, currentDate).getDays();
+			long differenceInDates = ChronoUnit.DAYS.between(compareDate, currentDate);
 			if (differenceInDates <= 7) {
 				result = differenceInDates + "일 전";
 			} else {
-				result = compareDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+				result = compareDate.format(DateTimeFormatter.ofPattern("yy.MM.dd"));
 			}
 		}
 		return result;
@@ -178,7 +180,7 @@ public class CodesquareUtil {
 				result = differenceInMinutes / 60 + "시간 전";
 			}
 		} else { // 오늘이 아닐 때
-			int differenceInDates = Period.between(compareDate, currentDate).getDays();
+			long differenceInDates = ChronoUnit.DAYS.between(compareDate, currentDate);
 			if (differenceInDates <= 7) {
 				result = differenceInDates + "일 전";
 			} else {
@@ -193,7 +195,7 @@ public class CodesquareUtil {
 	 * @see writeDateformat을 set함
 	 * @param impl ComparebleDateTime 인터페이스를 구현한 객체의 List
 	 */
-	public void setDateTimeCompare(List<? extends ComparableDateTime> impl) {
+	public static void setDateTimeCompare(List<? extends ComparableDateTime> impl) {
 		List<? extends ComparableDateTime> result = impl;
 		for (ComparableDateTime list : result) {
 			list.setDateTimeCompare(compareDateTime(list.getDateTimeCompare()));
@@ -245,6 +247,12 @@ public class CodesquareUtil {
 		return result;
 	}
 
+	public static ComparableDateTime setDateTimeCompare(ComparableDateTime impl) {
+		impl.setDateTimeCompare(compareDateTime(impl.getDateTimeCompare()));
+		return impl;
+	}
+	
+	
 	public static final Set<DayOfWeek> WEEKEND = EnumSet.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
 
 }

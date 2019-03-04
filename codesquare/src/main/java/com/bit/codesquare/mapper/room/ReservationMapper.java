@@ -13,4 +13,5 @@ public interface ReservationMapper {
 	int insert(Reservation reservation) throws Exception;
 	void enddate(int no) throws Exception;
 	List<Reservation> getReserve(Map data) throws Exception;
+	void reservedate(int no) throws Exception;
 }

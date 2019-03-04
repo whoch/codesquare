@@ -22,11 +22,12 @@ public interface GroupMapper {
 	public GroupInfo getGroupInfoUseBoardId(int boardId);
 	public List<GroupInfo> getGroupInfoUserLeader(String userId);
 	public int updateWantedInfo(WriteWantedBoard writeWantedBoard);
+	public String getApplyingStatus(int boardId, String userId);
+	public Integer getJoinningGroupInfo(String userId, String groupId, String column);
 	public int insertStudyJoining(JoiningAndRecruitmentLog data);
-	public String getApplyingStatus(int boardId, String applyUserId);
-	public Integer getJoinningGroupId(String userId, String groupId);
 	public void cancelApplication(Map<String, String> data);
-	
+	public void updateGroupRecruitmentCount(String groupId, int recruitmentCount);
+	public void setDeclineContentUseBoardId(Map<String, String> data);
 	
 
 }
