@@ -79,7 +79,6 @@ public class CodesquareUtil {
 	MemberMapper mm;
 
 	public void getSession(Authentication auth, HttpSession session) {
-
 		if (auth != null && session.getAttribute("userId") == null) {
 			SecurityMember sc = (SecurityMember) auth.getPrincipal();
 

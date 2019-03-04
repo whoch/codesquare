@@ -90,9 +90,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/member/login") /* 내가 만든 로그인 페이지 */
 				.usernameParameter("userId") /* username 을 대체할 아이디 param default username */
 				.successHandler(successHandler()) /* 모두 오픈 ( 반대는 denyAll() ) */
-				.failureUrl("/member/login?error").and().logout().invalidateHttpSession(true).clearAuthentication(
-						true)
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll().logoutSuccessUrl("/") /*
+				.failureUrl("/member/login?error").and()
+				.logout()
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+				.invalidateHttpSession(true).clearAuthentication(true).permitAll()
+				.logoutSuccessUrl("/") /*
 																												 * 로그아웃
 																												 * 성공시
 																												 * 리다이렉트

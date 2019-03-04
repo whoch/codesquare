@@ -67,6 +67,8 @@
 						<div class="dropdown-menu">
 							<a class="dropdown-item "
 								th:href="@{'/message/sendMessage/'+${received.sender}}">쪽지보내기</a>
+							<a class="dropdown-item "
+								th:href="@{'/member/'+${received.sender}}">회원정보보기</a>
 							
 						</div>
 					</div>

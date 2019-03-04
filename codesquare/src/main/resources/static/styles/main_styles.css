@@ -518,7 +518,7 @@ section
 	top:80px;
 }
 .recommand_item_container:after, .recommand_item_container:before{
-  content:"──────────────────";
+  content:"───";
 }
 .recommand_item{
 	color:black;

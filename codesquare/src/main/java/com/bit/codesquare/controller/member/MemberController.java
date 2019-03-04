@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -401,6 +402,30 @@ public class MemberController {
 	@GetMapping("accessDenied")
 	public String accessDenied() {
 		return "member/login/accessDenied";
+	}
+	
+	@GetMapping("/{userId}")
+	public String viewUserInfo(Model model, @PathVariable String userId) {
+		
+		model.addAttribute("userInfo", mm.getUser(userId));
+
+		return "member/others/userInfoView";
+	}
+	@GetMapping("board/{userId}")
+	public String viewUserBoard(Model model, @PathVariable String userId, @ModelAttribute Criteria cri) {
+		
+		csu.setDateTimeCompare(mm.getMyBoardList(userId, cri));
+		model.addAttribute("user", mm.getUser(userId));
+		model.addAttribute("blist", csu.getDateTimeCompareObject(mm.getMyBoardList(userId, cri)));
+
+//		logger.info(mm.getMyBoardList(userId, cri)+"durl");
+		cri.setPerPageNum(10);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setDisplayPageNum(10);
+		pageMaker.setTotalCount(mm.countBLPaging(userId, cri));
+		model.addAttribute("pageMakerBL", pageMaker);
+		return "member/others/userBoardList";
 	}
 
 }
