@@ -1,0 +1,20 @@
+/* #groupOpening-modal .modal-header {
+    border-bottom-width: 0;
+}
+
+#groupOpening-modal .modal-body {
+	padding: 20px 30px;
+ 	margin: 0 auto 50px;
+    display: inline-grid;
+}
+
+ #groupOpeningForm input::placeholder {
+	color: #a1a1a1;
+	font-style: italic;
+	font-size: 15px;
+}
+
+#groupOpeningForm *{
+	color:red;
+	
+} */

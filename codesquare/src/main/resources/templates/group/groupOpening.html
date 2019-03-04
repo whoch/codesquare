@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <th:block th:fragment="groupOpening">
+    
+    
+    
+    
+<!-- Button to Open the Modal -->
+  <div id="group-creat-button" class="btn-div-main shadow-sm" data-toggle="modal" data-target="#groupOpening-modal">
+    	그룹 개설하기
+  </div>
+
+  <!-- START The Modal -->
+  <div class="modal fade" id="groupOpening-modal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">그룹 개설하기</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+
+			<form id="groupOpeningForm" name="groupOpeningForm" action="/study/groupOpening">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+			
+				<div>
+					<span class="opening-key">그룹명을 입력해 주세요.</span>
+		   			<input class="groupId" type="text" name="groupId" placeholder="그룹명"/>
+				</div>
+				<div>
+					<span class="opening-key">레벨</span>
+					<select class="form-levelId" type="text" name="levelId">
+					    <option>선택해주세요</option>
+					    <option th:each="LevelList:${level}" th:text="${LevelList.LevelContent}" th:value="${LevelList.Id}">레벨</option>
+					</select>
+				</div>
+				<div>
+					<span class="opening-key">언어를 선택해 주세요.</span>
+<!-- 		   			<input class="form-tagId" type="text" name="tagId" placeholder="언어"/> -->
+					<select class="form-tagId" type="text" name="tagId">
+					    <option>선택해주세요</option>
+					    <option th:each="TagList:${tag}" th:text="${TagList.Content}" th:value="${TagList.Id}">언어</option>
+					</select>
+				</div>
+				<div>
+					<span class="opening-key">지역을 선택해 주세요.</span>
+		   			<select id="selectSiDo" class="form-localeId1" type="text" name="siDo">
+					    <option>선택해주세요</option>
+					    <option th:each="SiDo:${localSiDo}" th:text="${SiDo}">옵션1</option>
+					</select>
+					<select id="selectGuGun" class="form-localeId2" type="text" name="guGun">
+					    <option>선택해주세요</option>
+					    <option th:each="GuGun:${localGuGun}" th:text="${GuGun}">옵션2</option>
+					</select>	
+		   			
+				</div>
+				<div >
+					<span class="opening-key">첫 시작일을 선택해 주세요.</span>
+<!-- 					<input type="text" id="datepicker" placeholder="연도/월/일" style="height: 60px" autocomplete="off"> -->
+		   			<input class="form-startDate" type="date" name="startDate" placeholder="첫 시작일"/>
+				</div>
+				<div>
+					<span class="opening-key">모임시간을 선택해 주세요.</span>
+		   			<input class="form-startTime" type="time" name="startTime" placeholder="모임 시간"/>
+				</div>
+				<div>
+					<span class="opening-key day">매주 모임 요일을 정해주세요.</span><br/>
+		   			<label ><input class="form-meetingDay" type="radio" name="meetingDay1" value="월"><span class="tag-Cus">월</span></label>
+		   			<label ><input class="form-meetingDay" type="radio" name="meetingDay2" value="화"><span class="tag-Cus">화</span></label>
+		   			<label ><input class="form-meetingDay" type="radio" name="meetingDay3" value="수"><span class="tag-Cus">수</span></label>
+		   			<label ><input class="form-meetingDay" type="radio" name="meetingDay4" value="목"><span class="tag-Cus">목</span></label>
+		   			<label ><input class="form-meetingDay" type="radio" name="meetingDay5" value="금"><span class="tag-Cus">금</span></label>
+		   			<label ><input class="form-meetingDay" type="radio" name="meetingDay6" value="토"><span class="tag-Cus">토</span></label>
+		   			<label ><input class="form-meetingDay" type="radio" name="meetingDay7" value="일"><span class="tag-Cus">일</span></label>
+					
+
+				</div>
+				<div>
+					<div class="opening-key">그룹의 목표를 입력해 주세요.</div>
+		   			<input class="form-goal" type="text" name="goal" placeholder="그룹 목표"/>
+				</div>
+				<div>
+					<div class="opening-key">그룹의 소개를 입력해 주세요.</div>
+		   			<input class="form-content" type="text" name="content" placeholder="그룹 소개"/>
+				</div>
+		  			
+		  		<div id="groupOpening_submit">등록하기</div>
+		   	</form>
+
+
+
+
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+   <!-- END The Modal -->
+      
+      
+    </th:block>
+
+  </body>
+</html>
+
+
+
