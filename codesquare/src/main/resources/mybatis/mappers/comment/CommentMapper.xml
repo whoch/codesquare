@@ -47,7 +47,10 @@
 		<if test="userId!=null">#{userId},</if>
 		<if test="nickName!=null">#{nickName},</if>
 		<if test="content!=null">#{content}</if>
-		<if test="parentId!=null and parentId != 0">,#{parentId}, (SELECT IF((SELECT MAX(c.Seq)+1 From `Comment`c GROUP BY c.ParentId HAVING c.ParentId=#{parentId}),(SELECT MAX(c.Seq)+1 From `Comment`c GROUP BY c.ParentId HAVING c.ParentId=#{parentId}),2))</if>
+		<if test="parentId!=null and parentId != 0">,#{parentId}, 
+			(SELECT IF((SELECT MAX(c.Seq)+1 From `Comment`c GROUP BY c.ParentId HAVING c.ParentId=#{parentId}),
+			(SELECT MAX(c.Seq)+1 From `Comment`c GROUP BY c.ParentId HAVING c.ParentId=#{parentId}),2))
+		</if>
 		<if test="parentId ==0">,#{parentId},1</if>
 		)
 	</insert>
