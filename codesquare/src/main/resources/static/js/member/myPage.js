@@ -422,7 +422,8 @@ $(function() {
 			var data = {
 				applyUserNick : $("#pApplyUserNick").text(),
 				applyUserId : $("#pApplyUserId").text(),
-				boardId : $("#pBoardId").text()
+				boardId : $("#pBoardId").text(),
+				groupId : $("#groupId").text()
 				}
 						$.ajax({
 									type : "POST",

@@ -30,6 +30,7 @@ import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
 import com.bit.codesquare.dto.member.Member;
 import com.bit.codesquare.dto.paging.Criteria;
 import com.bit.codesquare.dto.paging.PageMaker;
+import com.bit.codesquare.mapper.group.GroupMapper;
 import com.bit.codesquare.mapper.member.MemberMapper;
 import com.bit.codesquare.mapper.member.MessageInfoMapper;
 import com.bit.codesquare.service.MemberService;
@@ -48,11 +49,12 @@ public class MemberController {
 
 	@Autowired
 	MemberService ms;
-	
+
 	@Autowired
 	MessageInfoMapper mim;
-	
 
+	@Autowired
+	GroupMapper gm;
 
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request) {
@@ -164,15 +166,14 @@ public class MemberController {
 		int count = 0;
 		count = mm.findPw(userId, email);
 
-		if(count > 0) {
+		if (count > 0) {
 			ms.mailSending(userId);
 		}
 		return count;
 	}
 
-	
 	@GetMapping("/myPage")
-	public String myPage2(Model model, Authentication auth,  @ModelAttribute Criteria cri) {
+	public String myPage2(Model model, Authentication auth, @ModelAttribute Criteria cri) {
 //		csu.getSession(auth, session);
 		String userId = auth.getName();
 		model.addAttribute("user", mm.getUser(userId));
@@ -186,10 +187,10 @@ public class MemberController {
 		model.addAttribute("pageMakerRL", pageMaker);
 		return "member/myPage/myReservedList";
 	}
-	
+
 	@GetMapping("myReservedList")
 	public String myReservedList(Model model, Authentication auth, @ModelAttribute Criteria cri) {
-		
+
 		String userId = auth.getName();
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
@@ -202,19 +203,18 @@ public class MemberController {
 		model.addAttribute("pageMakerRL", pageMaker);
 		return "member/myPage/myReservedList";
 	}
-	
 
 	@GetMapping("myAppliedList")
 	public String myAppliedList(Model model, Authentication auth, @ModelAttribute Criteria cri) {
-		
+
 		String userId = auth.getName();
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
-/*		model.addAttribute("alist", mm.getAppliedList(userId, cri));*/
+		/* model.addAttribute("alist", mm.getAppliedList(userId, cri)); */
 //		###############################
 		BasicJsonParser jsonParser = new BasicJsonParser();
 		List<JoiningAndRecruitmentLog> applyList = mm.getAppliedList(userId, cri);
-		for(JoiningAndRecruitmentLog list : applyList ) {
+		for (JoiningAndRecruitmentLog list : applyList) {
 			list.setApplyMap(jsonParser.parseMap(list.getApplyContent()));
 			list.setApplyDateString(csu.compareDateTime(list.getApplyDate()));
 		}
@@ -228,16 +228,15 @@ public class MemberController {
 		model.addAttribute("pageMakerAL", pageMaker);
 		return "member/myPage/myAppliedList";
 	}
-	
-	
-	
+
 	@GetMapping("myWantedList")
 	public String myWantedList(Model model, Authentication auth, @ModelAttribute Criteria cri) {
 		String userId = auth.getName();
-		
+
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
-		model.addAttribute("wlist",csu.getDateTimeCompareObject(mm.getWantedList(userId, cri)));
+		model.addAttribute("wlist", csu.getDateTimeCompareObject(ms.getWantedList(userId, cri)));
+		logger.info(mm.getWantedList(userId, cri).toString()+"durldy");
 		cri.setPerPageNum(10);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -246,15 +245,15 @@ public class MemberController {
 		model.addAttribute("pageMakerWL", pageMaker);
 		return "member/myPage/myWantedList";
 	}
-	
+
 	@GetMapping("myBoardList")
 	public String myBoardList(Model model, Authentication auth, @ModelAttribute Criteria cri) {
 		String userId = auth.getName();
 		csu.setDateTimeCompare(mm.getMyBoardList(userId, cri));
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
-		model.addAttribute("blist", csu.getDateTimeCompareObject(mm.getMyBoardList(userId, cri)) );
-		
+		model.addAttribute("blist", csu.getDateTimeCompareObject(mm.getMyBoardList(userId, cri)));
+
 //		logger.info(mm.getMyBoardList(userId, cri)+"durl");
 		cri.setPerPageNum(10);
 		PageMaker pageMaker = new PageMaker();
@@ -264,7 +263,7 @@ public class MemberController {
 		model.addAttribute("pageMakerBL", pageMaker);
 		return "member/myPage/myBoardList";
 	}
-	
+
 	@GetMapping("modifyMyInfo")
 	public String modifyMyInfo(Model model, Authentication auth) {
 		String userId = auth.getName();
@@ -272,7 +271,7 @@ public class MemberController {
 		model.addAttribute("count", mm.getMyCount(userId));
 		return "member/myPage/modifyMyInfo";
 	}
-	
+
 	@GetMapping("modifyInstructorInfo")
 	public String modifyInstructorInfo(Model model, Authentication auth) {
 		String userId = auth.getName();
@@ -282,8 +281,7 @@ public class MemberController {
 		model.addAttribute("instructorInfo", mm.getInstructorInfo(userId));
 		return "member/myPage/modifyInstructorInfo";
 	}
-	
-	
+
 	@GetMapping("toInstructor")
 	public String toInstructor(Model model, Authentication auth) {
 		String userId = auth.getName();
@@ -293,17 +291,17 @@ public class MemberController {
 		model.addAttribute("instructorInfo", mm.getInstructorInfo(userId));
 		return "member/myPage/toInstructor";
 	}
-	
+
 	@GetMapping("/changePw")
 	public String changePw(Model model, Authentication auth) {
 		String userId = auth.getName();
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
 		model.addAttribute("checkInstructor", mm.checkInstructor(userId));
-		
+
 		return "member/myPage/changePw";
 	}
-	
+
 	@PostMapping("/changePw")
 	@ResponseBody
 	public int changePwDone(@ModelAttribute Member member, @RequestBody Map<String, String> data) {
@@ -336,7 +334,7 @@ public class MemberController {
 		String userId = data.get("userId");
 		String introContent = data.get("introContent");
 		String history = data.get("history");
-		int count =0 ;
+		int count = 0;
 		instructorInfo.setUserId(userId);
 		instructorInfo.setIntroContent(introContent);
 		instructorInfo.setHistory(history);
@@ -347,27 +345,27 @@ public class MemberController {
 
 	@PostMapping("/uploadProfile")
 	@ResponseBody
-	public int uploadProfile(@RequestBody MultipartFile[] uploadForm, Authentication auth, HttpSession session) throws Exception {
+	public int uploadProfile(@RequestBody MultipartFile[] uploadForm, Authentication auth, HttpSession session)
+			throws Exception {
 //		int count = 0 ;
-		
+
 //		String userId = auth.getName();
 //		Member member = mm.getUser(userId);
-	
+
 		return csu.uploadProfile(uploadForm, auth);
 
 	}
 
-	
 	@PostMapping("cancelApply")
 	@ResponseBody
 	public int cancelApply(@RequestBody Map<String, String> data) {
-		
-		String applyUserId= data.get("applyUserId");
-		int boardId =  Integer.parseInt(data.get("boardId"));
-		
-		int count = 0 ;
+
+		String applyUserId = data.get("applyUserId");
+		int boardId = Integer.parseInt(data.get("boardId"));
+
+		int count = 0;
 		count = mm.cancelApply(applyUserId, boardId);
-		//logger.info(mm.cancelApply(applyUserId, boardId)+"durl");
+		// logger.info(mm.cancelApply(applyUserId, boardId)+"durl");
 		return count;
 	}
 
@@ -375,12 +373,15 @@ public class MemberController {
 	@ResponseBody
 	public int acceptMo(@RequestBody Map<String, String> data) {
 //		logger.info("acceptMo called");
-		String applyUserId= data.get("applyUserId");
-		int boardId =  Integer.parseInt(data.get("boardId"));
-		
-		int count = 0 ;
+		String applyUserId = data.get("applyUserId");
+		int boardId = Integer.parseInt(data.get("boardId"));
+		String groupId = data.get("groupId");
+
+		int count = 0;
 		count = mm.acceptMo(applyUserId, boardId);
 		
+		gm.addGroupMember(mm.getUser(applyUserId), groupId);
+		gm.changeGroupAvailability(groupId);
 //		logger.info(applyUserId+","+boardId+"여기");
 		return count;
 	}
@@ -388,15 +389,15 @@ public class MemberController {
 	@PostMapping("declineMo")
 	@ResponseBody
 	public int declineMo(@RequestBody Map<String, String> data) {
-		String applyUserId= data.get("applyUserId");
-		int boardId =  Integer.parseInt(data.get("boardId"));
+		String applyUserId = data.get("applyUserId");
+		int boardId = Integer.parseInt(data.get("boardId"));
 		String declineContent = data.get("declineContent");
 //		logger.info(mm.declineMo(applyUserId, boardId, declineContent)+"durl");
-		int count = 0 ;
-		count=mm.declineMo(applyUserId, boardId, declineContent);
+		int count = 0;
+		count = mm.declineMo(applyUserId, boardId, declineContent);
 		return count;
 	}
-	
+
 	@GetMapping("accessDenied")
 	public String accessDenied() {
 		return "member/login/accessDenied";

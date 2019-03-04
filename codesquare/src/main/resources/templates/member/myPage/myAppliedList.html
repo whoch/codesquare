@@ -32,7 +32,7 @@
 					<span th:text="${alist.applyMap.get('신청메세지')}"></span>
 					<div th:each=" list : ${alist.applyMap}">
 						<th:block th:if="${list.key}!='신청메세지'">
-							<span th:text=${list.key}></span>
+							<span th:text=${list.key}></span> : 
 							<span th:text=${list.value}></span>
 						</th:block>
 					</div>
@@ -50,7 +50,9 @@
 						<div id="cancel-dialog-content" class="text-center">
 							<span hidden id="aNickName" th:text="${alist.nickName}"></span> <span
 								hidden id="aBoardId" th:text="${alist.boardId}"></span> <span
-								id="aTitle" th:text="${alist.title}"></span><br /> <span
+								id="aTitle" th:text="${alist.title}"></span><br />
+								
+								 <span
 								id="aApplyContent" th:text="${alist.applyContent}"></span> 
 								<br />
 							<br /> 신청을 취소하시겠습니까?<br /> <br />
