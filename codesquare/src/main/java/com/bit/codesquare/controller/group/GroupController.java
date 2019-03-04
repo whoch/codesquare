@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.bit.codesquare.controller.member.MemberController;
 import com.bit.codesquare.mapper.group.GroupMapper;
+import com.bit.codesquare.util.CodesquareUtil;
 
 @Controller
 public class GroupController {
@@ -19,6 +20,9 @@ public class GroupController {
 
 	@Autowired 
 	GroupMapper gm;
+	
+	@Autowired
+	CodesquareUtil csu;
 	
 //	@GetMapping("glist")
 //	public String getMyGroupList (Model model, Authentication auth) {
@@ -35,6 +39,8 @@ public class GroupController {
 		model.addAttribute("gMember", gm.getGroupMember(groupId));
 		model.addAttribute("gLeader", gm.getGroupLeader(groupId));
 		model.addAttribute("glist", gm.getMyGroupList(userId));
+		model.addAttribute("grpnt", CodesquareUtil.getDateTimeCompareObject(gm.getGroupNotice(groupId)));
+		model.addAttribute("grpwk", CodesquareUtil.getDateTimeCompareObject(gm.getGroupWorks(groupId)));
 		return "group/groupInfo";
 	}
 }
