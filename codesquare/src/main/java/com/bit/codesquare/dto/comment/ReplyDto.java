@@ -16,7 +16,7 @@ public class ReplyDto implements ComparableDateTime {
 	private String content;
 	private String writer;
 	private LocalDateTime reg_date;
-	private Integer commentCount;
+	private Integer coCount;
 	
 	String writeDateBoard;
 	List <JoiningAndRecruitmentLog> wantedPlist;
