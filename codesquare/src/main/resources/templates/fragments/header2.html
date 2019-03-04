@@ -23,8 +23,7 @@
 		<div id="zzz"><div class="noti-dropdown">
 			<a onclick="myFunction()" id="noti-btn" class="noti-btn"> <img
 				id="noticeImg" width="25" height="25" class="noti-btn"
-				src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKkXfRt5S4d9AsGllPR2vOmP6MWQff4ZnJYky3erxeoD6Yl3f-zw"
-				alt="Course noti">
+				th:src="@{/static/images/YellowBell.png}"/>
 			</a>
 
 			<div id="counts" class="noti-count"></div></div>
@@ -45,7 +44,7 @@
 			</div>
 			<!-- 푸쉬 팝업 -->
 			<div id="pushbar" align="right">
-				<img class="push_img" src='/static/images/logo123.png' />
+				<img class="push_img" src='/static/images/logo.png' />
 				<div id="text">
 					<strong> Notification
 						&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong> <span
@@ -62,12 +61,11 @@
 						th:text="${session.nickName}"></span>
 				</div>
 				<div class="dropdown-menu text-center dropdown-menu-right">
-					<a class="dropdown-item" th:href="@{/member/myPage}">마이페이지</a> 
-					<div 
-							sec:authorize="hasRole('ROLE_3') ">
-					<a class="dropdown-item" th:href="@{/admin}">관리자 페이지</a></div>
-					<a class="dropdown-item" id="myMessage" href="#">내 쪽지함</a> <a
-						class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+					<a sec:authorize="hasAnyRole('ROLE_3')" th:href="@{/admin}">관리자 페이지</a>
+					<a class="dropdown-item" th:href="@{/member/myPage}">마이페이지</a>
+					<a class="dropdown-item" id="myMessage" href="#">내 쪽지함</a> 
+					<a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+
 				</div>
 			</div>
 

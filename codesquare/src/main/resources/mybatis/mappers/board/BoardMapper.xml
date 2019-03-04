@@ -11,7 +11,8 @@
 	<select id="getQuickBoardList" parameterType="String" resultType="Board">
 		select id, BoardKindId, title, writeDate, hit,commentCount,nickName
 		from v_QuickBoard
-		where BoardKindId=#{tag};
+		where BoardKindId=#{tag}
+		limit 5
 	</select>
 	<select id="getAllBlackKeyword" resultType="String">
 		SELECT Content
@@ -36,6 +37,10 @@
 		FROM BoardKind
 		WHERE AdminBookmark = 1
 	</select>
+	<select id="getRecommandLecutreList" resultType="LectureIntroContent">
+		SELECT * FROM v_LectureIntroContent WHERE LectureStatus=0 ORDER BY RAND() LIMIT 3
+	</select>
+	
 	
 <!--     <insert id="insert" parameterType="test">
     	INSERT INTO HANSOL(ID,NAME) VALUES(#{id},#{name})
