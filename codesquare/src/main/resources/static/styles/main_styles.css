@@ -364,8 +364,8 @@ section
 	left: -22px;
 	height: 100px;
 	background: #EFF8FB;
-	
-	box-shadow: 0px 3px 57px rgba(0,0,0,0.35);
+	margin-top:5%;
+	/* box-shadow: 0px 3px 57px rgba(0,0,0,0.35); */
 	z-index: 1;
 	padding-left: 83px;
 	padding-right: 66px;
@@ -385,8 +385,8 @@ section
 	height: 100%;
 }
 .search_form_list
-{
-	width: calc(100% - 172px);
+{	
+	margin:auto;
 	height: 100%;
 }
 .search_form_list > li
@@ -553,4 +553,10 @@ section
 *::-webkit-scrollbar-track {
   background: #ddd;
   border-radius: 20px;
+}
+
+#btn-mainsearch:hover{
+	cursor:pointer;
+	font-size:25px;
+	color:white;
 }

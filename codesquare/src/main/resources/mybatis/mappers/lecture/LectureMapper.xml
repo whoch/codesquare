@@ -182,6 +182,7 @@
 			<if test="searchKind == 1">AND NickName LIKE #{keyWord}</if>
 			<if test="langKind =='All'">AND LangKind IN(SELECT DISTINCT LangKind FROM LectureTag)</if>
 			<if test="langKind != null and langKind != 'All'">AND LangKind = #{langKind}</if>
+			AND LectureStatus =0
 		</where>
 		
 	</select>
