@@ -2,148 +2,202 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/plannerLayout}"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-	<title>Calendar</title>
-	
-<th:block layout:fragment="css">
- 	<link th:href="@{/static/fullcalendar/fullcalendar.min.css}" rel="stylesheet">	
-</th:block>
+<title>Calendar</title>
+<link th:href="@{/static/fullcalendar/fullcalendar.min.css}" rel="stylesheet">
 
 <th:block layout:fragment="scriptBefore">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-	<script th:src="@{/static/fullcalendar/fullcalendar.min.js}"></script>
-	<script type='text/javascript' th:src='@{/static/fullcalendar/gcal.js}'></script>
-	<script th:src='@{/static/fullcalendar/locale/ko.js}'></script>
-	<script type="text/javascript" th:inline="javascript">
-	/*<![CDATA[*/
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+<script th:src="@{/static/fullcalendar/fullcalendar.min.js}"></script>
+<script type='text/javascript' th:src='@{/static/fullcalendar/gcal.js}'></script>
+<script th:src='@{/static/fullcalendar/locale/ko.js}'></script>
+<script type="text/javascript" th:inline="javascript">
+  /*<![CDATA[*/
 
-		$(document).ready(function () {
-			// page is now ready, initialize the calendar...
-			$('#calendar').fullCalendar({
-				//-----테마 설정-----
-				theme: 'bootstrap4',
-				
- 				/* 
-				googleCalendarApiKey: 'AIzaSyDLfWhH0ZLqE_NvLAdO-CNtCQHuCyyXm-I',	 */ 	 
-				
-				//----- 시간 표시 포맷 설정 -----
-				timeFormat:'a h:mm',					
-			
-				//----- 헤더 설정 -----
-				header: {
-					left: 'title',
-					center: 'list,listWeek,listMonth basicDay,basicWeek,Month prevYear,prev,next,nextYear',
-					right: 'prev,next today groupButton,todoButton'
-				},
+  $(document).ready(function () {
+    // page is now ready, initialize the calendar...
+    $('#calendar').fullCalendar({
+      theme: 'bootstrap4',
+      googleCalendarApiKey: 'AIzaSyDLfWhH0ZLqE_NvLAdO-CNtCQHuCyyXm-I',
+      height: 600,
+      //시간 표시 포맷 설정 
+      timeFormat: 'HH:mm',
+      //헤더 설정
+      header: {
+        left: 'title',
+        center: 'list,basicWeek,listMonth',
+        right: 'prev,next,today'
+      },
+      //버튼 커스텀
+      customButtons: {
+        groupButton: {
+          text: '그룹그룹',
+          bootstrapGlyphicon: 'glyphicon-user',
+          click: function () {
+            //VIEW 체인지
+            $('#calendar').fullCalendar('changeView', 'agenda', {
+              start: '2019-01-19',
+              end: '2019-01-20'
+            });
+          }
+        },
+        todoButton: {
+          text: '투두',
+          click: function () {
+            alert('TODOLIST이라능!');
+          }
+        }
+      },
+      //버튼 텍스트 설정하는 부분 : locale 한글로 설정하면서 일단 필요없어짐
+      buttonText: {
+    	  list:'day',
+    	  basicWeek: 'week',
+        listMonth: 'month'
+      },
+      //이벤트 기본 메세지 설정
+      noEventsMessage: '일정이 없습니다.',
+
+      //하루에 표시되는 이벤트의 수 제한
+      eventLimit: true,
+      //eventLimit의 event
+      eventLimitClick: 'popover',
+
+      //날짜 텍스트 부분 클릭했을 때 이벤트
+      navLinks: true,
+      navLinkDayClick: function (weekStart, jsEvent) {
+        weekStart.format(); // weekStart is a moment
+        console.log('coords', jsEvent.pageX, jsEvent.pageY); // 클릭한 x,y좌표값 출력
+      },
+
+      //일정 클릭했을 때 이벤트
+      eventClick: function (event, jsEvent, view) {
+        if(  event.url ){
+        	 if(  event.url.includes('www.google.com/calendar/event') ){
+		         jsEvent.preventDefault();
+		         $('#modalTitle').html('');
+	           	 $('#modalBody').html(event.title);
+	           	 $('#calendarModal').modal();
+	           	 return;
+        	  }
+        }
+        $('#modalTitle').html(event.title);
+        $('#modalBody').html(event.description);
+        $('#calendarModal').modal();
+      },
+
+      //event 일정 설정
+      eventSources: [
+        {
+          googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
+          color: '#B22222'
+        },
+        {
+          events:   /*[[${GroupConfirmedEventTRUE}]]*/,
+          color: '#BDA1BB',
+          textColor: 'white'
+        },
+        {
+            events:   /*[[${GroupConfirmedEventFALSE}]]*/,
+            color: 'transparent',
+            textColor: '#B9B7C6'
+        },
+        {
+            events:   /*[[${GroupConfirmedEventNULL}]]*/,
+            color: '#ffc107',
+            textColor: 'white'
+        },
+        {
+            events:   /*[[${GroupUpComingEvent}]]*/,
+            color: 'transparent',
+            textColor: '#716386'
+        },
+        {
+            events:   /*[[${SeminarEvent}]]*/,
+            color: '#B9B7C6',
+            textColor: 'white'
+        }
+      ],
+    	
+		eventRender: function(event, element, view) {
+    	    var theDate = event.start
+ 	        var startDate = new Date(event.dowStart);
+    	    var endDate = new Date(event.dowEnd);
+
+    	    if (theDate >= endDate) {
+				return false;
+    	    }
+    	    if (theDate <= startDate) {
+				return false;
+    	    }
+   	    }
+      
+
+    });// end fullCalendar
 
 
-				//----- 커스텀 버튼 -----
-				customButtons: {
-					groupButton: {
-						text: '그룹그룹',
-						bootstrapGlyphicon: 'glyphicon-user',
-						click: function () {
-							//VIEW 체인지
-							$('#calendar').fullCalendar('changeView', 'agenda', {
-								start: '2019-01-19',
-								end: '2019-01-20'
-							});
-						}
-					},
-					todoButton: {
-						text: '투두',
-						click: function () {
-							alert('TODOLIST이라능!');
-						}
-					}
-				},
-
-				//-----버튼 텍스트 설정하는 부분 : locale 한글로 설정하면서 일단 필요없어짐-----
-				
- 				buttonText: {
-					
-					listWeek:'일정(주)',
-					listMonth:'일정(월)'
-				}, 												
-				
-				//-----이벤트 기본 메세지 설정-----
-				noEventsMessage: '이벤트가 없습니다.',
-
-				//----- 하루에 표시되는 이벤트의 수 제한 -----
-				eventLimit:true,
-				
-				//----- eventLimit의 event -----
-				eventLimitClick: 'popover',				
-
-				//-----날짜 텍스트 부분 클릭 이벤트-----
-				navLinks: true,				
-		 		navLinkDayClick: function (weekStart, jsEvent) {
-					weekStart.format(); // weekStart is a moment
-					console.log('coords', jsEvent.pageX, jsEvent.pageY); // 클릭한 x,y좌표값 출력
-				}, 
-				
-				// -----일정이벤트를 클릭 이벤트-----
-				eventClick: function(calEvent, jsEvent, view) {
-
-				    alert('Event: ' + calEvent.source);
-				    alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-				    alert('View: ' + view.name);
-
-				    // change the border color just for fun
-				    $(this).css('border-color', 'red');
-				  },	
-				
-				/* ###  EVENT 추가  ###*/
-					eventSources:[
-/* 						{
-							googleCalendarId: 'ko.south_korea#holiday@group.v.calendar.google.com',
-							color:'#B22222'
-						}, 
-						
-								##세미나 이벤트 객체 지저분해서 임시로 지움
-						
-						*/				
-						{
-							events:   /*[[${study}]]*/,
-						    color: '#483D8B',     
-						    textColor: 'white'
-						}
-					],						
-					
- 					
-				  eventRender: function(eventObj, $el) {
-					   $el.popover({
-			              title: eventObj.title,
-			              content: eventObj.description,
-			              trigger: 'hover',
-			              placement: 'top',
-			              container: 'body',
-			              html: true
-			            });
-			       } 				
-			});// end fullCalendar
-		});
-		/*]]>*/
-	</script>
-
+  });
+/*]]>*/
+</script>
 </th:block>
-	
-	<style>
-		#calendar {
-			max-width: 80%;
- 	        margin-left: auto;
-	        margin-right: auto;		
+ 
 
-		}
-	</style>
 </head>
 
 <body>
 
 	<article class="content" layout:fragment="myPageContent2">
 		<div id='calendar'></div>
+		
+		
+		<div id="calendarModal" class="modal fade shadow">
+			<div class="modal-dialog modal-dialog-centered">
+			    <div class="modal-content">
+			        <div class="modal-header">
+			            <h4 id="modalTitle" class="modal-title"></h4>
+			            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+			        </div>
+			        <div id="modalBody" class="modal-body"> </div>
+			    </div>
+			</div>
+		</div>
+
+
 	</article>
 
-	      
+	  <th:block layout:fragment="css">
+		<link th:href="@{/static/styles/planner/fullcalendar.css}" rel="stylesheet">
+	  </th:block>
+	  <th:block>
+	  	<script layout:fragment="script">
+			$(document).on('click', '#attend-check .btn', function(){
+				var data = {
+						id : $(this).attr('id'),
+						status : $(this).hasClass('yes')?1:0
+				}
+				var evento =  $('#calendar').fullCalendar( 'clientEvents');
+				console.log(  evento  );
+				
+				return false;
+				$.ajax({
+					type:'POST',
+					url:'/groupAttendCheck',
+					data : JSON.stringify(data),
+					contentType:'application/json; charset=UTF-8',
+					context : this,
+					success: function (response) {
+						$(this).parent().remove();
+						$('.attend').html('뀨');
+						console.log(data);
+				        $('#calendar').fullCalendar('rerenderEvents');
+				       console.log( $('#calendar').fullCalendar( 'refresh' ));
+		            },
+		            error: function (jqXHR, textStatus, errorThrown) {
+		                  console.log('##### submit wantedWrite : Ajax ERROR #####');
+		                  console.log('jqXHR.status : ' + jqXHR.status);
+		            }
+			 	});//ajax 끝
+			});
+		</script>
+	  </th:block>      
 </body>
 
 </html>

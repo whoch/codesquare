@@ -37,6 +37,14 @@
 		WHERE gmi.`UserId`=#{userId} AND gmi.`AuthorId`=5;
 	</select>	
 	
+	<!-- 유저가 참여중인 그룹의 groupInfo 얻기 -->
+	<select id="getGroupInfoUserJoinning" resultType="GroupMeetingDateDetails">
+		SELECT gv.Id AS GroupId, gv.LevelId, gv.TagId, gv.LocaleId, gv.StartDate, gv.MeetingDate AS MeetingDay FROM GroupMemberInfo AS gi
+		INNER JOIN GroupInfo_view AS gv ON gv.Id=gi.GroupId
+		WHERE gi.UserId=#{userId}
+	</select>
+	
+	
 	<!-- 유저가 해당 그룹에 가입중인지  파라미터로 온 column행의 값 반환-->	
 	<select id="getJoinningGroupInfo" resultType="java.lang.Integer">
 	<![CDATA[
@@ -45,6 +53,15 @@
 	 ]]>
 	</select>
 	
+	<!-- 해당 그룹의 가장 최근 모임날짜 로그 얻기 -->
+	<select id="getRecentMeetingDate" resultType="java.time.LocalDate">
+		SELECT MeetingDate FROM GroupStudyLog WHERE GroupId=#{groupId} ORDER BY MeetingDate DESC limit 1
+	</select>
+	
+	<!-- 그룹 일정 참석 여부 체크 -->
+	<update id="updateGroupMeetingStatus">
+		UPDATE GroupStudyLog SET Status=#{status} WHERE Id=#{id}
+	</update>
 	
 	<!-- 모집 글 등록 될 때 해당 모집 정보 update  -->
 	<update id="updateWantedInfo" parameterType="WriteWantedBoard">
@@ -80,9 +97,11 @@
 	</select>
 	
 	<!-- 신청 취소 -->
-	<delete id="cancelApplication" parameterType="java.util.Map">
-		DELETE FROM JoiningAndRecruitmentLog WHERE `ApplyUserId`=#{applyUserId} AND `BoardId`=#{boardId}
-	</delete>
+	<update id="cancelApplication" parameterType="java.util.Map">
+		UPDATE JoiningAndRecruitmentLog
+		SET Status='신청취소'
+		WHERE ApplyUserId=#{applyUserId} ANd boardId=#{boardId}
+	</update>
 	
 
 </mapper>

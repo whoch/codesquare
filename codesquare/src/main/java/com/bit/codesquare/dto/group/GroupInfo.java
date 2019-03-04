@@ -2,7 +2,7 @@ package com.bit.codesquare.dto.group;
 
 
 import java.sql.Timestamp;
-
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -19,9 +19,11 @@ public class GroupInfo {
 	String goal;
 	String content;
 	
-	Timestamp startDate;
+	LocalDateTime startDate;
 	int recruitmentCount;
 	String meetingDate;
-	String ApplicationForm;
+	String applicationForm;
+	
+//	얜 뭐였지
 	String week;
 }

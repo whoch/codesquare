@@ -254,5 +254,5 @@ public class CodesquareUtil {
 	
 	
 	public static final Set<DayOfWeek> WEEKEND = EnumSet.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
-
+	
 }

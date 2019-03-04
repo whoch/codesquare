@@ -1,12 +1,8 @@
 package com.bit.codesquare.service.planner;
 
 import java.time.DayOfWeek;
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +14,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit.codesquare.controller.planner.CalendarController;
+import com.bit.codesquare.dto.planner.CalendarEvent;
+import com.bit.codesquare.dto.planner.CalendarEventDow;
+import com.bit.codesquare.dto.planner.GroupMeetingDateDetails;
 import com.bit.codesquare.dto.planner.SeminarMeetingDateDetails;
 import com.bit.codesquare.dto.planner.UserGroupNoticeList;
 import com.bit.codesquare.mapper.planner.DashboardMapper;
@@ -32,53 +34,63 @@ public class DashboardService {
 	
 	@Autowired
 	CodesquareUtil util;
+	@Autowired
+	CalendarController cc;
 	Logger logger = LoggerFactory.getLogger(DashboardService.class);
 	
+	CalendarEventDow eventDow;
+	List<CalendarEvent> eventList;
+	List<CalendarEventDow> eventDowList;
 	
-	public List<Object> getAllSchedule() {
-		List<SeminarMeetingDateDetails> seminarData = dashboardMapper.getWeeklyScheduleSeminar();
-		List<SeminarMeetingDateDetails> seminarSchedule = new ArrayList<SeminarMeetingDateDetails>();
-		
+	List<SeminarMeetingDateDetails> seminarList;
+	GroupMeetingDateDetails group;
+	
+	public List<Object> getAllSchedule(String userId) {
 		List<Object> allSchedule = new ArrayList<Object>();
+		List<SeminarMeetingDateDetails> seminarData = dashboardMapper.getWeeklyScheduleSeminar(userId);
+		List<SeminarMeetingDateDetails> seminarSchedule = new ArrayList<SeminarMeetingDateDetails>();
 		LocalDate today=LocalDate.now();
-		
+		SeminarMeetingDateDetails schedule;
 		for(SeminarMeetingDateDetails list : seminarData) {
-//			이부분 주 3회,5회 이런식으로 요일로 선택해서 받아와야됨
-			int[] days = new int[] {2,5};
+			int[] days = cc.getDowArray(list.getMeetingDay());
 			LocalDate endDate = list.getSeminarEndDate();
 			LocalTime meetingTime=list.getSeminarStartDate().toLocalTime();
 			
 			for(int i=0,day=days.length; i<day; i++) {
 				LocalDate meetingDate=today.with(TemporalAdjusters.nextOrSame(DayOfWeek.of(days[i])));
-				if(!meetingDate.isAfter(endDate)) {
-					SeminarMeetingDateDetails schedule = new SeminarMeetingDateDetails();
+				if(meetingDate.isBefore(endDate)) {
+					schedule = new SeminarMeetingDateDetails();
 					BeanUtils.copyProperties(list, schedule);
 					schedule.setMeetingDate(meetingDate.atTime(meetingTime));
 					seminarSchedule.add(schedule);
 				}
 			}			
 		}// end foreach(seminarData)
-		
-		allSchedule.addAll(dashboardMapper.getWeeklyScheduleGroup());
 		allSchedule.addAll(seminarSchedule);
-		
+		allSchedule.addAll(dashboardMapper.getWeeklyScheduleGroup(userId));
 		return allSchedule;
 	}
 	
 
-	public Map<String, Integer> getUserStats() {
+	public Map<String, Integer> getUserStats(String userId) {
 		Map<String, Integer> cardContent = new HashMap<String, Integer>();
-		cardContent.put("groupCnt", dashboardMapper.getCountJoiningGroup());
-		cardContent.put("seminarCnt", dashboardMapper.getCountJoiningSeminar());
-		cardContent.put("lectureCnt", dashboardMapper.getCountLearningLecture());
-		cardContent.put("todoCnt", dashboardMapper.getCountToDo());
+		cardContent.put("groupCnt", dashboardMapper.getCountJoiningGroup(userId));
+		cardContent.put("seminarCnt", dashboardMapper.getCountJoiningSeminar(userId));
+		cardContent.put("lectureCnt", dashboardMapper.getCountLearningLecture(userId));
+		cardContent.put("todoCnt", dashboardMapper.getCountToDo(userId));
 		return cardContent;
 	}
 	
-	public List<UserGroupNoticeList> getUserGroupNoticeList(){
-		List<UserGroupNoticeList> groupNoticeLists = dashboardMapper.getUserGroupNoticeList();
+	public List<UserGroupNoticeList> getUserGroupNoticeList(String userId){
+		List<UserGroupNoticeList> groupNoticeLists = dashboardMapper.getUserGroupNoticeList(userId);
 		util.getDateTimeCompareObject(groupNoticeLists, "yy-MM-dd");
 		return  groupNoticeLists;
 	}
 	
+	@GetMapping("/download/web/data/test.json")
+	@ResponseBody
+	public String test() {
+		logger.info("####왔음");
+		return "여기오려고하나";
+	}
 }
