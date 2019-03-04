@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>회원정보 보기</title>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap-select/1.13.3/css/bootstrap-select.min.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/font-awesome/5.7.1/css/all.min.css}" />
+	<link
+	href="https://fonts.googleapis.com/css?family=Do+Hyeon|Noto+Sans+KR"
+	rel="stylesheet">
+</head>
+<body>
+
+	<div class="container text-center">
+		<br />
+		<h1>회원정보 보기</h1>
+		<br /><br />
+		<div class="row">
+		<div class="col center">
+		<div th:if="${userInfo. profileImagePath} == 'DefaultThumbnail' "><img th:src="@{/static/images/DefaultThumbnail.png}" style="width:200px; height:200px;"></div>
+		<div th:unless="${userInfo. profileImagePath} == 'DefaultThumbnail' "><img th:src="@{'/static/codesquareDB/UserThumbnail/'+${userInfo.userId}+'/'+${userInfo.profileImagePath}}" style="width:200px; height:200px;  border-radius: 50%;" ></div>
+		</div>
+		</div>
+		<br /><br />
+		<div class="row ">
+			<div class="col text-center">
+			아이디  : 
+			<span th:text="${userInfo.userId}"></span></div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col text-center">
+			닉네임  : 
+			<span th:text="${userInfo.nickName}"></span></div>
+		</div>
+		<div class="row">
+			
+		</div>
+	</div>
+</body>
+</html>

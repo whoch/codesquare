@@ -1,0 +1,20 @@
+@charset "UTF-8";
+.page-link {
+	color :#D8BFD8;
+	border : none;
+}
+.page-link:hover {
+	color :#251233 ;
+	background : none;
+}
+
+.page-item.active .page-link{
+	background : none;
+	border : none;
+	color: #251233;
+}
+
+a {
+	color: black;
+	text-decoration: none;
+}
