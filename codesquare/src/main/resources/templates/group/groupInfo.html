@@ -121,25 +121,35 @@
 		
 		
 		<!-- START GROUP-WORK -->
-        <p class="card-category" style="margin-top:50px">그룹 과제 목록</p>
-        <div class="accordion custom-tab-content shadow" id="accorionGroupWork">
-            <div class="card" th:each=" list, status : ${grpwk}">
-                <div class="card-header" th:id="|heading${status.index}|">
-                    <div class="mb-0 grpWkGrid">
-                       <a th:class="|title${status.first?'':' collapsed'}|"
-                            data-toggle="collapse" th:data-target="|#grpWk${list.id}|" aria-expanded="true"
-                            th:aria-controls="'grpWk'+${list.id}" th:text="${list.title}"> </a> <span class="writeDate"
-                            th:text="${list.writeDateFormat}"></span>
-                    </div>
-                </div>
-                <div th:id="|grpWk${list.id}|" th:class="|collapse${status.first?' show':''}|"
-                    th:aria-labelledby="|heading${status.index}|" data-parent="#accorionGroupWork">
-                    <div class="card-body" th:text="${list.content}"></div>
-	     	   
-                </div>
-            </div>
-        </div>
-        <!-- END GROUP-WORK -->
+		<div class="card big-card card-nomal shadow">
+			<div class="card-header">
+				<p class="card-category">그룹 과제 목록</p>
+			</div>
+			<div class="card-body accordion custom-tab-content shadow" id="accorionGroupWork">
+				<!--     <p class="card-category" style="margin-top:50px"></p> -->
+				<!-- <div class="accordion custom-tab-content shadow"
+					id="accorionGroupWork"> -->
+					<div class="card" th:each=" list, status : ${grpwk}">
+						<div class="card-header" th:id="|heading${status.index}|">
+							<div class="mb-0 grpWkGrid">
+								<a th:class="|title${status.first?'':' collapsed'}|"
+									data-toggle="collapse" th:data-target="|#grpWk${list.id}|"
+									aria-expanded="true" th:aria-controls="'grpWk'+${list.id}"
+									th:text="${list.title}"> </a> <span class="writeDate"
+									th:text="${list.writeDateFormat}"></span>
+							</div>
+						</div>
+						<div th:id="|grpWk${list.id}|"
+							th:class="|collapse${status.first?' show':''}|"
+							th:aria-labelledby="|heading${status.index}|"
+							data-parent="#accorionGroupWork">
+							<div class="card-body" th:text="${list.content}"></div>
+
+						<!-- </div> -->
+					</div>
+				</div>
+			</div>
+			<!-- END GROUP-WORK -->
         
 		
 	</div>
