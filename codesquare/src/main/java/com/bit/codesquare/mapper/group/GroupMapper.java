@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.group.GroupInfo;
 import com.bit.codesquare.dto.group.GroupMemberInfo;
 import com.bit.codesquare.dto.group.WriteWantedBoard;
@@ -24,7 +25,9 @@ public interface GroupMapper {
 	
 	public int changeGroupAvailability (String groupId);
 	public int addGroupMember (Member member, String groupId);
-	
+
+	public List <Board> getGroupNotice(String groupId);
+	public List <Board> getGroupWorks(String groupId);
 	
 	public GroupInfo getGroupInfoUseBoardId(int boardId);
 	public List<GroupInfo> getGroupInfoUserLeader(String userId);
