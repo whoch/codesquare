@@ -69,7 +69,6 @@ public class WebSocketController {
 		@RequestMapping(value="coints1" , method=RequestMethod.GET)
 		@ResponseBody
 		public int coints3() throws Exception{
-			System.out.println("####conints3왔음");
 			int cc = noticeMapper.coints();
 			return cc;
 		}

@@ -36,14 +36,27 @@ text-decoration: none;
 		
 </div>			
 <span th:text=${list.title} style="font-weight: bold; font-size: 27px;"></span>
-<a style="float: right;"><span th:text="${list.hit}" style="float: right;"></span>조회수 &nbsp;</a>
+<a style="float: right;" class="hit">조회수<i class="fa fa-eye" aria-hidden="true" style="margin: 0px 2px 0 5px;"></i><span th:text="${list.hit}"></span></a>
+<a style="float: right;" class="like">좋아요<i class="fa fa-heart" aria-hidden="true" style="margin: 0px 2px 0 5px;"></i><span id="likeCount" th:text="${list.likeCount}" style="
+    margin-right: 19px;"></span></a>
+
 <span th:text="${list.writeDateBoard}"></span>
 <div style="margin-top: 25px; border-bottom: 1px solid #BAB9BA;"></div>
 <div style="margin-top: 40px; margin-bottom:150px; border-bottom: 1px solid #BAB9BA;">
 <span th:utext=${list.content}></span>
 </div>			
 				<div align="right" style="margin-top: 20px;">
-				<div>찜하기</div>
+				<!-- 북마크 -->
+		    	<input id="BOARD_ID" type="hidden" th:value="${list.id}">
+			    <input id="USER_ID" type="hidden" th:value="${session.userId}">
+		    	<input id="NICKNAME" type="hidden" th:value="${session.nickName}">
+				<div id="bookmark-button" th:class="${bookmarkId}?'checked'+' shadow-sm'">
+					<i th:class="${bookmarkId}?'fas fa-heart':'far fa-heart'" aria-hidden="true">
+						<span th:text="${bookmarkId}?'찜취소':'찜하기'"></span>
+					</i>
+				</div>
+				<!-- 북마크 -->
+				
 				<input type="hidden" name="boardKindId" th:value="${boardKindId}">
 				<a href="javascript:history.go(-1)" type="button" id=a style="font-weight: bold;">목록보기</a>
 				<span sec:authorize="isAuthenticated()">
@@ -72,6 +85,7 @@ text-decoration: none;
    
 <th:block layout:fragment="script">
 	<script src="/static/js/comment/comment.js"></script>
+	<script th:src="@{/static/js/study/bookmark.js}"></script>
     <div class="container">
         <div class="commentList"></div>
     </div>

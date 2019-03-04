@@ -3,6 +3,7 @@ package com.bit.codesquare.controller.board;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,6 +16,7 @@ import com.bit.codesquare.dto.paging.Criteria;
 import com.bit.codesquare.dto.paging.PageMaker;
 import com.bit.codesquare.mapper.board.FreeMapper;
 import com.bit.codesquare.mapper.comment.ReplyMapper;
+import com.bit.codesquare.mapper.study.StudyMapper;
 import com.bit.codesquare.service.NewService;
 import com.bit.codesquare.util.CodesquareUtil;
 
@@ -27,6 +29,8 @@ public class FreeController {
 	NewService newService;
 	@Autowired
 	ReplyMapper replyMapper;
+	@Autowired
+	StudyMapper studyMapper;
 	
 	@RequestMapping("/getfree/{boardKindId}")
 	public String getfree (Model model, Criteria cri, String keyword, String searchOption, @PathVariable String boardKindId, String boardName) throws Exception {
@@ -50,11 +54,19 @@ public class FreeController {
 		return "redirect:getfree/"+boardKindId;
 	}
 	@RequestMapping("/freeView/{boardKindId}")
-	public String noticeView(Model model, HttpServletRequest request, @PathVariable String boardKindId) throws Exception {
+	public String noticeView(Model model, HttpServletRequest request, @PathVariable String boardKindId, Authentication auth) throws Exception {
 		int id = Integer.parseInt(request.getParameter("id"));
 		freeMapper.updateCount(id);
 		model.addAttribute("list",  freeMapper.getid(id));
 		model.addAttribute("bn", freeMapper.getBoardName(boardKindId));
+		
+		try{
+			String userId = auth.getName();
+			model.addAttribute("bookmarkId", studyMapper.getBookmarkId(id, userId));
+			System.out.println("#bookmarkId : "+studyMapper.getBookmarkId(id, userId));
+			System.out.println("#bookmarkId : "+userId+" ,"+id);
+		}catch (Exception e) {
+		}
 		return "board/freeView";
 	}
 	@RequestMapping("/freedelete")
