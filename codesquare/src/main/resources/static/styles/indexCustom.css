@@ -16,3 +16,16 @@
   color:#A9BCF5;
 }
 
+.carousel-caption{
+    background: black;
+    opacity: .7;
+    width: 100%;
+    margin: auto;
+	left:0;
+	
+}
+.quickBox i:hover{
+	font-size: 55px;
+	color:#5b2e7c;
+	cursor: pointer;
+}
