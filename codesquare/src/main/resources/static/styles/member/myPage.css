@@ -75,7 +75,7 @@ main {
 
 .sidebar {
 	position: fixed;
-	margin-left: 10%;
+	/* margin-left: 10%; */
 	background: white;
 	z-index: 1;
 	height: auto;

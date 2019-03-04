@@ -5,8 +5,9 @@ $(document).ready(function()
 	$(".quickBoard").click(function(){
 		var tag=$(this).attr('id');
 		var txt=ajaxGetBoard(tag,"pane");
+		
 	})
-
+	$("#lectureCarousel .carousel-item:first").addClass('active');
 	
 	function ajaxGetBoard(tag,pane){
 		$.ajax({
