@@ -46,7 +46,7 @@ public class FreeCommentController {
         return replyMapper.commentInsert(comment);
     }
     
-    @RequestMapping("/delete/{cno}") //댓글 삭제  
+    @RequestMapping("/delete/{cno}") //댓글 삭제   
     @ResponseBody
     private int mCommentServiceDelete(@PathVariable int cno) throws Exception{
         return replyMapper.commentDelete(cno);
