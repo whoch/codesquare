@@ -37,7 +37,7 @@ function noticeviewList() {
 		var noticeviewContent =""; 
 		$.each(data, function(key, value){
 			noticeviewContent += "<li>"+notibell+"<a href='" + value.noticeLink + "'>"+value.noticeContent
-			+ "<p id=send>" + value.sendDate + "</p>"+"</br>"+"</a>"+"</li>";
+			+ "<p id=send>" + value.sendDateString + "</p>"+"</br>"+"</a>"+"</li>";
 		});
 		console.log("noticeviewList나옴")
 		
@@ -66,7 +66,7 @@ function noticeviewList() {
 			//dataType:"json", 
 			url : '/send/message',
 			data : {
-				'qq' : "회원님의 게시글에 댓글이 달렸습니다.(DB)",
+				'qq' : "회원님의 게시글에 댓글이 달렸습니다.",
 				'aline' : aline,
 				'times' : times 
 			},

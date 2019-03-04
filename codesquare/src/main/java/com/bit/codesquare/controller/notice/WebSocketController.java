@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bit.codesquare.dto.notice.Notice;
 import com.bit.codesquare.dto.notice.Producer;
 import com.bit.codesquare.mapper.notice.NoticeMapper;
+import com.bit.codesquare.util.CodesquareUtil;
 
 import lombok.extern.java.Log;
 
@@ -31,6 +32,9 @@ public class WebSocketController {
 
 	Notice notice;
 	Map<String, Object> map ;
+	
+	@Autowired
+	CodesquareUtil csu;
 	
 	//js pushList
 	@RequestMapping("/send/{topic}")
@@ -58,7 +62,7 @@ public class WebSocketController {
 		map= new HashMap<String, Object>();
 		map.put("messages: ", messages);
 		List<Notice> noteContent2=noticeMapper.getLectureHandWriting2();
-		return noteContent2;
+		return (List<Notice>) csu.getDateTimeCompareObject(noteContent2);
 	}
 	
 	//카운트  coints

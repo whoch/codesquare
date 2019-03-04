@@ -90,7 +90,7 @@ public class MyPlannerController {
 			case "LrnPr":
 				return "redirect:/"+boardKind.getMainSubjectName()+"/intro/"+boardId;
 			default:
-				return "redirect:/freeView"+boardKindId+"?id"+boardId;
+				return "redirect:/freeView/"+boardKindId+"?id="+boardId;
 			}
 		} catch (Exception e) {
 			return "redirect:/";

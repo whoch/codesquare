@@ -43,6 +43,7 @@ text-decoration: none;
 <span th:utext=${list.content}></span>
 </div>			
 				<div align="right" style="margin-top: 20px;">
+				<div>찜하기</div>
 				<input type="hidden" name="boardKindId" th:value="${boardKindId}">
 				<a href="javascript:history.go(-1)" type="button" id=a style="font-weight: bold;">목록보기</a>
 				<span sec:authorize="isAuthenticated()">

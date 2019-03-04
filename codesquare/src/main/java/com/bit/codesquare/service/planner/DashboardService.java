@@ -62,6 +62,7 @@ public class DashboardService {
 					schedule = new SeminarMeetingDateDetails();
 					BeanUtils.copyProperties(list, schedule);
 					schedule.setMeetingDate(meetingDate.atTime(meetingTime));
+					schedule.setMeetingDateString(util.compareDateTime(schedule.getMeetingDate()));
 					seminarSchedule.add(schedule);
 				}
 			}			

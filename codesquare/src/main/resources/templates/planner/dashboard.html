@@ -200,7 +200,7 @@
                     ['list__scheduleId', isSeminarSchedule?'강사':'그룹명', item.nickname || item.groupId]
                     , ['list__boardKind', '분류', isSeminarSchedule?'세미나':'그룹']
                     , ['list__meetingDate', '모임일', date.getDate() + '일']
-                    , ['list__meetingDay', '요일', week[date.getDay()]]
+                    , ['list__meetingDay', '요일', week[date.getDay()]+ '요일']
               		, ['list__meetingTime', '모임시간', date.getHours()+':'+(date.getMinutes()==0?'00':date.getMinutes())+"에 시작"]
                     , ['list__status', '상태',
                     	item.status=='none'?'<div class="tag-custom attend-none"><i class="fa fa-exclamation"></i><div>':

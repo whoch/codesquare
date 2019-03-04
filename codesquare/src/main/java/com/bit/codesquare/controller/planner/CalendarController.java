@@ -46,36 +46,6 @@ public class CalendarController {
 	@RequestMapping("/calendar")
 	public String calendar(Model model, Authentication auth) {	
 		String userId = auth.getName();
-		
-		/*List<HashMap<String, Object>> seminarScheduleList=new ArrayList<HashMap<String, Object>>();
-		List<HashMap<String, Object>> groupMeetingScheduleList=new ArrayList<HashMap<String, Object>>();		
-		
-		List<SeminarMeetingDateDetails> seminarData=calendarMapper.getAllScheduleSeminar();
-		List<GroupMeetingDateDetails> groupMeetingData=calendarMapper.getAllScheduleGroup();
-		
-		for(SeminarMeetingDateDetails list : seminarData) {
-			HashMap<String, Object> schedule = new HashMap<String, Object>();
-			LocalTime meetingTime = list.getSeminarStartDate().toLocalTime();
-			
-			schedule.put("title", "세미나" );
-			schedule.put("start", list.getSeminarStartDate());
-			schedule.put("end", list.getSeminarEndDate().atTime(meetingTime));
-			schedule.put("description","강사:"+list.getNickname()+"<BR/>장소:"+list.getLocale());
-			
-			seminarScheduleList.add(schedule);
-		}//seminarScheduleList.add();
-		
-		for(GroupMeetingDateDetails info : groupMeetingData) {
-			HashMap<String, Object> schedule = new HashMap<String, Object>();
-			
-			schedule.put("title", "그룹");
-			schedule.put("start", info.getMeetingDate());
-			schedule.put("description", "그룹:"+info.getGroupId()+"<BR/>장소:"+info.getLocale());
-			
-			groupMeetingScheduleList.add(schedule);
-		}//groupMeetingScheduleList.add();		
-		model.addAttribute("study",groupMeetingScheduleList);
-		*/
 
 		model.addAttribute("GroupConfirmedEventTRUE",getConfirmedEventInGroup(calendarMapper.getGroupScheduleTRUE(userId)));
 		model.addAttribute("GroupConfirmedEventFALSE",getConfirmedEventInGroup(calendarMapper.getGroupScheduleFALSE(userId)));
