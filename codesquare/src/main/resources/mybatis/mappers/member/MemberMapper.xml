@@ -94,7 +94,7 @@
 
 	<select id="getReservedList" resultType="Reservation">
 		select a.UserId,
-		a.ReservationDate, a.RoomId, b.RoomName,
+		a.ReservationDate, a.RoomId, a.goDate, b.RoomName,
 		a.ReservationTime, a.AgreeTime, a.UseTime from ReservationInfo a
 		join RoomInfo b
 		on a.RoomId =

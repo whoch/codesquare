@@ -24,6 +24,14 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     border: 1px solid #ddd;
     text-decoration: none;
 }
+table.row-clickable tbody tr td {
+    padding: 0;
+}
+
+table.row-clickable tbody tr td a {
+    display: block;
+    padding: 15px;
+}
 select {
 background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg) no-repeat 95% 50%; /* 네이티브 화살표 대체 */
 border: 1px solid #999; border-radius: 0px; /* iOS 둥근모서리 제거 */
@@ -31,7 +39,9 @@ border: 1px solid #999; border-radius: 0px; /* iOS 둥근모서리 제거 */
 -moz-appearance: none;
 appearance: none; 
 }
-
+a:link {
+text-decoration: none;
+}
 .page-link {
 	color :#BDA1BB;
 	border : #ffffff;
@@ -53,6 +63,11 @@ appearance: none;
 </head>
 <body>
 <div class="container" layout:fragment="content" style="padding-left: 40px; padding-right: 40px;"><br>
+
+
+<div class="lecture_header_item d-flex justify-content-between" style="border-bottom: 5px solid black; margin-bottom: 5px;">		
+	<h1 align="center"><a th:href="@{'/getfree/'+${boardKindId}}" style="color: black;">
+	<span th:text="${bn.boardName}"></span></a></h1>
 <form th:action="@{'/getfree/'+${boardKindId}}" align="right" name="join">
 		<select name="searchOption" id="searchOption" style="width: 120px; height: 30px;">
 			<option value="title">제목</option>
@@ -62,16 +77,11 @@ appearance: none;
 		<input type="hidden" th:value="${pageMaker.cri.searchOption}">
 		<input type="text" name="keyword" value="" size="30"
 			placeholder="검색어를 입력하세요." th:value="${pageMaker.cri.keyword}">
-			<input type="image" src="/static/images/searchimg1.jpg" value="Submit" name="Submit" style="width: 21px;">
+			<input type="image" src="/static/images/searchimg1.jpg" style="width: 21px;">
 </form>
-
-<div class="lecture_header_item d-flex justify-content-between"
-			style="border-bottom: 5px solid black;">
-			
-	<h1 align="center"><a th:href="@{'/getfree/'+${boardKindId}}" style="color: black;"><span th:text="${bn.boardName}"></span></a></h1>
 </div>
 	<div class="container" align="right">
-		<table class="table table-hover">
+		<table class="table table-hover row-clickable">
 			<tr th:each="Board:${list}">
 
 	             <td><a th:href="@{'/freeView/'+${boardKindId}+'?id=' + ${Board.id}}"><span th:text="${Board.title}" style="color: black; font-weight: bold; padding-right: 150px;"></span></a></td>
@@ -86,9 +96,9 @@ appearance: none;
 	</div>
 	
 		<div align="right">
-		<span sec:authorize="isAuthenticated()">
-		<a th:href="@{'/freeWrite/'+${boardKindId}}" type="button" style="margin-top: 10px" id="button1">글쓰기</a>
-		</span>
+			<span sec:authorize="isAuthenticated()">
+			<a th:href="@{'/freeWrite/'+${boardKindId}}" type="button" style="margin-top: 10px" id="button1">글쓰기</a>
+			</span>
 		</div>
 		
 <div align="center">
@@ -106,7 +116,6 @@ appearance: none;
               </li>
               </ul>
         </div>
-        
    </div>
 </body>
 </html>

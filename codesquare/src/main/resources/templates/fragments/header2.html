@@ -12,6 +12,49 @@
 		<div sec:authorize="isAuthenticated()">
 			<input type="hidden" id="userId" th:value="@{${session.userId}}">
 
+<!-- 버튼테스트 -->
+<!-- 		<div class="well">
+			소켓연결 끊기 <button id="disconnect" onclick="disconnect()">Disconnect</button>
+		</div> -->
+<!-- 		<button id="btnSend" onclick="join()">가입test</button>
+		<button onclick="reply()">댓글test</button> -->
+
+		<!-- 알림 -->
+		<div id="zzz"><div class="noti-dropdown">
+			<a onclick="myFunction()" id="noti-btn" class="noti-btn"> <img
+				id="noticeImg" width="25" height="25" class="noti-btn"
+				src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKkXfRt5S4d9AsGllPR2vOmP6MWQff4ZnJYky3erxeoD6Yl3f-zw"
+				alt="Course noti">
+			</a>
+
+			<div id="counts" class="noti-count"></div></div>
+
+			<div id="myDropdown" class="dropdown-content">
+				<div class="header">
+					<span id="noti-title"> 알림</span>
+					<button id="read-btn">읽은 알림 삭제</button>
+					<button id="all-btn" onclick="allDelete()">모두삭제 l</button>
+				</div>
+
+				<ul id="messages" name="messages">
+					<!-- <li>test</li>
+									$('#messages').prepend	 -->
+
+				</ul>
+
+			</div>
+			<!-- 푸쉬 팝업 -->
+			<div id="pushbar" align="right">
+				<img class="push_img" src='/static/images/logo123.png' />
+				<div id="text">
+					<strong> Notification
+						&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong> <span
+						class="close">&times;</span> </br> 회원님의 게시글에 댓글이 달렸습니다.
+				</div>
+			</div>
+		</div>
+		<!-- 알림닫힘 -->
+
 			<div class="dropdown px-2">
 				<div class="dropdown-toggle" data-toggle="dropdown">
 					<img th:src="@{${session.profileImagePath}}" class="profileImg" />
@@ -36,11 +79,10 @@
 			</ul>
 		</div>
 	</div>
-
+<br/>
 	<!-- 로고 -->
-	<br /> <br />
 
-	<div class="logo">
+	<div class="logo" style="margin-bottom: -20px;">
 		<div class="col codesquare py-0">
 			<a th:href="@{/}"><img th:src="@{/static/images/logo.png}"
 				alt="noimg" /> 코드스퀘어</a>
@@ -65,7 +107,7 @@
 			<ul class="dropdown">
 				<li><a href="/study/StdMo">스터디 모집</a></li>
 				<li><a href="/seminarList">세미나 모집</a></li>
-				<li><a href="#">스터디 / 세미나 후기</a></li>
+				<li><a href="/getfree/StdHu">스터디 / 세미나 후기</a></li>
 				<li><a href="/companyList">공간예약</a></li>
 			</ul>
 		</div>

@@ -2,9 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/mainLayout2}"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
+<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <title>스터디모집</title>
 <link rel="stylesheet" type="text/css" th:href="@{/static/styles/study/study.css}">
-
+<style>
+	#a{
+	transition: background-color .2s;
+    display: inline-block;
+    position: relative;
+    height: 50px;
+    background-color: #222;
+    box-sizing: border-box;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
+    width: 100px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+}
+</style>
 </head>
 <body>
 
@@ -134,8 +151,22 @@
 						</div>
 						<!-- ####   END 왼쪽 컨텐츠     #### -->
 					</div>
-					
-					<div class="commentContent">
+	<div class="container">
+        <label for="content" style="font-size: 30px; color: #8045dd">댓글</label>
+        <form name="commentInsertForm">
+            <div class="input-group">
+               <input type="hidden" id="bno" name="bno" th:value="${boardId}"/>
+               <input type="text" class="form-control" id="content" name="content" placeholder="내용을 입력하세요."  style="height: 100px; background-color: #FBFAFB" autocomplete="off">
+               <span class="input-group-btn">
+                    <button type="button" name="commentInsertBtn" id="a" style="height: 100px;">등록</button>
+               </span>
+              </div>
+        </form>
+    </div>
+        <div class="container">
+        <div class="commentList"></div>
+    </div>
+					<!-- <div class="commentContent">
 						<H3>댓글 <span th:text="*{commentCount}"></span> </H3>
 						<div class="comment-form">
 							<form>
@@ -146,13 +177,13 @@
 							</div>
 						</div>
 						<div class="comment-list">댓글리스트 예정</div>
-					</div>
+					</div> -->
 
 					
-					<div class="FileContent">
+<!-- 					<div class="FileContent">
 						<span th:text="|파일 개수 *{fileCount}|"></span>
 						<span th:text="|이미지 개수*{imageCount}|"></span>
-					</div>
+					</div> -->
 						
 				</div>
 			</section>
@@ -273,6 +304,8 @@
 <th:block layout:fragment="script">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 	<script type="text/javascript" th:inline="javascript" th:src="@{/static/js/study/studyWantedView.js}"></script>
+		<script src="/static/js/comment/comment.js"></script>
+
 </th:block>
 
 </body>

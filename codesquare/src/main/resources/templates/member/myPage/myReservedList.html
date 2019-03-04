@@ -24,7 +24,7 @@
 				th:each="rlist : ${rlist}">
 				<div class="col-2" th:text="${rlist.agreeTime}"></div>
 				<div class="col-4" th:text="${rlist.roomname}"></div>
-				<div class="col-4" th:text="${#dates.format(rlist.reservationdate, 'yyyy.MM.dd HH:mm')}"></div>
+				<div class="col-4" th:text="${#dates.format(rlist.goDate, 'yyyy.MM.dd HH:mm')}"></div>
 				
 
 				<div class="col-2" th:text="${rlist.usetime}"></div>
