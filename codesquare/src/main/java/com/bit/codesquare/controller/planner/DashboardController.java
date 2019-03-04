@@ -37,7 +37,7 @@ public class DashboardController {
 		model.addAttribute("cardLecture", dashboardMapper.getUserLectureList(userId));
 		model.addAttribute("cardGroupNotice", dashboardService.getUserGroupNoticeList(userId));
 		model.addAttribute("glist", gm.getMyGroupList(userId));
-		logger.info("###TEST : " + dashboardService.getAllSchedule(userId).toString());
+	
 		return "planner/dashboard";		
 	}
 	

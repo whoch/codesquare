@@ -1,76 +1,125 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/mainLayout2}"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.typeleaf.org"
+xmlns:sd="http://www.thymeleaf.org/spring-data"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorator="layout/mainLayout2"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<meta charset="utf-8">
 <head>
-<title>스터디모집</title>
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding" rel="stylesheet">
 <style>
-	
-	.row.boardList{
-		display: contents;
-	}
-	
-	.boardList li{
-	    border:1px solid rgba(0,0,0,.125);	
-        padding: 10px 20px;
-	}
-	
-	.boardList li div {
-		display: inline-block;
-	}
-	
-	.stdMoGrid{
-	     display: grid;
-	     grid-template-columns: 3% 50% 10% 10% 10% 10% 7%;
-	}
-	
-	
-	
+	#button1 {
+	transition: background-color .2s;
+    display: inline-block;
+    position: relative;
+    height: 50px;
+    background-color: #222;
+    box-sizing: border-box;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
+    width: 165px;
+    border: 1px solid #ddd;
+    text-decoration: none;
+}
+table.row-clickable tbody tr td {
+    padding: 0;
+}
+
+table.row-clickable tbody tr td a {
+    display: block;
+    padding: 15px;
+}
+select {
+background: url(https://farm1.staticflickr.com/379/19928272501_4ef877c265_t.jpg) no-repeat 95% 50%; /* 네이티브 화살표 대체 */
+border: 1px solid #999; border-radius: 0px; /* iOS 둥근모서리 제거 */
+-webkit-appearance: none; /* 네이티브 외형 감추기 */
+-moz-appearance: none;
+appearance: none; 
+}
+a:link {
+text-decoration: none;
+}
+.page-link {
+	color :#BDA1BB;
+	border : #ffffff;
+}
+.page-link:hover {
+	color :#251233 ;
+	background : none;
+}
+
+.page-item.active .page-link{
+	background : none;
+	border : none;
+	color: #251233;
+}
+
+
 </style>
+<title>자유게시판</title>
 </head>
-
 <body>
-	<!-- START content -->
-    <article class="content" layout:fragment="content">
-    	<div class="container">
-    	<th:block th:with="url=${#httpServletRequest.requestURI}">
-    		
-    		<h1>스터디모집 글쓰기 게시판</h1>
- <!-- ####################    글쓰기 테스트를 위한 임시 버튼      ##################### -->
-					<a th:href="@{/studyWanted/writeView}">글쓰기 TEST </a>
-					<a th:href="@{/studyWanted/createGroup}">그룹 개설하기 </a>
-		
-		
-			<!-- 게시판 리스트 -->
-			<div class="row boardList">
-				<ul>
-					<li class="stdMoGrid" th:each="list : ${boardList}">
-						<span th:text="*{list.id}"></span>
-						<div>
-							<a th:href="|${url}/*{list.id}|" th:text="*{list.title}"></a>
-							<span th:text="*{list.fileCount}"></span>
-							<span th:text="*{list.imageCount}"></span>
-							<span th:text="*{list.commentCount}"></span>
-						</div>
-						<span th:text="*{list.status} eq 1?'':'마감'"></span>
-						<span th:text="*{list.groupId}"></span>
-						<span th:text="*{list.nickName}"></span>
-						<span th:text="*{list.writeDate}"></span>
-						<div>
-							<span th:text="*{list.likeCount}"></span>
-							<span th:text="*{list.hit}"></span>
-						</div>
-						
-					</li>
-				</ul>
-			</div>
-			
-    	</th:block>
-    	</div>
-		<!-- div container 종료-->
+<div class="container" layout:fragment="content" style="padding-left: 40px; padding-right: 40px;"><br>
 
-	</article>
-	<!-- END content -->
--
+
+<div class="lecture_header_item d-flex justify-content-between" style="border-bottom: 5px solid black; margin-bottom: 5px;">		
+	<h1 align="center"><a href="/study/StdMo" style="color: black;">
+	<span th:text="${bn.boardName}"></span></a></h1>
+<form th:action="@{'/study/StdMo'}" align="right" name="join">
+		<select name="searchOption" id="searchOption" style="width: 120px; height: 30px;">
+			<option value="title">제목</option>
+			<option value="all">제목+내용</option>
+			<option value="nickname">작성자</option>
+		</select>
+		<input type="hidden" th:value="${pageMaker.cri.searchOption}">
+		<input type="text" name="keyword" value="" size="30"
+			placeholder="검색어를 입력하세요." th:value="${pageMaker.cri.keyword}">
+			<input type="image" src="/static/images/searchimg1.jpg" style="width: 21px;">
+</form>
+</div>
+	<div class="container" align="right">
+		<table class="table table-hover row-clickable">
+			<tr th:each="Board:${list}">
+
+	             <td><a th:href="@{'/study/StdMo/' + ${Board.id}}"><span th:text="${Board.title}" style="color: black; font-weight: bold; padding-right: 150px;"></span></a></td>
+	             <td th:text="${Board.nickName}" style="padding-left: 100px;"></td>
+	             <td style="padding-right: 1px; width: 30px;"><i class="far fa-eye"></i></td>
+	             <td style="padding-left: 1px;" th:text="${Board.hit}" ></td>
+	             <td style="padding-right: 1px; width: 30px;"><i class="fas fa-heart"></i></td>
+	             <td th:text="${Board.likeCount}" style="padding-right: 7px; padding-left: 1px;"></td>
+	             <td th:text="${Board.writeDateBoard}" style="padding-right: 1px; padding-left: 1px;"></td>
+	        </tr>
+		</table>
+	</div>
+	
+		<div align="right">
+			<span sec:authorize="isAuthenticated()">
+			<a th:href="@{'/freeWrite/'+${boardKindId}}" type="button" style="margin-top: 10px" id="button1">글쓰기</a>
+			</span>
+		</div>
+		
+		
+		
+		
+<!-- 	########################################	 -->
+<div align="center">
+              <ul class="pagination justify-content-center  no-margin pull-right">
+              <li class="page-item" th:if="${pageMaker.prev} == true">
+              	<a class="page-link" th:href="@{'/study/StdMo'+(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum}, keyword=${pageMaker.cri.keyword}, searchOption=${pageMaker.cri.searchOption})}">&laquo;</a>
+              </li>
+
+              <li class="page-item" th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"  th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
+                <a class="page-link" th:href="@{'/study/StdMo'(page=${idx}, perPageNum=${pageMaker.cri.perPageNum}, keyword=${pageMaker.cri.keyword}, searchOption=${pageMaker.cri.searchOption})}" th:text="${idx}" th:if="${idx}"></a>
+              </li>
+                
+              <li class="page-item" th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
+              	<a class="page-link" th:href="@{'/study/StdMo'(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum}, keyword=${pageMaker.cri.keyword}, searchOption=${pageMaker.cri.searchOption})}">&raquo;</a>
+              </li>
+              </ul>
+        </div>
+   </div>
 </body>
 </html>

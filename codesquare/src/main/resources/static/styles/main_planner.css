@@ -354,8 +354,9 @@ section
 /*********************************
 6. Search Box
 *********************************/
-
-
+.container{
+ min-width: 100%;
+}
 
 .search_box
 {
@@ -520,7 +521,7 @@ section
 	top:80px;
 }
 .recommand_item_container:after, .recommand_item_container:before{
-  content:"───";
+  content:"──────────────────";
 }
 .recommand_item{
 	color:black;
@@ -561,53 +562,4 @@ section
 	cursor:pointer;
 	font-size:25px;
 	color:white;
-}
-
-.btn-deepPurple {
-    display: table;
-    margin: auto;
-    padding: 8px 30px;
-    text-align: center;
-    color: #f3f3f3;
-    background-color: #4B0082;
-    border-color: #4B0082;
-	border-radius: 23px;
-    cursor: pointer;
-}
-
-#bookmark-button {
-    /* display: block; */
-    /* width: 100%; */
-    width: 170px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 1px solid rgba(0,0,0,.125);
-    line-height: 56px;
-    text-align: center;
-    cursor: pointer;
-    margin: auto;
-}
-#bookmark-button {
-    position: relative;
-    height: 50px;
-    color: #4f4f4f;
-}
-#bookmark-button:hover {
-    border-color: #4B0082;
-    color: #4B0082;
-}
-#bookmark-button.checked {
-    color: #4B0082;
-    border-color: #4B0082;
-}
-#bookmark-button i{
-	font-size: 25px;;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-#bookmark-button i span, #bookmark-button i span {
-	font-size: 16px;
-	vertical-align: middle;
 }

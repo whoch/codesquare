@@ -14,12 +14,12 @@ public class SeminarMeetingDateDetails {
 	String userId;
 	String nickname;
 	String title;
-	
 	LocalDateTime seminarStartDate;
 	LocalDate seminarEndDate;
-	String locale;
 	String meetingDay;
+	String locale;
 	String profileImagePath;
 	
 	LocalDateTime meetingDate;
+	String meetingDateString;
 }

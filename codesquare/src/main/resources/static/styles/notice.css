@@ -20,6 +20,10 @@
 	float: left;
 }
 
+#messages {
+	padding:0 10px;
+}
+
 .noti-btn {
 	cursor: pointer;
 	width: 40px;

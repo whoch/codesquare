@@ -24,6 +24,8 @@ import com.bit.codesquare.dto.group.GroupInfo;
 import com.bit.codesquare.dto.group.WriteWantedBoard;
 import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
 import com.bit.codesquare.dto.member.Member;
+import com.bit.codesquare.dto.paging.Criteria;
+import com.bit.codesquare.dto.paging.PageMaker;
 import com.bit.codesquare.mapper.board.FreeMapper;
 import com.bit.codesquare.mapper.group.GroupMapper;
 import com.bit.codesquare.mapper.study.StudyMapper;
@@ -52,9 +54,14 @@ public class StudyController {
 	 * 아직 보드게시판이 만들어지지 않아 임시로 목록을 뿌려주기만 하는 페이지	
 	 * */
 	@RequestMapping("/study/StdMo")
-	public String getBoardList(Model model) {
-		String boardName = "스터디모집";
-		model.addAttribute("boardList", studyMapper.getBoardList(boardName));
+	public String getBoardList(Model model, Criteria cri, String keyword, String searchOption, String boardName) throws Exception {
+		String boardKindId = "StdMo";
+		model.addAttribute("list", CodesquareUtil.getDateTimeCompareObject(freeMapper.getfree(cri, keyword, searchOption, boardKindId)));
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(freeMapper.countPaging(cri, keyword, searchOption, boardKindId));
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("bn", freeMapper.getBoardName(boardKindId));
 		return "study/studyWanted";
 	}
 	

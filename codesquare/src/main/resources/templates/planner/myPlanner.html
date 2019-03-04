@@ -58,7 +58,7 @@ $(function(){
 							        		   <i class='checkIcon-todo'>\
 							        		   </i><span class='todo-content'></span>\
 							        		   <span class='todo-endDate'></span>\
-							        		   <i class='deleteIcon-todo fa fa-trash-o input-group-text'></i>\
+							        		   <i class='deleteIcon-todo fas fa-trash input-group-text'></i>\
 						        		 </div>");
 							
 							$txt.attr('id','tdID_'+response.id);
@@ -95,10 +95,10 @@ $(function(){
 	 			id			: $(this).parent().attr('id').substr(5),
 	 			boardKind	: 'ToDoList'
 		} 
-		
+		console.log( data );
 		$.ajax({
 			type: 'post',
-			url: 'delete',
+			url: 'deleteTodo',
 			data : JSON.stringify(data),
 			context : this,
 			contentType: 'application/json; charset=UTF-8',
@@ -221,9 +221,9 @@ var loadBookmark = function() {
                     th:aria-labelledby="|heading${status.index}|" data-parent="#accorionGroupWork">
                     <div class="card-body" th:text="${list.content}"></div>
 	     	      <div class="card-footer">
-<!-- 					<div class="btn-deepPurple shadow">
-						<a href="#">+해당글 바로가기</a>
-					</div> -->
+ 					<div class="btn-deepPurple shadow">
+						<a href="#">그룹 바로가기</a>
+					</div>
 				  </div>
                 </div>
             </div>
@@ -241,32 +241,53 @@ var loadBookmark = function() {
         <!-- END BOOK-MARK List  -->
 
 
+
+
+
+
+
+
+        <!-- START LECTURE CARD -->
+        <div class="rowDash card big-card card-todoList shadow">
+            <div class="card-header">
+                <p class="card-category">TODO LIST</p>
+            </div>
+            <div class="card-body">
+
+
 		<!-- START TODO List -->
-		<div id="custom-todoList" class="rowCustom">
-			<p class="card-category">TO-DO List</p>
+		<div id="custom-todoList">
 			<form id="todoForm" action="writeTodo">
 				<div class="form-group todoInputGrid">
 					<div>
 						<input id="USER_ID" type="hidden" name="userId" th:value="${session.userId}">
-						<input class="form-control" name="content" />
+						<input class="form-control" name="content" placeholder="todo list를 입력해  주세요." />
 					</div>
-					<button type="submit"
-						class="btn fa fa-arrow-circle-up todo-submit-btn"></button>
+					<button type="submit" class="btn todo-submit-btn btn-deepPurple shadow">Add</button>
 				</div>
 			</form>
 			<div class="todoList">
 				<div th:id="|tdID_${list.id}|" th:class="|todoGrid todo-li${list.status eq '1'?'':' td-check'}|" th:each="list : ${todoList}">
-					<i th:class="|checkIcon-todo${list.status eq '1'?' fa fa-square-o':' fa fa-check-square-o'}|"></i>
+					<i th:class="|checkIcon-todo${list.status eq '1'?' fas fa-check':' fas fa-check'}|"></i>
 					<span class="todo-content" th:text="${list.content}"></span>
 					<span class="todo-endDate" th:text="${list.endDate} ? ${#dates.format(list.endDate,'yy-MM-dd')}"></span>
-					<i class="deleteIcon-todo fa fa-trash-o"></i>
+					<i class="deleteIcon-todo fas fa-trash"></i>
 				</div>
 			</div>
 		</div>
 		<!-- END TODO List  -->
+		
 
 
 
+
+
+
+
+
+            </div>
+        </div>
+        <!-- END LECTURE CARD -->
 	</article>
 </body>
 </html>

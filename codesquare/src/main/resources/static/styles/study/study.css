@@ -91,7 +91,8 @@
 	}
 	
 	#wantedContent-detail img {
-		width: 50%;
+		    width: 130px;
+    		height: 130px;
 	}
 	
 	#wantedContent-detail .group-detail,
@@ -108,7 +109,7 @@
 	
 	.groupContent {
 		border-top: 1px solid rgba(0,0,0,.125);
-		padding: 50px 30px 0px;
+		padding: 50px 60px 0px;
 	    width: 100%;
 	}
 	
@@ -202,6 +203,7 @@
 	#bookmark-button {
 		position: relative;
 		height: 58px;
+		width:inherit;
 		color: #4f4f4f;
 	}
 	

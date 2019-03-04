@@ -18,6 +18,8 @@ public interface MyplannerMapper {
 	public List<UserBookmarkList> getUserBookmarkList(String userId);
 	public List<UserBookmarkCatecory> getUserBookmarkKinds(String userId);
 	
+	public int deleteUsingIdAndBoardKind(Map<String, String> data);
+	
 	public int deleteBookmarkUsingId(Map<String, String> data);
 	public int updateBookmarkDeleteCount(Map<String, String> data);
 	

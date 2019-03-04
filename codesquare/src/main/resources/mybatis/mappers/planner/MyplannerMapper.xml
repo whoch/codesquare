@@ -29,6 +29,12 @@
 		WHERE bl.UserId=#{userId}
 	</select>
 	
+	<delete id="deleteUsingIdAndBoardKind" parameterType="java.util.Map">
+		<![CDATA[
+			DELETE FROM ${boardKind} WHERE `Id`=#{id};
+		 ]]>
+	</delete>
+	
 	
 	<delete id="deleteBookmarkUsingId" parameterType="java.util.Map">
 		<![CDATA[
