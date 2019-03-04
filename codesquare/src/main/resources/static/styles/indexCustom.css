@@ -16,3 +16,11 @@
   color:#A9BCF5;
 }
 
+.carousel-caption{
+    background: black;
+    opacity: .7;
+    width: 100%;
+    margin: auto;
+	left:0;
+	
+}

@@ -11,75 +11,29 @@
 <body>
 	<div class="container" layout:fragment="content">
 	
-		<div class="search_box">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<div
-							class="search_box_container d-flex flex-row align-items-center justify-content-start">
+		<div class="search_box_container d-flex flex-row align-items-center justify-content-start" style="background-color: #5b2e7d">
 							<div class="search_form_container">
-								<form action="#" id="search_form" class="search_form">
-									<div
-										class="d-flex flex-lg-row flex-column align-items-center justify-content-start">
-										<ul
-											class="search_form_list d-flex flex-row align-items-center justify-content-start flex-wrap">
-											<li
-												class="search_dropdown d-flex flex-row align-items-center justify-content-start">
-												<span>참석 유형</span> <i class="fa fa-chevron-down ml-auto"
-												aria-hidden="true"></i>
-												<ul>
-													<li>스터디</li>
-													<li>세미나</li>
-												</ul>
-											</li>
-											<li
-												class="search_dropdown d-flex flex-row align-items-center justify-content-start">
-												<span>지역</span> <i class="fa fa-chevron-down ml-auto"
-												aria-hidden="true"></i>
-												<ul>
-													<li>Check out item 1</li>
-													<li>Check out item 2</li>
-													<li>Check out item 3</li>
-													<li>Check out item 4</li>
-													<li>Check out item 5</li>
-												</ul>
-											</li>
-											<li
-												class="search_dropdown d-flex flex-row align-items-center justify-content-start">
-												<span>언어</span> <i class="fa fa-chevron-down ml-auto"
-												aria-hidden="true"></i>
-												<ul>
-													<li>1</li>
-													<li>2</li>
-													<li>3</li>
-													<li>4</li>
-													<li>5</li>
-												</ul>
-											</li>
-											<li
-												class="search_dropdown d-flex flex-row align-items-center justify-content-start">
-												<span>시작일</span> <i class="fa fa-chevron-down ml-auto"
-												aria-hidden="true"></i>
-												<ul>
-													<li>1</li>
-													<li>2</li>
-													<li>3</li>
-													<li>4</li>
-													<li>5</li>
-												</ul>
-											</li>
+								<form action="search" id="search_form" class="search_form">
+									<div class="">
+										<ul class="search_form_list d-flex flex-row align-items-center">
+											<input type="text" id="testDatepicker" placeholder="연도/월/일" style="height: 60px" autocomplete="off">
+											<select name="searchOption" style="height: 60px" id="lstFavorites">
+												<option value="address">지역</option>
+												<option value="address">강남구</option>
+												<option value="address">서초구</option>
+												<option value="address">금천구</option>
+												<option value="address">종로구</option>
+												<option value="address">수원시</option>
+												<option value="address">안산시</option>
+												<option value="companyname">스터디룸 이름</option>
+											</select>
+												<input type="text" name="keyword" value="" size="50" placeholder="ex) 강남, 수원" style="height: 60px" id="txtFavorite">
+												<input id="btn-mainsearch" type="submit" value="검색" style="height: 62px; width:12%; border: 1px solid #542672; border-radius: 5px;  color: #542672;">
 										</ul>
-										<button class="search_button">search</button>
-
 									</div>
 								</form>
-
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 
 		<div class="row quickButton">
 			<div class="quickBox col-sm-1 col-md-2">
@@ -117,38 +71,24 @@
 				</ul>
 
 				<!-- The slideshow -->
-				<div class="carousel-inner">
-					<div class="carousel-item active">
-						<img th:src="@{static/images/1.jpg}" alt="" width="1100"
-							height="300">
+				<div id="lectureCarousel" class="carousel-inner" style="text-align: center;">
+					<div class="carousel-item" th:each="item:${recommandLecutreList}">
+						<a th:href="@{/learn/intro/}+${item.id}" >
+						<img th:src="@{${item.thumbnailPath}}" alt="" width="1100" height="500">
 						<div class="carousel-caption">
-							<h3>강의1</h3>
-							<p>강의1 예제</p>
+							<h3 th:text="@{${item.title}}"></h3>
+							<p th:text="@{${item.introContent}}"></p>
 						</div>
+						</a>
 					</div>
-					<div class="carousel-item">
-						<img th:src="@{static/images/2.jpg}" alt="noImg" width="1100"
-							height="300">
-						<div class="carousel-caption">
-							<h3>강의2</h3>
-							<p>강의2 예제</p>
-						</div>
-					</div>
-					<div class="carousel-item">
-						<img th:src="@{static/images/3.jpg}" alt="noImg" width="1100"
-							height="300">
-						<div class="carousel-caption">
-							<h3>강의3</h3>
-							<p>강의3 예제</p>
-						</div>
-					</div>
+					
 				</div>
 
 				<!-- Left and right controls -->
 				<a class="carousel-control-prev" href="#myCarousel"
 					data-slide="prev"> <span class="carousel-control-prev-icon"></span>
 				</a> <a class="carousel-control-next" href="#myCarousel"
-					data-slide="next"> <span class="carousel-control-next-icon"></span>
+					data-slide="next" > <span class="carousel-control-next-icon"></span>
 				</a>
 			</div>
 		</div>
@@ -187,9 +127,12 @@
 		</div>
 		
 		<th:block layout:fragment="script">
+		<script th:src="@{/webjars/jquery/3.3.1/dist/jquery.js}"></script>
 			<script th:src="@{/static/js/mainCustom.js}"></script>
 			<script th:src="@{/static/js/main/main.js}"></script>
-		
+				<link href="static/styles/room/datepicker.min.css" rel="stylesheet" type="text/css">
+			<script src="static/js/room/datepicker.min.js"></script>
+			<script src="static/js/room/i18n/datepicker.en.js"></script>
 		</th:block>
 	</div>
 	<!-- end content -->
