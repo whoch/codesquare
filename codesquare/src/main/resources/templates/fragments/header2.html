@@ -61,7 +61,7 @@
 						th:text="${session.nickName}"></span>
 				</div>
 				<div class="dropdown-menu text-center dropdown-menu-right">
-					<a sec:authorize="hasAnyRole('ROLE_3')" th:href="@{/admin}">관리자 페이지</a>
+					<a sec:authorize="hasRole('ROLE_3')" th:href="@{/admin}">관리자 페이지</a>
 					<a class="dropdown-item" th:href="@{/member/myPage}">마이페이지</a>
 					<a class="dropdown-item" id="myMessage" href="#">내 쪽지함</a> 
 					<a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
