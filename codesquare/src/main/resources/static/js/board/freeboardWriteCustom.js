@@ -26,13 +26,11 @@ function createSmartEditor(){
 $("#savebutton").click(function(){
 	var txt=$(this).text();
 	if(txt=='확인'){
-		alert("등록")
 		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 		var content=$("[name=freeform]").serialize();
 		insert(content);
 		$("#frm").submit();
 	}else if(txt=='수정확인') {
-		alert("수정완료")
 		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 		var content=$("[name=freeform]").serialize();
 		insert(content);

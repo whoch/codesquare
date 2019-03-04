@@ -26,7 +26,6 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 var btnContent;
 function createSmartEditor(){
-	
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef : oEditors,
 		elPlaceHolder : "notepad",
@@ -55,7 +54,6 @@ function onYouTubeIframeAPIReady() {
 			'rel': 0, // 동영상 재생완료 후 유사동영상 노출여부
 			'playsinline': 1, // 현페이지에서 재생
 			'wmode': 'transparent'
-				
 		},
 		events: {
 			'onReady': onPlayerReady,

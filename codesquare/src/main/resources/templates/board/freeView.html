@@ -29,13 +29,13 @@ text-decoration: none;
 </style>
 </head>
 <body>
-<div class="container" layout:fragment="content" style="padding-left: 40px; padding-right: 40px;"><br>
+<div class="container" layout:fragment="content"><br>
 		<div class="lecture_header_item d-flex justify-content-between"
 				style="border-bottom: 5px solid black; margin-bottom: 25px;">
 		<h1 align="center"><a th:href="@{'/getfree/'+${boardKindId}}" style="color: black;"><span th:text="${bn.boardName}"></span></a></h1>
 		
 </div>			
-<span th:text=${list.title} style="font-weight: bold; font-size: 27px;"></span><span th:utext="${co}"></span>
+<span th:text="|${list.title} &nbsp; [${list.commentCount}]|" style="font-weight: bold; font-size: 27px;"></span>
 <a style="float: right;"><span th:text="${list.hit}" style="float: right;"></span>조회수 &nbsp;</a>
 <span th:text="${list.writeDateBoard}"></span>
 <div style="margin-top: 25px; border-bottom: 1px solid #BAB9BA;"></div>

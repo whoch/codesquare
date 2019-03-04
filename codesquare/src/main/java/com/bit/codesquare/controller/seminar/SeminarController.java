@@ -2,8 +2,10 @@ package com.bit.codesquare.controller.seminar;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,11 +33,29 @@ public class SeminarController {
 	
 	@Autowired
 	StudyMapper studyMapper;
+	@Value("${lectureimg.savepath.directory}")
+	String path;
+	
+//	@RequestMapping("/seminarList")
+//	public String seminarBoard(Model model) throws Exception {
+//		model.addAttribute("list", seminarMapper.seminarList());
+////		model.addAttribute("info", seminarMapper.seminarInfoList());
+//		return "seminar/seminarList";
+//	}
 	
 	@RequestMapping("/seminarList")
-	public String noticeBoard(Model model) throws Exception {
-		model.addAttribute("list", seminarMapper.seminarList());
-//		model.addAttribute("info", seminarMapper.seminarInfoList());
+	public String seminarBoard(Model model) throws Exception {
+		try {
+			List<Board> licList = seminarMapper.seminarList();
+			for (Board l:licList) {
+				String thumbPath = path;
+				thumbPath+=l.getId()+"/Thumbnail."+l.getExtension();
+				l.setThumbnailPath(thumbPath);
+			}
+			model.addAttribute("list", licList);
+			System.out.println("여기에요!!!!!!!!!!!!!!!!!!!!!"+licList);
+		}catch (Exception e) {
+		}
 		return "seminar/seminarList";
 	}
 	

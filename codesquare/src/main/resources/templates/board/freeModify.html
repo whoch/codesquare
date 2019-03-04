@@ -37,13 +37,13 @@ text-decoration: none;
 </style>
 </head>
 <body>
-<div class="container" layout:fragment="content" style="padding-left: 40px; padding-right: 40px;">
+<div class="container" layout:fragment="content">
 <form th:action="@{/freeupdate}" name="freeupdate" id="freeuadate">
 <input type="hidden" name="id" th:value="${list.id}">
 <input type="hidden" name="boardKindId" th:value="${boardKindId}">
 	<div style="border-bottom: 5px solid;"><h1 align="left"><a th:href="@{'/getfree/'+${boardKindId}}" style="color: black;"><span th:text="${bn.boardName}"></span></a></h1></div>
 	<div style="border-bottom: 3px solid; border-bottom-color: gray;">
-	<h2><input type="text" th:value="${list.title}" name="title" class="article__title" style="width: 1307px; margin-top: 10px;"></h2></div>
+	<h2><input type="text" th:value="${list.title}" name="title" class="article__title" style="width: 1110px; margin-top: 10px;"></h2></div>
 				<section class="article__data">
 				<div class="fr-view">
 				<textarea name="content" id="content" th:utext="${list.content}" style="width: 1307px; height:400px;"  autocomplete="off"></textarea>
