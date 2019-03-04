@@ -72,7 +72,6 @@ $("#btn-allcheck").click(function(){
 })
 
 //4.스위치버튼 클릭시 보류글 보이도록 액션
-
 $(".switch").click(function(e){
 	e.preventDefault();
 	e.stopPropagation();
@@ -85,13 +84,13 @@ $(".switch").click(function(e){
 function pendingLectureViewCalc(){
 	var status=getCookie("isPLV");
 	var isCheck=$("#switch-sm").prop("checked")
-		if(isCheck==true &&status=='true'){
+		if(isCheck==true&&status=='true'){
 		$("[data-isPending=1]").addClass('invisible');
 		$("[data-isPending=1]").removeClass('visible');
 		$("#switch-sm").prop("checked","")
 		setCookie("isPLV","false",1);
 	}
-	if(isCheck==false && status=='false'){
+	if(isCheck==false&&(status=='false'||status==null)){
 		$("[data-isPending=1]").addClass('visible');
 		$("[data-isPending=1]").removeClass('invisible');
 		setCookie("isPLV","true",1);

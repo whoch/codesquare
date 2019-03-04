@@ -5,8 +5,8 @@
 		SELECT *
 		FROM (select *
 			  from Board_view
-			  where BoardName IN('세미나모집','스터디모집')AND STATUS=1)AS B
-		ORDER BY B.WriteDate LIMIT 2;
+			  where BoardName IN('스터디모집','세미나모집')AND STATUS=1)AS B
+		ORDER BY RAND() LIMIT 2;
 	</select>
 	<select id="getQuickBoardList" parameterType="String" resultType="Board">
 		select id, BoardKindId, title, writeDate, hit,commentCount,nickName

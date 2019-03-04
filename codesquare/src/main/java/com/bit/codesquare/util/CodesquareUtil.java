@@ -79,14 +79,13 @@ public class CodesquareUtil {
 	MemberMapper mm;
 
 	public void getSession(Authentication auth, HttpSession session) {
-
 		if (auth != null && session.getAttribute("userId") == null) {
 			SecurityMember sc = (SecurityMember) auth.getPrincipal();
 
 			Member member = mm.getUser(sc.getUsername());
 
 			if (!member.getProfileImagePath().equals("DefaultThumbnail")) {
-				member.setProfileImagePath(userThumbPath += getPath(member.getUserId(), member.getProfileImagePath()));
+				member.setProfileImagePath(userThumbPath + getPath(member.getUserId(), member.getProfileImagePath()));
 			} else {
 				member.setProfileImagePath("/static/images/DefaultThumbnail.png");
 			}
