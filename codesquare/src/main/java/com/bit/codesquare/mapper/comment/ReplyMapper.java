@@ -13,6 +13,6 @@ public interface ReplyMapper {
 	public int commentInsert(ReplyDto comment) throws Exception;
 	public int commentDelete(int cno) throws Exception;
 	public int commentUpdate(ReplyDto comment) throws Exception;
-	public int commentCount(int bno) throws Exception;
-
+	public Integer coCount(Integer id) throws Exception;
+	void inco(int bno) throws Exception;
 }
