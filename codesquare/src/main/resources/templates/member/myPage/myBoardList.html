@@ -20,7 +20,7 @@
 					<span th:text="${blist.boardName}"></span>
 				</div>
 				<div class="col-md-4">
-					<span th:text="${blist.title}"></span> [<span class="small"
+					<a th:href="@{'/go/'+${blist.id}}"><span th:text="${blist.title}"></span> </a>[<span class="small"
 						th:text="${blist.commentCount}"></span>] <span
 						th:if="${blist.imageCount} != 0"><i class="far fa-image"></i></span>
 				</div>
@@ -28,8 +28,7 @@
 					<span th:text="${blist.nickName}"></span>
 				</div>
 				
-				<!-- <div class="col-md-2 small"
-					th:text="${#dates.format(blist.writeDate, 'yy-MM-dd')}"></div> -->
+			
 				<div class="col-md-2 small"
 					th:text="${blist.writeDateBoard}"></div>
 				<div class="col-md-1 small">
