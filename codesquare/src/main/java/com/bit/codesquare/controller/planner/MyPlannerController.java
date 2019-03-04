@@ -68,7 +68,6 @@ public class MyPlannerController {
 		myplannerMapper.deleteUsingIdAndBoardKind(data);
 	}
 	
-
 	
 	@PostMapping("/updateTodo")
 	@ResponseBody
