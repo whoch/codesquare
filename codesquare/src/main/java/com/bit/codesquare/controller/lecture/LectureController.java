@@ -178,6 +178,7 @@ public class LectureController {
 			
 			lectureMapper.saveLearningLog(map);
 			
+			
 			vLogInfo=lectureMapper.getLearningLog(map);
 			logger.info("vLogInfo: "+vLogInfo.toString());
 			String noteContent=lectureMapper.getLectureHandWriting(map);
@@ -189,6 +190,22 @@ public class LectureController {
 			mav.addObject("lecture",lecture);//강의정보
 			mav.addObject("noteContent",noteContent);//필기정보
 			
+			List<Map<String,Object>> pnLecture=new ArrayList<Map<String,Object>>();
+			pnLecture=lectureMapper.getPrevAndNextLecture(map);
+			
+			for(Map<String,Object> m: pnLecture) {
+				logger.info("로거로거로거:  "+m.get("type"));
+				if("prev".equals(m.get("type"))){
+					logger.info("로거로거로거프리뷰:  "+m.toString());
+					mav.addObject("prevLecture",m);
+				}
+				if("next".equals(m.get("type"))) {
+					logger.info("로거로거로거넥스트:  "+m.toString());
+					mav.addObject("nextLecture",m);
+				}
+			}
+			
+			mav.addObject("prevLecutre",pnLecture.get(0));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

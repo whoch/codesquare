@@ -188,6 +188,19 @@
 	</select>
 	
 
+	  
+	<select id="getPrevAndNextLecture" parameterType="map" resultType="map">
+		<![CDATA[
+		SELECT t2.type, t2.Id, t1.Title
+		FROM (SELECT b2.ParentId,b2.Id, b2.Title	FROM Board b2	WHERE	b2.ParentId=#{parentId} AND b2.BoardKindId='LrnVo' ORDER BY b2.Id)AS t1 INNER JOIN
+		(
+		  SELECT 'prev' AS 'type', MAX(b.Id) AS id FROM (SELECT b2.ParentId,b2.Id, b2.Title	FROM Board b2	WHERE	b2.ParentId=#{parentId} AND b2.BoardKindId='LrnVo' ORDER BY b2.Id)AS b WHERE b.Id < #{boardId}
+		  UNION ALL
+		  SELECT 'next' AS 'type', MIN(b.Id) AS id FROM (SELECT b2.ParentId,b2.Id, b2.Title	FROM Board b2	WHERE	b2.ParentId=#{parentId} AND b2.BoardKindId='LrnVo' ORDER BY b2.Id)AS b WHERE b.Id > #{boardId}
+		) t2 ON t1.Id = t2.Id;
+ 		]]>
+	</select>
+
 	
 	
 </mapper>

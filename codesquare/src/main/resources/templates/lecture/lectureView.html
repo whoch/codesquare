@@ -25,17 +25,18 @@
 			<div
 				class="lecture-header d-flex justify-content-between mb-2" style="margin-bottom:0px!important;">
 				<ol class="breadcrumb " style="background: none;">
+					<li class="breadcrumb-item"><a id="intro-link" th:href="@{/}"><img th:src="@{/static/images/logo.png}" style="width: 33px;background: white;"/></a></li>
 					<li class="breadcrumb-item"><a id="intro-link" th:href="@{/learn}">강의</a></li>
 					<li class="breadcrumb-item"><a id="parent-link" th:href="@{/learn/intro/}+${lecture.parentId}" th:attr="data-parentId=${lecture.parentId}" >강의소개</a></li><!-- parentTitle추가해야함 -->
 					<li class="breadcrumb-item active" style="color:white;" th:text="@{${lecture.title}}"></li>
 				</ol>
 				<div class="btn-group p-2" >
-					<button id="btn-prevLecture" type="button" class="btn btn-secondary" th:if="${lecture.lectureStatus}!='first'"><i class="fas fa-chevron-left"></i> 이전강의</button>
+					<button id="btn-prevLecture" type="button" class="btn btn-secondary" th:if="${lecture.lectureStatus}!='first'" th:onclick="@{location.href=}+${prevLecture.Id}" th:title="@{${prevLecture.Title}}"><i class="fas fa-chevron-left"></i> 이전강의</button>
 					<button id="btn-lectureList" type="button" class="btn btn-secondary">목록</button>
 					<div class="lecture-list-container list-group" data-status="invisible"><!-- boardId+"/course/"+parentId; -->
 					
 					</div>
-					<button id="btn-nextLecture" type="button" class="btn btn-secondary" th:if="${lecture.lectureStatus}!='last'">다음강의 <i class="fas fa-chevron-right"></i></button>
+					<button id="btn-nextLecture" type="button" class="btn btn-secondary" th:if="${lecture.lectureStatus}!='last'" th:onclick="@{location.href=}+${nextLecture.Id}"  th:title="@{${nextLecture.Title}}">다음강의 <i class="fas fa-chevron-right"></i></button>
 				</div>
 				
 			</div>

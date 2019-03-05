@@ -265,3 +265,20 @@ function getDuration() {
 }
 
 
+$("#btn-nextLecture, #btn-prevLecture").click(function(){
+	var self=$(this);
+	var id=self.attr('id');
+	if(id=='btn-nextLecture'){
+		
+	}else{
+		
+	}
+	
+})
+
+
+
+
+
+
+
