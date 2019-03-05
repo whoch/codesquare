@@ -1,5 +1,6 @@
 package com.bit.codesquare.controller.study;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.group.GroupInfo;
+import com.bit.codesquare.dto.group.GroupInfoForm;
 import com.bit.codesquare.dto.group.WriteWantedBoard;
 import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
 import com.bit.codesquare.dto.member.Member;
@@ -64,7 +66,6 @@ public class StudyController {
 		model.addAttribute("bn", freeMapper.getBoardName(boardKindId));
 		return "study/studyWanted";
 	}
-	
 //	/freeView/NewNt?id=235
 //	/studyWanted/{boardId}
 	//게시판 상세보기로 이동
@@ -132,6 +133,10 @@ public class StudyController {
 	public String getWriteView(Model model, Authentication auth) {
 		String userId = auth.getName();
 		model.addAttribute("group", groupMapper.getGroupInfoUserLeader(userId));
+		
+		model.addAttribute("level", groupMapper.getLevelAll());
+		model.addAttribute("localSiDo", groupMapper.getLocaleSiDoAll());
+		model.addAttribute("tag", groupMapper.getTagIdAll());
 		return "study/studyWantedWriteView";
 	}
 
@@ -150,7 +155,7 @@ public class StudyController {
 			groupMapper.updateWantedInfo(data);
 		}
 		
-		return  "/study/StdMo/"+board.getId();
+		return "/study/StdMo/"+board.getId();
 	}
 	
 	@PostMapping("/studyWanted/submitApplication")
@@ -176,13 +181,23 @@ public class StudyController {
 		return "END";
 	}
 	
-	@RequestMapping("/studyWanted/createGroup")
-	public void createGroup() {
+	@PostMapping("/study/groupOpening")
+	@ResponseBody
+	public String createGroup(@RequestBody GroupInfoForm data, Authentication auth,  HttpSession session ) {
+		String userId = auth.getName();
+		String nickName = (String) session.getAttribute("nickName");
+		String groupId = data.getGroupId();
 		
-		
+		groupMapper.insertGroupInfo(data);
+		groupMapper.insertGroupLeader(userId, groupId, nickName);
+		return "group/groupOpening";
 	}
 	
-	
+	@PostMapping("/getLocalGuGun")
+	@ResponseBody
+	public List<Map> getLocalGuGun(@RequestBody String data) {
+		return groupMapper.getLocaleGuGun(data);
+	}
 	
 	
 	

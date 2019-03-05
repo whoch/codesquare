@@ -4,6 +4,7 @@
 <head>
 <title>스터디모집</title>
 <link rel="stylesheet" type="text/css" th:href="@{/static/styles/study/study.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/static/styles/study/groupOpening.css}">
 <style>
 	#a{
 	transition: background-color .2s;
@@ -130,7 +131,7 @@
 										</div>
 								</th:block>	
 								<div id="non-group" th:if="${group.id} eq '그룹없음'">
-								<span>그룹을 사용하지 않는 일반 모집글 입니다</span></div>
+								<span>그룹을 사용하지 않는<br/> 일반 모집글 입니다</span></div>
 							</div>
 							<div id="status-button">
 								<div id="group-ing-button" class="ING shadow-sm"

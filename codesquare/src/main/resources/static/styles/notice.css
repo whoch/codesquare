@@ -45,19 +45,7 @@
 	text-align: center;
 }
 
-.noti-count {
-	display: block;
-	font-size: 12px;
-	position: absolute;
-	top: -2px;
-	right: 0px;
-	width: 18px;
-	height: 18px;
-	color: white;
-	border-radius: 50%;
-	background: #ed1c24;
-	text-align: center;
-}
+
 
 #noti-title {
 	font-size: 14px;
@@ -92,9 +80,9 @@
 }
 
 /* 드롭다운 css */
-.noti-btn:hover, .noti-btn:focus {
+/* .noti-btn:hover, .noti-btn:focus {
 	background-color: #3e8e41;
-}
+} */
 
 .noti-dropdown {
 	position: relative;
@@ -201,13 +189,29 @@ button, button:focus {
 	font-size: 9px;
 	line-height: 18px;
 	top: -2px;
-	right: -5px;
+	right: 7px;
 	width: 18px;
 	height: 18px;
 	color: white;
 	border-radius: 50%;
 	background: #ed1c24;
 }
+
+
+.noti-count {
+	display: block;
+	font-size: 12px;
+	position: absolute;
+	top: -2px;
+	right: 7px;
+	width: 18px;
+	height: 18px;
+	color: white;
+	border-radius: 50%;
+	background: #ed1c24;
+	text-align: center;
+}
+
 
 #send {
 	color: #66a1f4;
@@ -312,7 +316,7 @@ to {
 	bottom: 0;
 	opacity: 0;
 }
-#noti-btn{
+#notice-btn{
    padding: 0;
 }
 }

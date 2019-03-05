@@ -4,6 +4,8 @@
 <head>
 <title>스터디 모집 글쓰기</title>
 <link rel="stylesheet" type="text/css" th:href="@{/static/styles/study/study.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/static/styles/room/datepicker.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/webjars/dropzone/5.5.0/dropzone.css}">
 <th:block layout:fragment="css">
 <!--  
 	## 필수 추가 항목 : smartEditor와 dropzone(드래그 앤 드롭 파일 업로드 라이브러리)에서 필요로 함
@@ -24,7 +26,7 @@
 	* 위처럼 넣어주면 값이 들어가지만 append 개념이라 초기화 먼저 진행
 	
 -->
-	<link rel="stylesheet" type="text/css" th:href="@{/webjars/dropzone/5.5.0/dropzone.css}">
+
 </th:block>
 
 </head>
@@ -54,7 +56,8 @@
 										<span id="info-message" tabindex="-1">모집할 그룹을 선택해 주세요</span>
 									</div>
 								</div>
-								<div id="group-creat-button" class="btn-div-main shadow">그룹 개설하기</div>
+						 		<th:block th:insert="group/groupOpening :: groupOpening"></th:block>
+							<!-- 	<div id="group-creat-button" class="btn-div-main shadow">그룹 개설하기</div> -->
 								<div id="group-skip-button" class="btn-div-sub shadow-sm">그룹 없이 모집하기</div>
 							</div>
 							<div class="card shadow" id="card_none">
@@ -101,11 +104,11 @@
 									<img class="avatar rounded-circle shadow" th:src="@{/static/codesquareDB/default/default_user_image4.jpg}" alt="Avatar">
 									<div th:id="|list_${group.id}|" class="media-body">
 										<h5 class="groupId" th:text="${group.groupId}"></h5>
-										<div class="group-details font-weight-lighter">
+										<div class="group-details font-weight-lighter group-details-grid">
 											<span th:text="${group.levelId}"></span>
 											<span th:text="${group.tagId}"></span>
 											<span th:text="${group.localeId}"></span>
-											<span th:text="${group.memberCount}"></span>
+											<span th:text="|현재  ${group.memberCount}명 참여중|"></span>
 										</div>
 									</div>
 								</div>
@@ -165,7 +168,6 @@
 					<form id="applicationform" name="applicationform">
 						<input class="applyTag" type="text" name="question" placeholder="예)참여 가능 기간" required/>
 					</form>
-				
 				</div>
 
 				<h3>상세 내용</h3>
@@ -186,6 +188,8 @@
 				</div>
 			</div> 
 			<!-- END write-container -->
+			
+			
     	</div>
 		<!-- div 전체 container 종료-->
 	</article>
@@ -195,8 +199,36 @@
 	<script type="text/javascript" th:src="@{/static/js/smarteditor2/dist/js/service/HuskyEZCreator.js}"></script>
 	<script type="text/javascript" th:src="@{/webjars/dropzone/5.5.0/dropzone.js}"></script>
 	<script type="text/javascript" th:src="@{/static/js/lecture/fileCustom.js}"></script>
+	
+	<script type="text/javascript" th:src="@{/static/js/room/datepicker.min.js}"></script>
+	<script type="text/javascript" th:src="@{/static/js/room/i18n/datepicker.en.js}"></script>
+
 	<script type="text/javascript" th:inline="javascript" th:src="@{/static/js/study/studyWantedWriteView.js}"></script>
+	  	<script>
+
+/* 	 $(function() { 
+		 $('#group-creat-button').click(function() { 
+			 console.log('#######11111##########');
+			 
+			 $('#groupOpening-modal').load(function(){
+				    // new html now exists , initialize plugins or event handlers or dom manipulation here
+				    //$(this).find(selector).somePlugin()
+				    			 console.log('#######222222222##########');
+				 $( "#testDatepicker" ).datepicker({
+					 language: 'en',
+					 dateFormat: 'yyyy-mm-dd',
+					 minDate: new Date()
+				 });
+    			 console.log('#######$44444444##########');
+				});	 
+			 
+			 console.log('#######55554##########');
+		 }); 
+	}) */
+		 
+  	</script>
 </th:block>
+
 </body>
 
 

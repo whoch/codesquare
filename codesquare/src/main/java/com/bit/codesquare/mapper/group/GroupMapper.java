@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.bit.codesquare.dto.board.Board;
 import com.bit.codesquare.dto.group.GroupInfo;
+import com.bit.codesquare.dto.group.GroupInfoForm;
 import com.bit.codesquare.dto.group.GroupMemberInfo;
 import com.bit.codesquare.dto.group.WriteWantedBoard;
 import com.bit.codesquare.dto.member.JoiningAndRecruitmentLog;
@@ -42,5 +43,12 @@ public interface GroupMapper {
 	public void updateGroupRecruitmentCount(String groupId, int recruitmentCount);
 	public void setDeclineContentUseBoardId(Map<String, String> data);
 	
+	
+	public List<Map> getLevelAll();
+	public String[] getLocaleSiDoAll();
+	public List<Map> getLocaleGuGun(String data);
+	public List<Map> getTagIdAll();
+	public void insertGroupInfo(GroupInfoForm data);
+	public void insertGroupLeader(String userId, String groupId, String nickName);
 
 }

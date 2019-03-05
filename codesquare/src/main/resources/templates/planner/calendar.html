@@ -173,10 +173,6 @@
 						id : $(this).attr('id'),
 						status : $(this).hasClass('yes')?1:0
 				}
-				var evento =  $('#calendar').fullCalendar( 'clientEvents');
-				console.log(  evento  );
-				
-				return false;
 				$.ajax({
 					type:'POST',
 					url:'/groupAttendCheck',
@@ -185,10 +181,8 @@
 					context : this,
 					success: function (response) {
 						$(this).parent().remove();
-						$('.attend').html('뀨');
-						console.log(data);
-				        $('#calendar').fullCalendar('rerenderEvents');
-				       console.log( $('#calendar').fullCalendar( 'refresh' ));
+						$('.attend').html(response);
+						location.reload();
 		            },
 		            error: function (jqXHR, textStatus, errorThrown) {
 		                  console.log('##### submit wantedWrite : Ajax ERROR #####');

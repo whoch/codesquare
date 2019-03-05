@@ -222,7 +222,7 @@ var loadBookmark = function() {
                     <div class="card-body" th:text="${list.content}"></div>
 	     	      <div class="card-footer">
  					<div class="btn-deepPurple shadow">
-						<a href="#">그룹 바로가기</a>
+						<a th:href="@{'/group/'+${list.groupId}}">그룹 바로가기</a>
 					</div>
 				  </div>
                 </div>
@@ -259,7 +259,7 @@ var loadBookmark = function() {
 		<div id="custom-todoList">
 			<form id="todoForm" action="writeTodo">
 				<div class="form-group todoInputGrid">
-					<div>
+					<div id="inputTodo">
 						<input id="USER_ID" type="hidden" name="userId" th:value="${session.userId}">
 						<input class="form-control" name="content" placeholder="todo list를 입력해  주세요." />
 					</div>

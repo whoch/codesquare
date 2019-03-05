@@ -177,9 +177,13 @@ public class CalendarController {
    
    @PostMapping("/groupAttendCheck")
    @ResponseBody
-   public void updateGroupMeetingStatus(@RequestBody Map<String, String> data) {
-      groupMapper.updateGroupMeetingStatus(data);
-      logger.info("##test : "+data.toString());
+   public String updateGroupMeetingStatus(@RequestBody Map<String, String> data) {
+	   groupMapper.updateGroupMeetingStatus(data);
+	   if(data.get("status").equals("1")) {
+		   return "<div class='attend'>이 날 모임은 <span class='yes tag-custom'>참석</span>으로 체크했어요!</div>";
+	   }else {
+		   return "<div class='attend'>이 날 모임은 <span class='no tag-custom'>불참</span>으로 체크했어요!</div>";
+	   }
    }// 미완성  ajax 안먹힘 :: updateGroupMeetingStatus
 }
 

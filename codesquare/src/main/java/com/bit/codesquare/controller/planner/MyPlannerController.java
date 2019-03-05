@@ -43,6 +43,7 @@ public class MyPlannerController {
 		model.addAttribute("groupWorkList", csu.getDateTimeCompareObject(myplannerMapper.getGroupWorkList(userId)));
 		model.addAttribute("todoList", myplannerMapper.getUserTodoList(userId));
 		model.addAttribute("glist", gm.getMyGroupList(userId));
+		logger.info("##test :"+gm.getMyGroupList(userId).toString());
 		
 		return "planner/myPlanner";
 	}
@@ -55,7 +56,7 @@ public class MyPlannerController {
 		return "planner/ajax/userBookmarkList";		
 	}
 	
-	@PostMapping("writeTodo")
+	@PostMapping("/writeTodo")
 	@ResponseBody
 	public UserTodoList writeTodo(UserTodoList userTodoList){
 		myplannerMapper.writeTodo(userTodoList);
@@ -68,7 +69,6 @@ public class MyPlannerController {
 		myplannerMapper.deleteUsingIdAndBoardKind(data);
 	}
 	
-
 	
 	@PostMapping("/updateTodo")
 	@ResponseBody

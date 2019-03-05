@@ -302,8 +302,9 @@
 	}
 	
 	#card-groups .card-img-top {
-	    width: 40%;
-        margin-top: 40px;
+	    width: 160px;
+	    height:160px;
+        margin-top: 30px;
         align-self: center;
 	}
 	#card-groups .card-button {
@@ -383,6 +384,11 @@
 		color : grey;
 	}
 	
+	.group-details-grid{
+		display: grid;
+	    grid-template-columns: 14% 26% 21% 30%;
+	       text-align: center;
+	}
 	#group-description {
         text-align: center;
         position: relative;
@@ -508,7 +514,8 @@
 	#application-modal .modal-left .card-img-top {
 		margin: 0 auto 30px;
 		display: inline-block;
-		width: 45%;
+		width: 160px;
+		height: 160px;
 	}
 	
 	#application-modal .modal-left {
@@ -593,3 +600,109 @@
 	    margin: 0 auto 11%;
 	}
 	
+	
+		/* ############# 그룹 개설 부분 ################ */
+		
+	
+#groupOpening-modal .modal-header {
+   border-bottom-width: 0;
+}
+
+#groupOpening-modal .modal-body {
+	padding: 20px 30px;
+    margin: 0px 70px;
+    display: inline-grid;
+}
+
+#groupOpeningForm div {
+	margin-bottom: 10px;
+}
+#groupOpeningForm input::placeholder {
+	color: #a1a1a1;
+	font-style: italic;
+	font-size: 15px;
+}
+
+#groupOpening-modal input {
+	vertical-align: middle;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	border-bottom: 1px solid #939393;
+	padding: 0 10px 7px 10px;
+	width: 40%;
+	color: #3e3d3d;
+}
+
+.opening-key {
+    text-align: left;
+    display: inline-block;
+    width: 35%;
+    float: left;
+    margin:auto 0;
+    margin-left: 26px;
+}
+.opening-value{
+	float:left;
+	width:60%;
+	margin: auto;
+}
+
+select {
+	width:130px;
+    padding: .3em .5em; /* 여백으로 높이 설정 */
+  /*   background: url('이미지 경로') no-repeat 95% 50%; 네이티브 화살표를 커스텀 화살표로 대체 */
+    border: 1px solid #999;
+    border-radius: 0px; /* iOS 둥근모서리 제거 */
+   /*  -webkit-appearance: none; 네이티브 외형 감추기 */
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.form-meetingDay{
+/* 	width : 30px; */
+	display:none;
+	-webkit-appearance: button;
+}
+
+.tag-Cus {
+    border: 1px solid #4B0082;
+    color: #4B0082;
+    border-radius: 8px;
+   /*  font-size: .85rem; */
+	/* font-weight: 600; */
+    padding: 3px 8px;
+    margin-right: 5px;
+}
+
+input[type="radio"]:checked:{ font-weight: bold; } 
+input:checked+span { 
+	background-color: #4B0082;
+	color:white;
+	} 
+input:not(:checked)+span{
+	background-color: white;
+	color:#4B0082;
+}
+.form-levelId, .form-tagId{
+	    width: 42%;
+}
+#groupOpeningForm .row{
+	margin-bottom: 10px;
+}
+
+.opening-value.meetingDay{
+	position: relative;
+	top: 11px;
+}
+
+#groupOpening_submit{
+    margin-top: 48px;
+    margin-bottom: 0;
+	
+}
+#groupOpening-modal .modal-title{
+    margin-top: 10px;
+    margin-left: 19px;
+    color: #4B0082;
+}

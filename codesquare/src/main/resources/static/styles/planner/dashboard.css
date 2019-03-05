@@ -677,3 +677,6 @@ main {
 .tag-custom.attend-none:hover {
     background-color: rgb(228, 190, 3);
 }
+#inputTodo{
+	margin-left:25px;
+}

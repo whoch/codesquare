@@ -1,4 +1,5 @@
 /*<![CDATA[*/
+
 $(function(){
 	/* 스마트에디터 생성 */
 	var oEditors = [];
@@ -30,6 +31,9 @@ $(function(){
 	createSmartEditor();
 	/* END 스마트에디터 생성  */
 	
+
+
+	 
 	var boardWrite=function(){
 		oEditors.getById['writeContent'].exec('UPDATE_CONTENTS_FIELD', []);
 		
@@ -145,7 +149,97 @@ $(function(){
 		$(this).remove();
 	});	
 	
+	
+//	###########################     그룹 개설하기       ###############################
+	var groupOpening=function(){
+	    
+		var obj = $("#groupOpeningForm").serializeObject();
 
+		var dayChecked = $("input:radio[name^=meeting]:checked");
+		var meetingDay='';
+		
+		$(dayChecked).each(function (index, item) {
+			if(index==0){
+				meetingDay+=$(this).val();
+			}else{
+				meetingDay+= ","+$(this).val();
+			}
+		});
+		obj.meetingDay=meetingDay;
+
+		$.ajax({
+			type:'POST',
+			url:'/study/groupOpening',
+			data : JSON.stringify(obj),
+			contentType:'application/json; charset=UTF-8',
+			success: function (response) {
+					$('#groupOpening-modal').modal('hide');
+					location.reload();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                  console.log('##### submit wantedWrite : Ajax ERROR #####');
+                  console.log('jqXHR.status : ' + jqXHR.status);
+            }
+	 	});//ajax 끝
+	 };//그룹 개설하기 버튼 클릭 종료
+	$('#groupOpening_submit').on('click', groupOpening);
+	
+	
+	
+	var getLocal_GuGun=function() {
+		  var $target = $('#selectGuGun');
+		  $.ajax({
+				type:'POST',
+				url:'/getLocalGuGun',
+				data : $(this).val(),
+				contentType:'application/json; charset=UTF-8',
+				success: function (response) {
+					$target.empty();
+					$(response).each(function (index, item) {
+						$target.append($("<option></option>", {'value':item.Id}).text(item.GuGun));
+					});
+	            },
+	            error: function (jqXHR, textStatus, errorThrown) {
+	                  console.log('##### submit wantedWrite : Ajax ERROR #####');
+	                  console.log('jqXHR.status : ' + jqXHR.status);
+	            }
+		 	});//ajax 끝
+	};//지역 구군 뽑는 메서드
+	$('#selectSiDo').on('change', getLocal_GuGun);
+	
+	
+	
+	
+	$('.form-meetingDay').on('click',function(){
+		$(this).toggleClass('active');
+		if($(this).hasClass('active')){
+			$(this).prop( "checked", true );
+		}else{
+			$(this).prop( "checked", false );
+		}
+	})
+	
+	
+	
+/*	$("input:radio[name^=meeting]:checked")*/
+	 
+/*	 function test(){
+		 $( "#datepicker" ).datepicker({
+			 language: 'en',
+			 dateFormat: 'yyyy-mm-dd',
+			 container: '#groupOpening-modal',
+			 minDate: new Date()
+		 });
+	 };
+	 test();*/
+/*	 $('#datepicker').datepicker();
+	 $('#datepicker').on('focus', function (e) {
+	     e.preventDefault();
+	     console.log('여기옸어@@@@@@@@@')
+	     $(this).datepicker('show');
+	     $(this).datepicker('widget').css('z-index', 999999);
+	 });*/
+	
 	
 });//END script
 /*]]>*/
