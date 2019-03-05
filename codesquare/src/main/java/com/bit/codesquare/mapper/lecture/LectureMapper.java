@@ -42,5 +42,5 @@ public interface LectureMapper {
 	public int insertLectureIntroContent(Map<String,Object> map)throws Exception;
 	public int insertLectureDetailContent(Map<String,Object> map)throws Exception;
 	public List<LectureIntroContent> searchLectureIntro(Map<String,Object> map)throws Exception;
-	
+	public List<Map<String,Object>> getPrevAndNextLecture(Map<String,Object> map)throws Exception;
 }
