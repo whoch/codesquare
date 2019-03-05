@@ -173,8 +173,8 @@ $(function(){
 			data : JSON.stringify(obj),
 			contentType:'application/json; charset=UTF-8',
 			success: function (response) {
-					console.log("AJAX 성공!!!!!")
 					$('#groupOpening-modal').modal('hide');
+					location.reload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                   console.log('##### submit wantedWrite : Ajax ERROR #####');

@@ -384,6 +384,11 @@
 		color : grey;
 	}
 	
+	.group-details-grid{
+		display: grid;
+	    grid-template-columns: 14% 26% 21% 30%;
+	       text-align: center;
+	}
 	#group-description {
         text-align: center;
         position: relative;
@@ -630,10 +635,17 @@
 }
 
 .opening-key {
-    margin-right: 20px;
-    text-align: right;
+    text-align: left;
     display: inline-block;
-    width: 50%;
+    width: 35%;
+    float: left;
+    margin:auto 0;
+    margin-left: 26px;
+}
+.opening-value{
+	float:left;
+	width:60%;
+	margin: auto;
 }
 
 select {
@@ -671,4 +683,26 @@ input:checked+span {
 input:not(:checked)+span{
 	background-color: white;
 	color:#4B0082;
+}
+.form-levelId, .form-tagId{
+	    width: 42%;
+}
+#groupOpeningForm .row{
+	margin-bottom: 10px;
+}
+
+.opening-value.meetingDay{
+	position: relative;
+	top: 11px;
+}
+
+#groupOpening_submit{
+    margin-top: 48px;
+    margin-bottom: 0;
+	
+}
+#groupOpening-modal .modal-title{
+    margin-top: 10px;
+    margin-left: 19px;
+    color: #4B0082;
 }
