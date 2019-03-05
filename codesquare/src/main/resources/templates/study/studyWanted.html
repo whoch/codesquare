@@ -27,6 +27,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 table.row-clickable tbody tr td {
     padding: 0;
 }
+
 table.row-clickable tbody tr td a {
     display: block;
     padding: 15px;
@@ -49,11 +50,14 @@ text-decoration: none;
 	color :#251233 ;
 	background : none;
 }
+
 .page-item.active .page-link{
 	background : none;
 	border : none;
 	color: #251233;
 }
+
+
 </style>
 <title>자유게시판</title>
 </head>
@@ -79,36 +83,25 @@ text-decoration: none;
 	<div class="container" align="right">
 		<table class="table table-hover row-clickable">
 			<tr th:each="Board:${list}">
-	             <td><a th:href="@{'/freeView/'+${boardKindId}+'?id=' + ${Board.id}}"><span th:text="|${Board.title} &nbsp; [${Board.commentCount}]|" style="color: black; font-weight: bold; padding-right: 150px;"></span></a></td>
-	             <td style="padding-left: 100px;"><div class="dropdown dropright">
-						<a class=" dropdown-toggle" data-toggle="dropdown"> <span
-							id="nickName" th:text="${Board.nickName}"></span>
-							<span hidden id="userId2" th:text="${Board.userId}"></span>
-						</a>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" data-name="${Board.userId}" id="sendMsg" >쪽지보내기</a>
-							<a class="dropdown-item" id="viewUser">회원정보보기</a>
-							<a class="dropdown-item " th:href="@{'/member/board/'+${Board.userId}}" >작성 글 보기</a>
-						</div>
-	             </div>
-	             </td>
 
+	             <td><a th:href="@{'/study/StdMo/' + ${Board.id}}"><span th:text="${Board.title}" style="color: black; font-weight: bold; padding-right: 150px;"></span></a></td>
+	             <td th:text="${Board.nickName}" style="padding-left: 100px;"></td>
 	             <td style="padding-right: 1px; width: 30px;"><i class="far fa-eye"></i></td>
-	             <td style="padding-left: 1px;" th:text="${Board.hit}"></td>
+	             <td style="padding-left: 1px;" th:text="${Board.hit}" ></td>
 	             <td style="padding-right: 1px; width: 30px;"><i class="fas fa-heart"></i></td>
 	             <td th:text="${Board.likeCount}" style="padding-right: 7px; padding-left: 1px;"></td>
 	             <td th:text="${Board.writeDateBoard}" style="padding-right: 1px; padding-left: 1px;"></td>
-
 	        </tr>
 		</table>
 	</div>
 	
-	
 		<div align="right">
 			<span sec:authorize="isAuthenticated()">
-			<a th:href="@{'/freeWrite/'+${boardKindId}}" type="button" style="margin-top: 10px" id="button1">글쓰기</a>
+			<a href="/studyWanted/writeView" type="button" style="margin-top: 10px" id="button1">글쓰기</a>
 			</span>
 		</div>
+		
+		
 		
 		
 <!-- 	########################################	 -->
