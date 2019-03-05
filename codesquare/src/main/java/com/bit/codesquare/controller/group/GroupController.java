@@ -41,6 +41,7 @@ public class GroupController {
 		model.addAttribute("glist", gm.getMyGroupList(userId));
 		model.addAttribute("grpnt", CodesquareUtil.getDateTimeCompareObject(gm.getGroupNotice(groupId)));
 		model.addAttribute("grpwk", CodesquareUtil.getDateTimeCompareObject(gm.getGroupWorks(groupId)));
+		logger.info(CodesquareUtil.getDateTimeCompareObject(gm.getGroupWorks(groupId))+"여기여기");
 		return "group/groupInfo";
 	}
 }

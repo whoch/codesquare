@@ -113,7 +113,7 @@
 					<span class="groupNt-title" th:text="*{grpnt.title}"></span> <span
 						class="groupNt-content" th:text="*{grpnt.content}"></span> <span
 						class="groupNt-writeDate writeDate"
-						th:text="*{grpnt.writeDateFormat}"></span>
+						th:text="*{grpnt.writeDateBoard}"></span>
 				</div>
 			</div>
 		</div>
@@ -138,7 +138,7 @@
 								data-toggle="collapse" th:data-target="|#grpWk${list.id}|"
 								aria-expanded="true" th:aria-controls="'grpWk'+${list.id}"
 								th:text="${list.title}"> </a> <span class="writeDate"
-								th:text="${list.writeDateFormat}"></span>
+								th:text="${list.writeDateBoard}"></span>
 						</div>
 					</div>
 					<div th:id="|grpWk${list.id}|"
