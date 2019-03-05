@@ -1,0 +1,19 @@
+@charset "UTF-8";
+.footer-container> div{
+	color:white;
+}
+
+.footer-container a{
+	all:unset;
+
+}
+
+.footer-container a:hover{
+	all:unset;
+	font-size: 22px;
+	cursor: pointer;
+}
+
+.footer-container >p,h5,dt,a{
+	color:#ffffff80;
+}
