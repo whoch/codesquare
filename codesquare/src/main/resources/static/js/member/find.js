@@ -90,6 +90,7 @@ $(function() {
 			async : false,
 			contentType : "application/json; charset=UTF-8",
 			success : function(response) {
+				
 				$("#findId-dialog").toggle();
 				$("#findId-dialog-content").html("가입한 아이디는<br />"+response+"<br />입니다.<br /><br /><a href='/member/login'>로그인</a><br />");
 				$("#findId-close").click(function(){

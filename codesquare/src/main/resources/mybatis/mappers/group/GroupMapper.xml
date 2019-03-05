@@ -114,12 +114,12 @@
 	
 	<!-- 그룹 공지사항  -->
 	<select id="getGroupNotice" resultType="Board">
-	select * from Board where BoardKindId='GrpNt' and GroupId=#{groupId}
+	select * from Board where BoardKindId='GrpNt' and GroupId=#{groupId} order by WriteDate desc
 	</select>
 	
 	<!-- 그룹 과제 게시판 -->
 	<select id="getGroupWorks" resultType="Board">
-	select * from Board where BoardKindId='GrpWk' and GroupId=#{groupId}
+	select * from Board where BoardKindId='GrpWk' and GroupId=#{groupId} order by WriteDate desc
 	</select>
 	
 </mapper>

@@ -377,40 +377,23 @@ main {
 
  .card-nomal .groupNotice {
      display: grid;
-     grid-template-columns: 20% 30% 40% 10%;
+     grid-template-columns: 30% 50% 20%;
      padding-left: 13px;
  }
 
 
   .grpWkGrid {
      display: grid;
-     grid-template-columns: 30% 55% 15%;
+     grid-template-columns: 70% 30%;
      text-align: left;
      padding-left: 20px;
      padding-right: 20px;
  }
 
  
- .bookmarkGrid {
-     display: grid;
-     grid-template-columns: 17% 60% 6% 12% 5%;
-     cursor: pointer;
-     padding-left: 20px;
-     padding-right: 20px;
- }
- 
- .todoGrid {
-     display: grid;
-     grid-template-columns: 8% 65% 15% 5% 5% ;
- }
  
  
-  .todoInputGrid {
-     display: grid;
-     grid-template-columns: 80% 10%;
-     align-items: center;
- }
- 
+
 
  /**********
 7. accordion

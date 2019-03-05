@@ -56,51 +56,50 @@
 
 
 
-			<div class="rowDash card-deck">
-				<div class="card card-stats shadow p-2 text-center">
-					<div class="card-header text-center">
-						<i class="fas fa-crown"></i> 그룹리더
-					</div>
-					<div th:if="${gLeader. profileImagePath} == 'DefaultThumbnail' ">
-						<img th:src="@{/static/images/DefaultThumbnail.png}"
-							style="width: 100px; height: 100px;">
-					</div>
-					<div
-						th:unless="${gLeader. profileImagePath} == 'DefaultThumbnail' ">
-						<img
-							th:src="@{'/static/codesquareDB/UserThumbnail/'+${gLeader.userId}+'/'+${gLeader.profileImagePath}}"
-							style="width: 100px; height: 100px; border-radius: 50%;">
-					</div>
-					<br />
-					<div class="card-footer center">
-						<span th:text="${gLeader.nickname}+' ('+${gLeader.userId}+')'"></span>
-					</div>
+		<div class="rowDash card-deck">
+			<div class="card card-stats shadow p-2 text-center">
+				<div class="card-header text-center">
+					<i class="fas fa-crown"></i> 그룹리더
 				</div>
-
-				<div class="text-center card card-stats shadow  p-2 my-2"
-					th:each="gMember : ${gMember}">
-					<div class="card-header text-center"
-						th:text="'역할 : '+${gMember.role}">
-						<br />
-					</div>
-					<div th:if="${gMember.profileImagePath} == 'DefaultThumbnail' ">
-						<img th:src="@{/static/images/DefaultThumbnail.png}"
-							style="width: 100px; height: 100px;">
-					</div>
-					<div th:unless="${gMember.profileImagePath} == 'DefaultThumbnail' ">
-						<img
-							th:src="@{'/static/codesquareDB/UserThumbnail/'+${gMember.userId}+'/'+${gMember.profileImagePath}}"
-							style="width: 100px; height: 100px; border-radius: 50%;">
-					</div>
-					<br />
-					<div class="card-footer text-center">
-						<span th:text="${gMember.nickname}+' ('+${gMember.UserId}+')'"></span> 
-					</div>
-					<!-- <div th:text="'역할'+${gMember.role}"></div>
-				<div th:text="${'gMember.Content}"></div> -->
+				<div th:if="${gLeader. profileImagePath} == 'DefaultThumbnail' ">
+					<img th:src="@{/static/images/DefaultThumbnail.png}"
+						style="width: 100px; height: 100px;">
 				</div>
-			<!-- 	<br /> <br /> -->
+				<div th:unless="${gLeader. profileImagePath} == 'DefaultThumbnail' ">
+					<img
+						th:src="@{'/static/codesquareDB/UserThumbnail/'+${gLeader.userId}+'/'+${gLeader.profileImagePath}}"
+						style="width: 100px; height: 100px; border-radius: 50%;">
+				</div>
+				<br />
+				<div class="card-footer center">
+					<span th:text="${gLeader.nickname}+' ('+${gLeader.userId}+')'"></span>
+				</div>
 			</div>
+
+			<div class="text-center card card-stats shadow  p-2 my-2"
+				th:each="gMember : ${gMember}">
+				<div class="card-header text-center"
+					th:text="'역할 : '+${gMember.role}">
+					<br />
+				</div>
+				<div th:if="${gMember.profileImagePath} == 'DefaultThumbnail' ">
+					<img th:src="@{/static/images/DefaultThumbnail.png}"
+						style="width: 100px; height: 100px;">
+				</div>
+				<div th:unless="${gMember.profileImagePath} == 'DefaultThumbnail' ">
+					<img
+						th:src="@{'/static/codesquareDB/UserThumbnail/'+${gMember.userId}+'/'+${gMember.profileImagePath}}"
+						style="width: 100px; height: 100px; border-radius: 50%;">
+				</div>
+				<br />
+				<div class="card-footer text-center">
+					<span th:text="${gMember.nickname}+' ('+${gMember.UserId}+')'"></span>
+				</div>
+				<!-- <div th:text="'역할'+${gMember.role}"></div>
+				<div th:text="${'gMember.Content}"></div> -->
+			</div>
+			<!-- 	<br /> <br /> -->
+		</div>
 
 
 		<!-- START GROUPNOTICE CARD -->
@@ -114,43 +113,46 @@
 					<span class="groupNt-title" th:text="*{grpnt.title}"></span> <span
 						class="groupNt-content" th:text="*{grpnt.content}"></span> <span
 						class="groupNt-writeDate writeDate"
-						th:text="*{grpnt.writeDateFormat}"></span>
+						th:text="*{grpnt.writeDateBoard}"></span>
 				</div>
 			</div>
 		</div>
-		
-		
+
+		<br />
+		<br />
+		<br />
 		<!-- START GROUP-WORK -->
 		<div class="card big-card card-nomal shadow">
 			<div class="card-header">
 				<p class="card-category">그룹 과제 목록</p>
 			</div>
-			<div class="card-body accordion custom-tab-content shadow" id="accorionGroupWork">
+			<div class="card-body accordion custom-tab-content shadow"
+				id="accorionGroupWork">
 				<!--     <p class="card-category" style="margin-top:50px"></p> -->
 				<!-- <div class="accordion custom-tab-content shadow"
 					id="accorionGroupWork"> -->
-					<div class="card" th:each=" list, status : ${grpwk}">
-						<div class="card-header" th:id="|heading${status.index}|">
-							<div class="mb-0 grpWkGrid">
-								<a th:class="|title${status.first?'':' collapsed'}|"
-									data-toggle="collapse" th:data-target="|#grpWk${list.id}|"
-									aria-expanded="true" th:aria-controls="'grpWk'+${list.id}"
-									th:text="${list.title}"> </a> <span class="writeDate"
-									th:text="${list.writeDateFormat}"></span>
-							</div>
+				<div class="card" th:each=" list, status : ${grpwk}">
+					<div class="card-header" th:id="|heading${status.index}|">
+						<div class="mb-0 grpWkGrid">
+							<a th:class="|title${status.first?'':' collapsed'}|"
+								data-toggle="collapse" th:data-target="|#grpWk${list.id}|"
+								aria-expanded="true" th:aria-controls="'grpWk'+${list.id}"
+								th:text="${list.title}"> </a> <span class="writeDate"
+								th:text="${list.writeDateBoard}"></span>
 						</div>
-						<div th:id="|grpWk${list.id}|"
-							th:class="|collapse${status.first?' show':''}|"
-							th:aria-labelledby="|heading${status.index}|"
-							data-parent="#accorionGroupWork">
-							<div class="card-body" th:text="${list.content}"></div>
+					</div>
+					<div th:id="|grpWk${list.id}|"
+						th:class="|collapse${status.first?' show':''}|"
+						th:aria-labelledby="|heading${status.index}|"
+						data-parent="#accorionGroupWork">
+						<div class="card-body" th:text="${list.content}"></div>
 
 						<!-- </div> -->
 					</div>
 				</div>
 			</div>
 			<!-- END GROUP-WORK -->
-       </div> 
+		</div>
 		
 	</div>
 </body>
