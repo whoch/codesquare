@@ -47,15 +47,15 @@ public class SecurityMember extends User implements UserDetails {
 		this.isPendingLectureView = isPendLectureView;
 	}
 
-	private static List<GrantedAuthority> makeGrantedAuthority(Member member) {
+	private static List<GrantedAuthority> makeGrantedAuthority(int authorId) {
 		List<GrantedAuthority> list = new ArrayList<>();
-		list.add(new SimpleGrantedAuthority(ROLE_PREFIX + member.getAuthorId()));
+		list.add(new SimpleGrantedAuthority(ROLE_PREFIX + authorId));
 		return list;
 	}
 
 	
 	public SecurityMember(Member member) {
-		super(member.getUserId(), member.getPassword(), makeGrantedAuthority(member));
+		super(member.getUserId(), member.getPassword(), makeGrantedAuthority(member.getAuthorId()));
 		this.nickName = member.getNickName();
 		this.authorId= member.getAuthorId();
 		System.out.println(this.authorId+"시큐리티멤버");
