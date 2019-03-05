@@ -41,7 +41,6 @@ public class GoogleFilter extends OAuth2ClientAuthenticationProcessingFilter {
 //		String userId = map.get("email");
 		Member member = new Member();
 		
-		member.setAuthorId(member.getAuthorId());
 		member.setUserId(map.get("email"));
 		member.setNickName(map.get("name")+ranNum);
 		member.setEmail(map.get("email"));
@@ -51,7 +50,6 @@ public class GoogleFilter extends OAuth2ClientAuthenticationProcessingFilter {
 
 
 		final UsernamePasswordAuthenticationToken authenticationToken = service.doAuthentication(member); // SocialService를
-																											// 이용해서 인증
 																											// 절차 진행
 
 		super.successfulAuthentication(request, response, chain, authenticationToken);

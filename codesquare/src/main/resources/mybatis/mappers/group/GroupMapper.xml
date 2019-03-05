@@ -112,6 +112,18 @@
 	insert into GroupMemberInfo (UserId, GroupId, AuthorId, Nickname) VALUES (#{member.userId}, #{groupId}, 4 , #{member.nickName});
 	</insert>
 	
+		
+	<!-- 그룹 공지사항  -->
+	<select id="getGroupNotice" resultType="Board">
+	select * from Board where BoardKindId='GrpNt' and GroupId=#{groupId} order by WriteDate desc
+	</select>
+	
+	<!-- 그룹 과제 게시판 -->
+	<select id="getGroupWorks" resultType="Board">
+	select * from Board where BoardKindId='GrpWk' and GroupId=#{groupId} order by WriteDate desc
+	</select>
+	
+	
 	<!-- DB에 들어있는 그룹의 레벨 종류 전부 가져오기 : DB 추후 레벨 업데이트 시 html 교체 안하려고 가져와서 뿌림-->
 	<select id="getLevelAll" resultType="java.util.Map">
 		SELECT Id, LevelContent FROM LearningLevel

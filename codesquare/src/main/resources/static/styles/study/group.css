@@ -1,0 +1,662 @@
+
+/* CSS Document */
+
+/******************************
+
+[Page of Contents]
+
+1. All
+2. group-schedule
+3. card-status
+4. card-lecture
+5. card-nomal
+6. grid
+7. accordion
+8. bookmarkList
+******************************/
+
+
+
+/***********************
+1. All
+***********************/
+body {
+	background-color: #f1f1f1
+}
+main {
+	background-color: #f1f1f1
+}
+ .rowDash {
+	margin: 130px 0px;
+} 
+
+.writeDate {
+	text-align: center;	
+}
+
+.custom-tab-content {
+	overflow:auto;
+    background-color: #fff;
+}
+
+.custom-tab-content li {
+	list-style-type: none;
+}
+
+/********************
+2. group-schedule
+********************/
+
+
+/* nav-tabs custom CSS START */
+
+/* .custom-tab .nav-tabs .nav-item .nav-link {
+	border : none;
+	border-radius: 0;
+} */
+
+.group-schedule {
+	margin-top: 20px;
+}
+
+.custom-tab .tab-content {
+    height: 298px;
+    padding-top: 10px;
+    border: 1px solid rgba(0,0,0,.125);
+    border-left: none;
+    padding-bottom: 50px;
+    color:#4e4e4e;
+    
+}
+
+#bookmark-contentTab ,
+.custom-tab-content {
+    padding: 15px 40px 0;
+    height: 520px;
+}
+
+#bookmark-contentTab .card,
+.custom-tab-content .card {
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,.14) !important;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.card-header .title,
+.card-header .writeDate {
+    color : #4e4e4e !important;
+
+}
+
+.custom-tab .custom-tab-content .tab-pane .row {
+	margin: 30px 0px;
+}
+
+.nav-pills.nav-custom-tabs .nav-item {
+	z-index: 1;
+}
+
+.nav-pills.nav-custom-tabs .nav-link {
+    padding: 23px 5px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.nav-pills.nav-custom-tabs .nav-link.active {
+	background-color : #fff;
+	font-weight: bold;
+}
+
+.custom-tab .nav-pills.nav-custom-tabs {
+	padding: 0px;
+	margin: 0;
+    text-align: center;
+}
+
+.custom-tab .nav-pills.nav-custom-tabs .nav-item {
+	margin-right: 0;
+	margin-bottom: -1px;
+}
+.custom-tab .nav-pills.nav-custom-tabs a {
+	border-top : 1px solid rgba(0,0,0,.125);
+	border-left: 1px solid rgba(0,0,0,.125);
+}
+
+.custom-tab .nav-pills.nav-custom-tabs li:last-of-type {
+	border-bottom : 1px solid rgba(0,0,0,.125);
+}
+
+.nav-pills .nav-link.active {
+	color : #4B0082;
+}
+.custom-tab .nav-pills.nav-custom-tabs .nav-link:not(.active) {
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px #d6d2cf6b;
+    background: linear-gradient(60deg, #D6D2CF, #cfcbc9);
+    color: white;
+    border-color: rgba(0,0,0,.125);
+}
+
+/* nav-tabs custom CSS END */
+
+.schedule-list {
+	list-style-type: none;
+	position: relative;
+}
+
+.schedule-list li a div {
+	display: inline-block;
+}
+
+.list__scheduleId {
+	width: 30%;
+	color : #4B0082;
+}
+
+.list__boardKind {
+	width: 15%;
+	text-align: center;
+}
+
+.list__meetingDate {
+	width: 7%;
+	text-align: right;
+}
+
+.list__meetingDay {
+	width: 15%;
+	text-align: center;
+}
+
+.list__meetingTime{
+    width: 17%;
+    text-align: right;
+    color: #a2a1a1;
+    font-size: 17px;
+    vertical-align: middle;
+	
+}
+.list__status {
+	width: 15%;
+	text-align: right;
+	font-size : 15px;
+}
+
+
+.user-stats{
+	text-align: center;
+}
+
+
+
+
+/**********
+3. card-status
+***********/
+
+ .card {
+      /* box-shadow: 0 1px 4px 0 rgba(0,0,0,.14);  */
+      box-shadow: 0 1px 4px 0 rgba(99, 97, 97, 0.14);
+    }
+ 
+ .card-deck .card-header {
+   border-bottom: none;
+   background: transparent;
+ }
+
+ .card-header p {
+   margin-top: 0px;
+   margin-bottom: 0px;
+ }
+
+ .card-header .card-title {
+   margin-top: .75rem;
+   color : #4e4e4e;
+ }
+
+ .card-stats .card-header {
+   text-align: right;
+ }
+
+ .card-footer {
+   display: flex;
+   align-items: center;
+   background-color: transparent;
+   margin: 0 15px;
+   border: 0;
+   border-top: 1px solid #eee;
+ }
+
+
+
+ .card-icon {
+   border-radius: 3px;
+   padding: 15px;
+   margin-top: -38px;
+   margin-right: 15px;
+   float: left;
+   color: #fff;
+ }
+
+ .card-icon-pink {
+   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(233, 30, 99, .4);
+   background: linear-gradient(60deg, #ec407a, #d81b60)
+ }
+
+ .card-icon-orange {
+   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(255, 152, 0, .4);
+   background: linear-gradient(60deg, #ffa726, #fb8c00);
+ }
+
+ .card-icon-green {
+   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(76, 175, 80, .4);
+   background: linear-gradient(60deg, #66bb6a, #43a047);
+ }
+
+ .card-icon-blue {
+   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px rgba(0, 188, 212, .4);
+   background: linear-gradient(60deg, #26c6da, #00acc1);
+ }
+
+ .card-stats .card-header .card-icon i {
+   font-size: 36px;
+   line-height: 56px;
+   width: 56px;
+   height: 56px;
+   text-align: center;
+
+ }
+
+ .card-category,
+ .card-footer {
+   color: #999;
+   font-size: 14px;
+ }
+ 
+
+ 
+ 
+/**********
+4. card-lecture
+***********/
+
+
+	
+ 
+
+  
+.card-lecture .lecture-list {
+	border-top: 1px solid #eee;
+	margin : 0 20px;
+	padding :10px 0;
+}
+
+.lecture-list:first-of-type {
+	border-top: 0px solid #eee;	
+}
+ 
+.card .card-header {
+	padding-top: 25px;
+	background: none;
+	border-bottom: none;
+}
+ 
+
+
+.card-lecture .card-body {
+    padding: 0 1.25rem 1.7rem;
+}
+ .card-lecture .card-body p {
+   margin-bottom: 8px;
+ }
+ 
+  .big-card .card-header .card-category {
+    display: inline-block;
+    padding: 15px 25px;
+    color: #fff;
+    font-size: 17px;
+    border-radius: 3px;
+    background: linear-gradient(60deg, #ccc9c7, #c8c1bc);
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 10px -5px #d6d2cfa6;
+ }
+
+.big-card .card-header {
+	padding-top: 0px;
+	margin-top: -12px;
+	padding-bottom: 18px;
+	background: none;
+	border-bottom: none;
+}
+
+
+ .lecture-description{
+   padding: 10px 0px;
+ }
+ 
+ .lecture-progress {
+     display: inline-grid;
+     padding: 10px 0px;
+ }
+ 
+ .lecture-progress p {
+     margin: auto 0;
+ }
+.lecture-description H5 {
+	color: #4B0082;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+	
+.lecture-description .introContent {
+    color: #4e4e4e;
+	padding: 5px 50px 0 10px;
+    font-size : smaller;
+}
+ 
+ 
+/**********
+5. card-nomal
+***********/
+ 
+ .card-nomal i {
+     font-size: 20px;
+     width: 30px;
+     text-align: center;
+ }
+
+ 
+/**********
+6. grid
+***********/
+
+ .card-nomal .card-grid {
+     display: grid;
+     grid-template-columns: 25% 25% 25% 25%;
+     padding: 5px 0px;
+ }
+
+ .card-nomal .groupNotice {
+     display: grid;
+     grid-template-columns: 30% 50% 20%;
+     padding-left: 13px;
+ }
+
+
+  .grpWkGrid {
+     display: grid;
+     grid-template-columns: 70% 30%;
+     text-align: left;
+     padding-left: 20px;
+     padding-right: 20px;
+ }
+
+ 
+ 
+ 
+
+
+ /**********
+7. accordion
+***********/
+
+
+ 
+ .accordion .card-header a {
+	cursor: pointer;
+ }
+ 
+
+
+  /**********
+ 8. bookmarkList
+ ***********/
+ 
+ 
+ 
+ 
+ 
+   /**********
+ 9. todoList
+ ***********/
+  #custom-todoList .todoList {
+	max-height: 400px;
+	overflow:auto;
+    padding: 0 30px;
+ }
+ 
+ .deleteIcon-todo{
+	color:#fdfdfd;;
+ 
+ }
+ #custom-todoList .todo-li {
+ 	list-style-type: none;
+ 	margin-bottom: 5px;
+ 	border-bottom : 1px solid rgba(0,0,0,.125);
+ 	 	
+ }
+ 
+  #custom-todoList .todo-li span {
+	padding : 5px; 
+	margin : 5px; 
+ 	 	
+ }
+ 
+ #custom-todoList input::placeholder {
+	color: #a1a1a1;
+	font-style: italic;
+	font-size: 15px;
+}
+
+ 
+  #custom-todoList .todo-submit-btn{
+  font-size: 16px;
+  margin-left: 14px;
+  margin-bottom:40px;
+ }
+
+ #custom-todoList textarea {
+ 	resize: none
+ }
+ 
+  #custom-todoList .todoList input {
+    font-size:14px;
+    line-height:1.25em; 
+    padding:5px; 
+    margin:5px; 
+ 	border: 0;
+ }
+ 
+	
+ #custom-todoList .todoList input[type=number]::-webkit-outer-spin-button,
+ #custom-todoList .todoList input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+ #custom-todoList .todoList input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.todoList i {
+    font-size: 25px;
+    padding : 8px 0px 2px 0px;
+ 
+    text-align: center;
+ }
+ 
+/*  .todo-li:not(.td-check) i  {
+    visibility: hidden;
+    color: rgba(0,0,0,.125);
+ } */
+
+ .todo-li:not(.td-check) .fa-check  {
+    visibility: hidden;
+    color: #5DA16B;
+ }
+ 
+  .todo-li:not(.td-check) .fa-trash  {
+    visibility: hidden;
+    color: #C0C0C0;
+ }
+
+#custom-todoList .form-control{
+	border: none;
+    border-bottom: 1px solid #8e8e8e;
+    border-radius: 0;
+    width: 100%;
+    margin-left: 60px !important;
+    margin-bottom: 40px !important;
+}
+
+
+
+.todoList .todo-li:hover {
+  background: #f9f9f9;
+   transition: 0.2s;
+}
+ 
+ .todoList .todo-li.td-check {
+  background: #d3d2d66b;
+  color: #fff;
+  border-radius: 30px;
+  margin-left: -8px;
+  margin-right: -8px;
+}
+
+#custom-todoList .form-control{
+	margin : 0 35px;
+}
+ .todoList .todo-li.td-check .todo-content {
+  text-decoration: line-through;
+}
+
+.card-icon .groupsImage{
+    width: 56px;
+}
+
+.btn-deepPurple {
+    display: table;
+    margin: auto;
+    padding: 8px 30px;
+    text-align: center;
+    color: #f3f3f3;
+    background-color: #4B0082;
+    border-color: #4B0082;
+	border-radius: 23px;
+    cursor: pointer;
+}
+
+.btn-deepPurple:hover {
+	color: #f3f3f3;
+    background-color: #402058;
+    border-color: #402058;
+}
+
+#bookmark-accordion .card-header ,
+.custom-tab-content .card-header {
+    padding : 18px 0;
+}
+
+#bookmark-accordion .card-body ,
+#accorionGroupWork .card-body {
+    /* padding-left: 165px; */
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 15px;
+}
+
+
+#bookmark-accordion .card-footer,
+#accorionGroupWork .card-footer {
+    border-top: none;
+    padding: 30px 0 45px;
+}
+
+#bookmark-accordion .card-footer a,
+#accorionGroupWork .card-footer a {
+    color: white;
+    text-decoration: none;
+}
+
+.card-body .bookmark-content {
+    max-height: 75px; 
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    padding-right: 50px;
+}
+
+.card-body .bookmark-content *,
+.card-body .bookmark-content ,
+#accorionGroupWork .card-body {
+    margin-bottom: 0.1rem !important;
+    color: #4e4e4e !important;
+    font-family: 'Noto Sans KR' !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+}
+
+.bookmarkGrid i {
+    margin: auto;
+    font-size: 22px;
+    color : #A7212A;
+}
+
+#accorionGroupWork {
+	padding : 15px 55px 0;
+	
+}
+
+#accorionGroupWork a {
+	color: #552796;
+}
+
+.schedule-list a div {
+	margin-bottom: 7px;	
+}
+
+#dash-first a {
+	color:#4e4e4e;
+	font-size: 18px;
+}
+
+#dash-first .nav-link:not(.active) {
+	color:white;
+	font-size: 15px;
+}
+
+#dash-first div {
+	margin-bottom: 10px;
+}
+
+.tag-custom {
+    border: 1px solid indianred;
+    color: #6190b3;
+    border-radius: 8px;
+    padding: 3px 8px;
+    margin-right: 5px;
+}
+.tag-custom i{
+    padding: 1px 11px;
+}
+.tag-custom.attend-true {
+  	color : #3D870A;
+ 	border: 1px solid #3D870A;
+}
+
+.tag-custom.attend-false {
+    border: 1px solid #C0C0C0;
+  	color : #C0C0C0;
+}
+
+.tag-custom.attend-none {
+    color: #4e4e4e;
+    border-color: #4e4e4e;
+    background-color: rgb(255, 213, 7);
+}
+.tag-custom.attend-none:hover {
+    background-color: rgb(228, 190, 3);
+}

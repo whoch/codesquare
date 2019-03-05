@@ -250,7 +250,7 @@ public class MemberController {
 	@GetMapping("myBoardList")
 	public String myBoardList(Model model, Authentication auth, @ModelAttribute Criteria cri) {
 		String userId = auth.getName();
-		csu.setDateTimeCompare(mm.getMyBoardList(userId, cri));
+		//csu.setDateTimeCompare(mm.getMyBoardList(userId, cri));
 		model.addAttribute("user", mm.getUser(userId));
 		model.addAttribute("count", mm.getMyCount(userId));
 		model.addAttribute("blist", csu.getDateTimeCompareObject(mm.getMyBoardList(userId, cri)));
