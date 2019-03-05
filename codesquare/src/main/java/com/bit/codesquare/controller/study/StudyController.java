@@ -58,12 +58,14 @@ public class StudyController {
 	@RequestMapping("/study/StdMo")
 	public String getBoardList(Model model, Criteria cri, String keyword, String searchOption, String boardName) throws Exception {
 		String boardKindId = "StdMo";
+		model.addAttribute("boardList", studyMapper.getBoardList("스터디모집"));
 		model.addAttribute("list", CodesquareUtil.getDateTimeCompareObject(freeMapper.getfree(cri, keyword, searchOption, boardKindId)));
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(freeMapper.countPaging(cri, keyword, searchOption, boardKindId));
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("bn", freeMapper.getBoardName(boardKindId));
+		logger.info("##TEST:"+CodesquareUtil.getDateTimeCompareObject(freeMapper.getfree(cri, keyword, searchOption, boardKindId)).toString());
 		return "study/studyWanted";
 	}
 	
